@@ -10,7 +10,7 @@ var admins=[
 
 module.exports = async (deployer) => {
   
-  await deployer.deploy(PublicOffering, SmartKey.address, 1500000000, 1604790383, web3.toWei('1', 'ether'), 5000000000, 0, admins);
+  await deployer.deploy(PublicOffering, SmartKey.address, 1500000000, 1604790383, web3.toWei('1', 'ether'), 5000000000, admins);
   
 
 };

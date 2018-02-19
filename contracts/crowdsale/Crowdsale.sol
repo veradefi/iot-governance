@@ -13,9 +13,6 @@ contract Crowdsale is Administered {
   // The token being sold
   SmartKey public token;
 
-  // amount of token mintedTokens
-  uint256 public tokenMinted;
-
   // start and end timestamps where investments are allowed (both inclusive)
   uint256 public startTime;
   uint256 public endTime;
@@ -37,7 +34,7 @@ contract Crowdsale is Administered {
   event SmartKeyPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
 
-  function Crowdsale(SmartKey _token, uint256 _startTime, uint256 _endTime, uint256 _rate, uint256 _tokenMinted, address[] adminAddress) 
+  function Crowdsale(SmartKey _token, uint256 _startTime, uint256 _endTime, uint256 _rate, address[] adminAddress) 
   public
   Administered(adminAddress)
   {
@@ -49,7 +46,6 @@ contract Crowdsale is Administered {
     startTime = _startTime;
     endTime = _endTime;
     rate = _rate;
-    tokenMinted = _tokenMinted;
     
   }
 
@@ -63,7 +59,7 @@ contract Crowdsale is Administered {
   public
   view
   returns (uint256) {
-      return tokenMinted;
+      return token.tokenMinted();
   }
   
   function setRate(uint256 _rate) 
@@ -88,7 +84,7 @@ contract Crowdsale is Administered {
   public
   payable {
   
-    token.buySmartKey(msg.sender);
+    buySmartKey(msg.sender);
     
   }
 
@@ -108,8 +104,6 @@ contract Crowdsale is Administered {
     // update state
     weiRaised = weiRaised.add(weiAmount);
     
-    tokenMinted = tokenMinted.add(tokens);
-
     token.buySmartKey.value(msg.value)(beneficiary);
         
     SmartKeyPurchase(msg.sender, beneficiary, weiAmount, tokens);

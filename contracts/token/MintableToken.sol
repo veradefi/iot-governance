@@ -17,6 +17,7 @@ contract MintableToken is ERC827Token, Administered {
   event Mint(address indexed to, uint256 amount);
   event MintFinished();
   event MintReopened();
+  uint256 public tokenMinted;
   bool public mintingFinished = false;
 
   uint256 public rate; // Price per token
@@ -25,6 +26,7 @@ contract MintableToken is ERC827Token, Administered {
   public
   {
         rate=_rate;
+        tokenMinted=0;
   }
   
   function setRate(uint256 _rate) 
@@ -52,11 +54,15 @@ contract MintableToken is ERC827Token, Administered {
   canMint 
   returns (bool) 
   {
+
     require(_amount > 0);
+    tokenMinted = tokenMinted.add(_amount);
+
     balances[_to] = balances[_to].add(_amount);
     Mint(_to, _amount);
-    Transfer(0x0, _to, _amount);
+    Transfer(address(0), _to, _amount);
     return true;
+
   }
 
   /**
