@@ -1,3 +1,6 @@
 accounts/
 bin/
 build/
+*.swp
+*.pyc
+
