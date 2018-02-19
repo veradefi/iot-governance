@@ -8,22 +8,6 @@ contract('SmartKey', function(accounts) {
     
 
 
-    getBalances(coin, a, b, function() {
-       key.send(b,500).then(function() {
-        getBalances(coin, a, b);
-       });
-    })
   });
 });
 
-function getBalances(coin, a, b, cb) {
-  coin.getBalanceInEth.call(a).then(function(balanceA) {
-    console.log("balanceA: " + balanceA);
-
-    coin.getBalanceInEth.call(b).then(function(balanceB) {
-      console.log("balanceB: " + balanceB);
-      if (cb)
-        cb();
-    });
-  });
-}
