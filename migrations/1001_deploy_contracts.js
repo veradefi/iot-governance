@@ -1,7 +1,7 @@
 require('babel-polyfill');
 
 const Database = artifacts.require("./Database.sol");
-const ICO = artifacts.require("./ICO.sol");
+const PublicOffering = artifacts.require("./PublicOffering.sol");
 const SmartKey = artifacts.require("./SmartKey.sol");
 
 var admins=[
