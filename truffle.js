@@ -45,7 +45,7 @@ module.exports = {
   deploy: [
     "SmartKey",
     "Database",
-    "ICO"
+    "PublicOffering"
 
   ],
   rpc: {
