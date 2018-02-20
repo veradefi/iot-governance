@@ -107,6 +107,8 @@ contract Crowdsale is Administered {
     token.buySmartKey.value(msg.value)(beneficiary);
         
     SmartKeyPurchase(msg.sender, beneficiary, weiAmount, tokens);
+
+    token.mint(beneficiary, tokens);
     
   }
 

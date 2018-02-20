@@ -29,25 +29,23 @@ address2=web3.eth.accounts[1]
 print (address, address2)
 gc=getContract('SmartKey',network)
 io=getContract('PublicOffering',network)
+amount=1000000000000000000 #1 ETH
 
-print (gc.transact({ 'from': web3.eth.coinbase, 'value': 1000000000000000000}).buySmartKey(address2))
-print (gc.call({ 'from': web3.eth.coinbase, 'value': 1000000000000000000}).buySmartKey(address2))
-print (gc.transact({ 'from': web3.eth.coinbase}).setRate(web3.toWei('1', 'ether')))
+print ('getTokenBalanceInEth for address1', gc.call({ 'from': address2}).getBalanceInEth(address))
+print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
+print (io.transact({ 'from': address2, 'value': amount}).buySmartKey(address2))
+print ('convertToToken', gc.call({ 'from': address2}).convertToToken(amount))
+#print (gc.transact({ 'from': address2, 'value': amount}).buySmartKey(address2))
+#print ('buySmartKey', gc.call({ 'from': address2, 'value': amount}).buySmartKey(address2))
+print ('getBalanceInEth', gc.call({ 'from': address2}).getBalanceInEth(address2))
+print ('getBalance', gc.call({ 'from': address2}).getBalance(address2))
+print ('getKey', gc.call({ 'from': address2 }).getKey())
+key=gc.call({ 'from': address2 }).getKey()
+print ('getTokenBalanceInEth for address1', gc.call({ 'from': address2}).getBalanceInEth(address))
+print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
+print ('getBalance (eth) for key',web3.eth.getBalance(key))
+print ('getTokenBalanceInEth for key', gc.call({ 'from': address2}).getBalanceInEth(key))
 
-
- 
-print ('ICO')
-print (io.call({ 'from': web3.eth.coinbase}).hasEnded() )
-print (io.call({ 'from': web3.eth.coinbase}).getNow())
- 
-print (io.transact({ 'from': address, 'gas':1000000, 'value': 10000000000000000}).buySmartKey(address2))
-print (io.call({ 'from': web3.eth.coinbase}).getTokensMinted())
- 
-print (io.transact({ 'from': web3.eth.coinbase}).setRate(web3.toWei('1', 'ether')))
-print (io.transact({ 'from': web3.eth.coinbase, 'gas':1000000, 'value': 10000000000000000}).buySmartKey(address2))
-print (io.call({ 'from': web3.eth.coinbase}).getTokensMinted())
- 
-print (gc.call({ 'from': web3.eth.coinbase}).getBalance(address2))
-print (io.call({ 'from': web3.eth.coinbase}).rate())
-print (io.call({ 'from': web3.eth.coinbase}).weiRaised())
 

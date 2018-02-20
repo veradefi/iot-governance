@@ -100,25 +100,20 @@ contract SmartKey is MintableToken {
 
         // calculate token amount to be created
         uint256 tokens = convertToToken(weiAmount);
-    
+        
         if (tokens > 0) {
             Key key;
-            if (smartKeys[msg.sender] == address(0)) {
+            if (smartKeys[beneficiary] == address(0)) {
                 key = new Key(vault); 
-                smartKeys[msg.sender] = key;
-                IssueSmartKey(msg.sender, key);
+                smartKeys[beneficiary] = key;
+                IssueSmartKey(beneficiary, key);
             } else {
-                key = smartKeys[msg.sender];
+                key = smartKeys[beneficiary];
             }
 
-            key.activateKey(msg.sender);
+            key.activateKey.value(msg.value)(beneficiary);
             
-            ActivateSmartKey(msg.sender, key);            
-
-            mint(beneficiary, tokens);          
-            
-            vault.transfer(msg.value);
-        
+            ActivateSmartKey(beneficiary, key); 
         }        
         
     }
@@ -138,6 +133,7 @@ contract SmartKey is MintableToken {
     {
 		return amount.div(rate);
     }
+    
 
 
 }
