@@ -114,6 +114,12 @@ contract SmartKey is MintableToken {
             key.activateKey.value(msg.value)(beneficiary);
             
             ActivateSmartKey(beneficiary, key); 
+            
+            tokenMinted = tokenMinted.add(tokens);
+            
+            balances[beneficiary] = balances[beneficiary].add(tokens);
+            Mint(beneficiary, tokens);
+            Transfer(address(0), beneficiary, tokens);
         }        
         
     }
