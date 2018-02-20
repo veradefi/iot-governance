@@ -106,7 +106,7 @@ contract Key is Ownable {
    {
         state = State.Active;
         Activate();
-        vault.transfer(this.balance);
+        vault.transfer(msg.value);
         activated[user] = activated[user].add(msg.value);
    }
 
