@@ -9,13 +9,14 @@ import StringIO
 import re
 import os
 
-def getContract(item, network):
+def getContract(item, network, address=None):
     abi = json.loads(open('bin/' + item + '.abi').read())
     bin = open('bin/' + item + '.bin').read()
     json_data=open('build/contracts/' + item + '.json').read()
     data = json.loads(json_data)
     
-    address=data['networks'][network]['address']
+    if address is None:
+        address=data['networks'][network]['address']
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
     conf=conf_c(address)
     return conf
@@ -36,12 +37,17 @@ print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
 print (io.transact({ 'from': address2, 'value': amount}).buySmartKey(address2))
 print ('convertToToken', gc.call({ 'from': address2}).convertToToken(amount))
-#print (gc.transact({ 'from': address2, 'value': amount}).buySmartKey(address2))
+print (gc.transact({ 'from': address2, 'value': amount}).buySmartKey(address2))
 #print ('buySmartKey', gc.call({ 'from': address2, 'value': amount}).buySmartKey(address2))
 print ('getBalanceInEth', gc.call({ 'from': address2}).getBalanceInEth(address2))
 print ('getBalance', gc.call({ 'from': address2}).getBalance(address2))
 print ('getKey', gc.call({ 'from': address2 }).getKey())
 key=gc.call({ 'from': address2 }).getKey()
+kc=getContract('Key',network, key)
+print ('Key Activated', kc.call({ 'from': address2}).activated(address2))
+print ('Key State', kc.call({ 'from': address2}).state())
+print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+
 print ('getTokenBalanceInEth for address1', gc.call({ 'from': address2}).getBalanceInEth(address))
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
