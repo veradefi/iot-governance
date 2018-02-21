@@ -9,18 +9,18 @@ pragma solidity ^0.4.11; //We have to specify what version of the compiler this 
 contract Database is Administered, Key {
        
   SmartKey smartKey;
-  
   Catalogue[] catalogues;
-  
   mapping (string => Catalogue) public catData; 
   
+  MetaData[] databaseMetadata;    
+  mapping (string => MetaData) public dbMetaData; 
+  Database public parentData;
+ 
   function Database(SmartKey _smartKey, address[] adminAddress) 
   public
   Administered(adminAddress)
   {
-      smartKey=_smartKey;
-    
+      smartKey=_smartKey;    
   }
   
-
 }
