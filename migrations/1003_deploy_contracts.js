@@ -1,6 +1,6 @@
 require('babel-polyfill');
 
-const Database = artifacts.require("./Database.sol");
+const GraphNode = artifacts.require("./GraphNode.sol");
 const PublicOffering = artifacts.require("./PublicOffering.sol");
 const SmartKey = artifacts.require("./SmartKey.sol");
 
