@@ -44,7 +44,7 @@ module.exports = {
    }),
   deploy: [
     "SmartKey",
-    "Database",
+    "GraphNode",
     "PublicOffering"
 
   ],
