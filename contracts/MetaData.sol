@@ -15,8 +15,6 @@ contract MetaData is Administered, Key {
   Administered(adminAddress)
   {
       smartKey=_smartKey;
-    
   }
-  
 
 }
