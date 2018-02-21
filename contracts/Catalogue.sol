@@ -11,15 +11,15 @@ contract Catalogue is Administered, Key {
   // PAS212:216
   CatalogueItem[] items;  
   MetaData[] catalogueMetadata;    
-  mapping (string => CatalogueItem) public catItemData; 
-  mapping (string => MetaData) public catMetaData; 
   // PAS212:216
   
-  SmartKey smartKey;
+  mapping (string => CatalogueItem) public catItemData; 
+  mapping (string => MetaData) public catMetaData; 
   Catalogue public parentCatalogue;
   Catalogue[] public childCatalogue;
   event CatItemData(address indexed user, CatalogueItem indexed catItem);
   event CatMetaData(address indexed user, MetaData indexed catMetData);
+  SmartKey smartKey;
   
   function Catalogue(SmartKey _smartKey, address[] adminAddress) 
   public
