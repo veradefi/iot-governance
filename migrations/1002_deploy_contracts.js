@@ -1,6 +1,6 @@
 require('babel-polyfill');
 
-const Database = artifacts.require("./Database.sol");
+const GraphNode = artifacts.require("./GraphNode.sol");
 const PublicOffering = artifacts.require("./PublicOffering.sol");
 const SmartKey = artifacts.require("./SmartKey.sol");
 
@@ -11,7 +11,7 @@ var admins=[
             
 module.exports = async (deployer) => {
   
-  await deployer.deploy(Database, SmartKey.address, admins);
+  await deployer.deploy(GraphNode, SmartKey.address, admins[0], admins);
   
 };
         

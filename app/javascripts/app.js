@@ -9,7 +9,7 @@ import { default as Web3} from 'web3';
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 var contract = require("truffle-contract");
 import sk_artifacts from '../../build/contracts/SmartKey.json'
-import db_artifacts from '../../build/contracts/Database.json'
+import db_artifacts from '../../build/contracts/GraphNode.json'
     
 var shajs = require('sha.js')
 
@@ -47,7 +47,7 @@ if (typeof eth_salt !== 'undefined') {
     
     let tokenPrice = null;
     
-    Database.setProvider(window.web3.currentProvider);
+    GraphNode.setProvider(window.web3.currentProvider);
     SmartKey.setProvider(window.web3.currentProvider);
     engine.start(); // Required by the provider engine.
 
