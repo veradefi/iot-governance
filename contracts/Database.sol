@@ -15,6 +15,7 @@ contract Database is Administered, Key {
   MetaData[] databaseMetadata;    
   mapping (string => MetaData) public dbMetaData; 
   Database public parentData;
+  Database[] public childData;
  
   function Database(SmartKey _smartKey, address[] adminAddress) 
   public
