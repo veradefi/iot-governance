@@ -11,14 +11,14 @@ contract CatalogueItem is Administered, Key {
   //PAS 212:2016
   string href;
   MetaData[] itemMetadata;
-  mapping (string => CatalogueItem) public catItemData; 
-  mapping (string => MetaData) public itemMetaData; 
   //PAS 212:2016
-  
-  SmartKey smartKey;
+
+  mapping (string => CatalogueItem) public catItemData; 
+  mapping (string => MetaData) public itemMetaData;   
   CatalogueItem public parentCatalogueItem;
   CatalogueItem[] public childCatalogueItem;
   event CatItemMetaData(address indexed user, MetaData indexed catItemMetaData);
+  SmartKey smartKey;
 
   function CatalogueItem(SmartKey _smartKey, address[] adminAddress) 
   public
