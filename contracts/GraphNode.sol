@@ -4,13 +4,13 @@ import "./CatalogueItem.sol";
 import "./Catalogue.sol";
 
 
-pragma solidity ^0.4.12; //We have to specify what version of the compiler this code will use
+pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
 
 contract GraphNode is Administered, Key {
        
   SmartKey smartKey;
   Catalogue[] catalogues;  
-  MetaData[] databaseMetadata;    
+  MetaData[] graphMetadata;    
 
   mapping (bytes32 => Catalogue) public catData; 
   mapping (bytes32 => MetaData)  public dbMetaData; 

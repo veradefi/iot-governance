@@ -31,12 +31,12 @@ module.exports = {
     "index.html": "index.html",
     "app.js": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/materialize-css/dist/js/materialize.min.js",
-        "../node_modules/underscore/underscore-min.js",
+        //"../node_modules/materialize-css/dist/js/materialize.min.js",
+        //"../node_modules/underscore/underscore-min.js",
         "javascripts/app.js"
     ],
     "app.css": [
-        "../node_modules/materialize-css/dist/css/materialize.min.css",
+        //"../node_modules/materialize-css/dist/css/materialize.min.css",
         "stylesheets/app.scss"
     ],
     "images/": "images/",
@@ -45,6 +45,7 @@ module.exports = {
   deploy: [
     "SmartKey",
     "GraphNode",
+    "GraphRoot",
     "PublicOffering"
 
   ],

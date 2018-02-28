@@ -1,18 +1,23 @@
 require('babel-polyfill');
 
-const SmartKey = artifacts.require("./SmartKey.sol");
-const SafeMath = artifacts.require("./math/SafeMath.sol");
-const PublicOffering = artifacts.require("./PublicOffering.sol");
+const Catalogue = artifacts.require("./Catalogue.sol");
+const CatalogueItem = artifacts.require("./CatalogueItem.sol");
 const GraphNode = artifacts.require("./GraphNode.sol");
+const GraphRoot = artifacts.require("./GraphRoot.sol");
+const PublicOffering = artifacts.require("./PublicOffering.sol");
+const SmartKey = artifacts.require("./SmartKey.sol");
 
+var admins=[
+            web3.eth.coinbase,
+            ];
 
+            
 module.exports = async (deployer) => {
-    deployer.deploy(SafeMath, {gas: 1000000});
   
-    deployer.link(SafeMath, [PublicOffering, SmartKey, GraphNode]);
-    
-  };
-  
+  await deployer.deploy(GraphRoot, SmartKey.address, admins, {'value':1000000});
+  //deployer.deploy(CatalogueItem, SmartKey.address, admins);
+  //await deployer.deploy(Catalogue, SmartKey.address, admins);
+};
         
 
         
