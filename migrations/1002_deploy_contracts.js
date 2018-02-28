@@ -11,7 +11,7 @@ var admins=[
             
 module.exports = async (deployer) => {
   
-  await deployer.deploy(GraphNode, SmartKey.address, admins[0], admins);
+  await deployer.deploy(GraphNode, SmartKey.address, admins);
   
 };
         

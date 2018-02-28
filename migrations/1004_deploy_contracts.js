@@ -14,7 +14,7 @@ var admins=[
             
 module.exports = async (deployer) => {
   
-  await deployer.deploy(GraphRoot, SmartKey.address, admins, {'value':1000000});
+  await deployer.deploy(GraphRoot, SmartKey.address, admins);
   //deployer.deploy(CatalogueItem, SmartKey.address, admins);
   //await deployer.deploy(Catalogue, SmartKey.address, admins);
 };
