@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
 import "./pki/Key.sol";
 import "./token/MintableToken.sol";
@@ -45,13 +45,13 @@ contract SmartKey is MintableToken {
     }
     
     
-    function getKey() 	
+    function getKey(address user) 	
     public
     view
-    returns (address) 
+    returns (Key) 
     {    
         
-        return smartKeys[msg.sender];
+        return smartKeys[user];
         
     }
   
@@ -85,11 +85,11 @@ contract SmartKey is MintableToken {
     public
     payable 
     {
-        buySmartKey(msg.sender);
+        getSmartKey(msg.sender);
     }
 
     
-    function buySmartKey(address beneficiary) 
+    function getSmartKey(address beneficiary) 
     public
     payable 
     {

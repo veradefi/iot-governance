@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
 import '../math/SafeMath.sol';
 import '../ownership/Ownable.sol';
@@ -7,15 +7,15 @@ contract Key is Ownable {
     using SafeMath for uint256;
     
     enum State { Issued, Active, Returned }
-
+    event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
+    
+    enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
+    event HealthUpdate(Health status);
+    
     mapping (address => uint256) public activated;
     address public vault;
     State public state;
 
-    event Issued();
-    event Activate();
-    event Returned(address indexed beneficiary, uint256 weiAmount);
-   
     struct Attr {
         address user;
         string attrType;
@@ -43,13 +43,15 @@ contract Key is Ownable {
     event AttrSigned(uint indexed signID, address indexed signer, uint indexed attrID, uint expiry);
     event SignRev(uint indexed revID, uint indexed signID);
 
+   mapping(bytes32 => string) map;
+
    function Key(address _vault) 
    public
    {
         require(_vault != 0x0);
         vault = _vault;
         state = State.Issued;
-        Issued();
+        KeyStateUpdate(msg.sender, vault, state);
    }
 
    function addAttr(string attrType, bool has_proof, bytes32 id, string data, string datahash) 
@@ -105,20 +107,58 @@ contract Key is Ownable {
    payable 
    {
         state = State.Active;
-        Activate();
         vault.transfer(msg.value);
         activated[user] = activated[user].add(msg.value);
+        KeyStateUpdate(msg.sender, vault, state);
    }
 
-   function returnKey(address user) 
+   function returnKey() 
    public
    onlyOwner 
    {
         require(state == State.Active);
-        uint256 activatedValue = activated[user];
-        activated[user] = 0;
-        user.transfer(activatedValue);
         state = State.Returned;
-        Returned(user, activatedValue);
+        KeyStateUpdate(msg.sender, vault, state);
    }
+   
+
+   function getHash(string key) 
+   pure
+   public
+   returns(bytes32) {
+        return keccak256(key);
+   }
+
+   /*
+   function addKeyValueByHash(bytes32 hash, string value) 
+   public
+   returns(bool)
+   {
+        if(bytes(map[hash]).length != 0) { // Don't overwrite previous mappings and return false
+            return false;
+        }
+        map[hash] = value;
+        return true;
+   }
+
+   function getValueByHash(bytes32 hash) 
+   constant    
+   public
+   returns(string) {
+        return map[hash];
+   }
+
+   function addKeyValue(string key, string value) 
+   public
+   returns(bool){
+        return addKeyValueByHash(keccak256(key), value);
+   }
+
+   function getValue(string key) 
+   constant 
+   public
+   returns(string){
+        return getValueByHash(keccak256(key));
+   }
+   */
 }
