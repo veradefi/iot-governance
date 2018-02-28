@@ -13,7 +13,7 @@ contract GraphNode is Catalogue {
   public
   Catalogue(_smartKey, adminAddress)
   {      
-
+      
   }
   
   /* 
