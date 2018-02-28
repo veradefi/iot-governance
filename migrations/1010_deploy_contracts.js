@@ -7,9 +7,9 @@ const GraphNode = artifacts.require("./GraphNode.sol");
 
 
 module.exports = async (deployer) => {
-    deployer.deploy(SafeMath, {gas: 1000000});
+    deployer.deploy(SafeMath);
   
-    deployer.link(SafeMath, [PublicOffering, SmartKey, GraphNode]);
+    deployer.link(SafeMath, [PublicOffering, SmartKey]);
     
   };
   
