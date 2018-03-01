@@ -4,7 +4,7 @@ import "./admin/Administered.sol";
 import "./NodeMetaData.sol";
 
 contract CatalogueItem is NodeMetaData {
-       
+  
   //PAS 212:2016
   string public href;
   // MetaData[] public meta;
@@ -39,5 +39,6 @@ contract CatalogueItem is NodeMetaData {
       href=_href;
       return true;      
   }
+
 
 }

@@ -8,9 +8,9 @@ pragma solidity ^0.4.18; //We have to specify what version of the compiler this 
  * functions, this simplifies the implementation of "user permissions".
  */
 contract Administered {
-  mapping (address => bool) isAdmin;
-  mapping (address => bool) isBanned;
-  address[] admins;
+  mapping (address => bool) public isAdmin;
+  mapping (address => bool) public isBanned;
+  address[] public admins;
 
   /**
    * @dev The Ownable constructor sets the original `owner` of the contract to the sender
@@ -57,12 +57,11 @@ contract Administered {
 
   function getAdmins() 
   public
-  onlyAdmin 
   constant 
   returns (address[]) 
   {
-        require(isAdmin[msg.sender]);
-        require(!isBanned[msg.sender]);
+        //require(isAdmin[msg.sender]);
+        //require(!isBanned[msg.sender]);
         return admins;
   }
 
