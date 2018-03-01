@@ -14,7 +14,7 @@ contract SmartNode is Administered {
   }
 
   
-  function upsertGraphNode(GraphBase _parentNode, string _href)
+  function upsertNode(GraphNode _parentNode, string _href)
   public
   payable
   returns (bool)
@@ -25,9 +25,9 @@ contract SmartNode is Administered {
      _admins[1]=address(_parentNode);  
      _admins[2]=address(this);  
    
-      GraphBase _node = new GraphBase(smartKey, _admins);
+      GraphNode _node = new GraphNode(smartKey, _admins);
 
-      return _parentNode.upsertGraphBase.value(msg.value)(_node, _href);
+      return _parentNode.upsertNode.value(msg.value)(_node, _href);
   }
     
   
