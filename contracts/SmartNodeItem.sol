@@ -14,7 +14,7 @@ contract SmartNodeItem is Administered {
   }
 
   
-  function upsertItem(GraphBase _catalogue, string _href)
+  function upsertItem(GraphNode _catalogue, string _href)
   public
   payable
   returns (bool)

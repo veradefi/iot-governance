@@ -90,14 +90,14 @@ def fillData(graphRoot, href):
 href="https://iotblock.io/cat/earth"
 fillData(root, href)
 
-print ('upsertGraphNode', smartNode.transact({ 'from': address, 'value':1000000 }).upsertGraphNode(root.address, href))
-earth=getContract('GraphBase', network, root.call({'from':address}).getGraphBase(href))
+print ('upsertNode', smartNode.transact({ 'from': address, 'value':1000000 }).upsertNode(root.address, href))
+earth=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
 
 href="https://iotblock.io/cat/earth/singapore"
 fillData(earth, href)
 
-print ('upsertGraphNode', smartNode.transact({ 'from': address, 'value':1000000 }).upsertGraphNode(earth.address, href))
-singapore=getContract('GraphBase',network, earth.call({'from':address}).getGraphBase(href))
+print ('upsertNode', smartNode.transact({ 'from': address, 'value':1000000 }).upsertNode(earth.address, href))
+singapore=getContract('GraphNode',network, earth.call({'from':address}).getGraphNode(href))
 
 href="https://iotblock.io/cat/earth/singapore/changee"
 fillData(singapore, href)
