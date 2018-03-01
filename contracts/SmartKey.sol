@@ -124,6 +124,7 @@ contract SmartKey is MintableToken {
         
     }
     
+    
     function convertToWei(uint256 amount) 
     public
     view
@@ -139,7 +140,6 @@ contract SmartKey is MintableToken {
     {
 		return amount.div(rate);
     }
-    
 
 
 }

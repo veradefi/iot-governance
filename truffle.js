@@ -40,7 +40,7 @@ module.exports = {
         "stylesheets/app.scss"
     ],
     "images/": "images/",
-    "fonts/" : "../node_modules/materialize-css/dist/font/"
+    //"fonts/" : "../node_modules/materialize-css/dist/font/"
    }),
   deploy: [
     "SmartKey",

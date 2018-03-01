@@ -10,7 +10,7 @@ contract NodeMetaData is Administered {
   mapping (bytes32 => MetaData) public itemMetaData; // rel is hashed to bytes32 data   
   //PAS 212:2016
   
-  SmartKey smartKey;
+  SmartKey public smartKey;
 
   function NodeMetaData(SmartKey _smartKey, address[] adminAddress) 
   public
@@ -19,6 +19,13 @@ contract NodeMetaData is Administered {
       smartKey=_smartKey;  
   }
 
+  function getSmartKey()
+  constant
+  public
+  returns (SmartKey)
+  {
+      return smartKey;
+  }
 
   function selectMetaData() 
   constant

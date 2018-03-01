@@ -41,8 +41,8 @@ contract MintableToken is ERC827Token, Administered {
   modifier canMint() {
     require(!mintingFinished);
     _;
-  }
-
+  }  
+  
   /**
    * @dev Function to mint tokens
    * @param _to The address that will receive the minted tokens.

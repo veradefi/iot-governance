@@ -31,33 +31,7 @@ contract Catalogue is NodeMetaData {
          return items;
   }
   
-  function upsertItem(string _href)
-  public
-  payable
-  returns (bool)
-  {
-      bytes32 hashVal=Key(SmartKey(smartKey).getKey(msg.sender)).getHash(_href);
-      CatalogueItem catData;
-      if (catItemData[hashVal] == address(0)) 
-      {
-            address[] memory _admins=new address[](2);
-            _admins[0]=msg.sender;
-            _admins[1]=address(this);
-            catData = new CatalogueItem(SmartKey(smartKey), _admins);
-      } 
-      else 
-      {
-            catData = catItemData[hashVal];
-      }
-      
-      catData.setHref.value(msg.value)(_href);
-      
-      if (catItemData[hashVal] == address(0)) 
-      {
-          catItemData[hashVal] = catData;
-          items.push(catData);
-      }
-      return true;
-  }
+  
+
 
 }
