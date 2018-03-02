@@ -29,6 +29,7 @@ engine.start(); // Required by the provider engine.
 module.exports = {
   build: new DefaultBuilder({
     "index.html": "index.html",
+    "pas212.html": "pas212.html",
     "app.js": [
         "../node_modules/jquery/dist/jquery.min.js",
         //"../node_modules/materialize-css/dist/js/materialize.min.js",

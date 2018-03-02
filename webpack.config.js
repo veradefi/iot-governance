@@ -4,7 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
       entry: [
-         'babel-polyfill','./app/javascripts/app.js'
+         'babel-polyfill',
+	'./app/javascripts/app.js'
       ],
       output: {
         path: path.resolve(__dirname, 'build'),
@@ -13,7 +14,8 @@ module.exports = {
       plugins: [
         // Copy our app's index.html to the build folder.
         new CopyWebpackPlugin([
-          { from: './app/index.html', to: "index.html" }
+          { from: './app/index.html', to: "index.html" },
+          { from: './app/pas212.html', to: "pas212.html" }
         ]),
         //new webpack.HotModuleReplacementPlugin(),
       
@@ -37,7 +39,9 @@ module.exports = {
 		      plugins: [
 			      "@babel/transform-arrow-functions",
 			      "@babel/transform-classes",
-		      ]
+		      ],
+		      "compact": true
+
               }
             }
           }
