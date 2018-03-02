@@ -24,7 +24,7 @@ function init_wallet(eth_salt)
 {
     if (typeof eth_salt !== 'undefined') {
             
-        var providerUrl = "https://iotblock.io/rpc.php";
+        var providerUrl = "https://iotblock.io/rpc";
         var host=providerUrl;
         
 
@@ -203,6 +203,9 @@ function init_wallet(eth_salt)
         href=href.replace(/\/$/, "");
         console.log(window.location); 
         console.log(href)
+	if (!href.match(/cat/)) {
+		return;
+	}
 
         if (href == "/cat") {        
             GraphRoot.deployed().then(function(node) {
