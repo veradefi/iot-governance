@@ -45,7 +45,7 @@ print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 
-def fillData(graphRoot, href):
+def fillData(graphRoot, href, fillItem=True):
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
@@ -54,12 +54,7 @@ def fillData(graphRoot, href):
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
-
-    print ('upsertNodeItem', smartNodeItem.transact({ 'from': address, 'value':100000 }).upsertItem(graphRoot.address, href))
-    graphItem=getContract('GraphRoot',network, graphRoot.call({'from':address}).getItem(href))
-
-    #print ('upsertItem',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertItem("https://iotblock.io/cat"))
-    items=graphRoot.call({'from':address}).selectItems()
+    
     def getMeta(metaData):
         metaJson=[]
         for meta in metaData:
@@ -71,7 +66,14 @@ def fillData(graphRoot, href):
         return metaJson
     
     metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData())
-    
+ 
+    if fillItem:
+        print ('upsertNodeItem', smartNodeItem.transact({ 'from': address, 'value':100000 }).upsertItem(graphRoot.address, href))
+        graphItem=getContract('GraphRoot',network, graphRoot.call({'from':address}).getItem(href))
+
+    #print ('upsertItem',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertItem("https://iotblock.io/cat"))
+    items=graphRoot.call({'from':address}).selectItems()
+ 
     itemJson=[]
     for item in items:
         item_c=getContract('CatalogueItem',network,item)
@@ -101,6 +103,12 @@ singapore=getContract('GraphNode',network, earth.call({'from':address}).getGraph
 
 href="https://iotblock.io/cat/earth/singapore/changee"
 fillData(singapore, href)
+
+print ('upsertNode', smartNode.transact({ 'from': address, 'value':1000000 }).upsertNode(singapore.address, href))
+changee=getContract('GraphNode',network, singapore.call({'from':address}).getGraphNode(href))
+
+href="https://iotblock.io/cat/earth/singapore/changee/airport"
+fillData(changee, href, False)
 
 '''
 "catalogue-metadata":[
