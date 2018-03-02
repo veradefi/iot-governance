@@ -1,3 +1,6 @@
 #!/bin/sh
+PATH=./node_modules/.bin:$PATH
+export PATH
+
 sh build.sh
 npm run build

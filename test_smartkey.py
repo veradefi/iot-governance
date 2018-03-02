@@ -9,9 +9,9 @@ import StringIO
 import re
 import os
 
-def getContract(item, network, address=None):
-    abi = json.loads(open('bin/' + item + '.abi').read())
-    bin = open('bin/' + item + '.bin').read()
+def getContract(item, network, address=None, prefix=""):
+    abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
+    bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
     json_data=open('build/contracts/' + item + '.json').read()
     data = json.loads(json_data)
     
@@ -43,7 +43,7 @@ print ('getBalanceInEth', gc.call({ 'from': address2}).getBalanceInEth(address2)
 print ('getBalance', gc.call({ 'from': address2}).getBalance(address2))
 print ('getKey', gc.call({ 'from': address2 }).getKey(address2))
 key=gc.call({ 'from': address2 }).getKey(address2)
-kc=getContract('Key',network, key)
+kc=getContract('Key',network, key, prefix="pki_")
 print ('Key Activated', kc.call({ 'from': address2}).activated(address2))
 print ('Key State', kc.call({ 'from': address2}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
