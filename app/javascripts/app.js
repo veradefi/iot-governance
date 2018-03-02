@@ -24,7 +24,7 @@ function init_wallet(eth_salt)
 {
     if (typeof eth_salt !== 'undefined') {
             
-        var providerUrl = "https://iotblock.io/rpc";
+        var providerUrl = "https://iotblock.io/rpc/";
         var host=providerUrl;
         
 
