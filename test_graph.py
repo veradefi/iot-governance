@@ -10,9 +10,9 @@ import re
 import os
 from datetime import datetime
 
-def getContract(item, network, address=None):
-    abi = json.loads(open('bin/' + item + '.abi').read())
-    bin = open('bin/' + item + '.bin').read()
+def getContract(item, network, address=None, prefix=""):
+    abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
+    bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
     json_data=open('build/contracts/' + item + '.json').read()
     data = json.loads(json_data)
     
@@ -40,7 +40,7 @@ amount=1000000000000000000 #1 ETH
 print (io.transact({ 'from': address, 'value': amount}).getSmartKey(address))
 #print (gc.transact({ 'from': address, 'value': amount}).getSmartKey(address))
 key=gc.call({ 'from': address }).getKey(address)
-kc=getContract('Key',network, key)
+kc=getContract('Key',network, key, prefix="pki_")
 print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
