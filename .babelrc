@@ -1,0 +1,14 @@
+{
+  "presets":
+              	[
+			'@babel/preset-env',
+			'@babel/preset-react'
+		],
+  "plugins": [
+    "transform-es2015-arrow-functions",
+    "transform-es2015-classes",
+    "transform-object-assign",
+  ],
+  "compact": true
+}
+

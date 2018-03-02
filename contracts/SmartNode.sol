@@ -1,16 +1,18 @@
 pragma solidity ^0.4.18; 
 
-import "./GraphNode.sol";
+import "./GraphRoot.sol";
 
 contract SmartNode is Administered {
   
   SmartKey smartKey;
-    
-  function SmartNode(SmartKey _smartKey, address[] adminAddress) 
+  GraphRoot graphRoot;
+  
+  function SmartNode(GraphRoot _graphRoot, SmartKey _smartKey, address[] adminAddress) 
     Administered(adminAddress)
     public
   {
       smartKey=_smartKey; 
+      graphRoot=_graphRoot;
   }
 
   
@@ -27,7 +29,8 @@ contract SmartNode is Administered {
    
       GraphNode _node = new GraphNode(smartKey, _admins);
 
-      return _parentNode.upsertNode.value(msg.value)(_node, _href);
+      _parentNode.upsertNode.value(msg.value/2)(_node, _href);
+      return graphRoot.upsertNode.value(msg.value/2)(_node, _href);
   }
     
   
