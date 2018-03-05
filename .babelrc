@@ -1,13 +1,5 @@
-{
-  "presets":
-              	[
-			'env',
-		],
-  "plugins": [
-    "transform-es2015-arrow-functions",
-    "transform-es2015-classes",
-    "transform-object-assign",
-  ],
-  "compact": true
+{ presets: ['@babel/preset-env'],
+  plugins: ['@babel/transform-runtime']
+  //"compact": true
 }
 

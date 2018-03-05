@@ -1,15 +1,17 @@
 // request
+/*
 if (typeof eth_salt == 'undefined') {
 
   require("babel-polyfill");
+  console.log("Babel Polyfill included");
   window.hasPolyfill=true;
-  console.log("Babel Polyfill included")
 
 }
+*/
 var request = require('ajax-request');
 var jQuery = require('jquery');
 // Import libraries we need.
-import { default as Web3} from 'web3';
+import { default as Web3 } from 'web3';
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 var contract = require("truffle-contract");
 import sk_artifacts from '../../build/contracts/SmartKey.json'
@@ -24,7 +26,7 @@ function init_wallet(eth_salt)
 {
     if (typeof eth_salt !== 'undefined') {
             
-        var providerUrl = "https://iotblock.io/rpc/";
+        var providerUrl = "https://iotblock.io/rpc";
         var host=providerUrl;
         
 	var hasAccount=false;
@@ -34,15 +36,15 @@ function init_wallet(eth_salt)
           window.web3=web3;
           
           web3.eth.getAccounts().then(function(accounts) {
-              window.accounts=accounts;
-       	      if (accounts.length > 0) { 
+       	  	if (typeof accounts !== 'undefined' && accounts.length > 0) { 
+          	  window.accounts=accounts;
             	  window.account=window.accounts[0];
             	  window.address=window.accounts[0];
             	  console.log(window.accounts);
             	  console.log(window.account);
 		  hasAccount=true;
-	      }
-          });
+	  	}
+	   });
 	  
         }
 	if (!hasAccount) {
