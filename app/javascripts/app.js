@@ -1,13 +1,9 @@
 // request
-/*
 if (typeof eth_salt == 'undefined') {
-
-  require("babel-polyfill");
+  require("@babel/polyfill");
   console.log("Babel Polyfill included");
   window.hasPolyfill=true;
-
 }
-*/
 var request = require('ajax-request');
 var jQuery = require('jquery');
 // Import libraries we need.

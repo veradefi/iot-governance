@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry:  [
-         //'babel-polyfill',
+         '@babel/polyfill',
          './app/javascripts/app.js'
       ],
   output: {
@@ -32,14 +32,24 @@ module.exports = {
             use: {
               loader: 'babel-loader',
               options: {
-                      presets: ['@babel/preset-env'],
-        	      plugins: ["@babel/plugin-transform-runtime", {
-				//"helpers": true,
-      				//"polyfill": true,
-      				//"regenerator": true,
-      				//"moduleName": "@babel/runtime"
- 		      }],
-		      //"compress":true
+                      presets: [
+				'@babel/preset-env',
+				//'@babel/preset-react'
+				],
+        	      plugins: [
+				//"@babel/transform-arrow-functions",
+                                //"@babel/transform-classes",
+				//"@babel/plugin-transform-object-assign",
+				/*
+				["@babel/plugin-transform-runtime", {
+				"helpers": true,
+      				"polyfill": true,
+      				"regenerator": true,
+      				"moduleName": "@babel/runtime"
+ 		      		}]
+				*/
+				
+		      ],
               }
             }
       }
