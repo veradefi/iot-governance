@@ -4,5 +4,5 @@ export PATH
 
 sh build.sh
 npm run build
-sh babel.sh
+#sh babel.sh
 python test_graph.py
