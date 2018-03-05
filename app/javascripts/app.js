@@ -27,7 +27,7 @@ function init_wallet(eth_salt)
         var providerUrl = "https://iotblock.io/rpc/";
         var host=providerUrl;
         
-
+	var hasAccount=false;
         if (typeof web3 !== 'undefined') {
           Web3.web3Provider = web3.currentProvider;
           web3 = new Web3(web3.currentProvider);
@@ -35,13 +35,17 @@ function init_wallet(eth_salt)
           
           web3.eth.getAccounts().then(function(accounts) {
               window.accounts=accounts;
-        
-              window.account=window.accounts[0];
-              window.address=window.accounts[0];
-              console.log(window.accounts);
-              console.log(window.account);
+       	      if (accounts.length > 0) { 
+            	  window.account=window.accounts[0];
+            	  window.address=window.accounts[0];
+            	  console.log(window.accounts);
+            	  console.log(window.account);
+		  hasAccount=true;
+	      }
           });
-        } else {
+	  
+        }
+	if (!hasAccount) {
 
             var user="0x" + shajs('sha224').update(eth_salt).digest('hex');    
             var bip39 = require("bip39");
