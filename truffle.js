@@ -1,6 +1,5 @@
 require('babel-register');
 require('babel-polyfill');
-var DefaultBuilder = require("truffle-default-builder");
 
 /*
 var bip39 = require("bip39");
@@ -27,34 +26,6 @@ engine.start(); // Required by the provider engine.
 */
 
 module.exports = {
-  build: new DefaultBuilder({
-    "index.html": "index.html",
-    "pas212.html": "pas212.html",
-    "app.js": [
-        "../node_modules/jquery/dist/jquery.min.js",
-        //"../node_modules/materialize-css/dist/js/materialize.min.js",
-        //"../node_modules/underscore/underscore-min.js",
-        "javascripts/app.js"
-    ],
-    "app.css": [
-        //"../node_modules/materialize-css/dist/css/materialize.min.css",
-        "stylesheets/app.scss"
-    ],
-    "images/": "images/",
-    //"fonts/" : "../node_modules/materialize-css/dist/font/"
-   }),
-  deploy: [
-    "SmartKey",
-    "GraphNode",
-    "GraphRoot",
-    "PublicOffering"
-
-  ],
-  rpc: {
-    host: "localhost", 
-    port: 8545,
-    
-  },
   networks: {
     testrpc: {
       host: "localhost", 
