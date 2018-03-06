@@ -12,7 +12,6 @@ app.get('/app.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/../build/app.js'));
 });
 
-
 function dappRoute(req, res, next) {
     res.sendFile(path.join(__dirname + '/../build/pas212.html'));
 }

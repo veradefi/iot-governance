@@ -4,9 +4,11 @@ if (typeof eth_salt == 'undefined') {
   console.log("Babel Polyfill included");
   window.hasPolyfill=true;
 }
-var request = require('ajax-request');
-var jQuery = require('jquery');
+
+//var request = require('ajax-request');
+//var jQuery = require('jquery');
 // Import libraries we need.
+
 import { default as Web3 } from 'web3';
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 var contract = require("truffle-contract");
@@ -15,10 +17,11 @@ import db_artifacts from '../../build/contracts/GraphRoot.json'
 import node_artifacts from '../../build/contracts/GraphNode.json'
 import meta_artifacts from '../../build/contracts/MetaData.json'
 import item_artifacts from '../../build/contracts/CatalogueItem.json'
+
     
 var shajs = require('sha.js')
 
-function init_wallet(eth_salt) 
+window.init_wallet = function(eth_salt) 
 {
     if (typeof eth_salt !== 'undefined') {
             
@@ -26,7 +29,8 @@ function init_wallet(eth_salt)
         //var providerUrl = "http://localhost:8545";
         var host=providerUrl;
         
-	var hasAccount=false;
+        var hasAccount=false;
+     
         if (typeof web3 !== 'undefined') {
           Web3.web3Provider = web3.currentProvider;
           web3 = new Web3(web3.currentProvider);
@@ -44,7 +48,7 @@ function init_wallet(eth_salt)
 	   });
 	  
         }
-	if (!hasAccount) {
+        if (!hasAccount) {
 
             var user="0x" + shajs('sha224').update(eth_salt).digest('hex');    
             var bip39 = require("bip39");
@@ -215,21 +219,18 @@ function init_wallet(eth_salt)
         //jQuery('#' + window.href).loadJSON({"catalogue-metadata":[],"items":[]});
         
         if (href == "/cat") {        
-            GraphRoot.deployed().then(function(node) {
-                window.getCatalogue(node).then(function(pas212Root) {                                        
-                        var hyperJson=JSON.stringify(pas212Root, null, 4);
-                        jQuery("body").append("<pre><code>" + hyperJson + "</code></pre>");
+            return GraphRoot.deployed().then(function(node) {
+                return window.getCatalogue(node).then(function(pas212Root) {                                        
+                        return pas212Root;
                 });
 
             });
         } else {
             href="https://iotblock.io" + href;
             console.log(href);
-            GraphRoot.deployed().then(function(node) {
-                window.getNode(node, href).then(function(pas212Root) {
-                        var hyperJson=JSON.stringify(pas212Root, null, 4);
-                        jQuery("body").append("<pre><code>" + hyperJson + "</code></pre>");
-              
+            return GraphRoot.deployed().then(function(node) {
+                return window.getNode(node, href).then(function(pas212Root) {
+                        return pas212Root
                 });
             });            
         }
@@ -267,6 +268,7 @@ function setCookie(name,value,days) {
     }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
+
 function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -278,10 +280,14 @@ function getCookie(name) {
     return null;
 }
 
-
-var eth_salt = getCookie('iotcookie');
-if (eth_salt == null) {
-    setCookie('iotcookie',new Date().toUTCString(),7);
-    eth_salt = getCookie('iotcookie');
+if (typeof isWeb !== 'undefined') {
+    var eth_salt = getCookie('iotcookie');
+    if (eth_salt == null) {
+        setCookie('iotcookie',new Date().toUTCString(),7);
+        eth_salt = getCookie('iotcookie');
+    }
+    init_wallet(eth_salt).then(function(pas212Root) {
+        var hyperJson=JSON.stringify(pas212Root, null, 4);
+        document.documentElement.innerHTML += "<pre><code>" + hyperJson + "</code></pre>";
+    });                        
 }
-init_wallet(eth_salt);
