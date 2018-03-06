@@ -2,5 +2,4 @@
 PATH=./node_modules/.bin:$PATH
 export PATH
 
-node server/web.mjs
-
+python server/index.py

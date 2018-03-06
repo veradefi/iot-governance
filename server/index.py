@@ -88,14 +88,15 @@ app = Flask(__name__)
 @app.route('/<path:path>')
 def catch_all(path):
     '''
+    {
     "catalogue-metadata":[
-    {
-    "rel":"urn:X-hypercat:rels:isContentType",
-    "val":"application/vnd.hypercat.catalogue+json"
-    },
-    {
-    "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-    }
+        {
+        "rel":"urn:X-hypercat:rels:isContentType",
+        "val":"application/vnd.hypercat.catalogue+json"
+        },
+        {
+        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
+        }
     ],
     "items":[
     ]
