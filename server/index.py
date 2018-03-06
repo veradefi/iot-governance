@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
-
+import json
 import sys
 import json
 import codecs
@@ -9,7 +9,6 @@ import StringIO
 import re
 import os
 from datetime import datetime
-
 from flask import Flask
 
 def getContract(item, network, address=None, prefix=""):
@@ -79,7 +78,6 @@ def getNode(graphRoot):
 
     metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
     itemJson=getItem(graphRoot.call({'from':address}).selectItems())
-    import json
     
     cat={"catalogue-metadata":metaJson,"items":itemJson}
     return cat
@@ -117,12 +115,6 @@ def catch_all(path):
         mimetype='application/json'
     )
     return response
-    
-    #print ('upsertNode', smartNode.transact({ 'from': address, 'value':1000000 }).upsertNode(root.address, href))
-    #
-    #return "Hello, World!"
-    #return 'You want path: %s' % path
-
 
 
 if __name__ == '__main__':
