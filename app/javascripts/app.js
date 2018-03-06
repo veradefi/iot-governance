@@ -6,6 +6,7 @@ if (typeof eth_salt == 'undefined') {
 }
 var request = require('ajax-request');
 var jQuery = require('jquery');
+//var loadJson = require('jquery-load-json')
 // Import libraries we need.
 import { default as Web3 } from 'web3';
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
@@ -22,7 +23,8 @@ function init_wallet(eth_salt)
 {
     if (typeof eth_salt !== 'undefined') {
             
-        var providerUrl = "https://iotblock.io/rpc";
+        //var providerUrl = "https://iotblock.io/rpc";
+        var providerUrl = "http://localhost:8545";
         var host=providerUrl;
         
 	var hasAccount=false;
@@ -205,10 +207,14 @@ function init_wallet(eth_salt)
         href=href.replace(/\/$/, "");
         console.log(window.location); 
         console.log(href)
-	if (!href.match(/cat/)) {
-		return;
-	}
-
+        
+        if (!href.match(/cat/)) {
+        		return;
+        }
+        //window.href=href.replace(/\W/, "");     
+        //jQuery("body").append('<div id="' + window.href + '"></div>');
+        //jQuery('#' + window.href).loadJSON({"catalogue-metadata":[],"items":[]});
+        
         if (href == "/cat") {        
             GraphRoot.deployed().then(function(node) {
                 window.getCatalogue(node).then(function(pas212Root) {                                        
@@ -229,40 +235,6 @@ function init_wallet(eth_salt)
             });            
         }
     }
-}
-
-function getUserIP(onNewIP) { 
-    var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-    var pc = new myPeerConnection({
-        iceServers: []
-    }),
-    noop = function() {},
-    localIPs = {},
-    ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
-    key;
-
-    function iterateIP(ip) {
-        if (!localIPs[ip]) onNewIP(ip);
-        localIPs[ip] = true;
-    }
-
-    pc.createDataChannel("");
-
-    pc.createOffer().then(function(sdp) {
-        sdp.sdp.split('\n').forEach(function(line) {
-            if (line.indexOf('candidate') < 0) return;
-            line.match(ipRegex).forEach(iterateIP);
-        });
-        
-        pc.setLocalDescription(sdp, noop, noop);
-    }).catch(function(reason) {
-        // An error occurred, so handle the failure to connect
-    });
-
-    pc.onicecandidate = function(ice) {
-        if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
-        ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
-    };
 }
 
 function syntaxHighlight(json) {
@@ -287,8 +259,30 @@ function syntaxHighlight(json) {
     });
 }
 
-getUserIP(function(ip)
-{
-    var eth_salt=ip;
-    init_wallet(eth_salt);
-});
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+
+var eth_salt = getCookie('iotcookie');
+if (eth_salt == null) {
+    setCookie('iotcookie',new Date().toUTCString(),7);
+    eth_salt = getCookie('iotcookie');
+}
+init_wallet(eth_salt);
