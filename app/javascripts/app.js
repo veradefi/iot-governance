@@ -6,7 +6,6 @@ if (typeof eth_salt == 'undefined') {
 }
 var request = require('ajax-request');
 var jQuery = require('jquery');
-//var loadJson = require('jquery-load-json')
 // Import libraries we need.
 import { default as Web3 } from 'web3';
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
@@ -23,8 +22,8 @@ function init_wallet(eth_salt)
 {
     if (typeof eth_salt !== 'undefined') {
             
-        //var providerUrl = "https://iotblock.io/rpc";
-        var providerUrl = "http://localhost:8545";
+        var providerUrl = "https://iotblock.io/rpc";
+        //var providerUrl = "http://localhost:8545";
         var host=providerUrl;
         
 	var hasAccount=false;
