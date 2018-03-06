@@ -208,6 +208,7 @@ window.init_wallet = function(eth_salt)
         //var href=window.location.href;
         var href=window.location.pathname;
         href=href.replace(/\/$/, "");
+        href=href.replace(/icat/, "cat");
         console.log(window.location); 
         console.log(href)
         
