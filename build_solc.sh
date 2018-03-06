@@ -1,3 +1,7 @@
+#!/bin/sh
+PATH=./node_modules/.bin:$PATH
+export PATH
+
 solc contracts/PublicOffering.sol --abi --bin --overwrite -o bin/
 solc contracts/SmartKey.sol --abi --bin --overwrite -o bin/
 solc contracts/GraphNode.sol --abi --bin --overwrite -o bin/
