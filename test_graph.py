@@ -24,8 +24,8 @@ def getContract(item, network, address=None, prefix=""):
 
 network='5'
 port='8545'
-#web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
-web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
+web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
+#web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
 address=web3.eth.accounts[1]
 
