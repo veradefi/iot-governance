@@ -20,6 +20,6 @@ function dappRoute(req, res, next) {
     res.sendFile(path.join(__dirname + '/../build/pas212.html'));
 }
 
-app.get("/cat*", dappRoute);
+app.get("/icat*", dappRoute);
 
 app.listen(8080);
