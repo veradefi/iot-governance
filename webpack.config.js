@@ -27,6 +27,12 @@ module.exports = {
        use: [ 'style-loader', 'css-loader' ]
       },
       {
+        //enforce: "pre",
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+      },
+      {
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/,
             use: {
@@ -38,7 +44,7 @@ module.exports = {
 				],
         	      plugins: [
 				//"@babel/transform-arrow-functions",
-                                //"@babel/transform-classes",
+                  //"@babel/transform-classes",
 				//"@babel/plugin-transform-object-assign",
 				/*
 				["@babel/plugin-transform-runtime", {
