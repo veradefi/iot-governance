@@ -12,6 +12,10 @@ app.get('/app.js', function(req, res) {
     res.sendFile(path.join(__dirname + '/../build/app.js'));
 });
 
+app.get('/images/wait.gif', function(req, res) {
+    res.sendFile(path.join(__dirname + '/../build/images/wait.gif'));
+});
+
 function dappRoute(req, res, next) {
     res.sendFile(path.join(__dirname + '/../build/pas212.html'));
 }

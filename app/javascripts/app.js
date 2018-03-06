@@ -288,6 +288,6 @@ if (typeof isWeb !== 'undefined') {
     }
     init_wallet(eth_salt).then(function(pas212Root) {
         var hyperJson=JSON.stringify(pas212Root, null, 4);
-        document.documentElement.innerHTML += "<pre><code>" + hyperJson + "</code></pre>";
+        document.documentElement.innerHTML = "<pre><code>" + hyperJson + "</code></pre>";
     });                        
 }
