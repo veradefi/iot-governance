@@ -12,7 +12,6 @@ plaintext = 'The rain in Spain falls mainly on the Plain'
 # Here is a hash of the message
 hash = MD5.new(plaintext).digest()
 print(repr(hash))
-# '\xb1./J\xa883\x974\xa4\xac\x1e\x1b!\xc8\x11'
 
 # Generates a fresh public/private key pair
 key = RSA.generate(1024, os.urandom)
@@ -41,9 +40,3 @@ try:
     print ("The signature is valid.")
 except (ValueError, TypeError):
     print ("The signature is not valid.")
-# You send message (plaintext) and signature to Friend.
-# Friend knows how to compute hash.
-# Friend verifies the message came from you this way:
-
-# A different hash should not pass the test.
-#pubkey.verify(hash[:-1], signature)
