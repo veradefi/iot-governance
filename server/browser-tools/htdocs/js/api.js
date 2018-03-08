@@ -7,8 +7,8 @@ function log(msg) {
 }
 
 function populateExamples() {
-    $("#examples").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
     $("#examples").append(new Option('Select URL...',''));
+    $("#examples").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
 /*
     $("#examples").append(new Option("Select example URL", ""));
 
