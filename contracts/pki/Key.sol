@@ -4,44 +4,44 @@ import '../math/SafeMath.sol';
 import '../ownership/Ownable.sol';
 
 contract Key is Ownable {
-    using SafeMath for uint256;
+   using SafeMath for uint256;
     
-    enum State { Issued, Active, Returned }
-    event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
+   enum State { Issued, Active, Returned }
+   event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
     
-    enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
-    event HealthUpdate(Health status);
+   enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
+   event HealthUpdate(Health status);
     
-    mapping (address => uint256) public activated;
-    address public vault;
-    State public state;
+   mapping (address => uint256) public activated;
+   address public vault;
+   State public state;
 
-    struct Attr {
+   struct Attr {
         address user;
         string attrType;
         bool has_proof;
         bytes32 id;
         string data;
         string datahash;
-    }
+   }
 
-    struct Sign {
+   struct Sign {
         address signer;
         uint attrID;
         uint expiry;
-    }
+   }
 
-    struct Rev {
+   struct Rev {
         uint signID;
-    }
+   }
 
-    Attr[] public attrs;
-    Sign[] public signs;
-    Rev[] public revs;
+   Attr[] public attrs;
+   Sign[] public signs;
+   Rev[] public revs;
 
-    event AttrAdded(uint indexed attrID, address indexed user, string attrType, bool has_proof, bytes32 indexed id, string data, string datahash);
-    event AttrSigned(uint indexed signID, address indexed signer, uint indexed attrID, uint expiry);
-    event SignRev(uint indexed revID, uint indexed signID);
+   event AttrAdded(uint indexed attrID, address indexed user, string attrType, bool has_proof, bytes32 indexed id, string data, string datahash);
+   event AttrSigned(uint indexed signID, address indexed signer, uint indexed attrID, uint expiry);
+   event SignRev(uint indexed revID, uint indexed signID);
 
    mapping(bytes32 => string) map;
 

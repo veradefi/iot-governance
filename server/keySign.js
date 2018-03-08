@@ -4,15 +4,16 @@
 
 var NodeRSA = require('node-rsa');
 var fs = require('fs');
-//var cliArgs = require('command-line-args');
+
 var stringify = require('json-stable-stringify');
+var openpgp = require('openpgp'); // use as CommonJS, AMD, ES6 module or via window.openpgp
+
 var cat;
 var privKey;
 var pubKey;
 var privKeyContent;
 var pubKeyContent;
 var options, encrypted;
-var openpgp = require('openpgp'); // use as CommonJS, AMD, ES6 module or via window.openpgp
 
 openpgp.initWorker({ path:'openpgp.worker.js' }) // set the relative web worker path
 openpgp.config.aead_protect = true // activate fast AES-GCM mode (not yet OpenPGP standard)
@@ -136,6 +137,7 @@ function sign(file, privKey, pubKey) {
         
 }    
 
+
 // verify
 function verify(file) {
     return fs.readFile(file, 'utf8', function(err, data) {
@@ -165,3 +167,4 @@ console.log(keys[0] + ',' + keys[1]);
 var file='test.json';
 sign(file, keys[0], keys[1]);
 verify(file);
+
