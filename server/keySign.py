@@ -17,24 +17,36 @@ print(repr(hash))
 key = RSA.generate(1024, os.urandom)
 
 message = 'To be signed'
+
 #key = RSA.importKey(open('private_key.der').read())
 h = SHA256.new(message)
-
 signature = pkcs1_15.new(key).sign(h)
-
 K = ''
 
 # You sign the hash
 #signature = key.sign(hash, K)
 print(len(signature), RSA.__name__)
 # (1, 'Crypto.PublicKey.RSA')
-# (2, 'Crypto.PublicKey.DSA')
-# (2, 'Crypto.PublicKey.ElGamal')
 
 # You share pubkey with Friend
-pubkey = key.publickey()
+'''
+cat['catalogue-metadata'].push({
+        'rel': 'urn:X-hypercat:rels:jws:signature',
+        'val': privKey.sign(stringify(cat, sorter)).toString('base64')
+});
+cat['catalogue-metadata'].push({
+        rel: 'urn:X-hypercat:rels:jws:alg',
+        val: 'RS256'
+});
+cat['catalogue-metadata'].push({
+        rel: 'urn:X-hypercat:rels:jws:key',
+        val: pubKey.exportKey('pkcs8-public-pem')
+});
+'''
+pubkey = key.publickey().exportKey('PEM')
+privkey = key.exportKey('PEM')
 
-print (pubkey)
+print (pubkey, privkey)
 try:
     pkcs1_15.new(key).verify(h, signature)
     print ("The signature is valid.")
