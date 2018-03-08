@@ -55,7 +55,7 @@ def fillData(graphRoot, href, fillItem=True):
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
-    
+
     def getMeta(metaData):
         metaJson=[]
         for meta in metaData:
@@ -78,6 +78,7 @@ def fillData(graphRoot, href, fillItem=True):
     itemJson=[]
     for item in items:
         item_c=getContract('CatalogueItem',network,item)
+        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
         print ('upsertMetaData',item_c.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
         print ('upsertMetaData',item_c.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
         print ('upsertMetaData',item_c.transact({ 'from': address, 'value':1000000 }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
