@@ -113,7 +113,7 @@ def catch_all(path):
     response = app.response_class(
         response=json.dumps(data,sort_keys=True, indent=4),
         status=200,
-        mimetype='application/json'
+        mimetype='application/vnd.hypercat.catalogue+json'
     )
     return response
 
