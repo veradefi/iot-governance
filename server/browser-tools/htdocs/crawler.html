@@ -11,16 +11,18 @@
 <script type="text/javascript" src="js/base64.js"></script>
 <script type="text/javascript" src="js/api.js"></script>
 
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<link rel="stylesheet" type="text/css" href="css/style.bundle.css">
+<link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+        <script>
+          WebFont.load({
+            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+            active: function() {
+                sessionStorage.fonts = true;
+            }
+          });
+        </script>
 
-ga('create', 'UA-41905116-1', '1248.io');
-ga('send', 'pageview');
-
-</script>
 
 <script>
 var unexplored = [];
@@ -261,72 +263,97 @@ function searchForLocations() {
 </head>
 
 <body>
-    <a href="http://1248.io"><img src="logo-32x32.png" style="float: right;" border=0></a>
 
+    <div class="form-group">
+    <a href="https://iotblock.io">
+    <img src="logo-32x32.png" style="float: right;width:81px;" border=0>
+    </a>
+    <p>
+    <div class="btn-group m-btn-group m-btn-group--pill">
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="browser.html">Catalogue browser and editor (text)</a></li>
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="explorer.html">Catalogue explorer (graphical)</a></li>
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="crawler.html">Catalogue crawler (graphical)</a></li>
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="map.html">Client side map demo</a></li>
+        <!--
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="validator.html">Catalogue syntax validator</a></li>
+        //-->
+    </div>
+    </p>
+
+    </div>
+    
     <h1>Catalogue Crawler</h1>
-    <p>
-        This is a crawler and visualisation tool for IoT catalogues in the application/vnd.tsbiot.catalogue.json format. Given a starting URL, it will crawl any linked catalogues then render a directed graph of discovered relationships. The nodes and edges shown in the graph can be filtered.
-    </p>
-    <p>
-        Select an example catalogue from the box below, or enter the URL of any public catalogue and click "crawl".<br>
-        You may also browse the <a href="examples">example catalogue files</a>. For a description of what each catalogue shows, see <a href="examples/README.txt">examples/README.txt</a>.
-    </p>
-
-    <p>
-        <form>
-            <select id="examples"></select>
-            URL:&nbsp;<input type="text" id="url" size=80 value="Select example from dropdown or type URL" />
-            Key&nbsp;<input type="password" id="key" size=40 value="" />
-            <input type="button" id="crawl" value="Crawl (and add to existing graph)" />
-            <input type="button" id="crawlreplace" value="Crawl (and replace existing graph)" />
-        </form>
-    </p>
-
-    <div class="collapsibleContainer" title="Filter graph (click to toggle)">
-        <p>
-            The filters act independently.<br/>
-            The graph is in the form: <b>subject --predicate--&gt; object</b><br/>
-            The urn:X-tsbiot:rels:hasResource is automatically added to connect each catalogue with its items<br/>
-
-        </p>
+    
+    <div class="row">
+    <div class="col-md-6">
         <p>
             <form>
-                <table>
-                    <tr>
-                        <td><select id="subjects"></select></td>
-                        <td><input type="button" id="filter_by_subject" value="Filter by subject (what do we know about X?)"/></td>
-                    </tr>
-                    <tr>
-                        <td><select id="predicates"></select></td>
-                        <td><input type="button" id="filter_by_predicate" value="Filter by predicate (who uses relationship Y?)"/></td>
-                    </tr>
-                    <tr>
-                        <td><select id="objects"></select></td>
-                        <td><input type="button" id="filter_by_object" value="Filter by object (who has a relationship to Z?)"/></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="button" id="filter_all" value="Remove filter"/></td>
-                    </tr>
-                </table>
+                <select  class="form-control m-input m-input--air"   id="examples"></select>
+                <br>
+                <h3>
+                URL:&nbsp;
+                </h3>
+                <input  class="form-control m-input m-input--air"  type="text" id="url" size=80 value="Select example from dropdown or type URL" />
+                <br>
+                <h3>Key&nbsp;
+                </h3>
+                <input  class="form-control m-input m-input--air"   type="password" id="key" size=40 value="" />
+                <br><input class="btn m-btn--pill m-btn--air         btn-outline-info"  type="button" id="crawl" value="Crawl (and add to existing graph)" />
+                <br><input class="btn m-btn--pill m-btn--air         btn-outline-info"  type="button" id="crawlreplace" value="Crawl (and replace existing graph)" />
             </form>
         </p>
-    </div>
-
-    <p>
-        <i>Drag graph nodes around for a clearer view</i>
-    </p>
-    <p>
-        <div id="canvascontainer">
-            <canvas id="graph"/>
+    
+        <div class="collapsibleContainer" title="Filter graph (click to toggle)">
+            <p>
+                The filters act independently.<br/>
+                The graph is in the form: <b>subject --predicate--&gt; object</b><br/>
+                The urn:X-tsbiot:rels:hasResource is automatically added to connect each catalogue with its items<br/>
+    
+            </p>
+            <p>
+                <form>
+                    <table>
+                        <tr>
+                            <td><select id="subjects"></select></td>
+                            <td><input type="button" id="filter_by_subject" value="Filter by subject (what do we know about X?)"/></td>
+                        </tr>
+                        <tr>
+                            <td><select id="predicates"></select></td>
+                            <td><input type="button" id="filter_by_predicate" value="Filter by predicate (who uses relationship Y?)"/></td>
+                        </tr>
+                        <tr>
+                            <td><select id="objects"></select></td>
+                            <td><input type="button" id="filter_by_object" value="Filter by object (who has a relationship to Z?)"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="button" id="filter_all" value="Remove filter"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </p>
         </div>
-    </p>
-
-    <div class="collapsibleContainer" title="Activity and error log (click to toggle)">
+    
         <p>
-            <div id="log"></div>
+            <i>Drag graph nodes around for a clearer view</i>
         </p>
     </div>
+    <div class="col-md-6">
+            <p>
+                <div id="canvascontainer">
+                    <canvas id="graph"/>
+                </div>
+            </p>
+        
+            <div class="collapsibleContainer" title="Activity and error log (click to toggle)">
+                <p>
+                    <div id="log"></div>
+                </p>
+            </div>
+    </div>
+    </div>
+    <a href="https://iotblock.io"><img src="logo-32x32.png" style="float: right;width:100px;" border=0></a>
+
 </body>
 
 </html>

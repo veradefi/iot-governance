@@ -1,34 +1,38 @@
 <html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css">
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-41905116-1', '1248.io');
-ga('send', 'pageview');
-
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+        <script>
+          WebFont.load({
+            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+            active: function() {
+                sessionStorage.fonts = true;
+            }
+          });
+        </script>
+<link rel="stylesheet" type="text/css" href="css/style.bundle.css">
+<link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
 </head>
 
 <body>
-    <a href="http://1248.io"><img src="logo-32x32.png" style="float: right;" border=0></a>
+<div class="form-group">
+    <a href="https://iotblock.io">
+    <img src="logo-32x32.png" style="float: right;width:81px;" border=0>
+    </a>
+    <p>
+    <div class="btn-group m-btn-group m-btn-group--pill">
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="browser.html">Catalogue browser and editor (text)</a></li>
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="explorer.html">Catalogue explorer (graphical)</a></li>
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="crawler.html">Catalogue crawler (graphical)</a></li>
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="map.html">Client side map demo</a></li>
+        <!--
+        <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="validator.html">Catalogue syntax validator</a></li>
+        //-->
+    </div>
+    </p>
 
-    <h1>Catalogue Test Tools</h1>
-    <p>
-        <ul>
-            <li><a href="validator.html">Catalogue syntax validator</a></li>
-            <li><a href="browser.html">Catalogue browser and editor (text)</a></li>
-            <li><a href="explorer.html">Catalogue explorer (graphical)</a></li>
-            <li><a href="crawler.html">Catalogue crawler (graphical)</a></li>
-            <li><a href="map.html">Client side map demo</a></li>
-        </ul>
-    </p>
-    <p>
-        <a href="http://wiki.1248.io/doku.php?id=hypercat">Other HyperCat resources</a>
-    </p>
+    </div>
+    
+    
 </body>
 
 </html>
