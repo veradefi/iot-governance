@@ -13,9 +13,11 @@
     "jshint": "~1.0.0"
   },
   "dependencies": {
-    "node-static": "~0.6.7",
-    "request": "~2.14.0",
+    "URIjs": "~1.10.2",
     "express": "~3.1.0",
-    "URIjs": "~1.10.2"
+    "node-static": "~0.6.7",
+    "qs": "^6.5.1",
+    "request": "~2.14.0",
+    "send": "^0.16.2"
   }
 }
