@@ -17,7 +17,7 @@
 	npm install
 	npm start
 
-https://iotblock.io/rpc: Ethereum Ganache RPC
+/rpc: Ethereum Ganache RPC
 --------
 	
 	npm install
@@ -28,7 +28,7 @@ https://iotblock.io/rpc: Ethereum Ganache RPC
 	
 	sh build_web.sh
 
-https://iotblock.io/rpc: app/contracts IoTBlock Ethereum Smart Contracts
+/rpc: app/contracts IoTBlock Ethereum Smart Contracts
 --------
 	
 	sh build.sh
