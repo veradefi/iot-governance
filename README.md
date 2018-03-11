@@ -1,15 +1,15 @@
 #IOTBLOCK
 =============
 
-/icat: 		
+/icat 		
 --------
-server/web.mjs NodeJS iCat web server + HTTP proxy 
+* server/web.mjs NodeJS iCat web server + HTTP proxy 
 
 	node server/web.mjs
 
-/cat: 
+/cat
 --------
-server/index.py Python RES /cat web server + HTTP proxy
+* server/index.py Python RES /cat web server + HTTP proxy
 	
 	python server/index.py
 
