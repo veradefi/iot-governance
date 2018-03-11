@@ -5,7 +5,6 @@ from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
 import sys
 import json
 import codecs
-import StringIO
 import re
 import os
 from datetime import datetime
