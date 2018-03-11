@@ -39,6 +39,9 @@ Web3 Browser Smart Contract Client (/app)
 IoTBlock Ethereum Smart Contracts (/contracts)
 	
 	sh build.sh
+	python test_hypercat.py
+	python test_smartkey.py
+	python test_ico.py
 
 Key Sign Tools
 --------
