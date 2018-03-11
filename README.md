@@ -1,7 +1,7 @@
 #IOTBLOCK
 =============
 
-/rpc
+https://iotblock.io/rpc
 --------
 Ethereum Ganache RPC
 
@@ -16,7 +16,7 @@ IoTBlock Ethereum Smart Contracts (/contracts)
         python test_ico.py
 
 
-/icat 		
+https://iotblock.io/icat 		
 --------
 Web3 Browser Smart Contract Client (/app)
 	
@@ -26,13 +26,13 @@ NodeJS iCat web server + HTTP proxy
 
 	node server/web.mjs
 
-/cat
+https://iotblock.io/cat
 --------
 Python RESTful /cat web server + HTTP proxy
 	
 	python server/index.py
 
-/icatOS
+https://iotblock.io/icatOS
 --------
 NodeJS iCat Admin Tools
 
