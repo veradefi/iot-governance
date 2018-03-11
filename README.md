@@ -3,35 +3,40 @@
 
 /icat 		
 --------
-* server/web.mjs NodeJS iCat web server + HTTP proxy 
+NodeJS iCat web server + HTTP proxy 
 
 	node server/web.mjs
 
 /cat
 --------
-* server/index.py Python RES /cat web server + HTTP proxy
+Python RES /cat web server + HTTP proxy
 	
 	python server/index.py
 
-/icatOS: server/browser-tools NodeJS iCat Admin Tools
+/icatOS
 --------
+NodeJS iCat Admin Tools
 
+	cd server/browser-tools
 	npm install
 	npm start
 
-/rpc: Ethereum Ganache RPC
+/rpc
 --------
+Ethereum Ganache RPC
 	
 	npm install
 	ganache-cli --network-id 5
 
-/icat: app/javascript/app.js Web3 Browser Smart Contract Client
+/icat
 --------
+Web3 Browser Smart Contract Client (/app)
 	
 	sh build_web.sh
 
-/rpc: app/contracts IoTBlock Ethereum Smart Contracts
+/rpc
 --------
+IoTBlock Ethereum Smart Contracts (/contracts)
 	
 	sh build.sh
 
