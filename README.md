@@ -9,7 +9,7 @@ NodeJS iCat web server + HTTP proxy
 
 /cat
 --------
-Python RES /cat web server + HTTP proxy
+Python RESTful /cat web server + HTTP proxy
 	
 	python server/index.py
 
