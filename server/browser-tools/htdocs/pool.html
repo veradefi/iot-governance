@@ -1,0 +1,200 @@
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="css/diQuery-collapsiblePanel.css">
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/jquery.scrollTo-1.4.2-min.js"></script>
+<script type="text/javascript" src="js/URI.js"></script>
+<script type="text/javascript" src="js/base64.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.bundle.css">
+<link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+
+<script>
+  WebFont.load({
+    google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+    active: function() {
+        sessionStorage.fonts = true;
+    }
+  });
+</script>
+</head>
+<body>
+<form>
+        <div class="row">
+             <div class="col-md-12">
+                  <label><h3>Token Distribution Pool</h3></label>
+             </div>
+        </div>
+
+        <hr>
+        
+        <div class="row">
+             <div class="col-md-3">
+                  <label>Your wallet address</label>
+             </div>
+             <div class="col-md-3">
+                 <input name="walletAddress" matinput="" type="text" id="walletAddress" placeholder="" aria-invalid="false" aria-required="false">
+              </div>
+        </div>
+        <div class="row">
+             <div class="col-md-12">
+                  <h3>Allocations</h3>
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+    
+                    <label>Maximum Allocation (ETH)</label>
+            
+             </div>
+             <div class="col-md-3">
+    
+                    <input name="maxAllocation" matinput="" type="text" id="maxAllocation" placeholder="" aria-invalid="false" aria-required="false">
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>Maximum Per Contributor (ETH)</label>
+            </div>
+             <div class="col-md-3">
+                <input name="maxPerContributor" matinput="" type="text" id="maxPerContributor" placeholder="" aria-invalid="false" aria-required="false">
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>Minimum Per Contributor (ETH)</label>
+            </div>
+             <div class="col-md-3">
+                <input name="minPerContributor" matinput="" type="text" id="minPerContributor" placeholder="" aria-invalid="false" aria-required="false">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12">
+
+              <h3>
+                Admins
+              </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Admin 1 Wallet Address</label>
+              
+            </div>
+            <div class="col-md-3">
+              
+              <input name="admin1" matinput="" type="text" id="admin1" placeholder="" aria-invalid="false" aria-required="false">
+          
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Admin 2 Wallet Address</label>
+            </div>
+            <div class="col-md-3">
+                <input name="admin2" matinput="" type="text" id="admin2" placeholder="" aria-invalid="false" aria-required="false">
+            </div>
+        </div>
+          
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Admin 3 Wallet Address</label>
+            </div>
+            <div class="col-md-3">
+                <input name="admin3" matinput="" type="text" id="admin3" placeholder="" aria-invalid="false" aria-required="false">
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Whitelist</label>
+            </div>
+            <div class="col-md-3">
+                <input name="admin3" matinput="" type="text" id="admin3" placeholder="" aria-invalid="false" aria-required="false">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Create Whitelist</label>
+              
+            </div>
+            <div class="col-md-3">
+                Yes
+                No
+            </div>
+        </div>
+
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-3">
+              <h3>Fees</h3>
+            </div>
+            <div class="col-md-3">
+                  Fee is fixed at 0,5%.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">    
+              <label>Pool Percentage</label>
+            </div>
+            <div class="col-md-3">
+            
+                <input name="fee" matinput="" max="50" min="0" size="6" type="number" id="fee" placeholder="" aria-invalid="false" aria-required="false">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">    
+
+                  <ul>
+                    <li><span id='you'></span> goes to you.</li>
+                    <li>0.5% goes to The Fee.</li>
+                    <li><b>Total: <span id='total'>0.50%</span></b></li>
+                  </ul>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-12">    
+                <h3>TOKEN DISTRIBUTION</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">    
+                Distribute Tokens Automatically
+            </div>
+            <div class="col-md-3">    
+                Yes
+                No
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12">    
+                <input type=submit value='Submit'>
+            </div>
+        </div>
+
+</form>
+<script>
+var isPool=true;
+
+</script>
+<script src="js/app.js"></script>
+</body></html>
