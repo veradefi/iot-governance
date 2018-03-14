@@ -8,15 +8,13 @@ contract GraphNode is Catalogue, Key {
   mapping (bytes32 => GraphNode)  public nodeData; 
 
   //GraphNode public parentData;
-   
   function GraphNode(SmartKey _smartKey, address[] adminAddress) 
   public
   Catalogue(_smartKey, adminAddress)
   Key(msg.sender)
   {      
       
-  }  
- 
+  }
   
   /* 
     

@@ -4,10 +4,10 @@ import "./pki/Key.sol";
 import "./token/MintableToken.sol";
 import "./math/SafeMath.sol";
 
+contract SmartKey is MintableToken 
+{
 
-contract SmartKey is MintableToken {
-    using SafeMath for uint256;
-    
+    using SafeMath for uint256;    
     string public name;                                       //name
     uint8  public decimals;                                   //There could 1000 base units with 3 decimals. 
     string public symbol;                     
@@ -31,8 +31,7 @@ contract SmartKey is MintableToken {
         
         name = 'IOTBLOCK';                               // Set the name for display purposes
         decimals = 8;
-        symbol = 'IOTBLOCK';               
-        
+        symbol = 'IOTBLOCK';                       
         
     }
     
@@ -69,13 +68,13 @@ contract SmartKey is MintableToken {
 	public
     view
     returns(uint) 
-     {
+    {
 		return (balances[addr]);
-	}
-		
-    
+    }
+		    
     // @return true if the transaction can buy tokens
-    function validPurchase() internal constant returns (bool) {
+    function validPurchase() internal constant returns (bool) 
+    {
         bool nonZeroPurchase = msg.value != 0;
         return nonZeroPurchase;
     }
@@ -101,13 +100,17 @@ contract SmartKey is MintableToken {
         // calculate token amount to be created
         uint256 tokens = convertToToken(weiAmount);
         
-        if (tokens > 0) {
+        if (tokens > 0) 
+        {
             Key key;
-            if (smartKeys[beneficiary] == address(0)) {
+            if (smartKeys[beneficiary] == address(0)) 
+            {
                 key = new Key(vault); 
                 smartKeys[beneficiary] = key;
                 IssueSmartKey(beneficiary, key);
-            } else {
+            }
+            else 
+            {
                 key = smartKeys[beneficiary];
             }
 
@@ -124,7 +127,6 @@ contract SmartKey is MintableToken {
         
     }
     
-    
     function convertToWei(uint256 amount) 
     public
     view
@@ -140,6 +142,5 @@ contract SmartKey is MintableToken {
     {
 		return amount.div(rate);
     }
-
 
 }

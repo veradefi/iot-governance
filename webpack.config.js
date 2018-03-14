@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry:  [
-         '@babel/polyfill',
+         'babel-polyfill',
          './app/javascripts/app.js'
       ],
   output: {
@@ -40,7 +40,7 @@ module.exports = {
               loader: 'babel-loader',
               options: {
                       presets: [
-				'@babel/preset-env',
+				'env',
 				//'@babel/preset-react'
 				],
         	      plugins: [
