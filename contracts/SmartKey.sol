@@ -127,6 +127,19 @@ contract SmartKey is MintableToken
         
     }
     
+    function putSmartKey(Key key, address beneficiary) 
+    onlyAdmin
+    public
+    {
+        require(beneficiary != 0x0);
+        
+        if (smartKeys[beneficiary] == address(0)) 
+        {
+            smartKeys[beneficiary] = key;
+        }
+    
+    }
+        
     function convertToWei(uint256 amount) 
     public
     view
