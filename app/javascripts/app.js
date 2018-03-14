@@ -21,12 +21,41 @@ import item_artifacts from '../../build/contracts/CatalogueItem.json'
     
 var shajs = require('sha.js')
 
-window.init_wallet = function(eth_salt) 
+function create_wallet(eth_salt, call_back) {        
+        var user="0x" + shajs('sha224').update(eth_salt).digest('hex');    
+        var bip39 = require("bip39");
+        var hdkey = require('ethereumjs-wallet/hdkey');
+        var ProviderEngine = require("web3-provider-engine");
+        var WalletSubprovider = require('web3-provider-engine/subproviders/wallet.js');
+        var Web3Subprovider = require("web3-provider-engine/subproviders/web3.js");
+        var hdwallet = hdkey.fromMasterSeed(user); //bip39.mnemonicToSeed(mnemonic + user));
+        
+        // Get the first account using the standard hd path.
+        var wallet_hdpath = "m/44'/60'/0'/0/";
+        var wallet = hdwallet.derivePath(wallet_hdpath + "0").getWallet();
+        var engine = new ProviderEngine();
+        
+        var address = "0x" + wallet.getAddress().toString("hex");
+        var account = address;
+        
+        window.address=address;
+        window.account=address;
+
+        engine.addProvider(new WalletSubprovider(wallet, {}));
+        engine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider(providerUrl)));
+        window.web3 = new Web3(engine);
+        engine.start(); // Required by the provider engine.
+        
+        //console.log(window.address);
+    	    call_back(window.address);
+}
+
+window.init_wallet = function(eth_salt, call_back) 
 {
     if (typeof eth_salt !== 'undefined') {
             
-        var providerUrl = "https://iotblock.io/rpc";
-        //var providerUrl = "http://localhost:8545";
+        //var providerUrl = "https://iotblock.io/rpc";
+        var providerUrl = "http://localhost:8545";
         var host=providerUrl;
         
         var hasAccount=false;
@@ -44,44 +73,19 @@ window.init_wallet = function(eth_salt)
             	  console.log(window.accounts);
             	  console.log(window.account);
             	  hasAccount=true;
-            	  console.log(window.address);
+            	  //console.log(window.address);
+            	  call_back(window.address);
+        	  	} else {
+            	  	create_wallet(eth_salt, call_back); 
         	  	}
 	    });
 	  
-        }
-        
-        if (!hasAccount) {
-        
-                var user="0x" + shajs('sha224').update(eth_salt).digest('hex');    
-                var bip39 = require("bip39");
-                var hdkey = require('ethereumjs-wallet/hdkey');
-                var ProviderEngine = require("web3-provider-engine");
-                var WalletSubprovider = require('web3-provider-engine/subproviders/wallet.js');
-                var Web3Subprovider = require("web3-provider-engine/subproviders/web3.js");
-                var hdwallet = hdkey.fromMasterSeed(user); //bip39.mnemonicToSeed(mnemonic + user));
-                
-                // Get the first account using the standard hd path.
-                var wallet_hdpath = "m/44'/60'/0'/0/";
-                var wallet = hdwallet.derivePath(wallet_hdpath + "0").getWallet();
-                var engine = new ProviderEngine();
-                
-                var address = "0x" + wallet.getAddress().toString("hex");
-                var account = address;
-                
-                window.address=address;
-                window.account=address;
-    
-                engine.addProvider(new WalletSubprovider(wallet, {}));
-                engine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider(providerUrl)));
-                window.web3 = new Web3(engine);
-                engine.start(); // Required by the provider engine.
-                
-                console.log(window.address);
-        }
-        
-   
+        } else {
+            create_wallet(eth_salt, call_back);
+        }    
     }
 }
+
 window.get_graph = function(eth_salt) 
 {
 
@@ -298,12 +302,16 @@ if (typeof isWeb !== 'undefined') {
         setCookie('iotcookie',new Date().toUTCString(),7);
         eth_salt = getCookie('iotcookie');
     }
-    init_wallet(eth_salt);
     
-    get_graph(eth_salt).then(function(pas212Root) {
-        var hyperJson=JSON.stringify(pas212Root, null, 4);
-        document.documentElement.innerHTML = "<pre><code>" + hyperJson + "</code></pre>";
-    });                        
+    var callback=function(address) {
+        get_graph(eth_salt).then(function(pas212Root) {
+            var hyperJson=JSON.stringify(pas212Root, null, 4);
+            document.documentElement.innerHTML = "<pre><code>" + hyperJson + "</code></pre>";
+        });                        
+    }
+    
+    init_wallet(eth_salt, callback);
+    
 }
 
 if (typeof isPool !== 'undefined') {
@@ -312,5 +320,10 @@ if (typeof isPool !== 'undefined') {
         setCookie('iotcookie',new Date().toUTCString(),7);
         eth_salt = getCookie('iotcookie');
     }
-    init_wallet(eth_salt);
+    var callback=function(address) {
+        console.log('address' + address);
+        $('.address').html(address);
+        $('.address_val').val(address);
+    }
+    init_wallet(eth_salt, callback);
 }

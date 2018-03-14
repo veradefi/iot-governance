@@ -34,7 +34,7 @@
                   <label>Your wallet address</label>
              </div>
              <div class="col-md-3">
-                 <input name="walletAddress" matinput="" type="text" id="walletAddress" placeholder="" aria-invalid="false" aria-required="false">
+                 <span class="address"></span>
               </div>
         </div>
         <div class="row">
@@ -88,7 +88,7 @@
             </div>
             <div class="col-md-3">
               
-              <input name="admin1" matinput="" type="text" id="admin1" placeholder="" aria-invalid="false" aria-required="false">
+              <input name="admin1" class="address_val" type="text" id="admin1" placeholder="" aria-invalid="false" aria-required="false">
           
              </div>
         </div>
@@ -117,22 +117,40 @@
         <div class="row">
             <div class="col-md-3">
     
-              <label>Whitelist</label>
+              <label><h3>Whitelist</h3></label>
             </div>
-            <div class="col-md-3">
-                <input name="admin3" matinput="" type="text" id="admin3" placeholder="" aria-invalid="false" aria-required="false">
-            </div>
+            
         </div>
 
         <div class="row">
             <div class="col-md-3">
     
-              <label>Create Whitelist</label>
+              <label>Whitelist 1 Wallet Address</label>
               
             </div>
             <div class="col-md-3">
-                Yes
-                No
+              
+              <input name="whitelist1" class="address_val" type="text" id="whitelist1" placeholder="" aria-invalid="false" aria-required="false">
+          
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Whitelist 2 Wallet Address</label>
+            </div>
+            <div class="col-md-3">
+                <input name="whitelist2" matinput="" type="text" id="whitelist2" placeholder="" aria-invalid="false" aria-required="false">
+            </div>
+        </div>
+          
+        <div class="row">
+            <div class="col-md-3">
+    
+              <label>Whitelist 3 Wallet Address</label>
+            </div>
+            <div class="col-md-3">
+                <input name="whitelist3" matinput="" type="text" id="whitelist3" placeholder="" aria-invalid="false" aria-required="false">
             </div>
         </div>
 
@@ -155,7 +173,7 @@
                 <input name="fee" matinput="" max="50" min="0" size="6" type="number" id="fee" placeholder="" aria-invalid="false" aria-required="false">
             </div>
         </div>
-        <div class="row">
+        <div class="row" id='fee_struct' style="display:None;">
             <div class="col-md-3">    
 
                   <ul>
@@ -175,12 +193,15 @@
         </div>
         <div class="row">
             <div class="col-md-3">    
-                Distribute Tokens Automatically
+                Distributes Tokens Automatically
             </div>
+            <!--
             <div class="col-md-3">    
+                <select name='auto' id='auto'>
                 Yes
-                No
+                </select>
             </div>
+            //-->
         </div>
         
         <hr>
@@ -194,7 +215,19 @@
 </form>
 <script>
 var isPool=true;
-
+$( document ).ready(function() {
+    $('#fee').on('change', function(e) {
+        $('#fee_struct').show();
+        
+        var fee=parseFloat($('#fee').val());
+        var you=fee - 0.5;
+        var you_msg = you + '%';
+        $('#you').html(you_msg);
+        var total_msg = fee  + '%';
+        $('#total').html(total_msg);
+        
+    });
+});
 </script>
 <script src="js/app.js"></script>
 </body></html>
