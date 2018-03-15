@@ -190,10 +190,10 @@
               "id": 1181,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1536,
+              "referencedDeclaration": 1558,
               "src": "80:12:12",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1536",
+                "typeIdentifier": "t_contract$_Administered_$1558",
                 "typeString": "contract Administered"
               }
             },
@@ -204,7 +204,7 @@
         ],
         "contractDependencies": [
           93,
-          1536
+          1558
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -212,7 +212,7 @@
         "id": 1286,
         "linearizedBaseContracts": [
           1286,
-          1536
+          1558
         ],
         "name": "SmartNodeItem",
         "nodeType": "ContractDefinition",
@@ -401,10 +401,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1536,
+                  "referencedDeclaration": 1558,
                   "src": "241:12:12",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1536_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -716,7 +716,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4638,
+                        "referencedDeclaration": 4677,
                         "src": "510:3:12",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -927,7 +927,7 @@
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4699,
+                          "referencedDeclaration": 4738,
                           "src": "585:4:12",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_SmartNodeItem_$1286",
@@ -1158,7 +1158,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4638,
+                              "referencedDeclaration": 4677,
                               "src": "701:3:12",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1350,7 +1350,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4638,
+                              "referencedDeclaration": 4677,
                               "src": "771:3:12",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1639,10 +1639,10 @@
               "id": 1181,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1536,
+              "referencedDeclaration": 1558,
               "src": "80:12:12",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1536",
+                "typeIdentifier": "t_contract$_Administered_$1558",
                 "typeString": "contract Administered"
               }
             },
@@ -1653,7 +1653,7 @@
         ],
         "contractDependencies": [
           93,
-          1536
+          1558
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -1661,7 +1661,7 @@
         "id": 1286,
         "linearizedBaseContracts": [
           1286,
-          1536
+          1558
         ],
         "name": "SmartNodeItem",
         "nodeType": "ContractDefinition",
@@ -1850,10 +1850,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1536,
+                  "referencedDeclaration": 1558,
                   "src": "241:12:12",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1536_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -2165,7 +2165,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4638,
+                        "referencedDeclaration": 4677,
                         "src": "510:3:12",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -2376,7 +2376,7 @@
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4699,
+                          "referencedDeclaration": 4738,
                           "src": "585:4:12",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_SmartNodeItem_$1286",
@@ -2607,7 +2607,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4638,
+                              "referencedDeclaration": 4677,
                               "src": "701:3:12",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -2799,7 +2799,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4638,
+                              "referencedDeclaration": 4677,
                               "src": "771:3:12",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -3055,10 +3055,10 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0xb6b8bb44ccba108d3df9b572a06138fcf1138a28",
-      "transactionHash": "0xca26ef90a40e295b546b74188127e3bbbdb03391d3003d944c85ff598e3a6f7e"
+      "address": "0x4bf9487a48a5ca718e7d4c8eed09a153e042e93a",
+      "transactionHash": "0x1f519ecb3529309ba8ee4dbe0b64fdee7d2d30335ecfa241beeea8b12e3f0cbe"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-14T20:57:00.968Z"
+  "updatedAt": "2018-03-15T17:14:19.397Z"
 }

@@ -27,7 +27,11 @@ contract PoolKey is Key, Whitelisted {
       max_per_contrib=_max_per_contrib;
       min_per_contrib=_min_per_contrib;
       
-      members=_admins;
+      
+      for (uint k=0; k < _admins.length; k++) {
+          members.push(_admins[k]);
+      }
+      
 
       for (uint i=0; i < _whitelist.length; i++) {
           members.push(_whitelist[i]);

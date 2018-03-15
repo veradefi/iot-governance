@@ -26,20 +26,30 @@ contract SmartPoolKey is Administered
         return true;                
     }
     
-    function getSmartPoolKey(address beneficiary, uint max_contrib, uint max_per_contrib, uint min_per_contrib, address[] admins, address[] whitelist, uint fee) 
+    function getSmartPoolKey(address beneficiary) 
+    view
     public
+    returns (address) 
+    {
+        return smartPoolKeys[beneficiary];
+    }
+    
+    function addSmartPoolKey(address beneficiary, uint max_contrib, uint max_per_contrib, uint min_per_contrib, address[] admins, address[] whitelist, uint fee) 
+    public
+    returns (address)
     {
         require(beneficiary != 0x0);
         PoolKey key;
         if (smartPoolKeys[beneficiary] == address(0)) 
         {
             key = new PoolKey(vault, beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee);    
+            smartPoolKeys[beneficiary]=key;
         }
         else 
         {
             key = smartPoolKeys[beneficiary];
         }
-        
+        return key;
     }
     
 }
