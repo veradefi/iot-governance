@@ -19,8 +19,8 @@ import meta_artifacts from '../../build/contracts/MetaData.json'
 import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 
-//var providerUrl = "https://iotblock.io/rpc";
-var providerUrl = "http://localhost:8545";
+var providerUrl = "https://iotblock.io/rpc";
+//var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
