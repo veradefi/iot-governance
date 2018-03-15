@@ -122,7 +122,7 @@
         "id": 512,
         "nodeType": "ImportDirective",
         "scope": 550,
-        "sourceUnit": 2232,
+        "sourceUnit": 2254,
         "src": "26:33:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -136,10 +136,10 @@
               "id": 513,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2231,
+              "referencedDeclaration": 2253,
               "src": "219:7:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$2231",
+                "typeIdentifier": "t_contract$_Ownable_$2253",
                 "typeString": "contract Ownable"
               }
             },
@@ -149,7 +149,7 @@
           }
         ],
         "contractDependencies": [
-          2231
+          2253
         ],
         "contractKind": "contract",
         "documentation": "@title Migrations\n@dev This is a truffle contract, needed for truffle integration, not meant for use by Zeppelin users.",
@@ -157,7 +157,7 @@
         "id": 549,
         "linearizedBaseContracts": [
           549,
-          2231
+          2253
         ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
@@ -256,7 +256,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2205,
+                  "referencedDeclaration": 2227,
                   "src": "314:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -494,7 +494,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2205,
+                  "referencedDeclaration": 2227,
                   "src": "417:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -587,7 +587,7 @@
         "id": 512,
         "nodeType": "ImportDirective",
         "scope": 550,
-        "sourceUnit": 2232,
+        "sourceUnit": 2254,
         "src": "26:33:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -601,10 +601,10 @@
               "id": 513,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2231,
+              "referencedDeclaration": 2253,
               "src": "219:7:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$2231",
+                "typeIdentifier": "t_contract$_Ownable_$2253",
                 "typeString": "contract Ownable"
               }
             },
@@ -614,7 +614,7 @@
           }
         ],
         "contractDependencies": [
-          2231
+          2253
         ],
         "contractKind": "contract",
         "documentation": "@title Migrations\n@dev This is a truffle contract, needed for truffle integration, not meant for use by Zeppelin users.",
@@ -622,7 +622,7 @@
         "id": 549,
         "linearizedBaseContracts": [
           549,
-          2231
+          2253
         ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
@@ -721,7 +721,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2205,
+                  "referencedDeclaration": 2227,
                   "src": "314:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -959,7 +959,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2205,
+                  "referencedDeclaration": 2227,
                   "src": "417:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1033,10 +1033,10 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0x3f42fccd8b004603081312400fd8419a15610469",
+      "address": "0xa7e0b7bd584013e357bfbdb647f7bbdfa4a35e47",
       "transactionHash": "0x050af3167c2d828cbd6c1339d339b0a5f793fcfd3e0580ab8b525d16d3901c92"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-14T20:57:02.636Z"
+  "updatedAt": "2018-03-15T17:14:20.791Z"
 }
