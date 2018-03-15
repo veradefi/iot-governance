@@ -413,7 +413,7 @@
         "id": 697,
         "nodeType": "ImportDirective",
         "scope": 734,
-        "sourceUnit": 1727,
+        "sourceUnit": 1749,
         "src": "96:41:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -424,7 +424,7 @@
         "id": 698,
         "nodeType": "ImportDirective",
         "scope": 734,
-        "sourceUnit": 1961,
+        "sourceUnit": 1983,
         "src": "138:35:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -435,7 +435,7 @@
         "id": 699,
         "nodeType": "ImportDirective",
         "scope": 734,
-        "sourceUnit": 1537,
+        "sourceUnit": 1559,
         "src": "174:34:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -449,10 +449,10 @@
               "id": 700,
               "name": "CappedCrowdsale",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1726,
+              "referencedDeclaration": 1748,
               "src": "273:15:9",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CappedCrowdsale_$1726",
+                "typeIdentifier": "t_contract$_CappedCrowdsale_$1748",
                 "typeString": "contract CappedCrowdsale"
               }
             },
@@ -462,9 +462,9 @@
           }
         ],
         "contractDependencies": [
-          1536,
-          1726,
-          1960
+          1558,
+          1748,
+          1982
         ],
         "contractKind": "contract",
         "documentation": "@title IoT Smart Keys IO",
@@ -472,9 +472,9 @@
         "id": 733,
         "linearizedBaseContracts": [
           733,
-          1726,
-          1960,
-          1536
+          1748,
+          1982,
+          1558
         ],
         "name": "PublicOffering",
         "nodeType": "ContractDefinition",
@@ -514,10 +514,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1536,
+                  "referencedDeclaration": 1558,
                   "src": "437:12:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1536_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -560,10 +560,10 @@
                   "name": "CappedCrowdsale",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1726,
+                  "referencedDeclaration": 1748,
                   "src": "466:15:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_CappedCrowdsale_$1726_$",
+                    "typeIdentifier": "t_type$_t_contract$_CappedCrowdsale_$1748_$",
                     "typeString": "type(contract CappedCrowdsale)"
                   }
                 },
@@ -645,10 +645,10 @@
                   "name": "Crowdsale",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1960,
+                  "referencedDeclaration": 1982,
                   "src": "504:9:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Crowdsale_$1960_$",
+                    "typeIdentifier": "t_type$_t_contract$_Crowdsale_$1982_$",
                     "typeString": "type(contract Crowdsale)"
                   }
                 },
@@ -880,7 +880,7 @@
         "id": 697,
         "nodeType": "ImportDirective",
         "scope": 734,
-        "sourceUnit": 1727,
+        "sourceUnit": 1749,
         "src": "96:41:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -891,7 +891,7 @@
         "id": 698,
         "nodeType": "ImportDirective",
         "scope": 734,
-        "sourceUnit": 1961,
+        "sourceUnit": 1983,
         "src": "138:35:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -902,7 +902,7 @@
         "id": 699,
         "nodeType": "ImportDirective",
         "scope": 734,
-        "sourceUnit": 1537,
+        "sourceUnit": 1559,
         "src": "174:34:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -916,10 +916,10 @@
               "id": 700,
               "name": "CappedCrowdsale",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1726,
+              "referencedDeclaration": 1748,
               "src": "273:15:9",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CappedCrowdsale_$1726",
+                "typeIdentifier": "t_contract$_CappedCrowdsale_$1748",
                 "typeString": "contract CappedCrowdsale"
               }
             },
@@ -929,9 +929,9 @@
           }
         ],
         "contractDependencies": [
-          1536,
-          1726,
-          1960
+          1558,
+          1748,
+          1982
         ],
         "contractKind": "contract",
         "documentation": "@title IoT Smart Keys IO",
@@ -939,9 +939,9 @@
         "id": 733,
         "linearizedBaseContracts": [
           733,
-          1726,
-          1960,
-          1536
+          1748,
+          1982,
+          1558
         ],
         "name": "PublicOffering",
         "nodeType": "ContractDefinition",
@@ -981,10 +981,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1536,
+                  "referencedDeclaration": 1558,
                   "src": "437:12:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1536_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -1027,10 +1027,10 @@
                   "name": "CappedCrowdsale",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1726,
+                  "referencedDeclaration": 1748,
                   "src": "466:15:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_CappedCrowdsale_$1726_$",
+                    "typeIdentifier": "t_type$_t_contract$_CappedCrowdsale_$1748_$",
                     "typeString": "type(contract CappedCrowdsale)"
                   }
                 },
@@ -1112,10 +1112,10 @@
                   "name": "Crowdsale",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1960,
+                  "referencedDeclaration": 1982,
                   "src": "504:9:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Crowdsale_$1960_$",
+                    "typeIdentifier": "t_type$_t_contract$_Crowdsale_$1982_$",
                     "typeString": "type(contract Crowdsale)"
                   }
                 },
@@ -1328,10 +1328,10 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0xb24318efa4862ce6ccabf2595548eb6f9082df5f",
-      "transactionHash": "0x27440cec5578cf20a26916b325a2691416538c4a0a31fb5e7459a5e72d4396b3"
+      "address": "0x107ea6d46816617c3ed7c1123904b86b2a694194",
+      "transactionHash": "0x9c6576e059de3a847f85bd8ea61009456f8da13ca8bbab42f95768ff527b8e02"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-14T20:57:02.633Z"
+  "updatedAt": "2018-03-15T17:14:20.790Z"
 }

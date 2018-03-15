@@ -912,7 +912,7 @@
         "id": 736,
         "nodeType": "ImportDirective",
         "scope": 1069,
-        "sourceUnit": 2620,
+        "sourceUnit": 2642,
         "src": "26:23:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -923,7 +923,7 @@
         "id": 737,
         "nodeType": "ImportDirective",
         "scope": 1069,
-        "sourceUnit": 4627,
+        "sourceUnit": 4666,
         "src": "50:35:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -934,7 +934,7 @@
         "id": 738,
         "nodeType": "ImportDirective",
         "scope": 1069,
-        "sourceUnit": 2176,
+        "sourceUnit": 2198,
         "src": "86:29:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -948,10 +948,10 @@
               "id": 739,
               "name": "MintableToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4626,
+              "referencedDeclaration": 4665,
               "src": "138:13:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MintableToken_$4626",
+                "typeIdentifier": "t_contract$_MintableToken_$4665",
                 "typeString": "contract MintableToken"
               }
             },
@@ -961,15 +961,15 @@
           }
         ],
         "contractDependencies": [
-          1536,
-          2619,
-          2889,
-          3021,
-          3053,
-          3361,
-          4282,
-          4474,
-          4626
+          1558,
+          2641,
+          2928,
+          3060,
+          3092,
+          3400,
+          4321,
+          4513,
+          4665
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -977,14 +977,14 @@
         "id": 1068,
         "linearizedBaseContracts": [
           1068,
-          4626,
-          1536,
-          4474,
-          3361,
-          2889,
-          4282,
-          3021,
-          3053
+          4665,
+          1558,
+          4513,
+          3400,
+          2928,
+          4321,
+          3060,
+          3092
         ],
         "name": "SmartKey",
         "nodeType": "ContractDefinition",
@@ -996,10 +996,10 @@
               "id": 741,
               "name": "SafeMath",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2175,
+              "referencedDeclaration": 2197,
               "src": "166:8:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath_$2175",
+                "typeIdentifier": "t_contract$_SafeMath_$2197",
                 "typeString": "library SafeMath"
               }
             },
@@ -1309,7 +1309,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
               "typeString": "mapping(address => contract Key)"
             },
             "typeName": {
@@ -1327,7 +1327,7 @@
               "nodeType": "Mapping",
               "src": "662:24:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                 "typeString": "mapping(address => contract Key)"
               },
               "valueType": {
@@ -1335,10 +1335,10 @@
                 "id": 768,
                 "name": "Key",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 2619,
+                "referencedDeclaration": 2641,
                 "src": "682:3:10",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_Key_$2619",
+                  "typeIdentifier": "t_contract$_Key_$2641",
                   "typeString": "contract Key"
                 }
               }
@@ -1366,7 +1366,7 @@
                       "name": "admins",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1411,
+                      "referencedDeclaration": 1433,
                       "src": "876:6:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -1429,7 +1429,7 @@
                         "name": "admins",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1411,
+                        "referencedDeclaration": 1433,
                         "src": "921:6:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -1522,7 +1522,7 @@
                       "name": "mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4591,
+                      "referencedDeclaration": 4630,
                       "src": "940:4:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -1730,10 +1730,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1536,
+                  "referencedDeclaration": 1558,
                   "src": "794:12:10",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1536_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -1763,10 +1763,10 @@
                   "name": "MintableToken",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 4626,
+                  "referencedDeclaration": 4665,
                   "src": "825:13:10",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_MintableToken_$4626_$",
+                    "typeIdentifier": "t_type$_t_contract$_MintableToken_$4665_$",
                     "typeString": "type(contract MintableToken)"
                   }
                 },
@@ -1976,7 +1976,7 @@
                   "name": "onlyAdmin",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1462,
+                  "referencedDeclaration": 1484,
                   "src": "1210:9:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -2080,7 +2080,7 @@
                       "referencedDeclaration": 770,
                       "src": "1437:9:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                        "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                         "typeString": "mapping(address => contract Key)"
                       }
                     },
@@ -2105,7 +2105,7 @@
                     "nodeType": "IndexAccess",
                     "src": "1437:15:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2619",
+                      "typeIdentifier": "t_contract$_Key_$2641",
                       "typeString": "contract Key"
                     }
                   },
@@ -2171,7 +2171,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Key_$2619",
+                    "typeIdentifier": "t_contract$_Key_$2641",
                     "typeString": "contract Key"
                   },
                   "typeName": {
@@ -2179,10 +2179,10 @@
                     "id": 834,
                     "name": "Key",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2619,
+                    "referencedDeclaration": 2641,
                     "src": "1397:3:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2619",
+                      "typeIdentifier": "t_contract$_Key_$2641",
                       "typeString": "contract Key"
                     }
                   },
@@ -2216,7 +2216,7 @@
                           "name": "balances",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2806,
+                          "referencedDeclaration": 2845,
                           "src": "1589:8:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -2386,7 +2386,7 @@
                           "name": "balances",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2806,
+                          "referencedDeclaration": 2845,
                           "src": "1705:8:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -2577,7 +2577,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4638,
+                        "referencedDeclaration": 4677,
                         "src": "1889:3:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -2719,7 +2719,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4638,
+                          "referencedDeclaration": 4677,
                           "src": "2062:3:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2877,7 +2877,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4641,
+                      "referencedDeclaration": 4680,
                       "src": "2172:7:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2948,7 +2948,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4641,
+                      "referencedDeclaration": 4680,
                       "src": "2209:7:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3014,7 +3014,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4638,
+                      "referencedDeclaration": 4677,
                       "src": "2272:3:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -3196,7 +3196,7 @@
                             "stateVariable": false,
                             "storageLocation": "default",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             },
                             "typeName": {
@@ -3204,10 +3204,10 @@
                               "id": 923,
                               "name": "Key",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 2619,
+                              "referencedDeclaration": 2641,
                               "src": "2440:3:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Key_$2619",
+                                "typeIdentifier": "t_contract$_Key_$2641",
                                 "typeString": "contract Key"
                               }
                             },
@@ -3243,7 +3243,7 @@
                               "referencedDeclaration": 770,
                               "src": "2465:9:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                 "typeString": "mapping(address => contract Key)"
                               }
                             },
@@ -3268,7 +3268,7 @@
                             "nodeType": "IndexAccess",
                             "src": "2465:22:10",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             }
                           },
@@ -3358,7 +3358,7 @@
                                   "referencedDeclaration": 924,
                                   "src": "2714:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -3375,7 +3375,7 @@
                                     "referencedDeclaration": 770,
                                     "src": "2720:9:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                       "typeString": "mapping(address => contract Key)"
                                     }
                                   },
@@ -3400,13 +3400,13 @@
                                   "nodeType": "IndexAccess",
                                   "src": "2720:22:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
                                 "src": "2714:28:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_Key_$2619",
+                                  "typeIdentifier": "t_contract$_Key_$2641",
                                   "typeString": "contract Key"
                                 }
                               },
@@ -3441,7 +3441,7 @@
                                   "referencedDeclaration": 924,
                                   "src": "2534:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -3479,7 +3479,7 @@
                                     "nodeType": "NewExpression",
                                     "src": "2540:7:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Key_$2619_$",
+                                      "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Key_$2641_$",
                                       "typeString": "function (address) returns (contract Key)"
                                     },
                                     "typeName": {
@@ -3487,10 +3487,10 @@
                                       "id": 934,
                                       "name": "Key",
                                       "nodeType": "UserDefinedTypeName",
-                                      "referencedDeclaration": 2619,
+                                      "referencedDeclaration": 2641,
                                       "src": "2544:3:10",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_contract$_Key_$2619",
+                                        "typeIdentifier": "t_contract$_Key_$2641",
                                         "typeString": "contract Key"
                                       }
                                     }
@@ -3505,13 +3505,13 @@
                                   "nodeType": "FunctionCall",
                                   "src": "2540:14:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
                                 "src": "2534:20:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_Key_$2619",
+                                  "typeIdentifier": "t_contract$_Key_$2641",
                                   "typeString": "contract Key"
                                 }
                               },
@@ -3538,7 +3538,7 @@
                                     "referencedDeclaration": 770,
                                     "src": "2573:9:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                       "typeString": "mapping(address => contract Key)"
                                     }
                                   },
@@ -3563,7 +3563,7 @@
                                   "nodeType": "IndexAccess",
                                   "src": "2573:22:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -3578,13 +3578,13 @@
                                   "referencedDeclaration": 924,
                                   "src": "2598:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
                                 "src": "2573:28:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_Key_$2619",
+                                  "typeIdentifier": "t_contract$_Key_$2641",
                                   "typeString": "contract Key"
                                 }
                               },
@@ -3618,7 +3618,7 @@
                                     "referencedDeclaration": 924,
                                     "src": "2646:3:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_contract$_Key_$2619",
+                                      "typeIdentifier": "t_contract$_Key_$2641",
                                       "typeString": "contract Key"
                                     }
                                   }
@@ -3630,7 +3630,7 @@
                                       "typeString": "address"
                                     },
                                     {
-                                      "typeIdentifier": "t_contract$_Key_$2619",
+                                      "typeIdentifier": "t_contract$_Key_$2641",
                                       "typeString": "contract Key"
                                     }
                                   ],
@@ -3700,7 +3700,7 @@
                                   "name": "msg",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4638,
+                                  "referencedDeclaration": 4677,
                                   "src": "2793:3:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_magic_message",
@@ -3740,7 +3740,7 @@
                                   "referencedDeclaration": 924,
                                   "src": "2771:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -3751,7 +3751,7 @@
                                 "lValueRequested": false,
                                 "memberName": "activateKey",
                                 "nodeType": "MemberAccess",
-                                "referencedDeclaration": 2581,
+                                "referencedDeclaration": 2603,
                                 "src": "2771:15:10",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_external_payable$_t_address_$returns$__$",
@@ -3830,7 +3830,7 @@
                               "referencedDeclaration": 924,
                               "src": "2873:3:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Key_$2619",
+                                "typeIdentifier": "t_contract$_Key_$2641",
                                 "typeString": "contract Key"
                               }
                             }
@@ -3842,7 +3842,7 @@
                                 "typeString": "address"
                               },
                               {
-                                "typeIdentifier": "t_contract$_Key_$2619",
+                                "typeIdentifier": "t_contract$_Key_$2641",
                                 "typeString": "contract Key"
                               }
                             ],
@@ -3889,7 +3889,7 @@
                             "name": "tokenMinted",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4494,
+                            "referencedDeclaration": 4533,
                             "src": "2905:11:10",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -3928,7 +3928,7 @@
                                 "name": "tokenMinted",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4494,
+                                "referencedDeclaration": 4533,
                                 "src": "2919:11:10",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -3942,7 +3942,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 2174,
+                              "referencedDeclaration": 2196,
                               "src": "2919:15:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3989,7 +3989,7 @@
                               "name": "balances",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2806,
+                              "referencedDeclaration": 2845,
                               "src": "2969:8:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -4055,7 +4055,7 @@
                                   "name": "balances",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 2806,
+                                  "referencedDeclaration": 2845,
                                   "src": "2993:8:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -4094,7 +4094,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 2174,
+                              "referencedDeclaration": 2196,
                               "src": "2993:25:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -4171,7 +4171,7 @@
                             "name": "Mint",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4488,
+                            "referencedDeclaration": 4527,
                             "src": "3040:4:10",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -4302,7 +4302,7 @@
                             "name": "Transfer",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3052,
+                            "referencedDeclaration": 3091,
                             "src": "3079:8:10",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$__$",
@@ -4457,7 +4457,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4641,
+                      "referencedDeclaration": 4680,
                       "src": "3255:7:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -4505,7 +4505,7 @@
                         "referencedDeclaration": 770,
                         "src": "3305:9:10",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                           "typeString": "mapping(address => contract Key)"
                         }
                       },
@@ -4530,7 +4530,7 @@
                       "nodeType": "IndexAccess",
                       "src": "3305:22:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Key_$2619",
+                        "typeIdentifier": "t_contract$_Key_$2641",
                         "typeString": "contract Key"
                       }
                     },
@@ -4626,7 +4626,7 @@
                               "referencedDeclaration": 770,
                               "src": "3366:9:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                 "typeString": "mapping(address => contract Key)"
                               }
                             },
@@ -4651,7 +4651,7 @@
                             "nodeType": "IndexAccess",
                             "src": "3366:22:10",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             }
                           },
@@ -4666,13 +4666,13 @@
                             "referencedDeclaration": 1012,
                             "src": "3391:3:10",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             }
                           },
                           "src": "3366:28:10",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Key_$2619",
+                            "typeIdentifier": "t_contract$_Key_$2641",
                             "typeString": "contract Key"
                           }
                         },
@@ -4699,7 +4699,7 @@
                   "name": "onlyAdmin",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1462,
+                  "referencedDeclaration": 1484,
                   "src": "3220:9:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -4726,7 +4726,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Key_$2619",
+                    "typeIdentifier": "t_contract$_Key_$2641",
                     "typeString": "contract Key"
                   },
                   "typeName": {
@@ -4734,10 +4734,10 @@
                     "id": 1011,
                     "name": "Key",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2619,
+                    "referencedDeclaration": 2641,
                     "src": "3185:3:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2619",
+                      "typeIdentifier": "t_contract$_Key_$2641",
                       "typeString": "contract Key"
                     }
                   },
@@ -4802,7 +4802,7 @@
                         "name": "rate",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4499,
+                        "referencedDeclaration": 4538,
                         "src": "3538:4:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -4837,7 +4837,7 @@
                       "lValueRequested": false,
                       "memberName": "mul",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2112,
+                      "referencedDeclaration": 2134,
                       "src": "3527:10:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -4961,7 +4961,7 @@
                         "name": "rate",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4499,
+                        "referencedDeclaration": 4538,
                         "src": "3666:4:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -4996,7 +4996,7 @@
                       "lValueRequested": false,
                       "memberName": "div",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2130,
+                      "referencedDeclaration": 2152,
                       "src": "3655:10:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -5138,7 +5138,7 @@
         "id": 736,
         "nodeType": "ImportDirective",
         "scope": 1069,
-        "sourceUnit": 2620,
+        "sourceUnit": 2642,
         "src": "26:23:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5149,7 +5149,7 @@
         "id": 737,
         "nodeType": "ImportDirective",
         "scope": 1069,
-        "sourceUnit": 4627,
+        "sourceUnit": 4666,
         "src": "50:35:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5160,7 +5160,7 @@
         "id": 738,
         "nodeType": "ImportDirective",
         "scope": 1069,
-        "sourceUnit": 2176,
+        "sourceUnit": 2198,
         "src": "86:29:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5174,10 +5174,10 @@
               "id": 739,
               "name": "MintableToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4626,
+              "referencedDeclaration": 4665,
               "src": "138:13:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MintableToken_$4626",
+                "typeIdentifier": "t_contract$_MintableToken_$4665",
                 "typeString": "contract MintableToken"
               }
             },
@@ -5187,15 +5187,15 @@
           }
         ],
         "contractDependencies": [
-          1536,
-          2619,
-          2889,
-          3021,
-          3053,
-          3361,
-          4282,
-          4474,
-          4626
+          1558,
+          2641,
+          2928,
+          3060,
+          3092,
+          3400,
+          4321,
+          4513,
+          4665
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -5203,14 +5203,14 @@
         "id": 1068,
         "linearizedBaseContracts": [
           1068,
-          4626,
-          1536,
-          4474,
-          3361,
-          2889,
-          4282,
-          3021,
-          3053
+          4665,
+          1558,
+          4513,
+          3400,
+          2928,
+          4321,
+          3060,
+          3092
         ],
         "name": "SmartKey",
         "nodeType": "ContractDefinition",
@@ -5222,10 +5222,10 @@
               "id": 741,
               "name": "SafeMath",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2175,
+              "referencedDeclaration": 2197,
               "src": "166:8:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath_$2175",
+                "typeIdentifier": "t_contract$_SafeMath_$2197",
                 "typeString": "library SafeMath"
               }
             },
@@ -5535,7 +5535,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
               "typeString": "mapping(address => contract Key)"
             },
             "typeName": {
@@ -5553,7 +5553,7 @@
               "nodeType": "Mapping",
               "src": "662:24:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                 "typeString": "mapping(address => contract Key)"
               },
               "valueType": {
@@ -5561,10 +5561,10 @@
                 "id": 768,
                 "name": "Key",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 2619,
+                "referencedDeclaration": 2641,
                 "src": "682:3:10",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_Key_$2619",
+                  "typeIdentifier": "t_contract$_Key_$2641",
                   "typeString": "contract Key"
                 }
               }
@@ -5592,7 +5592,7 @@
                       "name": "admins",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1411,
+                      "referencedDeclaration": 1433,
                       "src": "876:6:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -5655,7 +5655,7 @@
                         "name": "admins",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1411,
+                        "referencedDeclaration": 1433,
                         "src": "921:6:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -5748,7 +5748,7 @@
                       "name": "mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4591,
+                      "referencedDeclaration": 4630,
                       "src": "940:4:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -5956,10 +5956,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1536,
+                  "referencedDeclaration": 1558,
                   "src": "794:12:10",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1536_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -5989,10 +5989,10 @@
                   "name": "MintableToken",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 4626,
+                  "referencedDeclaration": 4665,
                   "src": "825:13:10",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_MintableToken_$4626_$",
+                    "typeIdentifier": "t_type$_t_contract$_MintableToken_$4665_$",
                     "typeString": "type(contract MintableToken)"
                   }
                 },
@@ -6202,7 +6202,7 @@
                   "name": "onlyAdmin",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1462,
+                  "referencedDeclaration": 1484,
                   "src": "1210:9:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -6306,7 +6306,7 @@
                       "referencedDeclaration": 770,
                       "src": "1437:9:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                        "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                         "typeString": "mapping(address => contract Key)"
                       }
                     },
@@ -6331,7 +6331,7 @@
                     "nodeType": "IndexAccess",
                     "src": "1437:15:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2619",
+                      "typeIdentifier": "t_contract$_Key_$2641",
                       "typeString": "contract Key"
                     }
                   },
@@ -6397,7 +6397,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Key_$2619",
+                    "typeIdentifier": "t_contract$_Key_$2641",
                     "typeString": "contract Key"
                   },
                   "typeName": {
@@ -6405,10 +6405,10 @@
                     "id": 834,
                     "name": "Key",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2619,
+                    "referencedDeclaration": 2641,
                     "src": "1397:3:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2619",
+                      "typeIdentifier": "t_contract$_Key_$2641",
                       "typeString": "contract Key"
                     }
                   },
@@ -6442,7 +6442,7 @@
                           "name": "balances",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2806,
+                          "referencedDeclaration": 2845,
                           "src": "1589:8:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -6612,7 +6612,7 @@
                           "name": "balances",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2806,
+                          "referencedDeclaration": 2845,
                           "src": "1705:8:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -6803,7 +6803,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4638,
+                        "referencedDeclaration": 4677,
                         "src": "1889:3:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -6945,7 +6945,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4638,
+                          "referencedDeclaration": 4677,
                           "src": "2062:3:10",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -7103,7 +7103,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4641,
+                      "referencedDeclaration": 4680,
                       "src": "2172:7:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -7174,7 +7174,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4641,
+                      "referencedDeclaration": 4680,
                       "src": "2209:7:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -7240,7 +7240,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4638,
+                      "referencedDeclaration": 4677,
                       "src": "2272:3:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -7422,7 +7422,7 @@
                             "stateVariable": false,
                             "storageLocation": "default",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             },
                             "typeName": {
@@ -7430,10 +7430,10 @@
                               "id": 923,
                               "name": "Key",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 2619,
+                              "referencedDeclaration": 2641,
                               "src": "2440:3:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Key_$2619",
+                                "typeIdentifier": "t_contract$_Key_$2641",
                                 "typeString": "contract Key"
                               }
                             },
@@ -7469,7 +7469,7 @@
                               "referencedDeclaration": 770,
                               "src": "2465:9:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                 "typeString": "mapping(address => contract Key)"
                               }
                             },
@@ -7494,7 +7494,7 @@
                             "nodeType": "IndexAccess",
                             "src": "2465:22:10",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             }
                           },
@@ -7584,7 +7584,7 @@
                                   "referencedDeclaration": 924,
                                   "src": "2714:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -7601,7 +7601,7 @@
                                     "referencedDeclaration": 770,
                                     "src": "2720:9:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                       "typeString": "mapping(address => contract Key)"
                                     }
                                   },
@@ -7626,13 +7626,13 @@
                                   "nodeType": "IndexAccess",
                                   "src": "2720:22:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
                                 "src": "2714:28:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_Key_$2619",
+                                  "typeIdentifier": "t_contract$_Key_$2641",
                                   "typeString": "contract Key"
                                 }
                               },
@@ -7667,7 +7667,7 @@
                                   "referencedDeclaration": 924,
                                   "src": "2534:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -7705,7 +7705,7 @@
                                     "nodeType": "NewExpression",
                                     "src": "2540:7:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Key_$2619_$",
+                                      "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Key_$2641_$",
                                       "typeString": "function (address) returns (contract Key)"
                                     },
                                     "typeName": {
@@ -7713,10 +7713,10 @@
                                       "id": 934,
                                       "name": "Key",
                                       "nodeType": "UserDefinedTypeName",
-                                      "referencedDeclaration": 2619,
+                                      "referencedDeclaration": 2641,
                                       "src": "2544:3:10",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_contract$_Key_$2619",
+                                        "typeIdentifier": "t_contract$_Key_$2641",
                                         "typeString": "contract Key"
                                       }
                                     }
@@ -7731,13 +7731,13 @@
                                   "nodeType": "FunctionCall",
                                   "src": "2540:14:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
                                 "src": "2534:20:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_Key_$2619",
+                                  "typeIdentifier": "t_contract$_Key_$2641",
                                   "typeString": "contract Key"
                                 }
                               },
@@ -7764,7 +7764,7 @@
                                     "referencedDeclaration": 770,
                                     "src": "2573:9:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                      "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                       "typeString": "mapping(address => contract Key)"
                                     }
                                   },
@@ -7789,7 +7789,7 @@
                                   "nodeType": "IndexAccess",
                                   "src": "2573:22:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -7804,13 +7804,13 @@
                                   "referencedDeclaration": 924,
                                   "src": "2598:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
                                 "src": "2573:28:10",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_Key_$2619",
+                                  "typeIdentifier": "t_contract$_Key_$2641",
                                   "typeString": "contract Key"
                                 }
                               },
@@ -7844,7 +7844,7 @@
                                     "referencedDeclaration": 924,
                                     "src": "2646:3:10",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_contract$_Key_$2619",
+                                      "typeIdentifier": "t_contract$_Key_$2641",
                                       "typeString": "contract Key"
                                     }
                                   }
@@ -7856,7 +7856,7 @@
                                       "typeString": "address"
                                     },
                                     {
-                                      "typeIdentifier": "t_contract$_Key_$2619",
+                                      "typeIdentifier": "t_contract$_Key_$2641",
                                       "typeString": "contract Key"
                                     }
                                   ],
@@ -7926,7 +7926,7 @@
                                   "name": "msg",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4638,
+                                  "referencedDeclaration": 4677,
                                   "src": "2793:3:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_magic_message",
@@ -7966,7 +7966,7 @@
                                   "referencedDeclaration": 924,
                                   "src": "2771:3:10",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_Key_$2619",
+                                    "typeIdentifier": "t_contract$_Key_$2641",
                                     "typeString": "contract Key"
                                   }
                                 },
@@ -7977,7 +7977,7 @@
                                 "lValueRequested": false,
                                 "memberName": "activateKey",
                                 "nodeType": "MemberAccess",
-                                "referencedDeclaration": 2581,
+                                "referencedDeclaration": 2603,
                                 "src": "2771:15:10",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_external_payable$_t_address_$returns$__$",
@@ -8056,7 +8056,7 @@
                               "referencedDeclaration": 924,
                               "src": "2873:3:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Key_$2619",
+                                "typeIdentifier": "t_contract$_Key_$2641",
                                 "typeString": "contract Key"
                               }
                             }
@@ -8068,7 +8068,7 @@
                                 "typeString": "address"
                               },
                               {
-                                "typeIdentifier": "t_contract$_Key_$2619",
+                                "typeIdentifier": "t_contract$_Key_$2641",
                                 "typeString": "contract Key"
                               }
                             ],
@@ -8115,7 +8115,7 @@
                             "name": "tokenMinted",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4494,
+                            "referencedDeclaration": 4533,
                             "src": "2905:11:10",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -8154,7 +8154,7 @@
                                 "name": "tokenMinted",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4494,
+                                "referencedDeclaration": 4533,
                                 "src": "2919:11:10",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -8168,7 +8168,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 2174,
+                              "referencedDeclaration": 2196,
                               "src": "2919:15:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -8215,7 +8215,7 @@
                               "name": "balances",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2806,
+                              "referencedDeclaration": 2845,
                               "src": "2969:8:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -8281,7 +8281,7 @@
                                   "name": "balances",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 2806,
+                                  "referencedDeclaration": 2845,
                                   "src": "2993:8:10",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -8320,7 +8320,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 2174,
+                              "referencedDeclaration": 2196,
                               "src": "2993:25:10",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -8397,7 +8397,7 @@
                             "name": "Mint",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4488,
+                            "referencedDeclaration": 4527,
                             "src": "3040:4:10",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -8528,7 +8528,7 @@
                             "name": "Transfer",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3052,
+                            "referencedDeclaration": 3091,
                             "src": "3079:8:10",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$__$",
@@ -8683,7 +8683,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4641,
+                      "referencedDeclaration": 4680,
                       "src": "3255:7:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -8731,7 +8731,7 @@
                         "referencedDeclaration": 770,
                         "src": "3305:9:10",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                           "typeString": "mapping(address => contract Key)"
                         }
                       },
@@ -8756,7 +8756,7 @@
                       "nodeType": "IndexAccess",
                       "src": "3305:22:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Key_$2619",
+                        "typeIdentifier": "t_contract$_Key_$2641",
                         "typeString": "contract Key"
                       }
                     },
@@ -8852,7 +8852,7 @@
                               "referencedDeclaration": 770,
                               "src": "3366:9:10",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2619_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_contract$_Key_$2641_$",
                                 "typeString": "mapping(address => contract Key)"
                               }
                             },
@@ -8877,7 +8877,7 @@
                             "nodeType": "IndexAccess",
                             "src": "3366:22:10",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             }
                           },
@@ -8892,13 +8892,13 @@
                             "referencedDeclaration": 1012,
                             "src": "3391:3:10",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_Key_$2619",
+                              "typeIdentifier": "t_contract$_Key_$2641",
                               "typeString": "contract Key"
                             }
                           },
                           "src": "3366:28:10",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Key_$2619",
+                            "typeIdentifier": "t_contract$_Key_$2641",
                             "typeString": "contract Key"
                           }
                         },
@@ -8925,7 +8925,7 @@
                   "name": "onlyAdmin",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1462,
+                  "referencedDeclaration": 1484,
                   "src": "3220:9:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -8952,7 +8952,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Key_$2619",
+                    "typeIdentifier": "t_contract$_Key_$2641",
                     "typeString": "contract Key"
                   },
                   "typeName": {
@@ -8960,10 +8960,10 @@
                     "id": 1011,
                     "name": "Key",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2619,
+                    "referencedDeclaration": 2641,
                     "src": "3185:3:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2619",
+                      "typeIdentifier": "t_contract$_Key_$2641",
                       "typeString": "contract Key"
                     }
                   },
@@ -9028,7 +9028,7 @@
                         "name": "rate",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4499,
+                        "referencedDeclaration": 4538,
                         "src": "3538:4:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -9063,7 +9063,7 @@
                       "lValueRequested": false,
                       "memberName": "mul",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2112,
+                      "referencedDeclaration": 2134,
                       "src": "3527:10:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -9187,7 +9187,7 @@
                         "name": "rate",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4499,
+                        "referencedDeclaration": 4538,
                         "src": "3666:4:10",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -9222,7 +9222,7 @@
                       "lValueRequested": false,
                       "memberName": "div",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2130,
+                      "referencedDeclaration": 2152,
                       "src": "3655:10:10",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -9345,10 +9345,10 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0xa2b50a9f812f00334aaeb429980a670737ee5ee8",
-      "transactionHash": "0x14fcdbef578092a3d813e96a6adf1d68bff4587ca991de8ab145e5777766d71f"
+      "address": "0x1e88349a323150d693d8a5b61d35a7d7681f3460",
+      "transactionHash": "0x543d0150827e4cd743d0c2c29a937586aa17a021ff040d832a2fe5d5f28eb924"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-14T20:57:02.639Z"
+  "updatedAt": "2018-03-15T17:14:20.796Z"
 }

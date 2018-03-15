@@ -20,7 +20,7 @@
 </script>
 </head>
 <body>
-<form>
+<form id="page1">
         <div class="row">
              <div class="col-md-12">
                   <label><h3>Token Distribution Pool</h3></label>
@@ -34,7 +34,7 @@
                   <label>Your wallet address</label>
              </div>
              <div class="col-md-3">
-                 <span class="address"></span>
+                 <input name="address" class="address_val" type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
               </div>
         </div>
         <div class="row">
@@ -50,7 +50,7 @@
              </div>
              <div class="col-md-3">
     
-                    <input name="maxAllocation" matinput="" type="text" id="maxAllocation" placeholder="" aria-invalid="false" aria-required="false">
+                    <input name="max_contrib" matinput="" type="text" id="max_contrib" value='100000' placeholder="" aria-invalid="false" aria-required="false">
              </div>
         </div>
         <div class="row">
@@ -58,7 +58,7 @@
                 <label>Maximum Per Contributor (ETH)</label>
             </div>
              <div class="col-md-3">
-                <input name="maxPerContributor" matinput="" type="text" id="maxPerContributor" placeholder="" aria-invalid="false" aria-required="false">
+                <input name="max_per_contribr" matinput="" type="text" id="max_per_contrib"  value='100000' placeholder="" aria-invalid="false" aria-required="false">
              </div>
         </div>
         <div class="row">
@@ -66,7 +66,7 @@
                 <label>Minimum Per Contributor (ETH)</label>
             </div>
              <div class="col-md-3">
-                <input name="minPerContributor" matinput="" type="text" id="minPerContributor" placeholder="" aria-invalid="false" aria-required="false">
+                <input name="min_per_contrib" matinput="" type="text" id="min_per_contrib" value='1' placeholder="" aria-invalid="false" aria-required="false">
             </div>
         </div>
 
@@ -208,9 +208,15 @@
 
         <div class="row">
             <div class="col-md-12">    
-                <input type=submit value='Submit'>
+                <button type="button" id='pool' class="btn btn-accent">Create Key Pool</button>
             </div>
         </div>
+
+</form>
+<form id="page2" style="display:none;">
+<h3>Pool Key Contract Address</h3>
+
+<h4 id='poolkey'></h4>
 
 </form>
 <script>
@@ -226,6 +232,50 @@ $( document ).ready(function() {
         var total_msg = fee  + '%';
         $('#total').html(total_msg);
         
+        
+        
+    });
+    
+    function page2(address) {
+        
+        $('#page1').hide();
+        $('#page2').show();
+        $('#poolkey').html(address);
+        
+    
+    }
+    $('#pool').on('click', function (e) {
+        var fee=Math.round(1 / parseFloat($('#fee').val() / 100));
+        var whitelist=[];
+        var admins=[];
+        if ($('#whitelist1').val().length > 0) {
+            whitelist.push($('#whitelist1').val());
+        }
+        if ($('#whitelist2').val().length > 0) {
+            whitelist.push($('#whitelist2').val());
+        }
+        if ($('#whitelist3').val().length > 0) {
+            whitelist.push($('#whitelist3').val());
+        }
+        
+        if ($('#admin1').val().length > 0) {
+            admins.push($('#admin1').val());
+        }
+        if ($('#admin2').val().length > 0) {
+            admins.push($('#admin2').val());
+        }
+        if ($('#admin3').val().length > 0) {
+            admins.push($('#admin3').val());
+        }
+        
+        var max_contrib=parseInt($('#max_contrib').val());
+        var max_per_contrib=parseInt($('#max_per_contrib').val());
+        var min_per_contrib=parseInt($('#min_per_contrib').val());
+        
+        var beneficiary=$('#address').val();
+        
+        var address=get_pool(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, page2);
+         
     });
 });
 </script>

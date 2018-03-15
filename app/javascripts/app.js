@@ -17,11 +17,16 @@ import db_artifacts from '../../build/contracts/GraphRoot.json'
 import node_artifacts from '../../build/contracts/GraphNode.json'
 import meta_artifacts from '../../build/contracts/MetaData.json'
 import item_artifacts from '../../build/contracts/CatalogueItem.json'
+import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
+var host=providerUrl;
     
 var shajs = require('sha.js')
 
-function create_wallet(eth_salt, call_back) {        
+window.create_wallet = function(eth_salt, call_back) {        
+
         var user="0x" + shajs('sha224').update(eth_salt).digest('hex');    
         var bip39 = require("bip39");
         var hdkey = require('ethereumjs-wallet/hdkey');
@@ -46,39 +51,35 @@ function create_wallet(eth_salt, call_back) {
         window.web3 = new Web3(engine);
         engine.start(); // Required by the provider engine.
         
-        //console.log(window.address);
+         console.log(window.address);
     	    call_back(window.address);
 }
 
 window.init_wallet = function(eth_salt, call_back) 
 {
     if (typeof eth_salt !== 'undefined') {
-            
-        //var providerUrl = "https://iotblock.io/rpc";
-        var providerUrl = "http://localhost:8545";
-        var host=providerUrl;
         
         var hasAccount=false;
      
         if (typeof web3 !== 'undefined') {
-          Web3.web3Provider = web3.currentProvider;
-          web3 = new Web3(web3.currentProvider);
-          window.web3=web3;
-          
-          web3.eth.getAccounts().then(function(accounts) {
-       	  	if (typeof accounts !== 'undefined' && accounts.length > 0) { 
-          	  window.accounts=accounts;
-            	  window.account=window.accounts[0];
-            	  window.address=window.accounts[0];
-            	  console.log(window.accounts);
-            	  console.log(window.account);
-            	  hasAccount=true;
-            	  //console.log(window.address);
-            	  call_back(window.address);
-        	  	} else {
-            	  	create_wallet(eth_salt, call_back); 
-        	  	}
-	    });
+              Web3.web3Provider = web3.currentProvider;
+              web3 = new Web3(web3.currentProvider);
+              window.web3=web3;
+              
+              web3.eth.getAccounts().then(function(accounts) {
+               	if (typeof accounts !== 'undefined' && accounts.length > 0) { 
+                      	  window.accounts=accounts;
+                    	  window.account=window.accounts[0];
+                    	  window.address=window.accounts[0];
+                    	  console.log(window.accounts);
+                    	  console.log(window.account);
+                    	  hasAccount=true;
+                    	  //console.log(window.address);
+                    	  call_back(window.address);
+            	  	} else {
+                	  	  create_wallet(eth_salt, call_back); 
+            	  	}
+        	     });
 	  
         } else {
             create_wallet(eth_salt, call_back);
@@ -253,6 +254,40 @@ window.get_graph = function(eth_salt)
     }
 }
 
+
+
+window.get_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, callback) 
+{
+       var SmartPoolKey = contract(pool_artifacts);                
+       SmartPoolKey.setProvider(window.web3.currentProvider);
+ 
+        if (fee == 'Infinity' || fee < 1) 
+            fee=1;
+            
+        console.log(beneficiary + ' , ' + max_contrib + ' , ' + max_per_contrib + ' , ' + min_per_contrib + ' , ' + admins + ' , ' + whitelist + ' , ' + fee);
+        
+      
+        window.addSmartPoolKey = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee) {
+             return SmartPoolKey.deployed().then(function(contractInstance) {
+             
+                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, {from: window.address}).then(function(address) {
+                    return contractInstance.getSmartPoolKey.call(beneficiary, {from: window.address}).then(function(address) {
+                  
+                            console.log(address);
+                            return address;
+                    });
+                
+                });
+             });
+        }
+
+        addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee).then(function(address) {
+            callback(address);
+        });
+        
+}
+
+
 function syntaxHighlight(json) {
     if (typeof json != 'string') {
          json = JSON.stringify(json, undefined, 2);
@@ -297,6 +332,7 @@ function getCookie(name) {
 }
 
 if (typeof isWeb !== 'undefined') {
+
     var eth_salt = getCookie('iotcookie');
     if (eth_salt == null) {
         setCookie('iotcookie',new Date().toUTCString(),7);
