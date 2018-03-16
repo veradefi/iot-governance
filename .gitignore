@@ -1,4 +1,5 @@
 accounts/
+server/browser-tools/htdocs/js/contracts/
 bin/
 build/
 *.swp
