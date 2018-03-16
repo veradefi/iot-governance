@@ -34,7 +34,7 @@ contract SmartPoolKey is Administered
         return smartPoolKeys[beneficiary];
     }
     
-    function addSmartPoolKey(address beneficiary, uint max_contrib, uint max_per_contrib, uint min_per_contrib, address[] admins, address[] whitelist, uint fee) 
+    function addSmartPoolKey(address beneficiary, uint max_contrib, uint max_per_contrib, uint min_per_contrib, address[] admins, bool _has_whitelist, uint fee) 
     public
     returns (address)
     {
@@ -42,7 +42,7 @@ contract SmartPoolKey is Administered
         PoolKey key;
         if (smartPoolKeys[beneficiary] == address(0)) 
         {
-            key = new PoolKey(vault, beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee);    
+            key = new PoolKey(vault, beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, _has_whitelist, fee);    
             smartPoolKeys[beneficiary]=key;
         }
         else 
