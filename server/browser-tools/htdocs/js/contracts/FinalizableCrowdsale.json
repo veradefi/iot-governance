@@ -369,9 +369,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\nimport '../math/SafeMath.sol';\nimport '../admin/Administered.sol';\nimport './Crowdsale.sol';\n\n/**\n * @title FinalizableCrowdsale\n * @dev Extension of Crowsdale where an owner can do extra work\n * after finishing. \n */\n \ncontract FinalizableCrowdsale is Crowdsale {\n  using SafeMath for uint256;\n\n  bool public isFinalized = false;\n\n  event Finalized();\n\n  /**\n   * @dev Must be called after crowdsale ends, to do some extra finalization\n   * work. Calls the contract's finalization function.\n   */\n  function finalize() \n  public\n  onlyAdmin \n  {\n    require(!isFinalized);\n    require(hasEnded());\n\n    finalization();\n    Finalized();\n    \n    isFinalized = true;\n  }\n\n  /**\n   * @dev Can be overriden to add finalization logic. The overriding function\n   * should call super.finalization() to ensure the chain of finalization is\n   * executed entirely.\n   */\n  function finalization()\n  pure\n  internal {\n  }\n  \n}\n",
-  "sourcePath": "/home/richard/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
   "ast": {
-    "absolutePath": "/home/richard/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
     "exportedSymbols": {
       "FinalizableCrowdsale": [
         2028
@@ -392,7 +392,7 @@
         "src": "0:24:18"
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1985,
         "nodeType": "ImportDirective",
@@ -403,7 +403,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1986,
         "nodeType": "ImportDirective",
@@ -414,7 +414,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1987,
         "nodeType": "ImportDirective",
@@ -901,7 +901,7 @@
     "src": "0:1013:18"
   },
   "legacyAST": {
-    "absolutePath": "/home/richard/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
     "exportedSymbols": {
       "FinalizableCrowdsale": [
         2028
@@ -922,7 +922,7 @@
         "src": "0:24:18"
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1985,
         "nodeType": "ImportDirective",
@@ -933,7 +933,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1986,
         "nodeType": "ImportDirective",
@@ -944,7 +944,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1987,
         "nodeType": "ImportDirective",
@@ -1436,5 +1436,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-15T17:14:12.794Z"
+  "updatedAt": "2018-03-15T17:34:55.647Z"
 }

@@ -1,14 +1,14 @@
 {
   "contractName": "Math",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058204454bdc22ebc13d57083c79109f206bb79473db1714a031089ccb0971ff7e9470029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058204454bdc22ebc13d57083c79109f206bb79473db1714a031089ccb0971ff7e9470029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058209e49f3e38bb58d3b8845ec8c1229f1d18975044ec3e7660a53be241ce6d03d110029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058209e49f3e38bb58d3b8845ec8c1229f1d18975044ec3e7660a53be241ce6d03d110029",
   "sourceMap": "83:429:19:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "83:429:19:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\n\n/**\n * @title Math\n * @dev Assorted math operations\n */\nlibrary Math {\n  function max64(uint64 a, uint64 b) internal pure returns (uint64) {\n    return a >= b ? a : b;\n  }\n\n  function min64(uint64 a, uint64 b) internal pure returns (uint64) {\n    return a < b ? a : b;\n  }\n\n  function max256(uint256 a, uint256 b) internal pure returns (uint256) {\n    return a >= b ? a : b;\n  }\n\n  function min256(uint256 a, uint256 b) internal pure returns (uint256) {\n    return a < b ? a : b;\n  }\n}\n",
-  "sourcePath": "/home/richard/iotblock/contracts/math/Math.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/math/Math.sol",
   "ast": {
-    "absolutePath": "/home/richard/iotblock/contracts/math/Math.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/math/Math.sol",
     "exportedSymbols": {
       "Math": [
         2099
@@ -869,7 +869,7 @@
     "src": "0:513:19"
   },
   "legacyAST": {
-    "absolutePath": "/home/richard/iotblock/contracts/math/Math.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/math/Math.sol",
     "exportedSymbols": {
       "Math": [
         2099
@@ -1735,5 +1735,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-15T17:14:12.794Z"
+  "updatedAt": "2018-03-15T17:34:55.647Z"
 }
