@@ -891,9 +891,9 @@
           34,
           322,
           694,
-          1558,
-          2253,
-          2641
+          1557,
+          2252,
+          2640
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -902,11 +902,11 @@
         "linearizedBaseContracts": [
           341,
           322,
-          2641,
-          2253,
+          2640,
+          2252,
           34,
           694,
-          1558
+          1557
         ],
         "name": "GraphRoot",
         "nodeType": "ContractDefinition",
@@ -1120,9 +1120,9 @@
           34,
           322,
           694,
-          1558,
-          2253,
-          2641
+          1557,
+          2252,
+          2640
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -1131,11 +1131,11 @@
         "linearizedBaseContracts": [
           341,
           322,
-          2641,
-          2253,
+          2640,
+          2252,
           34,
           694,
-          1558
+          1557
         ],
         "name": "GraphRoot",
         "nodeType": "ContractDefinition",
@@ -1300,10 +1300,10 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0x9e73e52cc4eeec82e52c271b6edc98b7a404bbdc",
-      "transactionHash": "0x8b46d48c8338151c949cfc5ce8bff7498a828a13d9332f1b8195ebdba65acc4f"
+      "address": "0xf8bfc1a47b398c48854565dcf5a204f36ca14989",
+      "transactionHash": "0x7ca23b3b91282192a24fdd95d5c3acf2fdf8760701b431f43fabea31e315a4fe"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-16T17:04:05.310Z"
+  "updatedAt": "2018-03-16T18:50:32.584Z"
 }

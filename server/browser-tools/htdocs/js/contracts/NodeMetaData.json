@@ -241,7 +241,7 @@
         "id": 551,
         "nodeType": "ImportDirective",
         "scope": 695,
-        "sourceUnit": 1559,
+        "sourceUnit": 1558,
         "src": "0:34:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -288,10 +288,10 @@
               "id": 555,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1558,
+              "referencedDeclaration": 1557,
               "src": "205:12:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1558",
+                "typeIdentifier": "t_contract$_Administered_$1557",
                 "typeString": "contract Administered"
               }
             },
@@ -302,7 +302,7 @@
         ],
         "contractDependencies": [
           509,
-          1558
+          1557
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -310,7 +310,7 @@
         "id": 694,
         "linearizedBaseContracts": [
           694,
-          1558
+          1557
         ],
         "name": "NodeMetaData",
         "nodeType": "ContractDefinition",
@@ -510,10 +510,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1558,
+                  "referencedDeclaration": 1557,
                   "src": "489:12:8",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1557_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -802,7 +802,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Key_$2641",
+                        "typeIdentifier": "t_contract$_Key_$2640",
                         "typeString": "contract Key"
                       },
                       "typeName": {
@@ -810,10 +810,10 @@
                         "id": 607,
                         "name": "Key",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 2641,
+                        "referencedDeclaration": 2640,
                         "src": "857:3:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Key_$2641",
+                          "typeIdentifier": "t_contract$_Key_$2640",
                           "typeString": "contract Key"
                         }
                       },
@@ -833,7 +833,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4803,
+                          "referencedDeclaration": 4839,
                           "src": "881:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -885,7 +885,7 @@
                       "referencedDeclaration": 842,
                       "src": "865:15:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_contract$_Key_$2641_$",
+                        "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_contract$_Key_$2640_$",
                         "typeString": "function (address) view external returns (contract Key)"
                       }
                     },
@@ -899,7 +899,7 @@
                     "nodeType": "FunctionCall",
                     "src": "865:27:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2641",
+                      "typeIdentifier": "t_contract$_Key_$2640",
                       "typeString": "contract Key"
                     }
                   },
@@ -972,7 +972,7 @@
                         "referencedDeclaration": 608,
                         "src": "916:3:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Key_$2641",
+                          "typeIdentifier": "t_contract$_Key_$2640",
                           "typeString": "contract Key"
                         }
                       },
@@ -983,7 +983,7 @@
                       "lValueRequested": false,
                       "memberName": "getHash",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2640,
+                      "referencedDeclaration": 2639,
                       "src": "916:11:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_pure$_t_string_memory_ptr_$returns$_t_bytes32_$",
@@ -1297,7 +1297,7 @@
                           "name": "admins",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1433,
+                          "referencedDeclaration": 1432,
                           "src": "1043:6:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -1320,7 +1320,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4840,
+                                  "referencedDeclaration": 4876,
                                   "src": "1084:4:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NodeMetaData_$694",
@@ -1427,7 +1427,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4803,
+                                "referencedDeclaration": 4839,
                                 "src": "1117:3:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -1546,7 +1546,7 @@
                                 "name": "admins",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 1433,
+                                "referencedDeclaration": 1432,
                                 "src": "1172:6:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -1810,7 +1810,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4803,
+                            "referencedDeclaration": 4839,
                             "src": "1352:3:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -2046,7 +2046,7 @@
         "id": 551,
         "nodeType": "ImportDirective",
         "scope": 695,
-        "sourceUnit": 1559,
+        "sourceUnit": 1558,
         "src": "0:34:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2093,10 +2093,10 @@
               "id": 555,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1558,
+              "referencedDeclaration": 1557,
               "src": "205:12:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1558",
+                "typeIdentifier": "t_contract$_Administered_$1557",
                 "typeString": "contract Administered"
               }
             },
@@ -2107,7 +2107,7 @@
         ],
         "contractDependencies": [
           509,
-          1558
+          1557
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -2115,7 +2115,7 @@
         "id": 694,
         "linearizedBaseContracts": [
           694,
-          1558
+          1557
         ],
         "name": "NodeMetaData",
         "nodeType": "ContractDefinition",
@@ -2315,10 +2315,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1558,
+                  "referencedDeclaration": 1557,
                   "src": "489:12:8",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1557_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -2607,7 +2607,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Key_$2641",
+                        "typeIdentifier": "t_contract$_Key_$2640",
                         "typeString": "contract Key"
                       },
                       "typeName": {
@@ -2615,10 +2615,10 @@
                         "id": 607,
                         "name": "Key",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 2641,
+                        "referencedDeclaration": 2640,
                         "src": "857:3:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Key_$2641",
+                          "typeIdentifier": "t_contract$_Key_$2640",
                           "typeString": "contract Key"
                         }
                       },
@@ -2638,7 +2638,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4803,
+                          "referencedDeclaration": 4839,
                           "src": "881:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2690,7 +2690,7 @@
                       "referencedDeclaration": 842,
                       "src": "865:15:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_contract$_Key_$2641_$",
+                        "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_contract$_Key_$2640_$",
                         "typeString": "function (address) view external returns (contract Key)"
                       }
                     },
@@ -2704,7 +2704,7 @@
                     "nodeType": "FunctionCall",
                     "src": "865:27:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Key_$2641",
+                      "typeIdentifier": "t_contract$_Key_$2640",
                       "typeString": "contract Key"
                     }
                   },
@@ -2777,7 +2777,7 @@
                         "referencedDeclaration": 608,
                         "src": "916:3:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Key_$2641",
+                          "typeIdentifier": "t_contract$_Key_$2640",
                           "typeString": "contract Key"
                         }
                       },
@@ -2788,7 +2788,7 @@
                       "lValueRequested": false,
                       "memberName": "getHash",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2640,
+                      "referencedDeclaration": 2639,
                       "src": "916:11:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_pure$_t_string_memory_ptr_$returns$_t_bytes32_$",
@@ -3102,7 +3102,7 @@
                           "name": "admins",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1433,
+                          "referencedDeclaration": 1432,
                           "src": "1043:6:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -3125,7 +3125,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4840,
+                                  "referencedDeclaration": 4876,
                                   "src": "1084:4:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NodeMetaData_$694",
@@ -3232,7 +3232,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4803,
+                                "referencedDeclaration": 4839,
                                 "src": "1117:3:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -3351,7 +3351,7 @@
                                 "name": "admins",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 1433,
+                                "referencedDeclaration": 1432,
                                 "src": "1172:6:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_array$_t_address_$dyn_storage",
@@ -3615,7 +3615,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4803,
+                            "referencedDeclaration": 4839,
                             "src": "1352:3:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -3841,5 +3841,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-16T17:03:58.496Z"
+  "updatedAt": "2018-03-16T18:50:26.291Z"
 }

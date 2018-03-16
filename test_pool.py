@@ -47,7 +47,8 @@ whitelist=admins
 fee=int(round(1/0.05))
 #address, uint256, uint256, uint256, address[], address[], uint256
 print (address3, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee)
-print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee))
+has_whitelist=False
+print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee))
 poolkey=spk.call({ 'from': address}).getSmartPoolKey(address3)
 print(poolkey)
 pk=getContract('PoolKey', network, address=poolkey, prefix='pki_')
@@ -65,5 +66,5 @@ print ('Member Contribution',pk.call({ 'from': address}).isMember(address))
 print ('Total Contribution',pk.call({ 'from': address}).contrib_amount())
 print ('Sent',amount);
 print ('Received',pk.call({ 'from': address}).received(address))
-
+print ('Transactions',pk.call({ 'from': address}).transactions(address, 1))
 
