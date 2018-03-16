@@ -584,10 +584,10 @@
               "id": 97,
               "name": "Key",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2641,
+              "referencedDeclaration": 2640,
               "src": "144:3:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Key_$2641",
+                "typeIdentifier": "t_contract$_Key_$2640",
                 "typeString": "contract Key"
               }
             },
@@ -602,10 +602,10 @@
               "id": 99,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1558,
+              "referencedDeclaration": 1557,
               "src": "149:12:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1558",
+                "typeIdentifier": "t_contract$_Administered_$1557",
                 "typeString": "contract Administered"
               }
             },
@@ -615,9 +615,9 @@
           }
         ],
         "contractDependencies": [
-          1558,
-          2253,
-          2641
+          1557,
+          2252,
+          2640
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -625,9 +625,9 @@
         "id": 123,
         "linearizedBaseContracts": [
           123,
-          1558,
-          2641,
-          2253
+          1557,
+          2640,
+          2252
         ],
         "name": "GraphBase",
         "nodeType": "ContractDefinition",
@@ -742,10 +742,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1558,
+                  "referencedDeclaration": 1557,
                   "src": "267:12:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1557_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -762,7 +762,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4803,
+                      "referencedDeclaration": 4839,
                       "src": "300:3:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -791,10 +791,10 @@
                   "name": "Key",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2641,
+                  "referencedDeclaration": 2640,
                   "src": "296:3:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Key_$2641_$",
+                    "typeIdentifier": "t_type$_t_contract$_Key_$2640_$",
                     "typeString": "type(contract Key)"
                   }
                 },
@@ -936,10 +936,10 @@
               "id": 97,
               "name": "Key",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2641,
+              "referencedDeclaration": 2640,
               "src": "144:3:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Key_$2641",
+                "typeIdentifier": "t_contract$_Key_$2640",
                 "typeString": "contract Key"
               }
             },
@@ -954,10 +954,10 @@
               "id": 99,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1558,
+              "referencedDeclaration": 1557,
               "src": "149:12:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1558",
+                "typeIdentifier": "t_contract$_Administered_$1557",
                 "typeString": "contract Administered"
               }
             },
@@ -967,9 +967,9 @@
           }
         ],
         "contractDependencies": [
-          1558,
-          2253,
-          2641
+          1557,
+          2252,
+          2640
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -977,9 +977,9 @@
         "id": 123,
         "linearizedBaseContracts": [
           123,
-          1558,
-          2641,
-          2253
+          1557,
+          2640,
+          2252
         ],
         "name": "GraphBase",
         "nodeType": "ContractDefinition",
@@ -1094,10 +1094,10 @@
                   "name": "Administered",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1558,
+                  "referencedDeclaration": 1557,
                   "src": "267:12:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Administered_$1558_$",
+                    "typeIdentifier": "t_type$_t_contract$_Administered_$1557_$",
                     "typeString": "type(contract Administered)"
                   }
                 },
@@ -1114,7 +1114,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4803,
+                      "referencedDeclaration": 4839,
                       "src": "300:3:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -1143,10 +1143,10 @@
                   "name": "Key",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2641,
+                  "referencedDeclaration": 2640,
                   "src": "296:3:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_Key_$2641_$",
+                    "typeIdentifier": "t_type$_t_contract$_Key_$2640_$",
                     "typeString": "type(contract Key)"
                   }
                 },
@@ -1253,5 +1253,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-16T17:03:58.493Z"
+  "updatedAt": "2018-03-16T18:50:26.288Z"
 }
