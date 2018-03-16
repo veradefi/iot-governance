@@ -1080,7 +1080,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4677,
+                      "referencedDeclaration": 4730,
                       "src": "395:3:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -2108,7 +2108,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4677,
+                            "referencedDeclaration": 4730,
                             "src": "1563:3:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -3088,7 +3088,7 @@
                                   "name": "msg",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4677,
+                                  "referencedDeclaration": 4730,
                                   "src": "2398:3:3",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_magic_message",
@@ -3582,7 +3582,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4677,
+                      "referencedDeclaration": 4730,
                       "src": "395:3:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -4610,7 +4610,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4677,
+                            "referencedDeclaration": 4730,
                             "src": "1563:3:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -5590,7 +5590,7 @@
                                   "name": "msg",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4677,
+                                  "referencedDeclaration": 4730,
                                   "src": "2398:3:3",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_magic_message",
@@ -5844,5 +5844,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-16T09:22:46.995Z"
+  "updatedAt": "2018-03-16T10:48:48.155Z"
 }

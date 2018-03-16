@@ -833,7 +833,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4677,
+                          "referencedDeclaration": 4730,
                           "src": "881:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1320,7 +1320,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4714,
+                                  "referencedDeclaration": 4767,
                                   "src": "1084:4:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NodeMetaData_$694",
@@ -1427,7 +1427,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4677,
+                                "referencedDeclaration": 4730,
                                 "src": "1117:3:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -1810,7 +1810,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4677,
+                            "referencedDeclaration": 4730,
                             "src": "1352:3:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -2638,7 +2638,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4677,
+                          "referencedDeclaration": 4730,
                           "src": "881:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -3125,7 +3125,7 @@
                                   "name": "this",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 4714,
+                                  "referencedDeclaration": 4767,
                                   "src": "1084:4:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_contract$_NodeMetaData_$694",
@@ -3232,7 +3232,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4677,
+                                "referencedDeclaration": 4730,
                                 "src": "1117:3:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -3615,7 +3615,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4677,
+                            "referencedDeclaration": 4730,
                             "src": "1352:3:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -3841,5 +3841,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-16T09:22:39.864Z"
+  "updatedAt": "2018-03-16T10:48:41.301Z"
 }
