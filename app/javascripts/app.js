@@ -12,12 +12,15 @@ if (typeof eth_salt == 'undefined') {
 import { default as Web3 } from 'web3';
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 var contract = require("truffle-contract");
+var BigNumber = require('bignumber.js');
+
 import sk_artifacts from '../../build/contracts/SmartKey.json'
 import db_artifacts from '../../build/contracts/GraphRoot.json'
 import node_artifacts from '../../build/contracts/GraphNode.json'
 import meta_artifacts from '../../build/contracts/MetaData.json'
 import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
+import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 
 var providerUrl = "https://iotblock.io/rpc";
 //var providerUrl = "http://localhost:8545";
@@ -256,35 +259,120 @@ window.get_graph = function(eth_salt)
 
 
 
-window.get_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, callback) 
+window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, callback) 
 {
+      max_contrib= new BigNumber(max_contrib);
+      max_per_contrib= new BigNumber(max_per_contrib);
+      min_per_contrib= new BigNumber(min_per_contrib);
+      
        var SmartPoolKey = contract(pool_artifacts);                
        SmartPoolKey.setProvider(window.web3.currentProvider);
  
         if (fee == 'Infinity' || fee < 1) 
             fee=1;
             
-        console.log(beneficiary + ' , ' + max_contrib + ' , ' + max_per_contrib + ' , ' + min_per_contrib + ' , ' + admins + ' , ' + whitelist + ' , ' + fee);
+        console.log(beneficiary + ' , ' + max_contrib + ' , ' + max_per_contrib + ' , ' + min_per_contrib + ' , ' + admins + ' , ' + has_whitelist + ' , ' + fee);
         
       
-        window.addSmartPoolKey = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee) {
-             return SmartPoolKey.deployed().then(function(contractInstance) {
+        return SmartPoolKey.deployed().then(function(contractInstance) {
              
-                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, {from: window.address}).then(function(address) {
+                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, {from: window.address}).then(function(address) {
                     return contractInstance.getSmartPoolKey.call(beneficiary, {from: window.address}).then(function(address) {
-                  
+                          
                             console.log(address);
-                            return address;
+                            callback(address);
                     });
                 
                 });
-             });
-        }
+         });
 
-        addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee).then(function(address) {
-            callback(address);
-        });
         
+}
+
+window.get_pool = function(poolkey, callback) 
+{
+    if (poolkey != '0x0') {
+       var PoolKey = contract(poolkey_artifacts);                
+       PoolKey.setProvider(window.web3.currentProvider);
+       
+        return PoolKey.at(poolkey).then(function(contractInstance) {
+             
+            return contractInstance.isMember.call(window.address).then(function(eth_sent) {
+                 return contractInstance.contrib_amount.call().then(function(contrib_total) {
+                    return contractInstance.max_contrib.call().then(function(max_contrib) {
+                        return contractInstance.max_per_contrib.call().then(function(max_per_contrib) {
+                            return contractInstance.min_per_contrib.call().then(function(min_per_contrib) {
+                                return contractInstance.fee.call().then(function(fee) {
+                                    return contractInstance.received.call(window.address).then(function(received) {
+                                        console.log('got member info');
+                                    
+                                       var eth1=1000000000000000000;
+                                       eth_sent /= eth1;
+                                       contrib_total /= eth1;
+                                       max_contrib /= eth1
+                                       max_per_contrib /= eth1;
+                                       min_per_contrib /= eth1;
+                                       received /= eth1;
+                                        callback(poolkey,
+                                                 parseInt(eth_sent.toString()), 
+                                                 parseInt(contrib_total.toString()), 
+                                                 parseInt(max_contrib.toString()), 
+                                                 parseInt(max_per_contrib.toString()), 
+                                                 parseInt(min_per_contrib.toString()), 
+                                                 1/parseFloat(fee.toString()) * 100,
+                                                 parseInt(received));
+                                    });                
+
+                                });                
+                            });                
+                        });
+                    });
+                });
+            
+            });
+         });
+
+    }        
+}
+
+
+
+
+window.get_pool_transactions = function(poolkey, callback) 
+{
+    if (poolkey != '0x0') {
+       var PoolKey = contract(poolkey_artifacts);                
+       PoolKey.setProvider(window.web3.currentProvider);
+       
+        return PoolKey.at(poolkey).then(function(contractInstance) {
+            window.get_one_transaction=function(contractInstance, idx) {
+                contractInstance.transactions.call(window.address, idx).then(function(v) {
+                    var sender=v[0];
+                    var date=v[1];
+                    var amount=v[2];
+                    if (sender.toString() != '0x0' || date != 0) {
+                        callback(sender, date.toString(), amount.toString());                        
+                        get_one_transaction(contractInstance, idx+1);
+                    } else {
+                        return;
+                    }
+                    
+                }).catch(function(error) {
+                  console.log('End of History');
+                });
+                
+            }
+            get_one_transaction(contractInstance, 0);
+        });
+
+    }        
+}
+
+window.send_ether = function(pooladdress, amount)
+{
+    if (pooladdress != '0x0') {
+        window.web3.eth.sendTransaction({ 'from' :window.address, 'to':pooladdress, 'value':amount});
+    }
 }
 
 
