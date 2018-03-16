@@ -63,6 +63,7 @@ print ('Shared Contribution',share, round(float(share)/amount*100),'% PurePL',fl
 print ('Fee',float(1)/pk.call({ 'from': address}).fee() * 100,'%') 
 print ('Member Contribution',pk.call({ 'from': address}).isMember(address))
 print ('Total Contribution',pk.call({ 'from': address}).contrib_amount())
-
+print ('Sent',amount);
+print ('Received',pk.call({ 'from': address}).received(address))
 
 

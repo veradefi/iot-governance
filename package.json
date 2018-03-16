@@ -49,6 +49,7 @@
     "ajax-request": "^1.2.3",
     "babel": "^6.23.0",
     "babel-polyfill": "^6.26.0",
+    "bignumber.js": "^6.0.0",
     "bip39": "^2.5.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.9.0",
