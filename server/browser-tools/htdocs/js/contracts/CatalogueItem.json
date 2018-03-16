@@ -299,7 +299,7 @@
         "id": 37,
         "nodeType": "ImportDirective",
         "scope": 94,
-        "sourceUnit": 1559,
+        "sourceUnit": 1558,
         "src": "95:34:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -338,7 +338,7 @@
         ],
         "contractDependencies": [
           694,
-          1558
+          1557
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -347,7 +347,7 @@
         "linearizedBaseContracts": [
           93,
           694,
-          1558
+          1557
         ],
         "name": "CatalogueItem",
         "nodeType": "ContractDefinition",
@@ -660,7 +660,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4842,
+                            "referencedDeclaration": 4878,
                             "src": "829:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_CatalogueItem_$93",
@@ -719,7 +719,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4803,
+                            "referencedDeclaration": 4839,
                             "src": "810:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1045,7 +1045,7 @@
         "id": 37,
         "nodeType": "ImportDirective",
         "scope": 94,
-        "sourceUnit": 1559,
+        "sourceUnit": 1558,
         "src": "95:34:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1084,7 +1084,7 @@
         ],
         "contractDependencies": [
           694,
-          1558
+          1557
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -1093,7 +1093,7 @@
         "linearizedBaseContracts": [
           93,
           694,
-          1558
+          1557
         ],
         "name": "CatalogueItem",
         "nodeType": "ContractDefinition",
@@ -1406,7 +1406,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4842,
+                            "referencedDeclaration": 4878,
                             "src": "829:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_CatalogueItem_$93",
@@ -1465,7 +1465,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4803,
+                            "referencedDeclaration": 4839,
                             "src": "810:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1770,5 +1770,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-16T17:04:04.480Z"
+  "updatedAt": "2018-03-16T18:50:31.788Z"
 }

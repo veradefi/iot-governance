@@ -147,15 +147,33 @@
                         </div>
                     </div>
                     
+                    
                     <hr>
                     
                     <div class="row">
                         <div class="col-md-12">
                 
                           <label><h3>Whitelist</h3></label>
+                          
+                                              
                         </div>
                         
                     </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right >
+                          <label>Enable Whitelist</label>
+                        </div>
+                        <div class="col-md-6" align=left valign=middle>
+                            <span class="m-switch m-switch--info">
+												<label>
+						                        <input type="checkbox" id="has_whitelist" value="Yes">
+						                        <span></span>
+						                        </label>
+						                    </span>
+                        </div>
+                    </div>
+                    
+                    <!-- 
             
                     <div class="row">
                         <div class="col-md-6" align=right>
@@ -188,7 +206,7 @@
                             <input name="whitelist3" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="whitelist3" placeholder="" aria-invalid="false" aria-required="false">
                         </div>
                     </div>
-            
+                    -->
                     <hr>
                     
                     <div class="row">
@@ -393,6 +411,9 @@
                            <div class="m-portlet__head">
                                <br>
                                <center><h3>Transactions</h3></center> 
+                                <hr>
+                               <div id='transactions'>
+                               </div>
                            </div>
                 </div>
             </div>
@@ -432,7 +453,6 @@ $( document ).ready(function() {
        
         console.log(eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee);
        $('.eth_sent').html(eth_sent);
-       //$('.contrib_total').html(contrib_total);
        $('.max_contrib').html( max_contrib);
        $('.max_per_contrib').html(max_per_contrib);
        $('.min_per_contrib').html(min_per_contrib);
@@ -456,8 +476,22 @@ $( document ).ready(function() {
                send_ether(address, amt);
        });       
        
+       get_pool_transactions(address, fill_page2_transactions);
     }  
-    
+
+    function fill_page2_transactions(sender, date, amount) {
+            console.log(sender, date, amount);
+            var dateTime = new Date(parseInt(date) * 1000);
+            date=dateTime.toISOString(); 
+            var eth1=1000000000000000000;
+            var html ="<div class=row><div class=col-md-4>";
+            html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+            html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
+            html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
+            html +="</div><hr><br>";
+            
+            $('#transactions').append(html);
+    }    
     function page2(address) {
              
        $('#page1').hide();
@@ -471,6 +505,8 @@ $( document ).ready(function() {
         var fee=Math.round(1 / parseFloat($('#fee').val() / 100));
         var whitelist=[];
         var admins=[];
+        var has_whitelist=false;
+        /*
         if ($('#whitelist1').val().length > 0) {
             whitelist.push($('#whitelist1').val());
         }
@@ -479,6 +515,10 @@ $( document ).ready(function() {
         }
         if ($('#whitelist3').val().length > 0) {
             whitelist.push($('#whitelist3').val());
+        }
+        */
+        if ($('#has_whitelist')[0].checked) {
+            has_whitelist=true;
         }
         
         if ($('#admin1').val().length > 0) {
@@ -498,7 +538,7 @@ $( document ).ready(function() {
         
         var beneficiary=$('#address').val();
         
-        add_pool(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, page2);
+        add_pool(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, page2);
    
     });
     

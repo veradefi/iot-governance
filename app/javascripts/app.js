@@ -22,8 +22,8 @@ import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 
-//var providerUrl = "https://iotblock.io/rpc";
-var providerUrl = "http://localhost:8545";
+var providerUrl = "https://iotblock.io/rpc";
+//var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -259,7 +259,7 @@ window.get_graph = function(eth_salt)
 
 
 
-window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, callback) 
+window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, callback) 
 {
       max_contrib= new BigNumber(max_contrib);
       max_per_contrib= new BigNumber(max_per_contrib);
@@ -271,12 +271,12 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
         if (fee == 'Infinity' || fee < 1) 
             fee=1;
             
-        console.log(beneficiary + ' , ' + max_contrib + ' , ' + max_per_contrib + ' , ' + min_per_contrib + ' , ' + admins + ' , ' + whitelist + ' , ' + fee);
+        console.log(beneficiary + ' , ' + max_contrib + ' , ' + max_per_contrib + ' , ' + min_per_contrib + ' , ' + admins + ' , ' + has_whitelist + ' , ' + fee);
         
       
         return SmartPoolKey.deployed().then(function(contractInstance) {
              
-                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee, {from: window.address}).then(function(address) {
+                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, {from: window.address}).then(function(address) {
                     return contractInstance.getSmartPoolKey.call(beneficiary, {from: window.address}).then(function(address) {
                           
                             console.log(address);
@@ -331,6 +331,39 @@ window.get_pool = function(poolkey, callback)
             
             });
          });
+
+    }        
+}
+
+
+
+
+window.get_pool_transactions = function(poolkey, callback) 
+{
+    if (poolkey != '0x0') {
+       var PoolKey = contract(poolkey_artifacts);                
+       PoolKey.setProvider(window.web3.currentProvider);
+       
+        return PoolKey.at(poolkey).then(function(contractInstance) {
+            window.get_one_transaction=function(contractInstance, idx) {
+                contractInstance.transactions.call(window.address, idx).then(function(v) {
+                    var sender=v[0];
+                    var date=v[1];
+                    var amount=v[2];
+                    if (sender.toString() != '0x0' || date != 0) {
+                        callback(sender, date.toString(), amount.toString());                        
+                        get_one_transaction(contractInstance, idx+1);
+                    } else {
+                        return;
+                    }
+                    
+                }).catch(function(error) {
+                  console.log('End of History');
+                });
+                
+            }
+            get_one_transaction(contractInstance, 0);
+        });
 
     }        
 }
