@@ -85,9 +85,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\n\n\n/**\n * @title ERC20Basic\n * @dev Simpler version of ERC20 interface\n * @dev see https://github.com/ethereum/EIPs/issues/179\n */\ncontract ERC20Basic {\n  function totalSupply() public view returns (uint256);\n  function balanceOf(address who) public view returns (uint256);\n  function transfer(address to, uint256 value) public returns (bool);\n  event Transfer(address indexed from, address indexed to, uint256 value);\n}\n",
-  "sourcePath": "/home/richard/iotblock/contracts/token/ERC20/ERC20Basic.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/token/ERC20/ERC20Basic.sol",
   "ast": {
-    "absolutePath": "/home/richard/iotblock/contracts/token/ERC20/ERC20Basic.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC20/ERC20Basic.sol",
     "exportedSymbols": {
       "ERC20Basic": [
         3092
@@ -468,7 +468,7 @@
     "src": "0:445:28"
   },
   "legacyAST": {
-    "absolutePath": "/home/richard/iotblock/contracts/token/ERC20/ERC20Basic.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC20/ERC20Basic.sol",
     "exportedSymbols": {
       "ERC20Basic": [
         3092
@@ -854,5 +854,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-15T17:14:12.799Z"
+  "updatedAt": "2018-03-15T17:34:55.652Z"
 }
