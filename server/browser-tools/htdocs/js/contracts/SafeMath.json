@@ -1,14 +1,14 @@
 {
   "contractName": "SafeMath",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a7230582030395dc7bee9c7350f6ba32b978412e061667a423b30e848fbf601d2a43b48490029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a7230582030395dc7bee9c7350f6ba32b978412e061667a423b30e848fbf601d2a43b48490029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058206da90ea1b9fe115668c3484a594c89ecdbe57c7cbd9895bc30c18eb0acfaa8d20029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058206da90ea1b9fe115668c3484a594c89ecdbe57c7cbd9895bc30c18eb0acfaa8d20029",
   "sourceMap": "117:1022:20:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "117:1022:20:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\n\n/**\n * @title SafeMath\n * @dev Math operations with safety checks that throw on error\n */\nlibrary SafeMath {\n\n  /**\n  * @dev Multiplies two numbers, throws on overflow.\n  */\n  function mul(uint256 a, uint256 b) internal pure returns (uint256) {\n    if (a == 0) {\n      return 0;\n    }\n    uint256 c = a * b;\n    assert(c / a == b);\n    return c;\n  }\n\n  /**\n  * @dev Integer division of two numbers, truncating the quotient.\n  */\n  function div(uint256 a, uint256 b) internal pure returns (uint256) {\n    // assert(b > 0); // Solidity automatically throws when dividing by 0\n    uint256 c = a / b;\n    // assert(a == b * c + a % b); // There is no case in which this doesn't hold\n    return c;\n  }\n\n  /**\n  * @dev Substracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).\n  */\n  function sub(uint256 a, uint256 b) internal pure returns (uint256) {\n    assert(b <= a);\n    return a - b;\n  }\n\n  /**\n  * @dev Adds two numbers, throws on overflow.\n  */\n  function add(uint256 a, uint256 b) internal pure returns (uint256) {\n    uint256 c = a + b;\n    assert(c >= a);\n    return c;\n  }\n}\n",
-  "sourcePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
   "ast": {
-    "absolutePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
     "exportedSymbols": {
       "SafeMath": [
         2197
@@ -1233,7 +1233,7 @@
     "src": "0:1140:20"
   },
   "legacyAST": {
-    "absolutePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
     "exportedSymbols": {
       "SafeMath": [
         2197
@@ -2465,10 +2465,10 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0x1fb87cc7da145f86cbfd8d0bf2a419bfb9f853d1",
-      "transactionHash": "0xb7d37599281ea69691d36f56dd26e1c386f164aa36e757665aa999f24aa4c1c4"
+      "address": "0x8d1663fdd9e05060ede55c9dcf3b574f4420c399",
+      "transactionHash": "0x536fd52bffb1aab01c381a8bf2a55a608276d9552270f02fe64cafb82411c3dc"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-15T17:14:20.071Z"
+  "updatedAt": "2018-03-15T17:35:03.321Z"
 }

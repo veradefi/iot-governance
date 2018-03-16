@@ -369,9 +369,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\nimport '../math/SafeMath.sol';\nimport './Crowdsale.sol';\nimport \"../admin/Administered.sol\";\n\n/**\n * @title CappedCrowdsale\n * @dev Extension of Crowdsale with a max amount of funds raised\n */\ncontract CappedCrowdsale is Crowdsale {\n  using SafeMath for uint256;\n\n  uint256 public cap;\n\n  function CappedCrowdsale(uint256 _cap, address[] adminAddress)\n  public \n  Administered(adminAddress)\n  {\n    require(_cap > 0);\n    cap = _cap;\n  }\n\n  // overriding Crowdsale#hasEnded to add cap logic\n  // @return true if crowdsale event has ended\n  function hasEnded() public view returns (bool) {\n    bool capReached = weiRaised >= cap;\n    return capReached;\n  }\n\n  // overriding Crowdsale#validPurchase to add extra cap logic\n  // @return true if investors can buy at the moment\n  function validPurchase() internal view returns (bool) {\n    bool withinCap = weiRaised.add(msg.value) <= cap;\n    return withinCap;\n  }\n\n}\n",
-  "sourcePath": "/home/richard/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
   "ast": {
-    "absolutePath": "/home/richard/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
     "exportedSymbols": {
       "CappedCrowdsale": [
         1748
@@ -392,7 +392,7 @@
         "src": "0:24:16"
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1684,
         "nodeType": "ImportDirective",
@@ -403,7 +403,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1685,
         "nodeType": "ImportDirective",
@@ -414,7 +414,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1686,
         "nodeType": "ImportDirective",
@@ -1180,7 +1180,7 @@
     "src": "0:1010:16"
   },
   "legacyAST": {
-    "absolutePath": "/home/richard/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
     "exportedSymbols": {
       "CappedCrowdsale": [
         1748
@@ -1201,7 +1201,7 @@
         "src": "0:24:16"
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1684,
         "nodeType": "ImportDirective",
@@ -1212,7 +1212,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1685,
         "nodeType": "ImportDirective",
@@ -1223,7 +1223,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/richard/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1686,
         "nodeType": "ImportDirective",
@@ -1994,5 +1994,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-15T17:14:12.793Z"
+  "updatedAt": "2018-03-15T17:34:55.646Z"
 }
