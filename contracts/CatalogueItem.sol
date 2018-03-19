@@ -34,7 +34,7 @@ contract CatalogueItem is NodeMetaData {
   payable
   returns (bool)
   {
-      SmartKey(smartKey).getSmartKey.value(msg.value)(address(this));
+      SmartKey(smartKey).addSmartKey.value(msg.value)(address(this));
       
       href=_href;
       return true;      

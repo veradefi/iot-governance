@@ -44,15 +44,6 @@ contract SmartKey is MintableToken
     }
     
     
-    function getKey(address user) 	
-    public
-    view
-    returns (Key) 
-    {    
-        
-        return smartKeys[user];
-        
-    }
   
     function getBalanceInEth(address addr) 	
     public
@@ -84,11 +75,11 @@ contract SmartKey is MintableToken
     public
     payable 
     {
-        getSmartKey(msg.sender);
+        addSmartKey(msg.sender);
     }
 
     
-    function getSmartKey(address beneficiary) 
+    function addSmartKey(address beneficiary) 
     public
     payable 
     {
@@ -138,6 +129,16 @@ contract SmartKey is MintableToken
             smartKeys[beneficiary] = key;
         }
     
+    }
+
+    function getSmartKey(address user) 	
+    public
+    view
+    returns (Key) 
+    {    
+        
+        return smartKeys[user];
+        
     }
         
     function convertToWei(uint256 amount) 
