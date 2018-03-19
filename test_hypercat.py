@@ -37,9 +37,9 @@ smartNodeItem=getContract('SmartNodeItem',network)
 amount=1000000000000000000 #1 ETH
 
 # get smart key
-print (io.transact({ 'from': address, 'value': amount}).getSmartKey(address))
-#print (gc.transact({ 'from': address, 'value': amount}).getSmartKey(address))
-key=gc.call({ 'from': address }).getKey(address)
+print (io.transact({ 'from': address, 'value': amount}).addSmartKey(address))
+#print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(address))
+key=gc.call({ 'from': address }).getSmartKey(address)
 kc=getContract('Key',network, key, prefix="pki_")
 print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())

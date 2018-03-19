@@ -85,12 +85,12 @@ contract Crowdsale is Administered {
   public
   payable {
   
-    getSmartKey(msg.sender);
+    addSmartKey(msg.sender);
     
   }
 
   // low level token purchase function
-  function getSmartKey(address beneficiary) 
+  function addSmartKey(address beneficiary) 
   public
   payable 
   {
@@ -105,7 +105,7 @@ contract Crowdsale is Administered {
     // update state
     weiRaised = weiRaised.add(weiAmount);
     
-    token.getSmartKey.value(msg.value)(beneficiary);
+    token.addSmartKey.value(msg.value)(beneficiary);
         
     SmartKeyPurchase(msg.sender, beneficiary, weiAmount, tokens);
     

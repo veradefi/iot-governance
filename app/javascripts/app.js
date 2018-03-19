@@ -15,6 +15,7 @@ var contract = require("truffle-contract");
 var BigNumber = require('bignumber.js');
 
 import sk_artifacts from '../../build/contracts/SmartKey.json'
+import key_artifacts from '../../build/contracts/Key.json'
 import db_artifacts from '../../build/contracts/GraphRoot.json'
 import node_artifacts from '../../build/contracts/GraphNode.json'
 import meta_artifacts from '../../build/contracts/MetaData.json'
@@ -22,8 +23,8 @@ import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 
-var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -105,20 +106,6 @@ window.get_graph = function(eth_salt)
         MetaData.setProvider(window.web3.currentProvider);
         SmartKey.setProvider(window.web3.currentProvider);
         CatalogueItem.setProvider(window.web3.currentProvider);
-      
-        window.getSmartKey = function(price) {
-          SmartKey.deployed().then(function(contractInstance) {
-          
-            contractInstance.getSmartKey({value: web3.toWei(price, 'ether'), from: window.account}).then(function(v) {
-            
-                web3.eth.getBalance(contractInstance.address, function(error, result) {
-                
-                    console.log(result);
-                
-              });
-            })
-          });
-        }
         
         window.balance = function() {
           return SmartKey.deployed().then(function(smartKey) {
@@ -258,6 +245,64 @@ window.get_graph = function(eth_salt)
 }
 
 
+window.add_smartkey = function(beneficiary, callback) 
+{
+      
+       var SmartKey = contract(sk_artifacts);                
+       SmartKey.setProvider(window.web3.currentProvider);
+         
+      
+        return SmartKey.deployed().then(function(contractInstance) {
+                var eth1=1000000000000000000;
+                return contractInstance.addSmartKey(beneficiary, {from: window.address, value: eth1}).then(function(address) {
+                    return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(address) {
+                          
+                            console.log(address);
+                            callback(address);
+                    });
+                
+                });
+         });
+
+        
+}
+
+window.get_smartkey = function(beneficiary, callback) 
+{
+      
+        var SmartKey = contract(sk_artifacts);                
+        SmartKey.setProvider(window.web3.currentProvider);
+        var Key = contract(key_artifacts);                
+        Key.setProvider(window.web3.currentProvider);
+        
+        return SmartKey.deployed().then(function(contractInstance) {
+               
+                    return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(address) {
+                           return Key.at(address).then(function(keyInstance) {
+                                return keyInstance.activated.call(beneficiary, {from: window.address}).then(function(amount) {
+                                    return keyInstance.vault.call({from: window.address}).then(function(vault) {
+                                        return keyInstance.state.call({from: window.address}).then(function(state) {
+
+                                           var eth1=1000000000000000000;
+                                           amount /= eth1;
+                                           
+                                           callback(address,
+                                                     parseInt(amount.toString()), 
+                                                     parseInt(vault), 
+                                                     parseInt(state.toString()))
+                                           console.log(amount);
+                                           
+                                        });
+                                    });
+                               });                                                     
+                           });
+                    }); 
+                                   
+        });
+
+        
+}
+
 
 window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, callback) 
 {
@@ -289,14 +334,13 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
         
 }
 
+
 window.get_pool = function(poolkey, callback) 
 {
     if (poolkey != '0x0') {
-       var PoolKey = contract(poolkey_artifacts);                
-       PoolKey.setProvider(window.web3.currentProvider);
-       
-        return PoolKey.at(poolkey).then(function(contractInstance) {
-             
+        var PoolKey = contract(poolkey_artifacts);                
+        PoolKey.setProvider(window.web3.currentProvider);       
+        return PoolKey.at(poolkey).then(function(contractInstance) {             
             return contractInstance.isMember.call(window.address).then(function(eth_sent) {
                  return contractInstance.contrib_amount.call().then(function(contrib_total) {
                     return contractInstance.max_contrib.call().then(function(max_contrib) {
@@ -304,34 +348,30 @@ window.get_pool = function(poolkey, callback)
                             return contractInstance.min_per_contrib.call().then(function(min_per_contrib) {
                                 return contractInstance.fee.call().then(function(fee) {
                                     return contractInstance.received.call(window.address).then(function(received) {
-                                        console.log('got member info');
-                                    
-                                       var eth1=1000000000000000000;
-                                       eth_sent /= eth1;
-                                       contrib_total /= eth1;
-                                       max_contrib /= eth1
-                                       max_per_contrib /= eth1;
-                                       min_per_contrib /= eth1;
-                                       received /= eth1;
-                                        callback(poolkey,
-                                                 parseInt(eth_sent.toString()), 
-                                                 parseInt(contrib_total.toString()), 
-                                                 parseInt(max_contrib.toString()), 
-                                                 parseInt(max_per_contrib.toString()), 
-                                                 parseInt(min_per_contrib.toString()), 
-                                                 1/parseFloat(fee.toString()) * 100,
-                                                 parseInt(received));
+                                           console.log('got member info');
+                                           var eth1=1000000000000000000;
+                                           eth_sent /= eth1;
+                                           contrib_total /= eth1;
+                                           max_contrib /= eth1
+                                           max_per_contrib /= eth1;
+                                           min_per_contrib /= eth1;
+                                           received /= eth1;
+                                           callback(poolkey,
+                                                     parseInt(eth_sent.toString()), 
+                                                     parseInt(contrib_total.toString()), 
+                                                     parseInt(max_contrib.toString()), 
+                                                     parseInt(max_per_contrib.toString()), 
+                                                     parseInt(min_per_contrib.toString()), 
+                                                     1/parseFloat(fee.toString()) * 100,
+                                                     parseInt(received));
                                     });                
-
                                 });                
                             });                
                         });
                     });
-                });
-            
+                });            
             });
          });
-
     }        
 }
 
