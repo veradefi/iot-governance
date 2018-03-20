@@ -91,10 +91,9 @@ window.init_wallet = function(eth_salt, call_back)
     }
 }
 
-window.get_graph = function(eth_salt) 
+window.get_graph = function(url, path) 
 {
 
-    if (typeof eth_salt !== 'undefined') {
         var SmartKey = contract(sk_artifacts);
         var GraphRoot = contract(db_artifacts);
         var GraphNode = contract(node_artifacts);
@@ -210,22 +209,8 @@ window.get_graph = function(eth_salt)
                 });
         }
         
-        //self.balance();
-        //var href=window.location.href;
-        var href=window.location.pathname;
-        href=href.replace(/\/$/, "");
-        href=href.replace(/icat/, "cat");
-        console.log(window.location); 
-        console.log(href)
         
-        if (!href.match(/cat/)) {
-        		//return;
-        }
-        //window.href=href.replace(/\W/, "");     
-        //jQuery("body").append('<div id="' + window.href + '"></div>');
-        //jQuery('#' + window.href).loadJSON({"catalogue-metadata":[],"items":[]});
-        
-        if (href == "/cat") {        
+        if (path == "/cat") {        
             return GraphRoot.deployed().then(function(node) {
                 return window.getCatalogue(node).then(function(pas212Root) {                                        
                         return pas212Root;
@@ -233,7 +218,8 @@ window.get_graph = function(eth_salt)
 
             });
         } else {
-            href="https://iotblock.io" + href;
+            //href="https://iotblock.io" + href;
+            var href=url;
             console.log(href);
             return GraphRoot.deployed().then(function(node) {
                 return window.getNode(node, href).then(function(pas212Root) {
@@ -241,8 +227,8 @@ window.get_graph = function(eth_salt)
                 });
             });            
         }
-    }
 }
+
 
 
 window.add_smartkey = function(beneficiary, callback) 
@@ -257,48 +243,49 @@ window.add_smartkey = function(beneficiary, callback)
                 return contractInstance.addSmartKey(beneficiary, {from: window.address, value: eth1}).then(function(address) {
                     return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(address) {
                           
-                            console.log(address);
+                            console.log('Key Address', address);
                             callback(address);
-                    });
-                
+                            
+                    });                
                 });
          });
 
         
 }
 
-window.get_smartkey = function(beneficiary, callback) 
+
+
+window.get_smartkey = function(keyAddress, callback) 
 {
       
-        var SmartKey = contract(sk_artifacts);                
-        SmartKey.setProvider(window.web3.currentProvider);
-        var Key = contract(key_artifacts);                
-        Key.setProvider(window.web3.currentProvider);
+      
+       var SmartKey = contract(sk_artifacts);                
+       SmartKey.setProvider(window.web3.currentProvider);
+       var Key = contract(key_artifacts);                
+       Key.setProvider(window.web3.currentProvider);
         
-        return SmartKey.deployed().then(function(contractInstance) {
-               
-                    return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(address) {
-                           return Key.at(address).then(function(keyInstance) {
-                                return keyInstance.activated.call(beneficiary, {from: window.address}).then(function(amount) {
-                                    return keyInstance.vault.call({from: window.address}).then(function(vault) {
-                                        return keyInstance.state.call({from: window.address}).then(function(state) {
+       console.log('Key Address',keyAddress);
+       return Key.at(keyAddress).then(function(keyInstance) {
+            return keyInstance.activated.call(window.address, {from: window.address}).then(function(amount) {
+                return keyInstance.vault.call({from: window.address}).then(function(vault) {
+                    return keyInstance.state.call({from: window.address}).then(function(state) {
+                        return keyInstance.health.call({from: window.address}).then(function(health) {
 
-                                           var eth1=1000000000000000000;
-                                           amount /= eth1;
-                                           
-                                           callback(address,
-                                                     parseInt(amount.toString()), 
-                                                     parseInt(vault), 
-                                                     parseInt(state.toString()))
-                                           console.log(amount);
-                                           
-                                        });
-                                    });
-                               });                                                     
-                           });
-                    }); 
-                                   
-        });
+                               var eth1=1000000000000000000;
+                               amount /= eth1;
+                               
+                               callback(keyAddress,
+                                         parseInt(amount.toString()), 
+                                         vault, 
+                                         parseInt(state.toString()),
+                                         parseInt(health.toString()))
+                               console.log(amount);
+
+                        });                       
+                    });
+                });
+           });                                                     
+       });
 
         
 }
@@ -322,10 +309,12 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
         return SmartPoolKey.deployed().then(function(contractInstance) {
              
                 return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, {from: window.address}).then(function(address) {
+                    
                     return contractInstance.getSmartPoolKey.call(beneficiary, {from: window.address}).then(function(address) {
                           
                             console.log(address);
                             callback(address);
+                            
                     });
                 
                 });
@@ -459,6 +448,36 @@ function getCookie(name) {
     return null;
 }
 
+if (typeof isBrowse !== 'undefined') {
+
+    var eth_salt = getCookie('iotcookie');
+    if (eth_salt == null) {
+        setCookie('iotcookie',new Date().toUTCString(),7);
+        eth_salt = getCookie('iotcookie');
+    }
+    
+    var callback=function(address) {
+        var url='https://iotblock.io/cat';
+        var path='/cat';
+        url=url.replace(/\/$/, "");
+        url=url.replace(/icat/, "cat");
+        url="https://iotblock.io" + path
+        path=path.replace(/\/$/, "");
+        path=path.replace(/icat/, "cat");
+        
+        console.log(url); 
+        console.log(path)
+        
+        get_graph(url, path).then(function(pas212Root) {
+            var hyperJson=JSON.stringify(pas212Root, null, 4);
+            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
+        });                        
+    }
+    
+    init_wallet(eth_salt, callback);
+    
+}
+
 if (typeof isWeb !== 'undefined') {
 
     var eth_salt = getCookie('iotcookie');
@@ -468,7 +487,18 @@ if (typeof isWeb !== 'undefined') {
     }
     
     var callback=function(address) {
-        get_graph(eth_salt).then(function(pas212Root) {
+        
+        var url=window.location;
+        var path=window.location.pathname;
+        url=url.replace(/\/$/, "");
+        url=url.replace(/icat/, "cat");
+        path=path.replace(/\/$/, "");
+        path=path.replace(/icat/, "cat");
+        
+        console.log(url); 
+        console.log(path)
+        
+        get_graph( url, path).then(function(pas212Root) {
             var hyperJson=JSON.stringify(pas212Root, null, 4);
             document.documentElement.innerHTML = "<pre><code>" + hyperJson + "</code></pre>";
         });                        
@@ -488,6 +518,10 @@ if (typeof isPool !== 'undefined') {
         console.log('address' + address);
         $('.address').html(address);
         $('.address_val').val(address);
+        
     }
+    
     init_wallet(eth_salt, callback);
 }
+
+

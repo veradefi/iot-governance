@@ -62,18 +62,20 @@ function updateQueryStringParameter(uri, key, value) {
 
 function parseCatalogue(url, doc) {
     var catMetadataListHTML = '<ul>';
-    try {
+    //try {
         // store metadata for catalogue
-        for (var i=0;i<doc['item-metadata'].length;i++) {
-            catMetadataListHTML += '<li>' + doc['item-metadata'][i].rel + ' = "' + doc['item-metadata'][i].val + '"</li>';
+        console.log(doc);
+        for (var i=0;i<doc['catalogue-metadata'].length;i++) {
+            catMetadataListHTML += '<li>' + doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"</li>';
         }
-    } catch(e) {
-        log(e);
-    }
+        
+    //} catch(e) {
+    //    log(e);
+    //}
     catMetadataListHTML += '</ul>';
 
     var itemListHTML = '<ul>';
-    try {
+    //try {
         for (var i=0;i<doc.items.length;i++) {
             var item = doc.items[i];
             item.href = URI(item.href).absoluteTo(url).toString();    // fixup relative URL
@@ -82,8 +84,8 @@ function parseCatalogue(url, doc) {
             var isGenericResource = false;
             var itemMetadataListHTML = '<ul>';
             var supportsQueryOpenIoT = false;
-            for (var j=0;j<item['i-object-metadata'].length;j++) {
-                var mdata = item['i-object-metadata'][j];
+            for (var j=0;j<item['item-metadata'].length;j++) {
+                var mdata = item['item-metadata'][j];
                 if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                     supportsQueryOpenIoT = true;
                 itemMetadataListHTML += '<li>' + mdata.rel + ' = "' + mdata.val + '"</li>';
@@ -144,9 +146,9 @@ function parseCatalogue(url, doc) {
         listHTML += '</ul>';
 
         $('#browser').html(listHTML);
-    } catch(e) {
-        log(e);
-    }
+    //} catch(e) {
+    //    log(e);
+    //}
 }
 
 function browse(url, cb) {
@@ -166,6 +168,29 @@ function browse(url, cb) {
     });
 }
 
+function populateUrls() {
+    $("#urls").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
+    $("#urls").append(new Option('https://iotblock.io/cat/earth', 'https://iotblock.io/cat/earth'));
+
+/*
+    $("#urls").append(new Option("Select example URL", ""));
+
+    $.ajax({
+        type: 'GET',
+        url: '/listexamples',
+        dataType: 'json',
+        success: function(body, textStatus, xhr) {
+            for (var i=0;i<body.length;i++)
+                $("#examples").append(new Option(body[i], body[i]));
+        },
+        error: function() {
+            log("Error listing examples");
+        }
+    });
+*/
+}
+
+
 $(document).ready(function() { 
     var param_url = getQueryVariable('url');
     var param_key = getQueryVariable('key');
@@ -177,17 +202,34 @@ $(document).ready(function() {
         $('#url').val(param_url);
     }
 
-    populateExamples();
+    populateUrls();
 
     // autoload default
     browse($('#url').val(), function() {
         log('browse complete');
     });
 
-    $('#examples').on('change', function (e) {
+    $('#urls').on('change', function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
         $('#url').val(this.value);
+        var url=this.value;
+        var path=url.replace(/https:\/\/iotblock.io/,'');
+        
+        url=url.replace(/\/$/, "");
+        url=url.replace(/icat/, "cat");
+        url="https://iotblock.io" + path
+        path=path.replace(/\/$/, "");
+        path=path.replace(/icat/, "cat");
+        
+        console.log(url); 
+        console.log(path)
+        
+        get_graph(url, path).then(function(pas212Root) {
+            var hyperJson=JSON.stringify(pas212Root, null, 4);
+            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
+        });                        
+    
     });
 
     $("#go").click(function() {
@@ -242,36 +284,48 @@ $(document).ready(function() {
 
     <div class="row">
     <div class="col-md-6">
-    <p>
-        <form class="form-group">
-            <select id="examples" class="form-control m-input m-input--air"></select>
-            <br>
-            <h3>URL:&nbsp;
-            </h3>
-            <input class="form-control m-input m-input--air" type="text" id="url" size=80 value="https://iotblock.io/cat" />
-            <br>
-            <h3>Key&nbsp;
-            </h3>
-            <input class="form-control m-input m-input--air" type="password" id="key" size=40 value="" />
-            <br><br>
-            <input type="button" id="go" class="btn m-btn--pill m-btn--air         btn-outline-info" value="Go/Refresh" />
-        </form>
-    </p>
-    <div class="btn-group m-btn-group m-btn-group--pill">
-        <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info" id="back" value="Back" />&nbsp;
-        <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info" id="newcat" value="Create new catalogue"/>
-    </div>
+        <p>
+            <form class="form-group">
+                <select id="urls" class="form-control m-input m-input--air"></select>
+                <br>
+                <h3>URL:&nbsp;
+                </h3>
+                <input class="form-control m-input m-input--air" type="text" id="url" size=80 value="https://iotblock.io/cat" />
+                <br>
+                <h3>Key&nbsp;
+                </h3>
+                <input class="form-control m-input m-input--air" type="password" id="key" size=40 value="" />
+                <br><br>
+                <input type="button" id="go" class="btn m-btn--pill m-btn--air         btn-outline-info" value="Go/Refresh" />
+            </form>
+        </p>
+        
+        <div class="btn-group m-btn-group m-btn-group--pill">
+            <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info" id="back" value="Back" />&nbsp;
+            <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info" id="newcat" value="Create new catalogue"/>
+        </div>
+        
+        
+        <p>
+            <div id="log"></div>
+        </p>
+
     </div>
     <div class="col-md-6">
         <p>
             <div id="browser"></div>
         </p>
-        <p>
-            <div id="log"></div>
-        </p>
+        
+        <div class="catalogue"><img src="/images/wait.gif"></div>
     </div>
     </div>
     <a href="https://iotblock.io"><img src="logo-32x32.png" style="float: right;width:81px;" border=0></a>
+    
+<script>
+var isBrowse=true;
+
+</script>
+<script src="js/app.js"></script>
 </body>
 
 </html>
