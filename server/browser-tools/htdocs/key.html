@@ -60,7 +60,7 @@
                                  <div class="col-md-12">
                                          <center>
                                          
-                                             <input name="find_poolkey" class="form-control m-input m-input--air m-input--pill"  placeholder="Enter Smart Pool Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
+                                             <input name="find_poolkey" class="form-control m-input m-input--air m-input--pill"  placeholder="Enter Smart Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
                                              <br><button type="button" id='find_poolkey_btn' class="btn btn-accent"><h1>Find Smart Key</h1></button>
                                           </center>
                                           <br>
@@ -96,6 +96,7 @@
         <div class="m-portlet m-portlet--tab">
                <div class="m-portlet__head">
                     <center>
+<!--
             
                     <hr>
             
@@ -140,7 +141,7 @@
                     </div>
                     
                     <hr>
-                    
+-->                    
                     <div class="row">
                         <div class="col-md-12">
                           <h3>Ether</h3>
@@ -179,7 +180,7 @@
 <form id="page2" style="display:none;">
 <div class="row">
     <div class="col-md-12">    
-        <center><h3>Pool Key Contract Address</h3></center><br>
+        <center><h3>Smart Key Contract Address</h3></center><br>
     </div>
 </div>
 <div class="row">
@@ -205,7 +206,7 @@
                     <div class="row">
                         <div class="col-md-6">    
                             
-                            <h3>ETH SENT TO POOL</h3>
+                            <h3>ETH BALANCE</h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <h1><span class="eth_sent"></span></h1>
@@ -254,13 +255,13 @@
                     
                      <div class="row">
                         <div class="col-md-6">    
-                            <h3>MIN PER CONTRIBUTOR</h3>
-                            <h1><span class="min_per_contrib"></span></h1> <font size=2>ETH</font><br>
+                            <h3 class='status'>Health Status</h3>
+                            <h1><span class='health'></span></h1>
                             
                         </div>
                         <div class="col-md-6">    
-                            <h3>MAX PER CONTRIBUTOR</h3>
-                            <h1><span class="max_per_contrib"></span></h1> <font size=2> ETH</font><br>
+                            <h3>Key State</h3>
+                            <h1>    <span class="state"></span></h1> <font size=2></font><br>
                             
                         </div>
                     </div>
@@ -278,15 +279,12 @@
                                <br><br>
                                <div class="row>
                                    <div class="col-md-12">
-                                       <h3 class='status'>Status: Open</h3>
+                                        <h3>Vault</h3>
+                                        <pre><span class="vault"></span></pre> <font size=2></font><br>
                                        <br>
                                        <div id="contrib-stat" style="height: 250px;"></div>
                                        <br>
-                                       <center>   
-                                                <h3>MAX ALLOCATION</h3>
-                                                <br>
-                                                <h1><span class="max_contrib"></span></h1> <font size=2>ETH</font>
-                                        </center> 
+                                       
                                     </div>
                                     
                                 </div>                               
@@ -318,15 +316,14 @@ $( document ).ready(function() {
     
     $('#fee').on('change', function(e) {
         $('#fee_struct').show();
+        var you_msg = you + '%';
         
         var fee=parseFloat($('#fee').val());
         var you=fee - 0.5;
-        var you_msg = you + '%';
         $('#you').html(you_msg);
         var total_msg = fee  + '%';
         $('#total').html(total_msg);
-        
-        
+                
         
     });
     
@@ -334,26 +331,26 @@ $( document ).ready(function() {
          var poolkey=$('#find_poolkey').val();
          page2(poolkey);
     });
-callback(address,
-                                                     parseInt(amount.toString()), 
-                                                     parseInt(vault), 
-                                                     parseInt(state.toString()))
-    function fill_page2(address, eth_sent, vault, state) {
+
+
+    function fill_page2(address, eth_sent, vault, state, health) {
     
+       var states=[ 'Issued', 'Active', 'Returned' ]
+       var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
        $('#page1').hide();
        $('#loading').hide();
        $('#page2').show();
        
-        console.log(address, eth_sent, vault, state);
        $('.eth_sent').html(eth_sent);
        $('.vault').html( vault );
-       $('.state').html( state );
+       $('.state').html( states[state] );
+       $('.health').html( healthStates[health] );
        $('.progress-bar').val( eth_sent );
        $('#poolkey').html('<pre>' + address + '</pre>');
        Morris.Donut({
           element: 'contrib-stat',
           data: [
-            {label: "Contributed ETH", value: eth_sent},
+            {label: "Contributed ETH", value:  eth_sent},
             //{label: "Available ETH", value:  max_contrib-contrib_total},
           ]
         });
@@ -367,6 +364,9 @@ callback(address,
        });       
        
        //get_pool_transactions(address, fill_page2_transactions);
+    
+       console.log(address, eth_sent, vault, state);
+       
     }  
 
     function fill_page2_transactions(sender, date, amount) {
