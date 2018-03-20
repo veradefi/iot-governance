@@ -30,8 +30,8 @@ print (address, address2)
 gc=getContract('SmartKey',network)
 io=getContract('PublicOffering',network)
 
-print (gc.transact({ 'from': web3.eth.coinbase, 'value': 1000000000000000000}).getSmartKey(address2))
-print (gc.call({ 'from': web3.eth.coinbase, 'value': 1000000000000000000}).getSmartKey(address2))
+print (gc.transact({ 'from': web3.eth.coinbase, 'value': 1000000000000000000}).addSmartKey(address2))
+print (gc.call({ 'from': web3.eth.coinbase, 'value': 1000000000000000000}).addSmartKey(address2))
 print (gc.transact({ 'from': web3.eth.coinbase}).setRate(web3.toWei('1', 'ether')))
 
 
@@ -40,11 +40,11 @@ print ('ICO')
 print (io.call({ 'from': web3.eth.coinbase}).hasEnded() )
 print (io.call({ 'from': web3.eth.coinbase}).getNow())
  
-print (io.transact({ 'from': address, 'gas':1000000, 'value': 10000000000000000}).getSmartKey(address2))
+print (io.transact({ 'from': address, 'gas':1000000, 'value': 10000000000000000}).addSmartKey(address2))
 print (io.call({ 'from': web3.eth.coinbase}).getTokensMinted())
  
 print (io.transact({ 'from': web3.eth.coinbase}).setRate(web3.toWei('1', 'ether')))
-print (io.transact({ 'from': web3.eth.coinbase, 'gas':1000000, 'value': 10000000000000000}).getSmartKey(address2))
+print (io.transact({ 'from': web3.eth.coinbase, 'gas':1000000, 'value': 10000000000000000}).addSmartKey(address2))
 print (io.call({ 'from': web3.eth.coinbase}).getTokensMinted())
  
 print (gc.call({ 'from': web3.eth.coinbase}).getBalance(address2))

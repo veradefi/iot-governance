@@ -32,11 +32,11 @@ var graph, springy;
 function expandCatalogue(url, doc) {
     try {
         // store metadata for catalogue
-        for (var i=0;i<doc['item-metadata'].length;i++) {
+        for (var i=0;i<doc['catalogue-metadata'].length;i++) {
             storeFact({
                 subject: url,
-                predicate: doc['item-metadata'][i].rel,
-                object: doc['item-metadata'][i].val
+                predicate: doc['catalogue-metadata'][i].rel,
+                object: doc['catalogue-metadata'][i].val
             });
         }
     } catch(e) {
@@ -54,8 +54,8 @@ function expandCatalogue(url, doc) {
                 predicate: "urn:X-tsbiot:rels:hasResource",
                 object: item.href
             });
-            for (var j=0;j<item['i-object-metadata'].length;j++) {
-                var mdata = item['i-object-metadata'][j];
+            for (var j=0;j<item['item-metadata'].length;j++) {
+                var mdata = item['item-metadata'][j];
                 //console.log("ITEM-FACT "+item.href+" "+mdata.rel+" "+mdata.val);
                 storeFact({
                     subject: item.href,
@@ -272,6 +272,7 @@ function searchForLocations() {
         </a>
         <div class="btn-group m-btn-group m-btn-group--pill">
             <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="pool.html">Smart Pool Key</a>
+            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="key.html">Smart Key</a>
             <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="browser.html">Catalogue browser and editor (text)</a>
             <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="explorer.html">Catalogue explorer (graphical)</a>
             <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="crawler.html">Catalogue crawler (graphical)</a>

@@ -56,7 +56,7 @@ contract GraphNode is Catalogue, Key {
   payable
   returns (bool)
   {  
-      //smartKey.getSmartKey.value(msg.value)(address(vault));  
+      //smartKey.addSmartKey.value(msg.value)(address(vault));  
       //bytes32 hashVal=Key(smartKey.getKey(address(vault))).getHash(_href);
       bytes32 hashVal=getHash(_href);
       
@@ -67,7 +67,7 @@ contract GraphNode is Catalogue, Key {
             nodes.push(nodeData[hashVal]);
                       
       }
-      smartKey.getSmartKey.value(msg.value)(address(vault));
+      smartKey.addSmartKey.value(msg.value)(address(vault));
       //vault.transfer(msg.value);
       
       return true;
@@ -117,7 +117,7 @@ contract GraphNode is Catalogue, Key {
   returns (bool)
   {
 
-      smartKey.getSmartKey.value(msg.value)(address(vault));      
+      smartKey.addSmartKey.value(msg.value)(address(vault));      
   
       address[] memory _admins=new address[](2);
      _admins[0]=msg.sender;
@@ -145,7 +145,7 @@ contract GraphNode is Catalogue, Key {
   payable
   returns (bool)
   {
-      bytes32 hashVal=Key(SmartKey(smartKey).getKey(msg.sender)).getHash(_href);
+      bytes32 hashVal=Key(SmartKey(smartKey).addSmartKey(msg.sender)).getHash(_href);
       CatalogueItem catData;
       if (catItemData[hashVal] == address(0)) 
       {
