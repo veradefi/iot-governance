@@ -15,6 +15,7 @@ contract Key is Ownable {
    mapping (address => uint256) public activated;
    address public vault;
    State public state;
+   Health public health;
 
    struct Attr {
         address user;
