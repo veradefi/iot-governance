@@ -23,8 +23,8 @@ import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 
-//var providerUrl = "https://iotblock.io/rpc";
-var providerUrl = "http://localhost:8545";
+var providerUrl = "https://iotblock.io/rpc";
+//var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
