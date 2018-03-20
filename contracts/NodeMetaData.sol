@@ -41,7 +41,7 @@ contract NodeMetaData is Administered {
   payable
   returns (bool)
   {
-      Key key=smartKey.getKey(msg.sender);
+      Key key=smartKey.getSmartKey(msg.sender);
       bytes32 hashVal=key.getHash(_rel);
       MetaData data;
       if (itemMetaData[hashVal] == address(0)) {

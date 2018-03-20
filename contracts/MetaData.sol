@@ -28,7 +28,7 @@ contract MetaData is Administered {
   returns (bool)
   {
   
-      smartKey.getSmartKey.value(msg.value)(address(this));
+      smartKey.addSmartKey.value(msg.value)(address(this));
 
       val=_val;
       
