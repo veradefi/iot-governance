@@ -30,12 +30,12 @@ var infowindow = new google.maps.InfoWindow({});
 function expandCatalogue(url, doc) {
     try {
         // store metadata for catalogue
-        for (var i=0;i<doc['item-metadata'].length;i++) {
-            //console.log("CATL-FACT "+url+" "+doc['item-metadata'][i].rel+" "+doc['item-metadata'][i].val);
+        for (var i=0;i<doc['catalogue-metadata'].length;i++) {
+            //console.log("CATL-FACT "+url+" "+doc['catalogue-metadata'][i].rel+" "+doc['catalogue-metadata'][i].val);
             storeFact({
                 subject: url,
-                predicate: doc['item-metadata'][i].rel,
-                object: doc['item-metadata'][i].val
+                predicate: doc['catalogue-metadata'][i].rel,
+                object: doc['catalogue-metadata'][i].val
             });
         }
     } catch(e) {
@@ -53,8 +53,8 @@ function expandCatalogue(url, doc) {
                 predicate: "urn:X-tsbiot:rels:hasResource",
                 object: item.href
             });
-            for (var j=0;j<item['i-object-metadata'].length;j++) {
-                var mdata = item['i-object-metadata'][j];
+            for (var j=0;j<item['item-metadata'].length;j++) {
+                var mdata = item['item-metadata'][j];
                 //console.log("ITEM-FACT "+item.href+" "+mdata.rel+" "+mdata.val);
                 storeFact({
                     subject: item.href,
@@ -164,7 +164,7 @@ $(document).ready(function() {
         startcrawl($('#url').val());
     }
 
-    populateExamples();
+    //populateExamples();
 
     initMap();
     populateExamples();
@@ -263,15 +263,15 @@ function searchForLocations() {
                 <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info"  id="crawl" value="Crawl" />
                 <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info"  id="clear" value="Clear" />
             </form>
+            <p>
+                <div id="log" style="height:200px"></div>
+            </p>
         </p>
     
         
     </div>
     <div class="col-md-6">
     
-        <p>
-            <div id="log" style="height:480px;"></div>
-        </p>
         
         <p>
             <div id="map_canvas" style=" height:480px;"></div>
