@@ -23,8 +23,8 @@ import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 
-var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -55,8 +55,8 @@ window.create_wallet = function(eth_salt, call_back) {
         window.web3 = new Web3(engine);
         engine.start(); // Required by the provider engine.
         
-         console.log(window.address);
-    	    call_back(window.address);
+        console.log(window.address);
+    	   call_back(window.address);
 }
 
 window.init_wallet = function(eth_salt, call_back) 
@@ -110,17 +110,20 @@ window.get_graph = function(url, path)
           return SmartKey.deployed().then(function(smartKey) {
                 
                     console.log('balance ' + window.account);
-                    smartKey.balanceOf.call(window.account, {from: window.account}).then(function(v) {
+                    return smartKey.balanceOf.call(window.account, {from: window.account}).then(function(v) {
+                        
                         console.log(v);                    
                         return v;
+                        
                     });
-            
+                    
           }); 
         }
         
         window.selectMetaData = function(node) {
                 
                     return node.selectMetaData.call({from: window.account}).then(function(metaAddresses) {
+                        
                         console.log(metaAddresses);                    
                         
                         var promises=[]
@@ -133,10 +136,12 @@ window.get_graph = function(url, path)
                                 }));
                             }
                         }
+                        
                         return Promise.all(promises).then(function(metaJson) {
                               console.log(metaJson);
                               return metaJson;
                         });
+                        
                     });
             
         }
@@ -173,12 +178,14 @@ window.get_graph = function(url, path)
                               console.log(itemJson);
                               return itemJson;
                         });
-                    });
+                });
             
         }
 
+
         window.getItem = function(itemInstance, address) {
-                  return itemInstance.at(address).then(function(item) {                            
+                  return itemInstance.at(address).then(function(item) {    
+                                          
                         return item.href.call({from: window.account}).then(function(href) {
                                 return self.selectMetaData(item).then(function(metaJson) {
                                     return {'href': "<a href='" + href + "'>" + href + "</a>",
@@ -239,6 +246,7 @@ window.add_smartkey = function(beneficiary, callback)
          
       
         return SmartKey.deployed().then(function(contractInstance) {
+        
                 var eth1=1000000000000000000;
                 return contractInstance.addSmartKey(beneficiary, {from: window.address, value: eth1}).then(function(address) {
                     return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(address) {
@@ -248,6 +256,7 @@ window.add_smartkey = function(beneficiary, callback)
                             
                     });                
                 });
+                
          });
 
         
@@ -291,11 +300,14 @@ window.get_smartkey = function(keyAddress, callback)
 }
 
 
+
 window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, callback) 
 {
-      max_contrib= new BigNumber(max_contrib);
-      max_per_contrib= new BigNumber(max_per_contrib);
-      min_per_contrib= new BigNumber(min_per_contrib);
+
+
+       max_contrib= new BigNumber(max_contrib);
+       max_per_contrib= new BigNumber(max_per_contrib);
+       min_per_contrib= new BigNumber(min_per_contrib);
       
        var SmartPoolKey = contract(pool_artifacts);                
        SmartPoolKey.setProvider(window.web3.currentProvider);
@@ -322,6 +334,7 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
 
         
 }
+
 
 
 window.get_pool = function(poolkey, callback) 
@@ -509,11 +522,13 @@ if (typeof isWeb !== 'undefined') {
 }
 
 if (typeof isPool !== 'undefined') {
+
     var eth_salt = getCookie('iotcookie');
     if (eth_salt == null) {
         setCookie('iotcookie',new Date().toUTCString(),7);
         eth_salt = getCookie('iotcookie');
     }
+    
     var callback=function(address) {
         console.log('address' + address);
         $('.address').html(address);
