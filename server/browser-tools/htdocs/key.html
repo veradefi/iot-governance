@@ -47,9 +47,9 @@
     </div>
 </div>
 </form>
-<form id="page1">
+<form id="page1" style="display:none;">
 
-
+<!--
 <div class="row">
      <div class="col-md-12">
             <div class="m-portlet m-portlet--tab">
@@ -61,7 +61,8 @@
                                          <center>
                                          
                                              <input name="find_poolkey" class="form-control m-input m-input--air m-input--pill"  placeholder="Enter Smart Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
-                                             <br><button type="button" id='find_poolkey_btn' class="btn btn-accent"><h1>Find Smart Key</h1></button>
+                                             <br>
+                                             <button type="button" id='find_poolkey_btn' class="btn btn-accent"><h1>Find My Smart Key</h1></button>
                                           </center>
                                           <br>
                                   </div>
@@ -72,6 +73,7 @@
             
      </div>
 </div>
+//-->
 
 <div class="row">
      <div class="col-md-12">
@@ -174,7 +176,7 @@
             
 
 </form>
-<form id="loading" style="display:none;">
+<form id="loading" >
 <img src="/images/wait.gif">
 </form>
 <form id="page2" style="display:none;">
@@ -311,7 +313,73 @@
 
 </form>
 <script>
-var isPool=true;
+var isSmartKey=true;
+
+function fill_page2(address, eth_sent, vault, state, health) {
+   $('#page1').hide();
+   $('#loading').show();
+   $('#page2').hide();
+
+    if (address == '0x0000000000000000000000000000000000000000') {
+        $('#page1').show();
+        $('#loading').hide();
+        $('#page2').hide();
+    } else {
+       
+       var states=[ 'Issued', 'Active', 'Returned' ]
+       var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
+       
+       $('#page1').hide();
+       $('#loading').hide();
+       $('#page2').show();
+       
+       $('.eth_sent').html(eth_sent);
+       $('.vault').html( vault );
+       $('.state').html( states[state] );
+       $('.health').html( healthStates[health] );
+       $('.progress-bar').val( eth_sent );
+       $('#poolkey').html('<pre>' + address + '</pre>');
+       
+       Morris.Donut({
+          element: 'contrib-stat',
+          data: [
+            {label: "Contributed ETH", value:  eth_sent},
+            //{label: "Available ETH", value:  max_contrib-contrib_total},
+          ]
+        });
+        
+         
+        $('#send_ether').on('click', function(e) {
+               var eth1=1000000000000000000;
+               var amt=parseInt($('#send_amt').val()) * eth1;
+               send_ether(address, amt);
+       });       
+   }
+   //get_pool_transactions(address, fill_page2_transactions);
+
+   console.log(address, eth_sent, vault, state);
+   
+}  
+
+function fill_page2_transactions(sender, date, amount) {
+        console.log(sender, date, amount);
+        var dateTime = new Date(parseInt(date) * 1000);
+        date=dateTime.toISOString(); 
+        var eth1=1000000000000000000;
+        var html ="<div class=row><div class=col-md-4>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
+        html +="</div><hr><br>";
+        
+        $('#transactions').append(html);
+}
+    
+function page2(address) {
+         
+   get_smartkey(fill_page2);
+}
+
 $( document ).ready(function() {
     
     $('#fee').on('change', function(e) {
@@ -332,64 +400,6 @@ $( document ).ready(function() {
          page2(poolkey);
     });
 
-
-    function fill_page2(address, eth_sent, vault, state, health) {
-    
-       var states=[ 'Issued', 'Active', 'Returned' ]
-       var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
-       $('#page1').hide();
-       $('#loading').hide();
-       $('#page2').show();
-       
-       $('.eth_sent').html(eth_sent);
-       $('.vault').html( vault );
-       $('.state').html( states[state] );
-       $('.health').html( healthStates[health] );
-       $('.progress-bar').val( eth_sent );
-       $('#poolkey').html('<pre>' + address + '</pre>');
-       Morris.Donut({
-          element: 'contrib-stat',
-          data: [
-            {label: "Contributed ETH", value:  eth_sent},
-            //{label: "Available ETH", value:  max_contrib-contrib_total},
-          ]
-        });
-        
-        
-        
-        $('#send_ether').on('click', function(e) {
-               var eth1=1000000000000000000;
-               var amt=parseInt($('#send_amt').val()) * eth1;
-               send_ether(address, amt);
-       });       
-       
-       //get_pool_transactions(address, fill_page2_transactions);
-    
-       console.log(address, eth_sent, vault, state);
-       
-    }  
-
-    function fill_page2_transactions(sender, date, amount) {
-            console.log(sender, date, amount);
-            var dateTime = new Date(parseInt(date) * 1000);
-            date=dateTime.toISOString(); 
-            var eth1=1000000000000000000;
-            var html ="<div class=row><div class=col-md-4>";
-            html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
-            html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
-            html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
-            html +="</div><hr><br>";
-            
-            $('#transactions').append(html);
-    }    
-    function page2(address) {
-             
-       $('#page1').hide();
-       $('#loading').show();
-       $('#page2').hide();
-         
-       get_smartkey(address, fill_page2);
-    }
     
     $('#pool').on('click', function (e) {
         var fee=Math.round(1 / parseFloat($('#fee').val() / 100));
