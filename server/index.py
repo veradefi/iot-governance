@@ -194,8 +194,8 @@ def create_node():
     return response
 
 
-@app.route('/post')
-def create_node():
+@app.route('/postMeta')
+def create_meta():
     parent_href = request.args.get('parent_href')
     href = request.args.get('href')
     key = request.args.get('key')
