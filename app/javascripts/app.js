@@ -22,6 +22,7 @@ import meta_artifacts from '../../build/contracts/MetaData.json'
 import item_artifacts from '../../build/contracts/CatalogueItem.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
+import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
 //var providerUrl = "https://iotblock.io/rpc";
 var providerUrl = "http://localhost:8545";
@@ -263,8 +264,7 @@ window.add_smartkey = function(beneficiary, callback)
 }
 
 
-
-window.get_smartkey = function(keyAddress, callback) 
+window.get_smartkey = function(callback) 
 {
       
       
@@ -273,31 +273,82 @@ window.get_smartkey = function(keyAddress, callback)
        var Key = contract(key_artifacts);                
        Key.setProvider(window.web3.currentProvider);
         
-       console.log('Key Address',keyAddress);
-       return Key.at(keyAddress).then(function(keyInstance) {
-            return keyInstance.activated.call(window.address, {from: window.address}).then(function(amount) {
-                return keyInstance.vault.call({from: window.address}).then(function(vault) {
-                    return keyInstance.state.call({from: window.address}).then(function(state) {
-                        return keyInstance.health.call({from: window.address}).then(function(health) {
-
-                               var eth1=1000000000000000000;
-                               amount /= eth1;
-                               
-                               callback(keyAddress,
-                                         parseInt(amount.toString()), 
-                                         vault, 
-                                         parseInt(state.toString()),
-                                         parseInt(health.toString()))
-                               console.log(amount);
-
-                        });                       
-                    });
-                });
-           });                                                     
-       });
+       return SmartKey.deployed().then(function(smartKeyInstance) {
+       
+           return smartKeyInstance.getSmartKey.call(window.address, {from: window.address}).then(function (keyAddress) {
+               console.log('Key Address',keyAddress);
+               
+               if (keyAddress == '0x0000000000000000000000000000000000000000') {
+               
+                   return callback(keyAddress,
+                             parseInt(0), 
+                             '0x0000000000000000000000000000000000000000', 
+                             parseInt(0),
+                             parseInt(0));
+   
+               }
+       
+               return Key.at(keyAddress).then(function(keyInstance) {
+                    return keyInstance.activated.call(window.address, {from: window.address}).then(function(amount) {
+                        return keyInstance.vault.call({from: window.address}).then(function(vault) {
+                            return keyInstance.state.call({from: window.address}).then(function(state) {
+                                return keyInstance.health.call({from: window.address}).then(function(health) {
+        
+                                       var eth1=1000000000000000000;
+                                       amount /= eth1;
+                                       
+                                       callback(keyAddress,
+                                                 parseInt(amount.toString()), 
+                                                 vault, 
+                                                 parseInt(state.toString()),
+                                                 parseInt(health.toString()))
+                                       console.log(amount);
+        
+                                });                       
+                            });
+                        });
+                   });                                                     
+               });
+            });
+        });
 
         
 }
+
+
+
+window.add_node = function(parent_address, _href, callback) 
+{
+
+       var GraphRoot = contract(db_artifacts);
+       var SmartNode = contract(smart_node_artifacts);
+                      
+       SmartNode.setProvider(window.web3.currentProvider);        
+       GraphRoot.setProvider(window.web3.currentProvider);        
+      
+       return GraphRoot.deployed().then(function(graphRoot) {
+            if (!parent_address) {
+                parent_address=graphRoot.address;
+                alert(parent_address);
+            }
+            
+            return SmartNode.deployed().then(function(contractInstance) {
+
+                return contractInstance.upsertNode(parent_address, _href, {from: window.address}).then(function(res) {
+                                
+                        return graphRoot.getGraphNode.call(_href, {from: window.address}).then(function(node_address) {
+                                                              
+                            console.log(node_address);
+                            return callback(node_address);
+                            
+                        });                            
+                    });                
+                });
+          });
+
+        
+}
+
 
 
 
@@ -334,6 +385,7 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
 
         
 }
+
 
 
 
@@ -461,6 +513,48 @@ function getCookie(name) {
     return null;
 }
 
+
+
+if (typeof isSmartKey !== 'undefined') {
+
+    var eth_salt = getCookie('iotcookie');
+    if (eth_salt == null) {
+        setCookie('iotcookie',new Date().toUTCString(),7);
+        eth_salt = getCookie('iotcookie');
+    }
+    
+    var callback=function(address, eth_sent, vault, state, health) {
+        var url='https://iotblock.io/cat';
+        var path='/cat';
+        url=url.replace(/\/$/, "");
+        url=url.replace(/icat/, "cat");
+        url="https://iotblock.io" + path
+        path=path.replace(/\/$/, "");
+        path=path.replace(/icat/, "cat");
+        
+        console.log(url); 
+        console.log(path)
+        
+        fill_page2(address, eth_sent, vault, state, health);
+        /*
+        get_graph(url, path).then(function(pas212Root) {
+            var hyperJson=JSON.stringify(pas212Root, null, 4);
+            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
+        });                        
+        */
+    }
+    
+    var check_key=function(address) {
+        console.log('address' + address);
+        $('.address').html(address);
+        $('.address_val').val(address);
+        get_smartkey(callback);
+    }
+    init_wallet(eth_salt, check_key);
+    
+}
+
+
 if (typeof isBrowse !== 'undefined') {
 
     var eth_salt = getCookie('iotcookie');
@@ -480,11 +574,12 @@ if (typeof isBrowse !== 'undefined') {
         
         console.log(url); 
         console.log(path)
-        
+        /*
         get_graph(url, path).then(function(pas212Root) {
             var hyperJson=JSON.stringify(pas212Root, null, 4);
             $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
         });                        
+        */
     }
     
     init_wallet(eth_salt, callback);
@@ -538,5 +633,4 @@ if (typeof isPool !== 'undefined') {
     
     init_wallet(eth_salt, callback);
 }
-
 
