@@ -52,8 +52,8 @@ def getSmartKey(address):
 
 def getNode(graphRoot):
  
+    
     def getMeta(metaData):
-        
         metaJson=[]
         for meta in metaData:
             meta_c=getContract('MetaData',network, meta)
@@ -77,17 +77,12 @@ def getNode(graphRoot):
                              'item-metadata':meta})
         return itemJson
 
-    metaJson=[]
-    itemJson=[]
+    metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
+    itemJson=getItem(graphRoot.call({'from':address}).selectItems())
     
-    try:
-        metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
-        itemJson=getItem(graphRoot.call({'from':address}).selectItems())
-    except Exception as e:
-        print (e)
     cat={"catalogue-metadata":metaJson,"items":itemJson}
-    
     return cat
+
 
 def addNode(parent_href, href,key,auth, load):
     if href:
@@ -112,7 +107,6 @@ def addNode(parent_href, href,key,auth, load):
     data= getNode(graphRoot)
     
     return data
-
 
 
 def addItemData(parent_href, href,key,auth, load):
@@ -159,110 +153,10 @@ def addNodeItemMetaData(href,key,auth, rel, val):
     
     return data
 
-app = Flask(__name__)
-
-@app.route('/post')
-def create_node():
-    parent_href = request.args.get('parent_href')
-    href = request.args.get('href')
-    key = request.args.get('key')
-    auth = request.args.get('auth')
-    val = request.args.get('val')
-    '''
-    {
-    "catalogue-metadata":[
-        {
-        "rel":"urn:X-hypercat:rels:isContentType",
-        "val":"application/vnd.hypercat.catalogue+json"
-        },
-        {
-        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-        }
-    ],
-    "items":[
-    ]
-    }
-    '''
-    auth=''
-    val=2
-    data=addItemData(parent_href, href, key, auth, val)
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
-
-@app.route('/post')
-def create_node():
-    parent_href = request.args.get('parent_href')
-    href = request.args.get('href')
-    key = request.args.get('key')
-    auth = request.args.get('auth')
-    val = request.args.get('val')
-    '''
-    {
-    "catalogue-metadata":[
-        {
-        "rel":"urn:X-hypercat:rels:isContentType",
-        "val":"application/vnd.hypercat.catalogue+json"
-        },
-        {
-        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-        }
-    ],
-    "items":[
-    ]
-    }
-    '''
-    auth=''
-    val=2
-    data=addItemData(parent_href, href, key, auth, val)
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    '''
-    {
-    "catalogue-metadata":[
-        {
-        "rel":"urn:X-hypercat:rels:isContentType",
-        "val":"application/vnd.hypercat.catalogue+json"
-        },
-        {
-        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-        }
-    ],
-    "items":[
-    ]
-    }
-    '''
-    path=re.sub('\/$','',path);
-    if path == 'cat':
-        data= getNode(root)
-    else:
-        href="https://iotblock.io/" + path
-        node=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
-        data= getNode(node)
-    
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8888)
+    print( addItemData('', 'https://iotblock.io/test555',address, '', 2))
 
 
 
+2
