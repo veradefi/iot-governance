@@ -111,7 +111,7 @@ def catch_all(path):
         data= getNode(node)
     
     response = app.response_class(
-        response=json.dumps(data,sort_keys=True, indent=4),
+        response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
         mimetype='application/vnd.hypercat.catalogue+json'
     )
