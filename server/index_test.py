@@ -38,6 +38,8 @@ root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartNodeItem=getContract('SmartNodeItem',network)
 
+
+
 def getSmartKey(address):
     amount=1000000000000000000 #1 ETH
     
@@ -49,6 +51,8 @@ def getSmartKey(address):
     print ('Key Activated', kc.call({ 'from': address}).activated(address))
     print ('Key State', kc.call({ 'from': address}).state())
     print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+
+
 
 def getNode(graphRoot):
  
@@ -84,15 +88,30 @@ def getNode(graphRoot):
     return cat
 
 
-def addNode(parent_href, href,key,auth, load):
+
+def addNode(parent_href, href, key, auth, load):
     if href:
+        
         if parent_href: 
-            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
-            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2 }).upsertNode(graphRoot.address, href))
-        else:
-            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2}).upsertNode(root.address, href))
             
-        graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+            try:
+                parent_href=re.sub('\/$','',parent_href)
+                if re.search('/cat$',parent_href):
+                    graphRoot=root
+                else:
+                    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
+            except Exception as e:
+                print (e)
+            print (parent_href, href, address, graphRoot.address, root.address)
+            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2 }).upsertNode(graphRoot.address, href))
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+            
+            
+        else:
+        
+            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2}).upsertNode(root.address, href))            
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+            
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
@@ -109,13 +128,22 @@ def addNode(parent_href, href,key,auth, load):
     return data
 
 
-def addItemData(parent_href, href,key,auth, load):
+
+def addItemData(parent_href, href, key, auth, load):
     data={}
     
     if href:
-        addNode(parent_href, href,key,auth, load)
-        if parent_href:
-            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
+        addNode(parent_href, href, key, auth, load)
+        if parent_href: 
+            
+            try:
+                parent_href=re.sub('\/$','',parent_href)
+                if re.search('/cat$',parent_href):
+                    graphRoot=root
+                else:
+                    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
+            except Exception as e:
+                print (e)
         else:
             graphRoot=root
             
@@ -133,6 +161,7 @@ def addItemData(parent_href, href,key,auth, load):
     return data
 
 
+
 def addNodeMetaData(href,key,auth, rel, val):
     if href:
         graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
@@ -142,6 +171,8 @@ def addNodeMetaData(href,key,auth, rel, val):
     data= getNode(graphRoot)
     
     return data
+
+
 
 def addNodeItemMetaData(href,key,auth, rel, val):
     if href:
@@ -154,9 +185,14 @@ def addNodeItemMetaData(href,key,auth, rel, val):
     return data
 
 
+
+
 if __name__ == '__main__':
-    print( addItemData('', 'https://iotblock.io/test555',address, '', 2))
+    href='https://iotblock.io/cat/test'
+    print( addItemData('https://iotblock.io/cat', href ,address, '', 2))
+    
+    node  =  getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+    data  =  getNode(node)
+    print(json.dumps(data, sort_keys=True, indent=4))
 
 
-
-2
