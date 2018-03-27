@@ -12,6 +12,10 @@ import os
 from datetime import datetime
 from flask import Flask
 
+
+
+
+
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
     bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
@@ -38,6 +42,9 @@ root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartNodeItem=getContract('SmartNodeItem',network)
 
+
+
+
 def getSmartKey(address):
     amount=1000000000000000000 #1 ETH
     
@@ -49,6 +56,9 @@ def getSmartKey(address):
     print ('Key Activated', kc.call({ 'from': address}).activated(address))
     print ('Key State', kc.call({ 'from': address}).state())
     print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+
+
+
 
 def getNode(graphRoot):
  
@@ -81,23 +91,48 @@ def getNode(graphRoot):
     itemJson=[]
     
     try:
+        
         metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
         itemJson=getItem(graphRoot.call({'from':address}).selectItems())
+        
     except Exception as e:
         print (e)
-    cat={"catalogue-metadata":metaJson,"items":itemJson}
+        
+    cat = { 
+            "catalogue-metadata":metaJson,
+            "items":itemJson
+          }
     
     return cat
 
-def addNode(parent_href, href,key,auth, load):
+
+
+
+
+
+def addNode(parent_href, href, key, auth, load):
     if href:
+        
         if parent_href: 
-            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
-            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2 }).upsertNode(graphRoot.address, href))
-        else:
-            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2}).upsertNode(root.address, href))
             
-        graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+            try:
+                parent_href=re.sub('\/$','',parent_href)
+                if re.search('/cat$',parent_href):
+                    graphRoot=root
+                else:
+                    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
+            except Exception as e:
+                print (e)
+            print (parent_href, href, address, graphRoot.address, root.address)
+            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2 }).upsertNode(graphRoot.address, href))
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+            
+            
+        else:
+        
+            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2}).upsertNode(root.address, href))            
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+            
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
@@ -115,13 +150,21 @@ def addNode(parent_href, href,key,auth, load):
 
 
 
-def addItemData(parent_href, href,key,auth, load):
+def addItemData(parent_href, href, key, auth, load):
     data={}
     
     if href:
-        addNode(parent_href, href,key,auth, load)
-        if parent_href:
-            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
+        addNode(parent_href, href, key, auth, load)
+        if parent_href: 
+            
+            try:
+                parent_href=re.sub('\/$','',parent_href)
+                if re.search('/cat$',parent_href):
+                    graphRoot=root
+                else:
+                    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(parent_href))
+            except Exception as e:
+                print (e)
         else:
             graphRoot=root
             
@@ -139,6 +182,7 @@ def addItemData(parent_href, href,key,auth, load):
     return data
 
 
+
 def addNodeMetaData(href,key,auth, rel, val):
     if href:
         graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
@@ -148,6 +192,8 @@ def addNodeMetaData(href,key,auth, rel, val):
     data= getNode(graphRoot)
     
     return data
+
+
 
 def addNodeItemMetaData(href,key,auth, rel, val):
     if href:
@@ -159,9 +205,16 @@ def addNodeItemMetaData(href,key,auth, rel, val):
     
     return data
 
+
+
+
 app = Flask(__name__)
 
+
+
+
 @app.route('/post')
+@app.route('/cat/post')
 def create_node():
     parent_href = request.args.get('parent_href')
     href = request.args.get('href')
@@ -194,7 +247,11 @@ def create_node():
     return response
 
 
+
+
+
 @app.route('/postMeta')
+@app.route('/cat/postMeta')
 def create_meta():
     parent_href = request.args.get('parent_href')
     href = request.args.get('href')
@@ -227,6 +284,9 @@ def create_meta():
     return response
 
 
+
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
@@ -246,23 +306,32 @@ def catch_all(path):
     }
     '''
     path=re.sub('\/$','',path);
-    if path == 'cat':
-        data= getNode(root)
+    if path   == 'cat':
+        data  =  getNode(root)
     else:
-        href="https://iotblock.io/" + path
-        node=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
-        data= getNode(node)
+        href  =  "https://iotblock.io/" + path
+        node  =  getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+        data  =  getNode(node)
     
     response = app.response_class(
+            
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
         mimetype='application/vnd.hypercat.catalogue+json'
+        
     )
     return response
 
 
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=8888)
+
+
+
 
 
 
