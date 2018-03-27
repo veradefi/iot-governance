@@ -7,6 +7,7 @@ sh build.sh
 #sh babel.sh
 sh build_app.sh
 python test_hypercat.py
+python test_pool.py
 cp -pR build/app.js server/browser-tools/htdocs/js
 cp -pR build/contracts server/browser-tools/htdocs/js/
 
