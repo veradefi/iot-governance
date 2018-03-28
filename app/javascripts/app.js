@@ -277,9 +277,9 @@ window.get_smartkey = function(callback)
        
            return smartKeyInstance.getSmartKey.call(window.address, {from: window.address}).then(function (keyAddress) {
                console.log('Key Address',keyAddress);
-               
-               if (keyAddress == '0x0000000000000000000000000000000000000000') {
-               
+           
+               if (keyAddress == '0x0000000000000000000000000000000000000000' || keyAddress.startsWith('0x0')) {
+                   
                    return callback(keyAddress,
                              parseInt(0), 
                              '0x0000000000000000000000000000000000000000', 
