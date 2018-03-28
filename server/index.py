@@ -183,10 +183,19 @@ def addItemData(parent_href, href, key, auth, load):
 
 
 
-def addNodeMetaData(href,key,auth, rel, val):
-    if href:
-        graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val))
+def addNodeMetaData(node_href,rel, val,key=None,auth=None):
+    if node_href: 
+        
+        try:
+            node_href=re.sub('\/$','',node_href)
+            if re.search('/cat$',node_href):
+                graphRoot=root
+            else:
+                graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(node_href))
+        except Exception as e:
+            print (e)
+    transactionId=graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val)
+    print ('upsertMetaData',transactionId)
     
     data={}
     data= getNode(graphRoot)
@@ -195,11 +204,28 @@ def addNodeMetaData(href,key,auth, rel, val):
 
 
 
-def addNodeItemMetaData(href,key,auth, rel, val):
-    if href:
-        graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val))
-    
+
+def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
+    transactionId=''
+    if node_href and href:
+        if node_href: 
+            
+            try:
+                node_href=re.sub('\/$','',node_href)
+                if re.search('/cat$',node_href):
+                    graphRoot=root
+                    print ("is Root Node")
+                else:
+                    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(node_href))
+            except Exception as e:
+                print (e)
+        else:
+            graphRoot=root
+        print(node_href, href, graphRoot.call({'from':address}).getItem(href))
+        item_c=getContract('CatalogueItem',network, graphRoot.call({'from':address}).getItem(href))   
+        transactionId=item_c.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val)
+        print ('upsertMetaData',transactionId)
+        
     data={}
     data= getNode(graphRoot)
     
@@ -250,13 +276,13 @@ def create_node():
 
 
 
-@app.route('/postMeta')
-@app.route('/cat/postMeta')
-def create_meta():
-    parent_href = request.args.get('parent_href')
+@app.route('/postNodeMetaData')
+@app.route('/cat/postNodeMetaData')
+def save_nodeMetaData():
     href = request.args.get('href')
     key = request.args.get('key')
     auth = request.args.get('auth')
+    rel = request.args.get('rel')
     val = request.args.get('val')
     '''
     {
@@ -274,8 +300,8 @@ def create_meta():
     }
     '''
     auth=''
-    val=2
-    data=addItemData(parent_href, href, key, auth, val)
+    
+    data=addNodeMetaData(href, rel, val,key,auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -285,6 +311,42 @@ def create_meta():
 
 
 
+@app.route('/postNodeItemMetaData')
+@app.route('/cat/postNodeItemMetaData')
+def save_nodeItemMetaData():
+    node_href = request.args.get('node_href')
+    item_href = request.args.get('item_href')
+    key = request.args.get('key')
+    auth = request.args.get('auth')
+    rel = request.args.get('rel')
+    val = request.args.get('val')
+    '''
+    {
+    "catalogue-metadata":[
+        {
+        "rel":"urn:X-hypercat:rels:isContentType",
+        "val":"application/vnd.hypercat.catalogue+json"
+        },
+        {
+        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
+        }
+    ],
+    "items":[
+    ]
+    }
+    '''
+    auth=''
+    
+    data={}
+    #data['transactionId']=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
+    data=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
+    
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
 
 
 @app.route('/', defaults={'path': ''})
