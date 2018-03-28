@@ -21,20 +21,75 @@
 
 <script>
 var history = [];
+var catalogue_meta_data=[];
+var catalogue_item_meta_data=[];
 
+
+function edit_meta(id, idx, data, node_href, item_href) {
+    node_href=get_full_url(node_href);
+    if (item_href)
+        item_href=get_full_url(item_href);
+							
+    var html='<div class="input-group">';
+    html+='<input class="form-control" type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
+    html+='<input class="form-control" type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
+    html+='<div class="input-group-append"><button class="btn btn-primary" type="button" ';
+    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
+    html+='</div>';
+    $('#' + id).html(html);
+
+}
+
+function save_meta(id, node_href, item_href) {
+        var key='';
+        var rel = $('#' + id + '_rel').val();
+        var val = $('#' + id + '_val').val();
+        
+        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
+        
+        if (item_href) {
+            post_url='/cat/postNodeItemMetaData?node_href=' + encodeURIComponent(node_href) + '&item_href=' + encodeURIComponent(item_href);
+        }
+        
+        //console.log(post_url, rel, val);
+        post_url+='&rel=' + encodeURIComponent(rel);
+        post_url+='&val=' + encodeURIComponent(val);
+        post_url+='&key=' + encodeURIComponent(key);
+        //alert(post_url);
+        $.ajax({
+            //beforeSend: function(xhr){setHeaders(xhr);},
+            type: 'GET',
+            url: post_url,
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                //alert(body);
+                parseCatalogue(get_url(node_href), body);   
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+
+    //alert(id);  
+}
 
 function get_url(url) {
     var path=url.replace(/https:\/\/iotblock.io/,'');
     path=path.replace(/http:\/\/localhost:8080/,'');
+    path=path.replace(/\/\//,'/');
     path=path.replace(/\/$/, "");
     path=path.replace(/icat/, "cat");
+    path=path.replace(/\?.*/, "");
+    
     //alert(path);
     return path;
 }
 
 function get_full_url(path) {
     
-    return 'https://iotblock.io/' + get_url(path);
+    return 'https://iotblock.io' + get_url(path);
 
 }
 
@@ -78,12 +133,19 @@ function updateQueryStringParameter(uri, key, value) {
 
 function parseCatalogue(url, doc) {
     var catMetadataListHTML = '<ul>';
+    var count=0;
     //try {
-        // store metadata for catalogue
-        console.log(doc);
-        for (var i=0;i<doc['catalogue-metadata'].length;i++) {
-            catMetadataListHTML += '<li>' + doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"</li>';
-        }
+    // store metadata for catalogue
+    
+    console.log(doc);
+    
+    for (var i=0;i<doc['catalogue-metadata'].length;i++) {
+        catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
+        catMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'catalogue_meta_' + count + '\', ' + count + ', catalogue_meta_data, \'' + url + '\',\'\')"> Edit </a> ] ';
+        catMetadataListHTML += doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"</li>';
+        catalogue_meta_data.push({ 'rel':doc['catalogue-metadata'][i].rel, 'val':doc['catalogue-metadata'][i].val});
+        count+=1;
+    }
         
     //} catch(e) {
     //    log(e);
@@ -92,6 +154,8 @@ function parseCatalogue(url, doc) {
 
     var urls=[url];
     var itemListHTML = '<ul>';
+
+    count=0;
     //try {
         for (var i=0;i<doc.items.length;i++) {
             var item = doc.items[i];
@@ -105,11 +169,14 @@ function parseCatalogue(url, doc) {
                 var mdata = item['item-metadata'][j];
                 if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                     supportsQueryOpenIoT = true;
-                itemMetadataListHTML += '<li>' + mdata.rel + ' = "' + mdata.val + '"</li>';
+                itemMetadataListHTML += '<li id=item_meta_' + count + '>' + '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val + '"</li>' 
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     isCat = true;
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
                     isGenericResource = true;
+                catalogue_item_meta_data.push({ 'rel':mdata.rel, 'val':mdata.val});
+            
+                count+=1;
             }
             itemMetadataListHTML += '</ul>';
 
@@ -448,6 +515,7 @@ $(document).ready(function() {
                     //-->
                     <br>
                     <div id="browser"></div>
+                    <!--
                     <h1>Metadata Editor</h1>
                     
                         <hr>
@@ -456,8 +524,9 @@ $(document).ready(function() {
                             <input type="button" id="add_metadata"  class="btn m-btn--pill m-btn--air         btn-outline-info"  i value="Add more metadata" /><br>
                         </p>
                         <hr>
+                    //-->
 
-                    </div>
+                </div>
             </div>
         </form>
 
