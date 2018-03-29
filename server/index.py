@@ -59,6 +59,40 @@ def getSmartKey(address):
 
 
 
+def getNodeKey(href):
+    try:
+        href=re.sub('\/$','',href)
+        if re.search('/cat$',href):
+            graphRoot=root
+        else:
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+    except Exception as e:
+        print (e)
+
+    key=getContract('Key',network, graphRoot.address)
+         
+    try:
+        
+        amount=key.call({'from':address}).activated(address) 
+        vault=key.call({'from':address}).vault()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "amount":amount,
+            "vault":vault,
+            "state":state,
+            "health":health
+            
+            }
+    print (cat)
+    
+    return cat
+
+
 
 def getNode(graphRoot):
  

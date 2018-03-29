@@ -24,12 +24,9 @@ contract MetaData is Administered {
   function setVal(string _val) 
   public
   onlyAdmin
-  payable
   returns (bool)
   {
   
-      smartKey.addSmartKey.value(msg.value)(address(this));
-
       val=_val;
       
       MetaDataVal(msg.sender, this, rel, val);

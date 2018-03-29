@@ -37,6 +37,7 @@ io=getContract('PublicOffering',network)
 root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartNodeItem=getContract('SmartNodeItem',network)
+smartKey=getContract('SmartKey',network)
 
 
 
@@ -51,6 +52,57 @@ def getSmartKey(address):
     print ('Key Activated', kc.call({ 'from': address}).activated(address))
     print ('Key State', kc.call({ 'from': address}).state())
     print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+
+
+
+
+def getNodeKey(href):
+    try:
+        href=re.sub('\/$','',href)
+        if re.search('/cat$',href):
+            graphRoot=root
+        else:
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+    except Exception as e:
+        print (e)
+
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    amount=100000 #1 ETH
+    print ('upsertNode', smartNode.transact({ 'from': address, 'value': amount }).upsertNode(graphRoot.address, href + "/test2"))
+    
+    #print ("addSmartKey load",smartKey.transact({ 'from': address, 'value':amount }).addSmartKey(graphRoot.address))
+    #print ("addKey load",key.transact({ 'from': address, 'value':amount }).activateKey(graphRoot.address))
+
+    print('smartkey', smartKey.call({'from':address}).smartKeys(graphRoot.address) )
+     
+    try:
+        
+        eth_sent=key.call({'from':address}).activated(address)
+        #amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        transactions='' #key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        amount=tokens
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            
+            "eth_sent":eth_sent,
+            "amount":amount,
+            "state":state,
+            "health":health,
+            "tokens":tokens,
+            "transactions":transactions,
+            "vault":vault,
+            
+            }
+    print (cat)
+    
+    return cat
 
 
 
@@ -173,8 +225,8 @@ def addNodeMetaData(node_href,rel, val,key=None,auth=None):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(node_href))
         except Exception as e:
             print (e)
-
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val))
+    transactionId=graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val)
+    print ('upsertMetaData',transactionId)
     
     data={}
     data= getNode(graphRoot)
@@ -185,6 +237,7 @@ def addNodeMetaData(node_href,rel, val,key=None,auth=None):
 
 
 def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
+    transactionId=''
     if node_href and href:
         if node_href: 
             
@@ -201,7 +254,8 @@ def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
         item_c=getContract('CatalogueItem',network, graphRoot.call({'from':address}).getItem(href))   
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val))
+        transactionId=item_c.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val)
+        print ('upsertMetaData',transactionId)
         
     data={}
     data= getNode(graphRoot)
@@ -211,7 +265,9 @@ def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
 
 
 
+
 if __name__ == '__main__':
+    node_href="https://iotblock.io/cat";
     '''
     href='https://iotblock.io/cat/test'
     print( addItemData('https://iotblock.io/cat', href ,address, '', 2))
@@ -220,12 +276,14 @@ if __name__ == '__main__':
     data  =  getNode(node)
     print(json.dumps(data, sort_keys=True, indent=4))
 
-    node_href="https://iotblock.io";
     
-    '''
     
     node_href="https://iotblock.io/cat"
     href="https://iotblock.io/cat/earth"
     rel="urn:X-hypercat:rels:lastUpdated"
     val="2018-03-281T04:24:47Z"
     addNodeItemMetaData(node_href, href, rel, val, "" ,"")
+
+    '''
+    
+    getNodeKey(node_href)

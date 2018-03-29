@@ -41,6 +41,7 @@ contract NodeMetaData is Administered {
   payable
   returns (bool)
   {
+  
       Key key=smartKey.getSmartKey(msg.sender);
       bytes32 hashVal=key.getHash(_rel);
       MetaData data;
@@ -54,7 +55,10 @@ contract NodeMetaData is Administered {
       } else {
             data = itemMetaData[hashVal];
       }
-      return data.setVal.value(msg.value)(_val);
+      
+      smartKey.addSmartKey.value(msg.value)(address(this));
+
+      return data.setVal(_val);
   }
  
 }

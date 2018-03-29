@@ -13,21 +13,12 @@ contract PoolKey is Key, Whitelisted
     mapping (address => uint256) public received;
     address public poolVault;
     address public beneficiary;
-    uint256 public contrib_amount;
     
     uint256 public max_contrib;
     uint256 public max_per_contrib;
     uint256 public min_per_contrib;
     uint256 public fee;
     
-    struct transaction {
-        
-        address from;
-        uint256 date;
-        uint256 amount;
-    }
-    
-    mapping (address => transaction[]) public transactions;
     
     function PoolKey(address _poolVault, address _beneficiary, uint256 _max_contrib, uint256 _max_per_contrib, uint256 _min_per_contrib, address[] _admins, bool _has_whitelist, uint256 _fee) 
     Whitelisted(_admins, _admins) 
