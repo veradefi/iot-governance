@@ -24,8 +24,8 @@ import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
-var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -312,10 +312,57 @@ window.get_smartkey = function(callback)
             });
         });
 
-        
 }
 
 
+window.get_graphnode_smartkey = function(href, callback) 
+{
+      
+        var GraphRoot = contract(db_artifacts);
+        var Key = contract(key_artifacts);                
+        var GraphNode = contract(node_artifacts);
+        var SmartKey = contract(sk_artifacts);                
+                
+        GraphRoot.setProvider(window.web3.currentProvider);
+        GraphNode.setProvider(window.web3.currentProvider);        
+        SmartKey.setProvider(window.web3.currentProvider);
+        Key.setProvider(window.web3.currentProvider);
+        
+
+        return GraphRoot.deployed().then(function(node) 
+        {
+            return node.getGraphNode.call(href, {'from':window.account}).then(function(keyAddress) 
+            {  
+                   return Key.at(keyAddress).then(function(keyInstance) 
+                   {
+                        return keyInstance.activated.call(window.address, {from: window.address}).then(function(amount) 
+                        {
+                            return keyInstance.vault.call({from: window.address}).then(function(vault) 
+                            {
+                                return keyInstance.state.call({from: window.address}).then(function(state) 
+                                {
+                                    return keyInstance.health.call({from: window.address}).then(function(health) 
+                                    {
+            
+                                           var eth1=1000000000000000000;
+                                           //amount /= eth1;
+                                           
+                                           callback(keyAddress,
+                                                     parseInt(amount.toString()), 
+                                                     vault, 
+                                                     parseInt(state.toString()),
+                                                     parseInt(health.toString()))
+                                           console.log(amount);
+            
+                                    });                       
+                                });
+                            });
+                       });                                                     
+                 });
+            });
+        });
+
+}
 
 window.add_node = function(parent_address, _href, callback) 
 {
@@ -563,7 +610,18 @@ if (typeof isBrowse !== 'undefined') {
         eth_salt = getCookie('iotcookie');
     }
     
-    var callback=function(address) {
+    var callback=function(address, eth_sent, vault, state, health) {
+        
+        fill_page2(address, eth_sent, vault, state, health);
+        /*
+        get_graph(url, path).then(function(pas212Root) {
+            var hyperJson=JSON.stringify(pas212Root, null, 4);
+            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
+        });                        
+        */
+    }
+    
+    var check_key=function(address) {
         var url='https://iotblock.io/cat';
         var path='/cat';
         url=url.replace(/\/$/, "");
@@ -574,15 +632,16 @@ if (typeof isBrowse !== 'undefined') {
         
         console.log(url); 
         console.log(path)
-        /*
-        get_graph(url, path).then(function(pas212Root) {
-            var hyperJson=JSON.stringify(pas212Root, null, 4);
-            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
-        });                        
-        */
+        
+
+        console.log('address' + address);
+        $('.address').html(address);
+        $('.address_val').val(address);
+        get_graphnode_smartkey('', callback);
     }
+    init_wallet(eth_salt, check_key);
     
-    init_wallet(eth_salt, callback);
+
     
 }
 

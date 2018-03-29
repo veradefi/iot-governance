@@ -10,6 +10,10 @@
 <link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
 <script>
   WebFont.load({
     google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
@@ -443,6 +447,69 @@ $(document).ready(function() {
     $('#urls').trigger('change');
 });
 
+
+
+function fill_page2(address, eth_sent, vault, state, health) {
+   $('#loading').show();
+   $('#page2').hide();
+
+    alert(eth_sent);
+    if (address == '0x0000000000000000000000000000000000000000') {
+        //$('#page1').show();
+        $('#loading').hide();
+        $('#page2').hide();
+    } else {
+       
+       var states=[ 'Issued', 'Active', 'Returned' ]
+       var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
+       
+       //$('#page1').hide();
+       $('#loading').hide();
+       $('#page2').show();
+       
+       $('.eth_sent').html(eth_sent);
+       $('.vault').html( vault );
+       $('.state').html( states[state] );
+       $('.health').html( healthStates[health] );
+       $('.progress-bar').val( eth_sent );
+       $('#poolkey').html('<pre>' + address + '</pre>');
+       
+       Morris.Donut({
+          element: 'contrib-stat',
+          data: [
+            {label: "Contributed ETH", value:  eth_sent},
+            //{label: "Available ETH", value:  max_contrib-contrib_total},
+          ]
+        });
+        
+         
+        $('#send_ether').on('click', function(e) {
+               var eth1=1000000000000000000;
+               var amt=parseInt($('#send_amt').val()) * eth1;
+               send_ether(address, amt);
+       });       
+   }
+   //get_pool_transactions(address, fill_page2_transactions);
+
+   console.log(address, eth_sent, vault, state);
+   
+}  
+
+function fill_page2_transactions(sender, date, amount) {
+        console.log(sender, date, amount);
+        var dateTime = new Date(parseInt(date) * 1000);
+        date=dateTime.toISOString(); 
+        var eth1=1000000000000000000;
+        var html ="<div class=row><div class=col-md-4>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
+        html +="</div><hr><br>";
+        
+        $('#transactions').append(html);
+}
+    
+
 </script>
 </head>
 
@@ -546,16 +613,147 @@ $(document).ready(function() {
             
     </div>
     //-->
-    <div class="col-md-6">
-
-        <p>
-            <div id="log"></div>
-        </p>
-        
-    </div></div>
+</div>
 </form>
+<form id="loading" >
+<img src="images/wait.gif">
+</form>
+<form id="page2" style="display:none;">
+<div class="row">
+    <div class="col-md-12">    
+        <center><h3>Smart Key Contract Address</h3></center><br>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">    
+
+        <center><h3><pre id='poolkey'></pre></h3></center>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">    
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">    
+        <div class="m-portlet m-portlet--tab">
+               <div class="m-portlet__head">
         
-            
+                    <br><br>                    
+                    
+                    <div class="row">
+                        <div class="col-md-6">    
+                            
+                            <h3>ETH BALANCE</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h1><span class="eth_sent"></span></h1>
+                                    <font size=2>ETH</font><br>
+                                </div>
+                                <div class="col-md-6">                            
+                                    <h1><span class="fee"></span></h1>
+                                    <font size=2>% Fee </font><br>
+                                </div>
+                            </div>                            
+                            <br><br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='send_ether'>Send Ether</a>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="col-md-6">    
+                            
+                            <h3>ETH RECEIVED FROM POOL</h3>
+                            <h1><span class="received"></span></h1> <font size=2>ETH</font>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                                <br><br>
+                                <h4>
+                                     
+                                     <div class="progress m-progress--sm">
+                						<div class="progress-bar m--bg-accent" role="progressbar" style="height:35px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                						<b><span class="eth_sent"></b>
+                						</div>
+                					</div>
+                                    
+                                </h4>
+                                <br><br>
+                        </div>
+                    </div>
+                    
+                     <div class="row">
+                        <div class="col-md-6">    
+                            <h3 class='status'>Health Status</h3>
+                            <h1><span class='health'></span></h1>
+                            
+                        </div>
+                        <div class="col-md-6">    
+                            <h3>Key State</h3>
+                            <h1>    <span class="state"></span></h1> <font size=2></font><br>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br><br><br>    
+                        </div>
+                    </div> 
+                </div>
+              </div>
+             </div>
+             <div class="col-md-6">    
+                    <div class="m-portlet m-portlet--tab">
+                           <div class="m-portlet__head">     
+                               <br><br>
+                               <div class="row>
+                                   <div class="col-md-12">
+                                        <h3>Vault</h3>
+                                        <pre><span class="vault"></span></pre> <font size=2></font><br>
+                                       <br>
+                                       <div id="contrib-stat" style="height: 250px;"></div>
+                                       <br>
+                                       
+                                    </div>
+                                    
+                                </div>                               
+    
+                            </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                           <div class="m-portlet__head">
+                               <br>
+                               <center><h3>Transactions</h3></center> 
+                                <hr>
+                               <div id='transactions'>
+                               </div>
+                           </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>            
+
+</form>
+
+
+  
         
         <p>
             <div id="log"></div>
@@ -573,33 +771,6 @@ $(document).ready(function() {
     
 <script>
 var isBrowse=true;
-var isSmartKey=true;
-
-function fill_page2(address, eth_sent, vault, state, health) {
-
-    if (address == '0x0000000000000000000000000000000000000000') {
-        $('#page1').show();
-        $('#page2').hide();
-        $('#loading').hide();
-    } else {
-        $('#page1').hide();
-        $('#page2').show();
-        $('#loading').hide();
-       
-       $('.key').html(address);
-       $('.key_val').val(address);
-         
-        $('#send_ether').on('click', function(e) {
-               var eth1=1000000000000000000;
-               var amt=parseInt($('#send_amt').val()) * eth1;
-               send_ether(address, amt);
-       });       
-   }
-   //get_pool_transactions(address, fill_page2_transactions);
-
-   console.log(address, eth_sent, vault, state);
-   
-}  
 
 </script>
 <script src="js/app.js"></script>

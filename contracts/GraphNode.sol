@@ -48,6 +48,11 @@ contract GraphNode is Catalogue, Key {
       {
          return nodeData[hashVal];
       }
+      
+      if (bytes(_href).length < 1)
+      {
+          return this;
+      }
   }
   
   
@@ -58,6 +63,8 @@ contract GraphNode is Catalogue, Key {
   {  
       //smartKey.addSmartKey.value(msg.value)(address(vault));  
       //bytes32 hashVal=Key(smartKey.getKey(address(vault))).getHash(_href);
+      smartKey.addSmartKey.value(msg.value)(address(this));
+
       bytes32 hashVal=getHash(_href);
       
       if (nodeData[hashVal] == address(0)) 
@@ -67,7 +74,7 @@ contract GraphNode is Catalogue, Key {
             nodes.push(nodeData[hashVal]);
                       
       }
-      smartKey.addSmartKey.value(msg.value)(address(vault));
+      //smartKey.addSmartKey.value(msg.value)(address(vault));
       //vault.transfer(msg.value);
       
       return true;
