@@ -26,11 +26,14 @@ contract SmartNode is Administered {
      _admins[0]=msg.sender;
      _admins[1]=address(_parentNode);  
      _admins[2]=address(this);  
-   
-      GraphNode _node = new GraphNode(smartKey, _admins);
-
-      _parentNode.upsertNode.value(msg.value/2)(_node, _href);
-      return graphRoot.upsertNode.value(msg.value/2)(_node, _href);
+          
+     GraphNode _node = new GraphNode(smartKey, _admins);
+     
+     smartKey.putSmartKey(_node, address(_node));
+      
+     _parentNode.upsertNode.value(msg.value/2)(_node, _href);
+     return graphRoot.upsertNode.value(msg.value/2)(_node, _href);
+      
   }
     
   

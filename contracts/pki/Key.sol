@@ -4,6 +4,7 @@ import '../math/SafeMath.sol';
 import '../ownership/Ownable.sol';
 
 contract Key is Ownable {
+   
    using SafeMath for uint256;
     
    enum State { Issued, Active, Returned }
@@ -12,10 +13,11 @@ contract Key is Ownable {
    enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
    event HealthUpdate(Health status);
     
-   mapping (address => uint256) public activated;
    address public vault;
    State public state;
    Health public health;
+   
+
 
    struct Attr {
         address user;
@@ -45,6 +47,18 @@ contract Key is Ownable {
    event SignRev(uint indexed revID, uint indexed signID);
 
    mapping(bytes32 => string) map;
+
+   uint256 public contrib_amount;
+    
+   mapping (address => uint256) public activated;
+   struct transaction {
+        
+        address from;
+        uint256 date;
+        uint256 amount;
+   }
+    
+   mapping (address => transaction[]) public transactions;
 
    function Key(address _vault) 
    public
@@ -104,15 +118,21 @@ contract Key is Ownable {
    
    function activateKey(address user) 
    public
-   onlyOwner 
-   payable 
    {
+
+        // payable 
+   
         state = State.Active;
-        vault.transfer(msg.value);
-        activated[user] = activated[user].add(msg.value);
         KeyStateUpdate(msg.sender, vault, state);
+
+        //activated[user] = activated[user].add(msg.value);     
+        //contrib_amount=contrib_amount.add(msg.value);    
+        //transactions[address(this)].push(transaction(msg.sender,now,msg.value));
+        //vault.transfer(msg.value);
+
    }
 
+    
    function returnKey() 
    public
    onlyOwner 

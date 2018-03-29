@@ -9,8 +9,8 @@ var admins=[
             ];
 
 module.exports = async (deployer) => {
-  
-  await deployer.deploy(SmartKey,  4000000000, web3.toWei('1', 'ether'), admins).then(function() {
+  // web3.toWei('1', 'ether')
+  await deployer.deploy(SmartKey,  4000000000, 1, admins).then(function() {
       
   });
 

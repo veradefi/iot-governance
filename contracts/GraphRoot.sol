@@ -9,7 +9,6 @@ contract GraphRoot is GraphNode
   public
   GraphNode(_smartKey, adminAddress)
   {
-  
   }
   
 }
