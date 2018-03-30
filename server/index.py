@@ -99,6 +99,39 @@ def getNodeKey(href):
     
     return cat
 
+def getNodeKeyTx(href):
+    try:
+        href=re.sub('\/$','',href)
+        if re.search('/cat$',href):
+            graphRoot=root
+        else:
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+    except Exception as e:
+        print (e)
+
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    tx=[]
+    try:
+        hasHistory=True
+        idx=0
+        while hasHistory:
+            transactions=key.call({'from':address}).transactions(key.address,idx)
+            sender=transactions[0]
+            date=transactions[1]
+            amount=transactions[2]
+            if sender != '0x0' and sender != re.search('0x0000000000000000000000000000000000000000',sender):
+                tx.append({'sender':sender,'date':date,'amount':amount})
+                idx+=1
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "transactions":tx
+               
+            }
+    
+    return cat
 
 
 
@@ -401,6 +434,19 @@ def getNodeSmartKey():
         mimetype='application/vnd.hypercat.catalogue+json'
     )
     return response
+
+@app.route('/getNodeSmartKeyTx')
+@app.route('/cat/getNodeSmartKeyTx')
+def getNodeSmartKeyTx():
+    href = request.args.get('href')
+    data = getNodeKeyTx(href)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
