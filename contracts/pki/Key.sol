@@ -115,20 +115,44 @@ contract Key is Ownable {
         activateKey(msg.sender);
    }
 
+   function setHealth(Health _health) 
+   public
+   payable
+   {
+
+        health = _health;
+        HealthUpdate(_health);
+        //if (vault != address(this) && vault != address(msg.sender)) {
+        //    vault.transfer(msg.value);
+        //}
+   
+   }
+   
+   function getHealth() 
+   view
+   public
+   returns (Health)
+   {
+        
+        return health;   
+   }
    
    function activateKey(address user) 
    public
+   payable
    {
 
         // payable 
    
         state = State.Active;
         KeyStateUpdate(msg.sender, vault, state);
-
-        //activated[user] = activated[user].add(msg.value);     
-        //contrib_amount=contrib_amount.add(msg.value);    
-        //transactions[address(this)].push(transaction(msg.sender,now,msg.value));
-        //vault.transfer(msg.value);
+        activated[user] = activated[user].add(msg.value);     
+        
+        contrib_amount=contrib_amount.add(msg.value);    
+        transactions[address(this)].push(transaction(msg.sender,now,msg.value));
+        //if (vault != address(this)) {
+        //    vault.transfer(msg.value);
+        //}
 
    }
 

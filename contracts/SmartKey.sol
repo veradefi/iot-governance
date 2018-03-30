@@ -105,8 +105,8 @@ contract SmartKey is MintableToken
                 key = smartKeys[beneficiary];
             }
 
-            //key.activateKey.value(msg.value)(beneficiary);
-            key.activateKey(beneficiary);
+            key.activateKey.value(msg.value)(beneficiary);
+            //key.activateKey(beneficiary);
             
             ActivateSmartKey(beneficiary, key); 
             

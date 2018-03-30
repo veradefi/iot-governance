@@ -11,7 +11,7 @@ contract GraphNode is Catalogue, Key {
   function GraphNode(SmartKey _smartKey, address[] adminAddress) 
   public
   Catalogue(_smartKey, adminAddress)
-  Key(msg.sender)
+  Key(address(this))
   {      
       
   }
