@@ -56,7 +56,7 @@ def getSmartKey(address):
 
 
 
-def getNodeKey(href):
+def testNodeKey(href):
     try:
         href=re.sub('\/$','',href)
         if re.search('/cat$',href):
@@ -110,6 +110,84 @@ def getNodeKey(href):
     
     return cat
 
+
+def getNodeKey(href):
+    try:
+        href=re.sub('\/$','',href)
+        if re.search('/cat$',href):
+            graphRoot=root
+        else:
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+    except Exception as e:
+        print (e)
+
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    
+    try:
+        
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(graphRoot.address)
+        amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "address":graphRoot.address,
+            "eth_recv":amount,
+            "balance":balance,
+            "state":state,
+            "health":health,
+            "tokens":tokens,
+            #"transactions":transactions,
+            "vault":vault,
+            
+            }
+    
+    return cat
+
+
+def getNodeKeyTx(href):
+    try:
+        href=re.sub('\/$','',href)
+        if re.search('/cat$',href):
+            graphRoot=root
+        else:
+            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+    except Exception as e:
+        print (e)
+
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    tx=[]
+    try:
+        hasHistory=True
+        idx=0
+        while hasHistory:
+            transactions=key.call({'from':address}).transactions(key.address,idx)
+            sender=transactions[0]
+            date=transactions[1]
+            amount=transactions[2]
+            if sender != '0x0' and sender != re.search('0x0000000000000000000000000000000000000000',sender):
+                tx.append({'sender':sender,'date':date,'amount':amount})
+                idx+=1
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "transactions":tx
+               
+            }
+
+    print(cat)
+    
+    return cat
 
 
 def getNode(graphRoot):
@@ -292,4 +370,6 @@ if __name__ == '__main__':
 
     '''
     
-    getNodeKey(node_href)
+    #getNodeKey(node_href)
+    getNodeKeyTx(node_href)
+    
