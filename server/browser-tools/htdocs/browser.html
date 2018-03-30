@@ -168,7 +168,31 @@ function get_smart_key_info(href) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
-                fill_page2(body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"]);
+                fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"]);
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
+function get_smartkey_transactions(href) {
+   $.ajax({
+            //beforeSend: function(xhr){setHeaders(xhr);},
+            type: 'GET',
+            url: '/cat/getNodeSmartKeyTx?href=' + encodeURI(href),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                var transactions=body["transactions"];
+                for (var i=0; i < transactions.length; i++) {
+                    var sender=transactions[i]["sender"];
+                    var date=transactions[i]["date"];
+                    var amount=transactions[i]["amount"];
+                    fill_page2_transactions(sender, date, amount)
+                }
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
@@ -470,8 +494,21 @@ $(document).ready(function() {
 });
 
 
+function fill_page2_transactions(sender, date, amount) {
+        console.log(sender, date, amount);
+        var dateTime = new Date(parseInt(date) * 1000);
+        date=dateTime.toISOString(); 
+        var eth1=1000000000000000000;
+        var html ="<div class=row><div class=col-md-4>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
+        html +="</div><hr><br>";
+        
+        $('#transactions').append(html);
+}    
 
-function fill_page2(address, balance, eth_recv, vault, state, health) {
+function fill_page2(href, address, balance, eth_recv, vault, state, health) {
    console.log(address, balance, eth_recv, vault, state, health);
    $('#loading').show();
    $('#page2').hide();
@@ -516,7 +553,7 @@ function fill_page2(address, balance, eth_recv, vault, state, health) {
                send_ether(address, amt);
        });       
    }
-   //get_pool_transactions(address, fill_page2_transactions);
+   get_smartkey_transactions(href);
 
    
 }  
