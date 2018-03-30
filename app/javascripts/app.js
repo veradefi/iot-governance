@@ -389,9 +389,9 @@ window.add_node = function(parent_address, _href, callback)
                             return callback(node_address);
                             
                         });                            
-                    });                
-                });
-          });
+                });                
+            });
+       });
 
         
 }
@@ -610,16 +610,6 @@ if (typeof isBrowse !== 'undefined') {
         eth_salt = getCookie('iotcookie');
     }
     
-    var callback=function(address, eth_sent, vault, state, health) {
-        
-        fill_page2(address, eth_sent, vault, state, health);
-        /*
-        get_graph(url, path).then(function(pas212Root) {
-            var hyperJson=JSON.stringify(pas212Root, null, 4);
-            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
-        });                        
-        */
-    }
     
     var check_key=function(address) {
         var url='https://iotblock.io/cat';
@@ -633,16 +623,12 @@ if (typeof isBrowse !== 'undefined') {
         console.log(url); 
         console.log(path)
         
-
         console.log('address' + address);
         $('.address').html(address);
         $('.address_val').val(address);
-        get_graphnode_smartkey('', callback);
     }
     init_wallet(eth_salt, check_key);
-    
 
-    
 }
 
 if (typeof isWeb !== 'undefined') {

@@ -31,7 +31,7 @@ web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 address2=web3.eth.coinbase
 address=web3.eth.accounts[1]
 
-print (address, address2)
+print ('eth1, eth2', address, address2)
 gc=getContract('SmartKey',network)
 io=getContract('PublicOffering',network)
 root=getContract('GraphRoot',network)
@@ -66,26 +66,32 @@ def getNodeKey(href):
     except Exception as e:
         print (e)
 
+    #print ('smartkey', smartKey.call({'from':address}).smartKeys(graphRoot.address) )
+
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
-    amount=100000 #1 ETH
-    print ('upsertNode', smartNode.transact({ 'from': address, 'value': amount }).upsertNode(graphRoot.address, href + "/test2"))
-    
+    #amount=100000 #1 ETH
     #print ("addSmartKey load",smartKey.transact({ 'from': address, 'value':amount }).addSmartKey(graphRoot.address))
+    #
+    #print ('upsertNode', smartNode.transact({ 'from': address, 'value': amount }).upsertNode(graphRoot.address, href + "/test2"))
+    #graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href + "/test2"))
     #print ("addKey load",key.transact({ 'from': address, 'value':amount }).activateKey(graphRoot.address))
 
-    print('smartkey', smartKey.call({'from':address}).smartKeys(graphRoot.address) )
-     
+    #print ('getBalance (eth) for node',web3.eth.getBalance(graphRoot.address))
+    #print ('getBalance (eth) for vault',web3.eth.getBalance(key.call({'from':address}).vault()))
+    #print ('node address, vault address', graphRoot.address, key.call({'from':address}).vault())
+    #print ('upsertNode', key.transact({ 'from': address, 'value': amount }).setHealth(1))
+    
     try:
         
-        eth_sent=key.call({'from':address}).activated(address)
-        #amount=key.call({'from':address}).contrib_amount()
+        eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        amount=key.call({'from':address}).contrib_amount()
         state=key.call({'from':address}).state()
         health=key.call({'from':address}).health()
         tokens=smartKey.call({'from':address}).balanceOf(key.address)
-        transactions='' #key.call({'from':address}).transactions(key.address,0)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
         vault=key.call({'from':address}).vault()
-        amount=tokens
+        #amount=tokens
     except Exception as e:
         print (e)
         
@@ -96,11 +102,11 @@ def getNodeKey(href):
             "state":state,
             "health":health,
             "tokens":tokens,
-            "transactions":transactions,
+            #"transactions":transactions,
             "vault":vault,
             
             }
-    print (cat)
+    #print (cat)
     
     return cat
 
