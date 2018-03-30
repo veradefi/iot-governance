@@ -6,14 +6,14 @@
 <script type="text/javascript" src="js/URI.js"></script>
 <script type="text/javascript" src="js/base64.js"></script>
 <script type="text/javascript" src="js/api.js"></script>
-<link rel="stylesheet" type="text/css" href="css/style.bundle.css">
-<link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
+<link rel="stylesheet" type="text/css" href="css/style.bundle.css">
+<link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 <script>
   WebFont.load({
     google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
@@ -155,6 +155,25 @@ function save_meta(id, node_href, item_href) {
         });
 
     //alert(id);  
+}
+
+function get_smart_key_info(href) {
+
+    
+    $.ajax({
+            //beforeSend: function(xhr){setHeaders(xhr);},
+            type: 'GET',
+            url: '/cat/getNodeSmartKey?href=' + encodeURI(href),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                fill_page2(body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"]);
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
 }
 
 function get_url(url) {
@@ -343,6 +362,7 @@ function browse(url, cb) {
         location= get_full_url(location);
         $('#browse_url').val(location);
         
+         
         if (err) {
             log("Error in "+url+" ("+err+")");
             cb(err); // done
@@ -354,6 +374,8 @@ function browse(url, cb) {
             parseCatalogue(location, doc);    // parse doc
             cb(null); // done
         }
+        get_smart_key_info(location);
+        
     });
 }
 
@@ -449,17 +471,20 @@ $(document).ready(function() {
 
 
 
-function fill_page2(address, eth_sent, vault, state, health) {
+function fill_page2(address, balance, eth_recv, vault, state, health) {
+   console.log(address, balance, eth_recv, vault, state, health);
    $('#loading').show();
    $('#page2').hide();
 
-    alert(eth_sent);
+    //alert(eth_sent);
     if (address == '0x0000000000000000000000000000000000000000') {
         //$('#page1').show();
         $('#loading').hide();
         $('#page2').hide();
     } else {
-       
+       var eth1_amount=1000000000000000000       
+       balance/=eth1_amount;
+       eth_recv/=eth1_amount;
        var states=[ 'Issued', 'Active', 'Returned' ]
        var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
        
@@ -467,18 +492,20 @@ function fill_page2(address, eth_sent, vault, state, health) {
        $('#loading').hide();
        $('#page2').show();
        
-       $('.eth_sent').html(eth_sent);
+       $('.eth_balance').html(balance);
+       $('.eth_received').html(eth_recv);
        $('.vault').html( vault );
        $('.state').html( states[state] );
        $('.health').html( healthStates[health] );
-       $('.progress-bar').val( eth_sent );
+       $('.progress-bar').val( balance / eth_recv * 100 );
        $('#poolkey').html('<pre>' + address + '</pre>');
        
+       $('#contrib-stat').html('');
        Morris.Donut({
           element: 'contrib-stat',
           data: [
-            {label: "Contributed ETH", value:  eth_sent},
-            //{label: "Available ETH", value:  max_contrib-contrib_total},
+            {label: "Received ETH", value:  eth_recv},
+            {label: "Available ETH", value:  balance},
           ]
         });
         
@@ -491,7 +518,6 @@ function fill_page2(address, eth_sent, vault, state, health) {
    }
    //get_pool_transactions(address, fill_page2_transactions);
 
-   console.log(address, eth_sent, vault, state);
    
 }  
 
@@ -537,7 +563,7 @@ function fill_page2_transactions(sender, date, amount) {
 </div>
 </form>
 
-<form id="page2">
+<form id="page1">
     
 
 <div class="row">
@@ -621,7 +647,7 @@ function fill_page2_transactions(sender, date, amount) {
 <form id="page2" style="display:none;">
 <div class="row">
     <div class="col-md-12">    
-        <center><h3>Smart Key Contract Address</h3></center><br>
+        <center><h3>Catalogue Smart Key Contract Address</h3></center><br>
     </div>
 </div>
 <div class="row">
@@ -649,16 +675,11 @@ function fill_page2_transactions(sender, date, amount) {
                             
                             <h3>ETH BALANCE</h3>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h1><span class="eth_sent"></span></h1>
+                                <div class="col-md-12">
+                                    <h1><span class="eth_balance"></span></h1>
                                     <font size=2>ETH</font><br>
                                 </div>
-                                <div class="col-md-6">                            
-                                    <h1><span class="fee"></span></h1>
-                                    <font size=2>% Fee </font><br>
-                                </div>
                             </div>                            
-                            <br><br>
                             <div class="row">
                                 <div class="col-md-6">
                                     <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
@@ -672,8 +693,16 @@ function fill_page2_transactions(sender, date, amount) {
                         </div>
                         <div class="col-md-6">    
                             
-                            <h3>ETH RECEIVED FROM POOL</h3>
-                            <h1><span class="received"></span></h1> <font size=2>ETH</font>
+                            <h3>ETH RECEIVED</h3>
+                            <h1><span class="eth_received"></span></h1> <font size=2>ETH</font>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input id='wd_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='wd_ether'>Transfer Ether</a>
+                                </div>
+                            </div>
                             
                         </div>
                     </div>

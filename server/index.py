@@ -41,6 +41,7 @@ io=getContract('PublicOffering',network)
 root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartNodeItem=getContract('SmartNodeItem',network)
+smartKey=getContract('SmartKey',network)
 
 
 
@@ -56,9 +57,7 @@ def getSmartKey(address):
     print ('Key Activated', kc.call({ 'from': address}).activated(address))
     print ('Key State', kc.call({ 'from': address}).state())
     print ('getBalance (eth) for address1',web3.eth.getBalance(address))
-
-
-
+    
 def getNodeKey(href):
     try:
         href=re.sub('\/$','',href)
@@ -69,28 +68,37 @@ def getNodeKey(href):
     except Exception as e:
         print (e)
 
-    key=getContract('Key',network, graphRoot.address)
-         
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    
     try:
         
-        amount=key.call({'from':address}).activated(address) 
-        vault=key.call({'from':address}).vault()
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(graphRoot.address)
+        amount=key.call({'from':address}).contrib_amount()
         state=key.call({'from':address}).state()
         health=key.call({'from':address}).health()
-        
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
     except Exception as e:
         print (e)
         
     cat = { 
-            "amount":amount,
-            "vault":vault,
+            "address":graphRoot.address,
+            "eth_recv":amount,
+            "balance":balance,
             "state":state,
-            "health":health
+            "health":health,
+            "tokens":tokens,
+            #"transactions":transactions,
+            "vault":vault,
             
             }
-    print (cat)
     
     return cat
+
 
 
 
@@ -382,6 +390,17 @@ def save_nodeItemMetaData():
     )
     return response
 
+@app.route('/getNodeSmartKey')
+@app.route('/cat/getNodeSmartKey')
+def getNodeSmartKey():
+    href = request.args.get('href')
+    data = getNodeKey(href)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
