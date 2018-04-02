@@ -24,8 +24,8 @@ import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
-var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -218,8 +218,10 @@ window.get_graph = function(url, path)
         }
         
         
-        if (path == "/cat") {        
+        if (path == "/cat") 
+        {        
             return GraphRoot.deployed().then(function(node) {
+            
                 return window.getCatalogue(node).then(function(pas212Root) {                                        
                         return pas212Root;
                 });
