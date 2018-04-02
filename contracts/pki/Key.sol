@@ -18,7 +18,6 @@ contract Key is Ownable {
    Health public health;
    
 
-
    struct Attr {
         address user;
         string attrType;
