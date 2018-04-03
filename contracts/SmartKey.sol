@@ -106,6 +106,7 @@ contract SmartKey is MintableToken
             }
 
             key.activateKey.value(msg.value)(beneficiary);
+            //key.addOwner(msg.sender);
             //key.activateKey(beneficiary);
             
             ActivateSmartKey(beneficiary, key); 
@@ -129,7 +130,7 @@ contract SmartKey is MintableToken
         {
             smartKeys[beneficiary] = key;
         }
-    
+        
     }
 
     function getSmartKey(address user) 	

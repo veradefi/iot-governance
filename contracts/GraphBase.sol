@@ -12,6 +12,10 @@ contract GraphBase is Key, Administered {
   Key(msg.sender)
   {      
       smartKey=_smartKey;    
+      for (uint i=0; i < adminAddress.length; i++) {
+        addOwner(adminAddress[i]);
+         
+      } 
   }  
  
   

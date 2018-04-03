@@ -8,7 +8,9 @@ const GraphRoot = artifacts.require("./GraphRoot.sol");
 
 var admins=[
             web3.eth.coinbase,
+            web3.eth.accounts[1],
             ];
+
 
 module.exports = async (deployer) => {
 //   await deployer.deploy(GraphNode, SmartKey.address, admins);
