@@ -18,8 +18,7 @@ contract PoolKey is Key, Whitelisted
     uint256 public max_per_contrib;
     uint256 public min_per_contrib;
     uint256 public fee;
-    
-    
+        
     function PoolKey(address _poolVault, address _beneficiary, uint256 _max_contrib, uint256 _max_per_contrib, uint256 _min_per_contrib, address[] _admins, bool _has_whitelist, uint256 _fee) 
     Whitelisted(_admins, _admins) 
     Key(_beneficiary) 

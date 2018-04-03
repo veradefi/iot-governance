@@ -200,6 +200,33 @@ function get_smartkey_transactions(href) {
         });
 }
 
+
+function get_transfer_node_eth(href, beneficiary, amount) {
+   var eth1=1000000000000000000;
+   var amt=parseFloat(amount) * eth1;
+   $('#eth_transfer').hide();
+   $('#eth_transfer_loading').show();
+   $.ajax({
+            //beforeSend: function(xhr){setHeaders(xhr);},
+            type: 'GET',
+            url: '/cat/transferNodeEth?href=' + encodeURI(href) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+               $('#eth_transfer').show();
+               $('#eth_transfer_loading').hide();
+                fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"]);
+            },
+            error: function(xhr, textStatus, err) {
+               $('#eth_transfer').show();
+               $('#eth_transfer_loading').hide();
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
 function get_url(url) {
     var path=url.replace(/https:\/\/iotblock.io/,'');
     path=path.replace(/http:\/\/localhost:8080/,'');
@@ -713,37 +740,22 @@ function fill_page2_transactions(sender, date, amount) {
                             <h3>ETH BALANCE</h3>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h1><span class="eth_balance"></span></h1>
+                                    <h3><span class="eth_balance"></span></h3>
                                     <font size=2>ETH</font><br>
                                 </div>
                             </div>                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='send_ether'>Send Ether</a>
-                                </div>
-                            </div>
                             
                             
                         </div>
                         <div class="col-md-6">    
                             
                             <h3>ETH RECEIVED</h3>
-                            <h1><span class="eth_received"></span></h1> <font size=2>ETH</font>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input id='wd_amt' class="form-control m-input m-input--air m-input--pill" value=1>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='wd_ether'>Transfer Ether</a>
-                                </div>
-                            </div>
+                            <h3><span class="eth_received"></span></h3> <font size=2>ETH</font>
+
                             
                         </div>
                     </div>
-                    
+                   
                     <div class="row">
                         <div class="col-md-12">
                                 <br><br>
@@ -786,15 +798,36 @@ function fill_page2_transactions(sender, date, amount) {
                                <br><br>
                                <div class="row>
                                    <div class="col-md-12">
-                                        <h3>Vault</h3>
-                                        <pre><span class="vault"></span></pre> <font size=2></font><br>
-                                       <br>
-                                       <div id="contrib-stat" style="height: 250px;"></div>
-                                       <br>
+                                        <h3>Vault
+                                        <pre><span class="vault"></span> <font size=2></font>
+                                        </h3>
+                                       <div id="contrib-stat" style="height: 200px;"></div>
                                        
                                     </div>
                                     
-                                </div>                               
+                                    <div class="col-md-12" id="eth_transfer">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                ETH Amount:<br>
+                                                <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                            </div>
+                                            <div class="col-md-4">
+                                                Beneficiary Address:<br>
+                                                <input id='beneficiary' class="address_val form-control m-input m-input--air m-input--pill" placeholder="Beneficiary Address">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <br>
+                                                <a href='#eth_transfer' onClick="JavaScript:get_transfer_node_eth($('#browse_url').val(), $('#beneficiary').val(), $('#send_amt').val())" class="btn m-btn--pill m-btn--air         btn-outline-info" id='wd_ether'>Transfer Ether</a>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        
+                                    </div>
+                                    <div id="eth_transfer_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+
+                                </div>                              
     
                             </div>
                     </div>

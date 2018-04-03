@@ -14,6 +14,11 @@ contract GraphNode is Catalogue, Key {
   Key(address(this))
   {      
       
+      for (uint i=0; i < adminAddress.length; i++) {
+        addOwner(adminAddress[i]);
+         
+      } 
+     
   }
   
   /* 

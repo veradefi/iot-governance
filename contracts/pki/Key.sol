@@ -46,10 +46,11 @@ contract Key is Ownable {
    event SignRev(uint indexed revID, uint indexed signID);
 
    mapping(bytes32 => string) map;
-
+   
    uint256 public contrib_amount;
     
    mapping (address => uint256) public activated;
+
    struct transaction {
         
         address from;
@@ -68,6 +69,17 @@ contract Key is Ownable {
         KeyStateUpdate(msg.sender, vault, state);
    }
 
+
+   function transferEth(uint amount, address beneficiary) 
+   public
+   onlyOwner 
+   {
+        require(state == State.Active);
+        beneficiary.transfer(amount);
+   }
+   
+   /*    
+   
    function addAttr(string attrType, bool has_proof, bytes32 id, string data, string datahash) 
    public
    returns (uint attrID) 
@@ -106,13 +118,14 @@ contract Key is Ownable {
             SignRev(revID, signID);
         }
    }
-    
+   
    function () 
    public
    payable 
    {
         activateKey(msg.sender);
    }
+   */
 
    function setHealth(Health _health) 
    public
@@ -164,6 +177,7 @@ contract Key is Ownable {
         state = State.Returned;
         KeyStateUpdate(msg.sender, vault, state);
    }
+   
    
 
    function getHash(string key) 
