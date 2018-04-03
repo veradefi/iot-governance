@@ -6,8 +6,12 @@ const SmartPoolKey = artifacts.require("./SmartPoolKey.sol");
 const SmartNode = artifacts.require("./SmartNode.sol");
 const SmartNodeItem = artifacts.require("./SmartNodeItem.sol");
 const GraphRoot = artifacts.require("./GraphRoot.sol");
-var admins=[web3.eth.coinbase,
+
+var admins=[
+            web3.eth.coinbase,
+            web3.eth.accounts[1],
             ];
+
             
 module.exports = async (deployer) => {
 

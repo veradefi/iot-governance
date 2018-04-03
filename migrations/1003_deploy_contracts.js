@@ -6,7 +6,9 @@ const SmartKey = artifacts.require("./SmartKey.sol");
 
 var admins=[
             web3.eth.coinbase,
+            web3.eth.accounts[1],
             ];
+
 
 module.exports = async (deployer) => {
   // web3.toWei('1', 'ether')
