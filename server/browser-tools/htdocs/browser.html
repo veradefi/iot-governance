@@ -227,6 +227,32 @@ function get_transfer_node_eth(href, beneficiary, amount) {
 }
 
 
+
+function setHealth(href, health) {
+   var health=parseInt(health)
+   $('#health').hide();
+   $('#health_loading').show();
+   $.ajax({
+            //beforeSend: function(xhr){setHeaders(xhr);},
+            type: 'GET',
+            url: '/cat/setHealth?href=' + encodeURI(href) + '&health=' + encodeURI(health),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+               $('#health').show();
+               $('#health_loading').hide();
+                fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"]);
+            },
+            error: function(xhr, textStatus, err) {
+               $('#health').show();
+               $('#health_loading').hide();
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
 function get_url(url) {
     var path=url.replace(/https:\/\/iotblock.io/,'');
     path=path.replace(/http:\/\/localhost:8080/,'');
@@ -832,17 +858,23 @@ function fill_page2_transactions(sender, date, amount) {
         </div>
         <div class="row">
             <div class="col-md-12">
+                <div id="health">
                 <center>
+                <h3>Update Device Integrity Status</h3>
                 <div class="m-btn-group m-btn-group--pill btn-group m-btn-group m-btn-group--pill btn-group-lg">
-                    <button type="button" class="btn btn-primary">Provisioning</button>
-                    <button type="button" class="btn btn-success">Certified</button>
-                    <button type="button" class="btn btn-info">Modified</button>
-                    <button type="button" class="btn btn-danger">Compromised</button>
-                    <button type="button" class="btn btn-danger">Malfunctioning</button>
-                    <button type="button" class="btn btn-danger">Harmful</button>
-                    <button type="button" class="btn btn-danger">Counterfeit</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),0)" type="button" class="btn btn-primary">Provisioning</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),1)" type="button" class="btn btn-success">Certified</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),2)" type="button" class="btn btn-info">Modified</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),3)" type="button" class="btn btn-danger">Compromised</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),4)" type="button" class="btn btn-danger">Malfunctioning</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),5)" type="button" class="btn btn-danger">Harmful</button>
+                    <button onClick="JavaScript:setHealth($('#browse_url').val(),6)" type="button" class="btn btn-danger">Counterfeit</button>
                 </div>
                 </center>
+                </div>
+                <div id="health_loading" style="display:none">
+                <center><img src="images/wait.gif" width=100></center>
+                </div>
                 <br><br><br>    
             </div>
         </div> 
