@@ -347,8 +347,8 @@ def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
     return data
 
 
-
 def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
+    amount=int(amount)
     if href: 
         
         try:
@@ -361,6 +361,54 @@ def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
             print (e)
             
     print('transferEth',graphRoot.transact({ 'from': address }).transferEth(amount, beneficiary));
+        
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    
+    try:
+        
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(graphRoot.address)
+        amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "address":graphRoot.address,
+            "eth_recv":amount,
+            "balance":balance,
+            "state":state,
+            "health":health,
+            "tokens":tokens,
+            #"transactions":transactions,
+            "vault":vault,
+            
+            }
+    
+    return cat
+
+
+def setHealth(health, href, key=None,auth=None):
+    health=int(health)
+    if href: 
+        
+        try:
+            href=re.sub('\/$','',href)
+            if re.search('/cat$',href):
+                graphRoot=root
+            else:
+                graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+        except Exception as e:
+            print (e)
+    
+     
+    print('transferEth',graphRoot.transact({ 'from': address }).setHealth(health))
         
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
@@ -422,5 +470,8 @@ if __name__ == '__main__':
     #getNodeKeyTx(node_href)
     beneficiary="0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544"
     href="https://iotblock.io/cat"
-    print('ethTransfer', nodeEthTransfer(100000, beneficiary, href, key=None,auth=None))
+    health=1
+    #print('ethTransfer', nodeEthTransfer(100000, beneficiary, href, key=None,auth=None))
+    
+    print('sethealth', setHealth(health, href, key=None,auth=None))
     
