@@ -3,10 +3,11 @@
 <link rel="stylesheet" type="text/css" href="css/diQuery-collapsiblePanel.css">
 <script src="js/jquery-1.9.1.min.js"></script>
 <script src="js/jquery.scrollTo-1.4.2-min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 <script type="text/javascript" src="js/URI.js"></script>
 <script type="text/javascript" src="js/base64.js"></script>
 <script type="text/javascript" src="js/api.js"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUU90mGUU8I7wHFPfteUJmZHdy-CSOApM&libraries=places&sensor=true" async="" defer=""></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
@@ -23,8 +24,11 @@
   });
 </script>
 
+
+
 <script>
 
+var map_json={};
 
 var user_item = {
     "item-metadata":[
@@ -148,6 +152,64 @@ function save_meta(id, node_href, item_href) {
             success: function(body, textStatus, xhr) {
                 //alert(body);
                 parseCatalogue(get_url(node_href), body);   
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+
+    //alert(id);  
+}
+
+
+
+function save_location(node_href, lat, lng) {
+       $('#location_save_loading').show();
+       $('#location_map').hide();
+        var key='';
+        
+        //if (item_href) {
+        //    post_url='/cat/postNodeItemMetaData?node_href=' + encodeURIComponent(node_href) + '&item_href=' + encodeURIComponent(item_href);
+        //}
+        
+        //console.log(post_url, rel, val);
+        
+        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
+        
+        var lat_rel="http://www.w3.org/2003/01/geo/wgs84_pos#lat"
+        var lng_rel="http://www.w3.org/2003/01/geo/wgs84_pos#long"
+        
+        var lat_url= post_url + '&rel=' + encodeURIComponent(lat_rel);
+        lat_url+='&val=' + encodeURIComponent(lat);
+        lat_url+='&key=' + encodeURIComponent(key);
+        
+        var lng_url= post_url + '&rel=' + encodeURIComponent(lng_rel);
+        lng_url+='&val=' + encodeURIComponent(lng);
+        lng_url+='&key=' + encodeURIComponent(key);
+        //alert(post_url);
+        $.ajax({
+            //beforeSend: function(xhr){setHeaders(xhr);},
+            type: 'GET',
+            url: lat_url,
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                $.ajax({
+                    //beforeSend: function(xhr){setHeaders(xhr);},
+                    type: 'GET',
+                    url: lng_url,
+                    //data: JSON.stringify(user_item),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function(body, textStatus, xhr) {
+                        //alert(body);
+                        parseCatalogue(get_url(node_href), body);   
+                    },
+                    error: function(xhr, textStatus, err) {
+                        log(xhr.status + ' ' + xhr.statusText);
+                    }
+                });
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
@@ -297,6 +359,150 @@ function deleteItem(cat_url, item_url) {
     });
 }
 
+
+function getMap() {
+     $('#showMap').html('');
+     $('#ShowMapTemplate').tmpl(map_json).appendTo('#showMap');
+    var lng=-0.116993;
+    var lat=51.508775;
+    if ("Latitude" in map_json) {
+        lat=map_json["Latitude"];
+    }
+    if ("Longitude" in map_json) {
+        lng=map_json["Longitude"];
+    }
+    //Set up some of our variables.
+    var map; //Will contain map object.
+    var marker = false; ////Has the user plotted their location marker? 
+    
+    //Function called to initialize / create the map.
+    //This is called when the page has loaded.
+    function initMap() {
+     
+        //The center location of our map.
+        var centerOfMap = new google.maps.LatLng(lat, lng);
+     
+        //Map options.
+        var options = {
+          center: centerOfMap, //Set center.
+          zoom: 3, //The zoom value.
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+     
+        //Create the map object.
+        map = new google.maps.Map(document.getElementById('map'), options);
+        
+        var pointMarker=new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            map: map, 
+            
+        });
+     
+        //Listen for any clicks on the map.
+        google.maps.event.addListener(map, 'click', function(event) {     
+            pointMarker.setMap(null);
+            //Get the location that the user clicked.
+            var clickedLocation = event.latLng;
+            //If the marker hasn't been added.
+            if(marker === false){
+                //Create the marker.
+                marker = new google.maps.Marker({
+                    position: clickedLocation,
+                    map: map,
+                    draggable: true //make it draggable
+                });
+                //Listen for drag events!
+                google.maps.event.addListener(marker, 'dragend', function(event){
+                    markerLocation();
+                });
+            } else{
+                //Marker has already been added, so just change its location.
+                marker.setPosition(clickedLocation);
+            }
+            //Get the marker's location.
+            markerLocation();
+        });
+        
+         // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+          map.setZoom(12);
+        });
+    }
+            
+    //This function will get the marker's current location and then add the lat/long
+    //values to our textfields so that we can save the location.
+    function markerLocation(){
+        //Get location.
+        var currentLocation = marker.getPosition();
+        //Add lat and lng values to a field that we can save.
+        document.getElementById('lat').value = currentLocation.lat(); //latitude
+        document.getElementById('lng').value = currentLocation.lng(); //longitude
+    }
+            
+            
+    //Load the map when the page has finished loading.
+    google.maps.event.addDomListener(window, 'load', initMap);
+    initMap();
+    $("#showMap").show();
+}
+
 // http://stackoverflow.com/questions/5999118/add-or-update-query-string-parameter
 function updateQueryStringParameter(uri, key, value) {
     var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
@@ -327,11 +533,21 @@ function parseCatalogue(url, doc) {
         catMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'catalogue_meta_' + count + '\', ' + count + ', catalogue_meta_data, \'' + url + '\',\'\')"> Edit </a> ] ';
         catMetadataListHTML += doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"</li>';
         catalogue_meta_data.push({ 'rel':doc['catalogue-metadata'][i].rel, 'val':doc['catalogue-metadata'][i].val});
+        if (doc['catalogue-metadata'][i].rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
+            map_json["Latitude"]=doc['catalogue-metadata'][i].val;
+        }
+        if (doc['catalogue-metadata'][i].rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
+            map_json["Longitude"]=doc['catalogue-metadata'][i].val;
+        }
         count+=1;
     }
     var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data\',\'' + url + '\',\'\')">Add Meta Data</a>] ';
 
+    var maplink='[ <a href="JavaScript:getMap();">Edit Location</a> ]';
+    
     catMetadataListHTML += '<li id=catalogue_create_meta_data>' + addItemMetaData + '</li>';
+
+    catMetadataListHTML += '<li id=catalogue_get_location>' + maplink + '</li>';
         
     //} catch(e) {
     //    log(e);
@@ -412,13 +628,12 @@ function parseCatalogue(url, doc) {
         
         itemListHTML += '</ul>';
 
-        
         var deletecatlink = '<a href="javascript:deleteCat(\''+url+'\');"><strong>[delete catalogue]</strong></a>';
-
         
         var listHTML = '<ul>';
         listHTML += '<li> Catalogue Metadata </li>';
         listHTML += catMetadataListHTML;
+        listHTML += '<li id="showMap" style="display:none"></li>'
         listHTML += '<li> Items </li>'
         listHTML += itemListHTML;
         listHTML += '</ul>';
@@ -918,6 +1133,35 @@ var isBrowse=true;
 
 </script>
 <script src="js/app.js"></script>
+
+<script id="ShowMapTemplate" type="text/x-jquery-tmpl">
+            <div class="row" id="location_map">
+                <div class="col-md-12">
+                     <div id="map" style="width:100%;height:300px;"></div>
+                     <input id="pac-input" type="text" placeholder="Search Box" autocomplete="off" style="height:30px;width:300px;" class="m-input m-input--air">
+                     <div class="input-group">
+                     <input class="form-control" type="text" id="lat_name" value="http://www.w3.org/2003/01/geo/wgs84_pos#lat">
+                     <span style="vertical-align:middle;"><h1> = </h1></span>
+                     <input class="form-control" type="text" id="lat" value="${ Latitude }">   
+                     </div>                  
+                     <div class="input-group">x
+                     <input class="form-control" type="text" id="long_name" value="http://www.w3.org/2003/01/geo/wgs84_pos#long">
+                     <span style="vertical-align:middle;"><h1> = </h1></span>
+                     <input class="form-control" type="text" id="lng" value="${ Longitude }">   
+                     </div>
+                     <center>
+                     <br>
+                     <button class="btn btn-primary" type="button" onclick="JavaScript:save_location($('#browse_url').val(),$('#lat').val(),$('#lng').val())">Save Location</button>
+                     </center>
+
+                </div>
+            </div>
+            <form id="location_save_loading" style="display:none;">
+            <img src="images/wait.gif">
+            </form>
+
+</script>
+
 </body>
 
 </html>
