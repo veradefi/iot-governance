@@ -354,6 +354,52 @@ def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
     return cat
 
 
+def setHealth(health, href, key=None,auth=None):
+    health=int(health)
+    if href: 
+        
+        try:
+            href=re.sub('\/$','',href)
+            if re.search('/cat$',href):
+                graphRoot=root
+            else:
+                graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+        except Exception as e:
+            print (e)
+    
+     
+    print('transferEth',graphRoot.transact({ 'from': address }).setHealth(health))
+        
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
+
+    
+    try:
+        
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(graphRoot.address)
+        amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "address":graphRoot.address,
+            "eth_recv":amount,
+            "balance":balance,
+            "state":state,
+            "health":health,
+            "tokens":tokens,
+            #"transactions":transactions,
+            "vault":vault,
+            
+            }
+    
+    return cat
 
 
 
@@ -506,6 +552,23 @@ def transferNodeEth():
     key=''
     auth=''
     data = nodeEthTransfer(amount, beneficiary, href, key, auth)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+
+@app.route('/setHealth')
+@app.route('/cat/setHealth')
+def setDeviceHealth():
+    href = request.args.get('href')
+    health = request.args.get('health')
+    key=''
+    auth=''
+    health=int(health)
+    data = setHealth(health, href, key, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
