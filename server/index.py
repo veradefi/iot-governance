@@ -47,17 +47,166 @@ smartKey=getContract('SmartKey',network)
 
 
 def getSmartKey(address):
-    amount=1000000000000000000 #1 ETH
     
-    # get smart key
-    print (io.transact({ 'from': address, 'value': amount}).getSmartKey(address))
-    #print (gc.transact({ 'from': address, 'value': amount}).getSmartKey(address))
-    key=gc.call({ 'from': address }).getKey(address)
-    kc=getContract('Key',network, key, prefix="pki_")
-    print ('Key Activated', kc.call({ 'from': address}).activated(address))
-    print ('Key State', kc.call({ 'from': address}).state())
-    print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+    keyAddress=gc.call({ 'from': address }).getSmartKey(address)
+    print (keyAddress)
+    if keyAddress != '0x0000000000000000000000000000000000000000':
+        key=getContract('Key',network, keyAddress, prefix="pki_")
+        
+        try:
+            
+            #print ('Key Activated', kc.call({ 'from': address}).activated(address))
+            #print ('Key State', kc.call({ 'from': address}).state())
+            #print ('getBalance (eth) for address1',web3.eth.getBalance(address))
     
+            #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+            balance=web3.eth.getBalance(key.address)
+            amount=key.call({'from':address}).contrib_amount()
+            state=key.call({'from':address}).state()
+            health=key.call({'from':address}).health()
+            tokens=smartKey.call({'from':address}).balanceOf(key.address)
+            #transactions=key.call({'from':address}).transactions(key.address,0)
+            vault=key.call({'from':address}).vault()
+            #amount=tokens
+        except Exception as e:
+            print (e)
+        
+        cat = { 
+                "address":keyAddress,
+                "eth_recv":amount,
+                "balance":balance,
+                "state":state,
+                "health":health,
+                "tokens":tokens,
+                #"transactions":transactions,
+                "vault":vault,
+                
+                }
+    else:
+        cat = { 
+                "address":"0x0000000000000000000000000000000000000000",
+                "eth_recv":0,
+                "balance":0,
+                "state":0,
+                "health":0,
+                "tokens":0,
+                #"transactions":transactions,
+                "vault":"0x0000000000000000000000000000000000000000",
+                
+                }
+    print(cat)
+    
+    return cat
+
+
+def getSmartKeyTx(address):
+    keyAddress=gc.call({ 'from': address }).getSmartKey(address)
+    key=getContract('Key',network, keyAddress, prefix="pki_")
+
+    tx=[]
+    try:
+        hasHistory=True
+        idx=0
+        while hasHistory:
+            transactions=key.call({'from':address}).transactions(key.address,idx)
+            sender=transactions[0]
+            date=transactions[1]
+            amount=transactions[2]
+            if sender != '0x0' and sender != re.search('0x0000000000000000000000000000000000000000',sender):
+                tx.append({'sender':sender,'date':date,'amount':amount})
+                idx+=1
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "transactions":tx
+               
+            }
+
+    print(cat)
+    
+    return cat
+
+
+def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
+
+    amount=int(amount)
+    
+    keyAddress=smartKey.call({ 'from': address }).getSmartKey(sender)
+    
+    key=getContract('Key',network, keyAddress, prefix="pki_")
+
+    print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
+    
+            
+    print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
+
+        
+    try:
+        
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(key.address)
+        amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "address":key.address,
+            "eth_recv":amount,
+            "balance":balance,
+            "state":state,
+            "health":health,
+            "tokens":tokens,
+            #"transactions":transactions,
+            "vault":vault,
+            
+            }
+    
+    return cat
+
+def setUserHealth(health, userAddress, key=None,auth=None):
+    health=int(health)
+    keyAddress=smartKey.call({ 'from': address }).getSmartKey(userAddress)
+    
+    key=getContract('Key',network, keyAddress, prefix="pki_")
+        
+    print('setHealth',key.transact({ 'from': address }).setHealth(health))
+    
+    try:
+        
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(key.address)
+        amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "address":key.address,
+            "eth_recv":amount,
+            "balance":balance,
+            "state":state,
+            "health":health,
+            "tokens":tokens,
+            #"transactions":transactions,
+            "vault":vault,
+            
+            }
+    
+    return cat
+
+
 def getNodeKey(href):
     try:
         href=re.sub('\/$','',href)
@@ -541,6 +690,62 @@ def getNodeSmartKeyTx():
     )
     return response
 
+@app.route('/getSmartKey')
+@app.route('/cat/getSmartKey')
+def getUserSmartKey():
+    address = request.args.get('address')
+    data = getSmartKey(address)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+@app.route('/getSmartKeyTx')
+@app.route('/cat/getSmartKeyTx')
+def getUserSmartKeyTx():
+    address = request.args.get('address')
+    data = getSmartKeyTx(address)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+@app.route('/transferUserEth')
+@app.route('/cat/transferUserEth')
+def transferUserEth():
+    address = request.args.get('address')
+    beneficiary = request.args.get('beneficiary')
+    amount = request.args.get('amount')
+    key=''
+    auth=''
+    data = userEthTransfer(amount, beneficiary, address, key, auth)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+
+@app.route('/setUserHealth')
+@app.route('/cat/setUserHealth')
+def setUserHealthStatus():
+    address = request.args.get('address')
+    health = request.args.get('health')
+    key=''
+    auth=''
+    health=int(health)
+    data = setUserHealth(health, address, key, auth)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
 
 
 @app.route('/transferNodeEth')

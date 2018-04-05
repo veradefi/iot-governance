@@ -18,6 +18,7 @@ contract GraphNode is Catalogue, Key {
         addOwner(adminAddress[i]);
          
       } 
+      addOwner(address(_smartKey));
      
   }
   

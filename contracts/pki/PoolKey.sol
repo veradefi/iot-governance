@@ -64,8 +64,8 @@ contract PoolKey is Key, Whitelisted
                 vault.transfer(fee2);
                 received[poolVault] = received[poolVault].add(fee1);
                 received[vault] = received[vault].add(fee2);
-                transactions[poolVault].push(transaction(msg.sender,now,fee1));
-                transactions[vault].push(transaction(msg.sender,now,fee2));
+                transactions[poolVault].push(transaction(msg.sender,now,fee1, 1));
+                transactions[vault].push(transaction(msg.sender,now,fee2, 1));
                 
                 
                 isMember[msg.sender] = isMember[msg.sender].add(weiAmount);
@@ -75,7 +75,7 @@ contract PoolKey is Key, Whitelisted
                 {
                     members[i].transfer(distAmount);
                     received[members[i]] = received[members[i]].add(distAmount);
-                    transactions[members[i]].push(transaction(msg.sender,now,distAmount));
+                    transactions[members[i]].push(transaction(msg.sender,now,distAmount, 1));
                 }
                 
                 
@@ -83,7 +83,7 @@ contract PoolKey is Key, Whitelisted
                     members.push(msg.sender);
                 }
                 
-                transactions[msg.sender].push(transaction(msg.sender,now,weiAmount));
+                transactions[msg.sender].push(transaction(msg.sender,now,weiAmount, 0));
             }
         }        
     }

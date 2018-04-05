@@ -28,6 +28,7 @@ var graph, springy;
 var cursor = "";
 var cursor_subURL = "";
 
+
 function parseCatalogue(url, doc) {
     try {
         // store metadata for catalogue
@@ -180,12 +181,18 @@ function subscribe(url) {
 }
 
 $(document).ready(function() { 
-    populateExamples();
+    parseLinks();
 
-    $('#examples').on('change', function (e) {
+    $('#urls').on('change', function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
         $('#url').val(this.value);
+        cursor = this.value;
+        explore(this.value, function() {
+            log('explore complete');
+            dumpGraph();
+            updateSubscribeButton();
+        });
     });
 
     $("#go").click(function() {
@@ -237,6 +244,8 @@ $(document).ready(function() {
 
     var canvas = document.querySelector('canvas');
     fitToContainer(canvas);
+    
+
 });
 
 </script>
@@ -275,7 +284,7 @@ $(document).ready(function() {
     <div class="col-md-6">
     <p>
         <form>
-            <select id="examples" class="form-control m-input m-input--air" ></select>
+            <select id="urls" class="form-control m-input m-input--air" ></select>
             <h3>
             <br>
             URL:&nbsp;
@@ -314,6 +323,7 @@ $(document).ready(function() {
     </p>
     </div>
 </div>
+
 </body>
 
 </html>

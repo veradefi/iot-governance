@@ -314,25 +314,6 @@ function setHealth(href, health) {
         });
 }
 
-
-function get_url(url) {
-    var path=url.replace(/https:\/\/iotblock.io/,'');
-    path=path.replace(/http:\/\/localhost:8080/,'');
-    path=path.replace(/\/\//,'/');
-    path=path.replace(/\/$/, "");
-    path=path.replace(/icat/, "cat");
-    path=path.replace(/\?.*/, "");
-    
-    //alert(path);
-    return path;
-}
-
-function get_full_url(path) {
-    
-    return 'https://iotblock.io' + get_url(path);
-
-}
-
 function deleteCat(cat_url) {
     del(cat_url, $('#key').val(), function(err) {
         if (!err) {
@@ -588,6 +569,7 @@ function parseCatalogue(url, doc) {
             var deletelink = '<a href="javascript:deleteItem(\''+url+'\',\''+item.href+'\');"><strong>[delete item]</strong></a>';
 
             
+            itemListHTML += '<li>' + link + '</li>';
             itemListHTML += itemMetadataListHTML;
         }
         var addItemLink = '[<a href="JavaScript:add_item(\'add_catalogue_item\')"> Add Item </a>] ';
@@ -644,7 +626,6 @@ function populateUrls(urls) {
 
     $("#urls").find('option').remove().end();
     
-    //$("#urls").append(new Option('https://iotblock.io/cat/earth', 'https://iotblock.io/cat/earth'));
     for (var i=0; i < urls.length; i++) {
         $("#urls").append(new Option(urls[i], urls[i]));
     }
@@ -728,20 +709,6 @@ $(document).ready(function() {
     $('#urls').trigger('change');
 });
 
-
-function fill_page2_transactions(sender, date, amount) {
-        console.log(sender, date, amount);
-        var dateTime = new Date(parseInt(date) * 1000);
-        date=dateTime.toISOString(); 
-        var eth1=1000000000000000000;
-        var html ="<div class=row><div class=col-md-4>";
-        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
-        html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
-        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
-        html +="</div><hr><br>";
-        
-        $('#transactions').append(html);
-}    
 
 function fill_page2(href, address, balance, eth_recv, vault, state, health) {
    console.log(address, balance, eth_recv, vault, state, health);

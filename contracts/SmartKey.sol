@@ -105,17 +105,17 @@ contract SmartKey is MintableToken
                 key = smartKeys[beneficiary];
             }
 
-            key.activateKey.value(msg.value)(beneficiary);
-            //key.addOwner(msg.sender);
+            key.activateKey.value(msg.value)(address(key));
+            key.addOwner(address(this));
             //key.activateKey(beneficiary);
             
             ActivateSmartKey(beneficiary, key); 
             
             tokenMinted = tokenMinted.add(tokens);
             
-            balances[beneficiary] = balances[beneficiary].add(tokens);
-            Mint(beneficiary, tokens);
-            Transfer(address(0), beneficiary, tokens);
+            balances[address(key)] = balances[address(key)].add(tokens);
+            Mint(address(key), tokens);
+            Transfer(address(0), address(key), tokens);
         }        
         
     }
@@ -132,6 +132,27 @@ contract SmartKey is MintableToken
         }
         
     }
+    
+    function addOwner(address _user) 
+    onlyAdmin
+    public
+    {
+        require(_user != 0x0);
+        require(smartKeys[_user] != address(0));
+        smartKeys[_user].addOwner(msg.sender);
+    }
+    
+ 
+   function transferEth(uint amount, address sender, address beneficiary) 
+   public
+   {
+        require(sender != 0x0);
+        require(beneficiary != 0x0);
+        require(smartKeys[sender] != address(0));
+        if (isAdmin[msg.sender] || smartKeys[sender].isOwner(msg.sender)) {
+            smartKeys[sender].transferEth(amount, beneficiary);
+        }
+   }
 
     function getSmartKey(address user) 	
     public
