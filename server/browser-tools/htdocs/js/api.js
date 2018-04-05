@@ -6,28 +6,59 @@ function log(msg) {
     log.scrollTo('100%');
 }
 
-function populateExamples() {
-    $("#examples").append(new Option('Select URL...',''));
-    $("#examples").append(new Option('https://iotblock.io/cat/earth', 'https://iotblock.io/cat/earth'));
-    $("#examples").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
-
-/*
-    $("#examples").append(new Option("Select example URL", ""));
-
-    $.ajax({
-        type: 'GET',
-        url: '/listexamples',
-        dataType: 'json',
-        success: function(body, textStatus, xhr) {
-            for (var i=0;i<body.length;i++)
-                $("#examples").append(new Option(body[i], body[i]));
-        },
-        error: function() {
-            log("Error listing examples");
-        }
-    });
-*/
+function get_url(url) {
+    var path=url.replace(/https:\/\/iotblock.io/,'');
+    path=path.replace(/http:\/\/localhost:8080/,'');
+    path=path.replace(/\/\//,'/');
+    path=path.replace(/\/$/, "");
+    path=path.replace(/icat/, "cat");
+    path=path.replace(/\?.*/, "");
+    
+    //alert(path);
+    return path;
 }
+
+function get_full_url(path) {
+    
+    return 'https://iotblock.io' + get_url(path);
+
+}
+
+function parseLinks() {
+    var url='https://iotblock.io/cat'
+        
+    //alert(url);
+    fetch(url, $('#key').val(), function(err, doc, location) {
+        location= get_full_url(location);
+        var urls=[url];
+    
+        try {
+            for (var i=0;i<doc.items.length;i++) {
+                var item = doc.items[i];
+                item.href = URI(item.href).absoluteTo(url).toString();    // fixup relative URL
+                urls.push(item.href);
+            }
+            populateUrls(urls);
+            $('#urls').trigger('change');
+
+        } catch(e) {
+            log(e);
+        }
+        
+    });
+}
+
+function populateUrls(urls) {
+
+    $("#urls").find('option').remove().end();
+    
+    for (var i=0; i < urls.length; i++) {
+        $("#urls").append(new Option(urls[i], urls[i]));
+    }
+    $("#urls").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
+
+}
+
 
 function del(url, key, cb) {
     log('-> DELETE ' + url);
@@ -50,6 +81,7 @@ function del(url, key, cb) {
         }
     });
 }
+
 
 function fetch(url, key, cb) {
     log('-> GET ' + url);
