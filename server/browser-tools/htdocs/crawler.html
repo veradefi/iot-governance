@@ -168,14 +168,14 @@ function fitToContainer(canvas){
 
 
 $(document).ready(function() { 
-    populateExamples();
-
+    parseLinks();
     $(".collapsibleContainer").collapsiblePanel();
 
-    $('#examples').on('change', function (e) {
+    $('#urls').on('change', function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
         $('#url').val(this.value);
+        startcrawl($('#url').val());
     });
 
 
@@ -291,7 +291,7 @@ function searchForLocations() {
     <div class="col-md-6">
         <p>
             <form>
-                <select  class="form-control m-input m-input--air"   id="examples"></select>
+                <select  class="form-control m-input m-input--air"   id="urls"></select>
                 <br>
                 <h3>
                 URL:&nbsp;

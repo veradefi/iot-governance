@@ -24,8 +24,8 @@ import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
-var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -241,31 +241,64 @@ window.get_graph = function(url, path)
 
 
 
-window.add_smartkey = function(beneficiary, callback) 
+window.add_smartkey = function(beneficiary, auth, auth_key, callback) 
 {
       
        var SmartKey = contract(sk_artifacts);                
        SmartKey.setProvider(window.web3.currentProvider);
          
-      
-        return SmartKey.deployed().then(function(contractInstance) {
+       var Key = contract(key_artifacts);                
+       Key.setProvider(window.web3.currentProvider);
+       return SmartKey.deployed().then(function(contractInstance) {
         
                 var eth1=1000000000000000000;
                 return contractInstance.addSmartKey(beneficiary, {from: window.address, value: eth1}).then(function(address) {
-                    return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(address) {
-                          
-                            console.log('Key Address', address);
-                            callback(address);
+                    return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(keyAddress) {
+                         return Key.at(keyAddress).then(function(keyInstance) {
+                             return keyInstance.addKeyAuth(auth, auth_key, {from: window.address}).then(function(res) {
+                             
+                                    console.log('Key Address', keyAddress);
+                                    callback(keyAddress);
+                                    
+                             });
+                         });
                             
                     });                
                 });
                 
-         });
+       });
 
         
 }
 
+window.add_keyAuth = function(beneficiary, auth, auth_key, callback) 
+{
+      
+       var SmartKey = contract(sk_artifacts);                
+       SmartKey.setProvider(window.web3.currentProvider);
+         
+       var Key = contract(key_artifacts);                
+       Key.setProvider(window.web3.currentProvider);
+       return SmartKey.deployed().then(function(contractInstance) {
+        
+                var eth1=1000000000000000000;
+                return contractInstance.getSmartKey.call(beneficiary, {from: window.address}).then(function(keyAddress) {
+                
+                     return Key.at(keyAddress).then(function(keyInstance) {
+                         return keyInstance.addKeyAuth(auth, auth_key, {from: window.address}).then(function(res) {
+                         
+                                console.log('Key Address', keyAddress);
+                                callback(keyAddress);
+                                
+                         });
+                     });
+                        
+                });                
+                
+       });
 
+        
+}
 window.get_smartkey = function(callback) 
 {
       
@@ -280,37 +313,40 @@ window.get_smartkey = function(callback)
            return smartKeyInstance.getSmartKey.call(window.address, {from: window.address}).then(function (keyAddress) {
                console.log('Key Address',keyAddress);
            
-               if (keyAddress == '0x0000000000000000000000000000000000000000' || keyAddress.startsWith('0x0')) {
                    
-                   return callback(keyAddress,
+               if (keyAddress == '0x0000000000000000000000000000000000000000' || keyAddress.startsWith('0x0')) {
+                       return callback(window.address,
+                             keyAddress,
+                             parseInt(0), 
                              parseInt(0), 
                              '0x0000000000000000000000000000000000000000', 
                              parseInt(0),
                              parseInt(0));
    
-               }
-       
+               } 
                return Key.at(keyAddress).then(function(keyInstance) {
-                    return keyInstance.activated.call(window.address, {from: window.address}).then(function(amount) {
+                    return smartKeyInstance.balanceOf.call(keyAddress, {from: window.address}).then(function(token_balance) {
                         return keyInstance.vault.call({from: window.address}).then(function(vault) {
                             return keyInstance.state.call({from: window.address}).then(function(state) {
                                 return keyInstance.health.call({from: window.address}).then(function(health) {
-        
-                                       var eth1=1000000000000000000;
-                                       amount /= eth1;
-                                       
-                                       callback(keyAddress,
-                                                 parseInt(amount.toString()), 
-                                                 vault, 
-                                                 parseInt(state.toString()),
-                                                 parseInt(health.toString()))
-                                       console.log(amount);
-        
+    
+                                   var eth1=1000000000000000000;
+                                   
+                                   var eth_amount=web3.eth.getBalance(keyAddress);
+                                   callback(window.address,
+                                             keyAddress,
+                                             parseInt(token_balance.toString()), 
+                                             parseInt(eth_amount.toString()), 
+                                             vault, 
+                                             parseInt(state.toString()),
+                                             parseInt(health.toString()))
+                                   console.log(eth_amount);
                                 });                       
-                            });
+    
+                            });                       
                         });
-                   });                                                     
-               });
+                    });
+               });                                                     
             });
         });
 
@@ -572,32 +608,12 @@ if (typeof isSmartKey !== 'undefined') {
         eth_salt = getCookie('iotcookie');
     }
     
-    var callback=function(address, eth_sent, vault, state, health) {
-        var url='https://iotblock.io/cat';
-        var path='/cat';
-        url=url.replace(/\/$/, "");
-        url=url.replace(/icat/, "cat");
-        url="https://iotblock.io" + path
-        path=path.replace(/\/$/, "");
-        path=path.replace(/icat/, "cat");
-        
-        console.log(url); 
-        console.log(path)
-        
-        fill_page2(address, eth_sent, vault, state, health);
-        /*
-        get_graph(url, path).then(function(pas212Root) {
-            var hyperJson=JSON.stringify(pas212Root, null, 4);
-            $('.catalogue').html("<pre><code>" + hyperJson + "</code></pre>");
-        });                        
-        */
-    }
     
     var check_key=function(address) {
         console.log('address' + address);
         $('.address').html(address);
         $('.address_val').val(address);
-        get_smartkey(callback);
+        page2(address);
     }
     init_wallet(eth_salt, check_key);
     

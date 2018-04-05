@@ -92,25 +92,49 @@ def fillData(graphRoot, href, fillItem=True):
     cat={"catalogue-metadata":metaJson,"items":itemJson}
     print(json.dumps(cat,sort_keys=True, indent=4))
 
-href="https://iotblock.io/cat/earth"
+
+href="https://iotblock.io/cat/brand"
 fillData(root, href)
 
 print ('upsertNode', smartNode.transact({ 'from': address, 'value':price }).upsertNode(root.address, href))
-earth=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+brand=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
 
-href="https://iotblock.io/cat/earth/singapore"
+href="https://iotblock.io/cat/brand/iotblock"
+fillData(brand, href)
+
+print ('upsertNode', smartNode.transact({ 'from': address, 'value':price }).upsertNode(brand.address, href))
+iotblock=getContract('GraphNode', network, brand.call({'from':address}).getGraphNode(href))
+
+
+href="https://iotblock.io/cat/"
+fillData(iotblock, href)
+
+
+href="https://iotblock.io/cat/location"
+fillData(root, href)
+
+print ('upsertNode', smartNode.transact({ 'from': address, 'value':price }).upsertNode(root.address, href))
+location=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
+
+href="https://iotblock.io/cat/location/earth"
+fillData(location, href)
+
+print ('upsertNode', smartNode.transact({ 'from': address, 'value':price }).upsertNode(location.address, href))
+earth=getContract('GraphNode', network, location.call({'from':address}).getGraphNode(href))
+
+href="https://iotblock.io/cat/location/earth/singapore"
 fillData(earth, href)
 
 print ('upsertNode', smartNode.transact({ 'from': address, 'value':price }).upsertNode(earth.address, href))
 singapore=getContract('GraphNode',network, earth.call({'from':address}).getGraphNode(href))
 
-href="https://iotblock.io/cat/earth/singapore/changee"
+href="https://iotblock.io/cat/location/earth/singapore/changee"
 fillData(singapore, href)
 
 print ('upsertNode', smartNode.transact({ 'from': address, 'value':price }).upsertNode(singapore.address, href))
 changee=getContract('GraphNode',network, singapore.call({'from':address}).getGraphNode(href))
 
-href="https://iotblock.io/cat/earth/singapore/changee/airport"
+href="https://iotblock.io/cat/location/earth/singapore/changee/airport"
 fillData(changee, href, False)
 
 '''

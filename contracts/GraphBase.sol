@@ -16,6 +16,7 @@ contract GraphBase is Key, Administered {
         addOwner(adminAddress[i]);
          
       } 
+      addOwner(address(_smartKey));
   }  
  
   
