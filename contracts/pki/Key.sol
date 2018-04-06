@@ -123,9 +123,9 @@ contract Key is Ownable {
    public
    returns(bool)
    {
-        if(bytes(map[hash]).length != 0) { // Don't overwrite previous mappings and return false
-            return false;
-        }
+        //if(bytes(map[hash]).length != 0) { // Don't overwrite previous mappings and return false
+        //    return false;
+        //}
         map[hash] = value;
         return true;
    }
@@ -134,9 +134,9 @@ contract Key is Ownable {
    onlyOwner
    constant    
    public
-   returns(bytes) 
+   returns(string) 
    {
-        return bytes(map[hash]);
+        return map[hash];
    }
 
    function addKeyAuth(string key, string value) 
@@ -151,7 +151,7 @@ contract Key is Ownable {
    onlyOwner
    constant 
    public
-   returns(bytes)
+   returns(string)
    {
         return getValueByHash(keccak256(key));
    }

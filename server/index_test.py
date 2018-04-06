@@ -44,6 +44,7 @@ def authKey(user, auth):
     
     keyAddress=smartKey.call({ 'from': address }).getSmartKey(user)
     print (keyAddress)
+    status=False
     if keyAddress != '0x0000000000000000000000000000000000000000':
         key=getContract('Key',network, keyAddress, prefix="pki_")
         
@@ -54,7 +55,11 @@ def authKey(user, auth):
             isOwner=key.call({'from':address}).isOwner(address);
             print("isOwner",isOwner)
         
-        auth_key=key.call({'from':address}).getKeyAuth(user)
+        #print("addKeyAuth", key.transact({'from':address}).addKeyAuth(auth, auth_key))
+        auth_key=key.call({'from':address}).getKeyAuth(user.lower())
+    
+        if auth_key == auth:
+            status=True
         print ("user", user)
         print ("AuthKey", auth_key)
         
@@ -85,7 +90,7 @@ def authKey(user, auth):
                 "tokens":tokens,
                 #"transactions":transactions,
                 "vault":vault,
-                
+                "auth":status    
                 }
     else:
         cat = { 
@@ -97,7 +102,7 @@ def authKey(user, auth):
                 "tokens":0,
                 #"transactions":transactions,
                 "vault":"0x0000000000000000000000000000000000000000",
-                
+                "auth":status
                 }
     print(cat)
     
@@ -664,8 +669,6 @@ if __name__ == '__main__':
     node  =  getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
     data  =  getNode(node)
     print(json.dumps(data, sort_keys=True, indent=4))
-
-    
     
     node_href="https://iotblock.io/cat"
     href="https://iotblock.io/cat/earth"
@@ -688,6 +691,6 @@ if __name__ == '__main__':
     #print('ethTransfer', userEthTransfer(100000, beneficiary, address, key=None,auth=None))
     #print('sethealth', setUserHealth(health, address, key=None,auth=None))
     user="0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544";
-    auth=""
+    auth="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
     authKey(user, auth)
     

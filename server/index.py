@@ -45,6 +45,75 @@ smartKey=getContract('SmartKey',network)
 
 
 
+def authKey(user, auth):
+    
+    keyAddress=smartKey.call({ 'from': address }).getSmartKey(user)
+    print (keyAddress)
+    status=False
+    if keyAddress != '0x0000000000000000000000000000000000000000':
+        key=getContract('Key',network, keyAddress, prefix="pki_")
+        
+        isOwner=key.call({'from':address}).isOwner(address);
+        print("isOwner",isOwner)
+        if not isOwner:
+            smartKey.transact({'from':address}).addOwner(user);
+            isOwner=key.call({'from':address}).isOwner(address);
+            print("isOwner",isOwner)
+        
+        #print("addKeyAuth", key.transact({'from':address}).addKeyAuth(auth, auth_key))
+        auth_key=key.call({'from':address}).getKeyAuth(user.lower())
+    
+        if auth_key == auth:
+            status=True
+        print ("user", user)
+        print ("AuthKey", auth_key)
+        
+        try:
+            
+            #print ('Key Activated', kc.call({ 'from': address}).activated(address))
+            #print ('Key State', kc.call({ 'from': address}).state())
+            #print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+    
+            #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+            balance=web3.eth.getBalance(key.address)
+            amount=key.call({'from':address}).contrib_amount()
+            state=key.call({'from':address}).state()
+            health=key.call({'from':address}).health()
+            tokens=smartKey.call({'from':address}).balanceOf(key.address)
+            #transactions=key.call({'from':address}).transactions(key.address,0)
+            vault=key.call({'from':address}).vault()
+            #amount=tokens
+        except Exception as e:
+            print (e)
+        
+        cat = { 
+                "address":keyAddress,
+                "eth_recv":amount,
+                "balance":balance,
+                "state":state,
+                "health":health,
+                "tokens":tokens,
+                #"transactions":transactions,
+                "vault":vault,
+                "auth":status    
+                }
+    else:
+        cat = { 
+                "address":"0x0000000000000000000000000000000000000000",
+                "eth_recv":0,
+                "balance":0,
+                "state":0,
+                "health":0,
+                "tokens":0,
+                #"transactions":transactions,
+                "vault":"0x0000000000000000000000000000000000000000",
+                "auth":status
+                }
+    print(cat)
+    
+    return cat
+
+
 
 def getSmartKey(address):
     
