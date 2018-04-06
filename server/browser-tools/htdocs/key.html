@@ -75,29 +75,73 @@
 </div>
 //-->
 
-<div class="row">
-     <div class="col-md-12">
-              <center><label><h3>Create Smart Key</h3></label></center>
-              <div class="row">
-                     <div class="col-md-12">
-                             <center>
-                             
-                                  <label><h5>Your wallet address</h5></label>
-                                 <input name="address" class="address_val form-control m-input m-input--air m-input--pill"  style="width:50%" type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
-                              </center>
-                      </div>
-                </div>
- 
-            <hr>
-            
-     </div>
-</div>
+     
 
 <div class="row">
     <div class="col-md-12">    
         <div class="m-portlet m-portlet--tab">
                <div class="m-portlet__head">
                     <center>
+                    <div class="row">
+                        <div class="col-md-12">
+                                  <br>
+                                  <center><label><h2>Create Smart Key</h2></label></center>
+                                  <br>
+                                  
+                                
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            Wallet
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Your wallet address</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                                     <input name="address" class="address_val form-control m-input m-input--air m-input--pill"  style="width:100%" type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
+                                     <br><br>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            API Key
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Email</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="username" class="form-control m-input m-input--air m-input--pill"  type="text" id="username" placeholder="" aria-invalid="false" aria-required="false">
+                      
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Select Password</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="password" class="form-control m-input m-input--air m-input--pill"  type="password" id="password" placeholder="" aria-invalid="false" aria-required="false">
+                          <br><br>
+                         </div>
+                    </div>
 <!--
             
                     <hr>
@@ -160,7 +204,6 @@
                     </div>
                     <br>
                     
-                    <hr>
             
                     <div class="row">
                         <div class="col-md-12">    
@@ -229,7 +272,6 @@
                    
                     <div class="row">
                         <div class="col-md-12">
-                                <br><br>
                                 <h4>
                                      
                                      <div class="progress m-progress--sm">
@@ -239,7 +281,6 @@
                 					</div>
                                     
                                 </h4>
-                                <br><br>
                         </div>
                     </div>
                     
@@ -247,7 +288,7 @@
                         <div class="col-md-6">    
                             <h3 class='status'>Health Status</h3>
                             <h1><span class='health'></span></h1>
-                            <br><br><br><br><br>
+                            
                         </div>
                         <div class="col-md-6">    
                             <h3>Key State</h3>
@@ -256,6 +297,60 @@
                             </h1> <font size=2></font><br>
                             
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">    
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>API Key
+                                    </h3>                                                       
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" align=left>
+                                    
+                                    <a href="#auth" id="view_api" onclick="JavaScript:get_api_key()" class="btn m-btn--pill m-btn--air         btn-outline-info" >View API Key</a>
+                                    <div id="view_api_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Replace API Key
+                                            </h3>       
+                                        </div>
+                                    </div>
+                                    <div id="replace_api">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input name="new_username" class="form-control m-input m-input--air m-input--pill"  type="text" id="new_username" placeholder="Email Address" aria-invalid="false" aria-required="false">
+                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input name="new_password" class="form-control m-input m-input--air m-input--pill"  type="password" id="new_password" placeholder="Select Password" aria-invalid="false" aria-required="false">
+                                            </div>               
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    <br>    
+                                                    <a href="#auth" onclick="JavaScript:generate_api_key()" class="form-control btn m-btn--pill m-btn--air         btn-outline-info" >Regenerate API Key</a>
+                                                    <br>    
+                                                    <br>    
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="replace_api_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+
+                        </div>           
+
                     </div>
                 </div>
               </div>
@@ -301,7 +396,17 @@
                     </div>
             </div>
         </div>
-        
+        <div id="new_api_key" style="display:none;">
+            <div class="row">
+                <div class="col-md-12">
+                         <center>
+                         <h3>API AUTH:</h3> <pre><span class="auth"></span></pre><br>  
+                         <h3>API AUTH KEY: </h3><pre><span class="auth_key"></span></pre>
+                         </center>
+                         <br>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div id="health">
@@ -348,6 +453,44 @@ var isSmartKey=true;
 var myAddress='0x0';
 var keyAddress='0x0';
 
+function fill_api_info(auth, auth_info) {
+    $('#view_api').show();
+    $('#view_api_loading').hide();
+    $('#new_api_key').show();
+    $('.auth').html(auth);
+    $('.auth_key').html(auth_info);
+    
+}
+
+function fill_new_api_info(auth, auth_info) {
+    $('#replace_api').html('<br><br>New API Key Generated');
+    $('#replace_api_loading').hide();
+    $('#new_api_key').show();
+    $('.auth').html(auth);
+    $('.auth_key').html(auth_info);
+    
+}
+    
+function get_api_key() {
+    //alert(myAddress.toLowerCase());
+    $('#view_api').hide();
+    $('#view_api_loading').show();
+    get_keyAuth(myAddress.toLowerCase(), fill_api_info);
+     
+}
+
+function generate_api_key() {
+    $('#replace_api').hide();
+    $('#replace_api_loading').show();
+    var username=$('#username').val();
+    var password=$('#password').val();
+    var auth_key=beneficiary + ":" + username + ":" + password;
+    auth_key=auth_key.toLowerCase()
+
+    add_keyAuth(myAddress.toLowerCase(), myAddress.toLowerCase(), auth_key, fill_new_api_info) 
+     
+}
+
 function get_smart_key_info(address) {
 
     
@@ -370,6 +513,7 @@ function get_smart_key_info(address) {
 
 function get_smartkey_transactions(address) {
    $.ajax({
+                    
             //beforeSend: function(xhr){setHeaders(xhr);},
             type: 'GET',
             url: '/cat/getSmartKeyTx?address=' + encodeURI(address),
@@ -441,6 +585,7 @@ function setHealth(health) {
             }
         });
 }
+
 
 function fill_page2(userAddress, address, balance, eth_recv, vault, state, health, tokens) {
    console.log(userAddress, address, balance, eth_recv, vault, state, health, tokens);
@@ -545,6 +690,10 @@ $( document ).ready(function() {
         var whitelist=[];
         var admins=[];
         var has_whitelist=false;
+        var username=$('#username').val();
+        var password=$('#password').val();
+        var auth_key=beneficiary + ":" + username + ":" + password;
+        auth_key=auth_key.toLowerCase()
         /*
         if ($('#whitelist1').val().length > 0) {
             whitelist.push($('#whitelist1').val());
@@ -581,7 +730,8 @@ $( document ).ready(function() {
             keyAddress=address;
             page2(myAddress);
         }
-        add_smartkey(beneficiary, beneficiary, beneficiary, key_created); 
+        
+        add_smartkey(beneficiary, beneficiary, auth_key, key_created); 
         
     });
     
