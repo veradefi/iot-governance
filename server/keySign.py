@@ -19,7 +19,7 @@ import Crypto.PublicKey.ElGamal as ElGamal
 import Crypto.Util.number as CUN
 from Crypto.Hash import SHA256
 import os
-
+import sha3
 
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
@@ -48,12 +48,25 @@ smartNode=getContract('SmartNode',network)
 smartNodeItem=getContract('SmartNodeItem',network)
 smartKey=getContract('SmartKey',network)
 
-def authKey(address, auth):
+def authKey(user, auth, auth_key):
     
-    keyAddress=gc.call({ 'from': address }).getSmartKey(address)
+    keyAddress=smartKey.call({ 'from': address }).getSmartKey(user)
     print (keyAddress)
     if keyAddress != '0x0000000000000000000000000000000000000000':
         key=getContract('Key',network, keyAddress, prefix="pki_")
+        
+        isOwner=key.call({'from':address}).isOwner(address);
+        print("isOwner",isOwner)
+        if not isOwner:
+            smartKey.transact({'from':address}).addOwner(user);
+            isOwner=key.call({'from':address}).isOwner(address);
+            print("isOwner",isOwner)
+        
+        #print("addKeyAuth", key.transact({'from':address}).addKeyAuth(auth, auth_key))
+        auth=user.lower()
+        auth_key=key.call({'from':address}).getKeyAuth(auth)
+        print ("user", user)
+        print ("AuthKey", auth_key)
         
         try:
             
@@ -100,6 +113,7 @@ def authKey(address, auth):
     
     return cat
 
+
 plaintext = 'testuser@testing.com:test123'
 
 # Here is a hash of the message
@@ -145,3 +159,8 @@ try:
     print ("The signature is valid.")
 except (ValueError, TypeError):
     print ("The signature is not valid.")
+    
+user="0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544";
+auth=user #MD5.new(user).hexdigest()
+auth_key=MD5.new(pubkey).hexdigest()
+authKey(user, auth, auth_key)
