@@ -51,6 +51,21 @@ var user_item = {
 var history = [];
 var catalogue_meta_data=[];
 var catalogue_item_meta_data=[];
+var api_key='';
+var api_auth='';
+
+    
+function fill_api_info(auth, auth_info) {
+
+    if (auth_info.length < 1)    
+        auth="Please Generate API Key <a href='key.html'>Here</a>";
+
+    $('.auth').html(auth);
+    api_key=auth_info;
+    api_auth=auth;
+        
+}
+
 
 function add_item(id) {
     var url = $('#browse_url').val() + '/<catalogue_name>';
@@ -64,23 +79,29 @@ function add_item(id) {
     $('#' + id).html(html);
 }
 
+function add_auth(xhr) {
+        var eth1=1000000000000000000;
+        var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
+        xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
+        xhr.setRequestHeader("Authorization","Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"" ); 
+
+}
+
 function save_item(id) {
-      var parent_address = $('#browse_url').val();
-      var url = $('#new_url').val();
-      var key = ''; //$('#key').val();
-      var html='<img src="images/wait.gif">';
-      $('#' + id).html(html);
-        
-                        
-        function callback(graphNode) {
-            alert(graphNode);
-        }
-        //add_node('', url, callback); 
+        var parent_address = $('#browse_url').val();
+        var url = $('#new_url').val();
+        var html='<img src="images/wait.gif">';
+        $('#' + id).html(html);
+   
         
         $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
-            url: '/cat/post?parent_href=' + encodeURI(parent_address) + '&href=' + encodeURI(url) + '&key=' + key,
+            url: '/cat/post?parent_href=' + encodeURI(parent_address) + '&href=' + encodeURI(url),
             data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -143,7 +164,10 @@ function save_meta(id, node_href, item_href) {
         post_url+='&key=' + encodeURIComponent(key);
         //alert(post_url);
         $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                    add_auth(xhr);
+                    //setHeaders(xhr);
+            },
             type: 'GET',
             url: post_url,
             //data: JSON.stringify(user_item),
@@ -188,7 +212,10 @@ function save_location(node_href, lat, lng) {
         lng_url+='&key=' + encodeURIComponent(key);
         //alert(post_url);
         $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                                        add_auth(xhr);
+                                        //setHeaders(xhr);
+                                },   
             type: 'GET',
             url: lat_url,
             //data: JSON.stringify(user_item),
@@ -196,7 +223,10 @@ function save_location(node_href, lat, lng) {
             dataType: 'json',
             success: function(body, textStatus, xhr) {
                 $.ajax({
-                    //beforeSend: function(xhr){setHeaders(xhr);},
+                    beforeSend: function(xhr){
+                                        add_auth(xhr);
+                                        //setHeaders(xhr);
+                                },                    
                     type: 'GET',
                     url: lng_url,
                     //data: JSON.stringify(user_item),
@@ -295,7 +325,10 @@ function setHealth(href, health) {
    $('#health').hide();
    $('#health_loading').show();
    $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                    add_auth(xhr);
+                    //setHeaders(xhr);
+            },
             type: 'GET',
             url: '/cat/setHealth?href=' + encodeURI(href) + '&health=' + encodeURI(health),
             //data: JSON.stringify(user_item),
@@ -825,6 +858,35 @@ function fill_page2_transactions(sender, date, amount) {
                     <input class="form-control m-input m-input--air" type="text" id="browse_url" size=80 value="https://iotblock.io/cat" />
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" onClick="JavaScript:browseCatalogue();">Browse</button>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <br>
+                    <h3>User SmartKey:
+                    </h3>
+                    <span class="auth"></span>
+                    
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    
+                    <h3>ETH Contribution Per Transaction:
+                    </h3>
+                    <div class="input-group">
+                    <select id="eth_contrib" class="form-control m-input m-input--air">
+                        <option value='0.0001'>0.0001 ETH</option>
+                        <option value='0.001'>0.001 ETH</option>
+                        <option value='0.01'>0.01 ETH</option>
+                        <option value='0.1'>0.1 ETH</option>
+                        <option value='1'>1 ETH</option>
+                        
+                    </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" onClick="JavaScript:browseCatalogue();">Set Payment Terms</button>
                         </div>
                     </div>
                 
