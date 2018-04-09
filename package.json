@@ -34,8 +34,8 @@
     "style-loader": "^0.13.1",
     "truffle-contract": "^1.1.11",
     "web3": "^1.0.0-beta.30",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.0"
   },
   "dependencies": {
@@ -55,7 +55,7 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-node": "^6.0.1",
     "ethereumjs-wallet": "^0.6.0",
-    "ganache-cli": "^6.0.3",
+    "ganache-cli": "^6.1.0",
     "jquery": "^3.3.1",
     "keccak": "^1.4.0",
     "node-rsa": "^0.4.2",
