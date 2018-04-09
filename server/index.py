@@ -65,53 +65,11 @@ def authKey(user, auth):
     
         if auth_key == auth:
             status=True
+            
+     
         print ("user", user)
         print ("AuthKey", auth_key)
-        
-        try:
-            
-            #print ('Key Activated', kc.call({ 'from': address}).activated(address))
-            #print ('Key State', kc.call({ 'from': address}).state())
-            #print ('getBalance (eth) for address1',web3.eth.getBalance(address))
-    
-            #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-            balance=web3.eth.getBalance(key.address)
-            amount=key.call({'from':address}).contrib_amount()
-            state=key.call({'from':address}).state()
-            health=key.call({'from':address}).health()
-            tokens=smartKey.call({'from':address}).balanceOf(key.address)
-            #transactions=key.call({'from':address}).transactions(key.address,0)
-            vault=key.call({'from':address}).vault()
-            #amount=tokens
-        except Exception as e:
-            print (e)
-        
-        cat = { 
-                "address":keyAddress,
-                "eth_recv":amount,
-                "balance":balance,
-                "state":state,
-                "health":health,
-                "tokens":tokens,
-                #"transactions":transactions,
-                "vault":vault,
-                "auth":status    
-                }
-    else:
-        cat = { 
-                "address":"0x0000000000000000000000000000000000000000",
-                "eth_recv":0,
-                "balance":0,
-                "state":0,
-                "health":0,
-                "tokens":0,
-                #"transactions":transactions,
-                "vault":"0x0000000000000000000000000000000000000000",
-                "auth":status
-                }
-    print(cat)
-    
-    return cat
+    return status, key
 
 
 
@@ -196,6 +154,47 @@ def getSmartKeyTx(address):
     
     return cat
 
+def getKeyInfo(key):
+    keyAddress=key.address
+    if keyAddress != '0x0000000000000000000000000000000000000000':
+     try:
+        
+        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
+        balance=web3.eth.getBalance(key.address)
+        amount=key.call({'from':address}).contrib_amount()
+        state=key.call({'from':address}).state()
+        health=key.call({'from':address}).health()
+        tokens=smartKey.call({'from':address}).balanceOf(key.address)
+        #transactions=key.call({'from':address}).transactions(key.address,0)
+        vault=key.call({'from':address}).vault()
+        #amount=tokens
+     except Exception as e:
+        print (e)
+        
+        
+     cat = {    "address":keyAddress,
+                "eth_recv":amount,
+                "balance":balance,
+                "state":state,
+                "health":health,
+                "tokens":tokens,
+                #"transactions":transactions,
+                "vault":vault,
+                }
+    else:
+        cat = { 
+                "address":"0x0000000000000000000000000000000000000000",
+                "eth_recv":0,
+                "balance":0,
+                "state":0,
+                "health":0,
+                "tokens":0,
+                #"transactions":transactions,
+                "vault":"0x0000000000000000000000000000000000000000",
+                }
+    print(cat)
+    
+    return cat
 
 def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
 
@@ -207,37 +206,9 @@ def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
 
     print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
     
-            
     print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
-
-        
-    try:
-        
-        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-        balance=web3.eth.getBalance(key.address)
-        amount=key.call({'from':address}).contrib_amount()
-        state=key.call({'from':address}).state()
-        health=key.call({'from':address}).health()
-        tokens=smartKey.call({'from':address}).balanceOf(key.address)
-        #transactions=key.call({'from':address}).transactions(key.address,0)
-        vault=key.call({'from':address}).vault()
-        #amount=tokens
-    except Exception as e:
-        print (e)
-        
-    cat = { 
-            "address":key.address,
-            "eth_recv":amount,
-            "balance":balance,
-            "state":state,
-            "health":health,
-            "tokens":tokens,
-            #"transactions":transactions,
-            "vault":vault,
-            
-            }
-    
-    return cat
+   
+    return key
 
 def setUserHealth(health, userAddress, key=None,auth=None):
     health=int(health)
@@ -246,6 +217,7 @@ def setUserHealth(health, userAddress, key=None,auth=None):
     key=getContract('Key',network, keyAddress, prefix="pki_")
         
     print('setHealth',key.transact({ 'from': address }).setHealth(health))
+    
     
     try:
         
@@ -403,9 +375,9 @@ def getNode(graphRoot):
 
 
 
-def addNode(parent_href, href, key, auth, load):
+def addNode(parent_href, href, key, auth, eth_contrib):
     if href:
-        
+        contrib=int(int(eth_contrib) / 10)
         if parent_href: 
             
             try:
@@ -417,23 +389,27 @@ def addNode(parent_href, href, key, auth, load):
             except Exception as e:
                 print (e)
             print (parent_href, href, address, graphRoot.address, root.address)
-            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2 }).upsertNode(graphRoot.address, href))
+            print ('upsertNode', smartNode.transact({ 'from': address, 'value':contrib * 2 }).upsertNode(graphRoot.address, href))
             graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
             
             
         else:
         
-            print ('upsertNode', smartNode.transact({ 'from': address, 'value':2}).upsertNode(root.address, href))            
+            print ('upsertNode', smartNode.transact({ 'from': address, 'value':contrib}).upsertNode(root.address, href))            
             graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
             
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#lat", "51.508775"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+                    
+        #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#lat", "51.508775"))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+
+        print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
+        print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
 
     
     data={}
@@ -443,11 +419,14 @@ def addNode(parent_href, href, key, auth, load):
 
 
 
-def addItemData(parent_href, href, key, auth, load):
+def addItemData(parent_href, href, key, auth, eth_contrib):
     data={}
     
     if href:
-        addNode(parent_href, href, key, auth, load)
+        
+        contrib=int(int(eth_contrib) / 10)
+        
+        addNode(parent_href, href, key, auth, contrib * 5)
         if parent_href: 
             
             try:
@@ -461,13 +440,16 @@ def addItemData(parent_href, href, key, auth, load):
         else:
             graphRoot=root
             
-        print ('upsertNodeItem', smartNodeItem.transact({ 'from': address, 'value':2 }).upsertItem(graphRoot.address, href))
+        print ('upsertNodeItem', smartNodeItem.transact({ 'from': address, 'value':contrib }).upsertItem(graphRoot.address, href))
         
         item_c=getContract('CatalogueItem',network,graphRoot.call({'from':address}).getItem(href))        
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+        
+        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
+        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
+        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
+        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+
+        #print ('Admin', item_c.transact({'from':address}).addAdmin(auth['auth']));
         
         if (graphRoot != '0x0'):
             data= getNode(graphRoot)
@@ -476,9 +458,8 @@ def addItemData(parent_href, href, key, auth, load):
 
 
 
-def addNodeMetaData(node_href,rel, val,key=None,auth=None):
+def addNodeMetaData(node_href,rel, val,auth, eth_contrib):
     if node_href: 
-        
         try:
             node_href=re.sub('\/$','',node_href)
             if re.search('/cat$',node_href):
@@ -487,7 +468,7 @@ def addNodeMetaData(node_href,rel, val,key=None,auth=None):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(node_href))
         except Exception as e:
             print (e)
-    transactionId=graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val)
+    transactionId=graphRoot.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val)
     print ('upsertMetaData',transactionId)
     
     data={}
@@ -498,7 +479,7 @@ def addNodeMetaData(node_href,rel, val,key=None,auth=None):
 
 
 
-def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
+def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
     transactionId=''
     if node_href and href:
         if node_href: 
@@ -516,7 +497,7 @@ def addNodeItemMetaData(node_href, href, rel, val, key = None,auth = None):
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
         item_c=getContract('CatalogueItem',network, graphRoot.call({'from':address}).getItem(href))   
-        transactionId=item_c.transact({ 'from': address, 'value':2 }).upsertMetaData(rel,val)
+        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val)
         print ('upsertMetaData',transactionId)
         
     data={}
@@ -572,7 +553,8 @@ def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
     return cat
 
 
-def setHealth(health, href, key=None,auth=None):
+def setHealth(health, href, eth_contrib=100000000, key=None,auth=None):
+    contrib=int(int(eth_contrib) / 2)
     health=int(health)
     if href: 
         
@@ -584,10 +566,13 @@ def setHealth(health, href, key=None,auth=None):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
         except Exception as e:
             print (e)
-    
+    healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
+
      
-    print('transferEth',graphRoot.transact({ 'from': address }).setHealth(health))
-        
+    print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
+
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
     
@@ -626,39 +611,65 @@ app = Flask(__name__)
 
 
 
+'''
+{
+"catalogue-metadata":[
+    {
+    "rel":"urn:X-hypercat:rels:isContentType",
+    "val":"application/vnd.hypercat.catalogue+json"
+    },
+    {
+    "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
+    }
+],
+"items":[
+]
+}
+'''
+
+def doAuth():
+    auth_key=request.headers.get('Authorization')
+    auth_reg=re.compile('(\w+)[:=] ?"?(\w+)"?')
+    auth=dict(auth_reg.findall(auth_key))
+    
+    auth['eth_contrib']=int(auth['eth_contrib'])
+    auth['auth']=auth['auth'].lower();
+    auth['api_key']=auth['api_key'].lower();
+    
+    print (auth)
+    print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
+    status, key=authKey(auth['auth'], auth['api_key'])
+    if status:
+        balance=web3.eth.getBalance(key.address)
+        if balance > int(auth['eth_contrib']):
+            to=address
+            sender=auth['auth']
+            userEthTransfer(auth['eth_contrib'], to, sender, '', '')
+
+            return True, auth
+        
+    return False, auth
+
 @app.route('/post')
 @app.route('/cat/post')
 def create_node():
+    data={}
     parent_href = request.args.get('parent_href')
     href = request.args.get('href')
     key = request.args.get('key')
-    auth = request.args.get('auth')
+    #auth = request.args.get('auth')
     val = request.args.get('val')
-    '''
-    {
-    "catalogue-metadata":[
-        {
-        "rel":"urn:X-hypercat:rels:isContentType",
-        "val":"application/vnd.hypercat.catalogue+json"
-        },
-        {
-        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-        }
-    ],
-    "items":[
-    ]
-    }
-    '''
-    auth=''
-    val=2
-    data=addItemData(parent_href, href, key, auth, val)
+    
+    status, auth=doAuth()
+    if status:    
+            data=addItemData(parent_href, href, key, auth, int(auth['eth_contrib']))
+    
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
         mimetype='application/vnd.hypercat.catalogue+json'
     )
     return response
-
 
 
 
@@ -686,9 +697,12 @@ def save_nodeMetaData():
     ]
     }
     '''
-    auth=''
+    data={}
     
-    data=addNodeMetaData(href, rel, val,key,auth)
+    status, auth=doAuth()
+    if status: 
+        data=addNodeMetaData(href, rel, val,auth, auth['eth_contrib'])
+        
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -722,11 +736,12 @@ def save_nodeItemMetaData():
     ]
     }
     '''
-    auth=''
-    
     data={}
-    #data['transactionId']=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
-    data=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
+    status, auth=doAuth()
+    if status: 
+    
+        #data['transactionId']=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
+        data=addNodeItemMetaData(node_href, item_href, rel, val, auth, auth['eth_contrib'])
     
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
@@ -789,9 +804,10 @@ def transferUserEth():
     address = request.args.get('address')
     beneficiary = request.args.get('beneficiary')
     amount = request.args.get('amount')
-    key=''
+    api_key=''
     auth=''
-    data = userEthTransfer(amount, beneficiary, address, key, auth)
+    key = userEthTransfer(amount, beneficiary, address, api_key, auth)
+    data = getKeyInfo(key)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -837,12 +853,13 @@ def transferNodeEth():
 @app.route('/setHealth')
 @app.route('/cat/setHealth')
 def setDeviceHealth():
+    data={}
     href = request.args.get('href')
     health = request.args.get('health')
-    key=''
-    auth=''
-    health=int(health)
-    data = setHealth(health, href, key, auth)
+    status, auth=doAuth()
+    if status:            
+        health=int(health)
+        data = setHealth(health, href, auth['eth_contrib'])
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
