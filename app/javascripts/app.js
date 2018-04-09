@@ -295,7 +295,7 @@ window.add_keyAuth = function(beneficiary, auth, auth_key, callback)
                          return keyInstance.addKeyAuth(auth_str.toLowerCase(), auth_key_str.toLowerCase(), {from: window.address, gas: 4000000}).then(function(res) {
                          
                                 console.log('Key Address', keyAddress.toLowerCase());
-                                callback( auth_str.toLowerCase(),res.toString().toLowerCase() );
+                                callback( auth_str.toLowerCase(), auth_key_str.toLowerCase() );
                                 
                          });
                      });
@@ -319,6 +319,7 @@ window.get_keyAuth = function(beneficiary, callback)
         
                 var eth1=1000000000000000000;
                 return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
+                   if (keyAddress != '0x0000000000000000000000000000000000000000') {
                 
                      return Key.at(keyAddress).then(function(keyInstance) {
                          return keyInstance.getKeyAuth.call(beneficiary.toLowerCase(), {from: window.address}).then(function(res) {
@@ -328,6 +329,9 @@ window.get_keyAuth = function(beneficiary, callback)
                                 
                          });
                      });
+                    } else {
+                                callback(beneficiary, '');
+                    }
                         
                 });                
                 
@@ -351,7 +355,7 @@ window.get_smartkey = function(callback)
                console.log('Key Address',keyAddress);
            
                    
-               if (keyAddress == '0x0000000000000000000000000000000000000000' || keyAddress.startsWith('0x0')) {
+               if (keyAddress == '0x0000000000000000000000000000000000000000') {
                        return callback(window.address,
                              keyAddress,
                              parseInt(0), 
@@ -665,7 +669,7 @@ if (typeof isBrowse !== 'undefined') {
         eth_salt = getCookie('iotcookie');
     }
     
-    
+
     var check_key=function(address) {
         var url='https://iotblock.io/cat';
         var path='/cat';
@@ -681,6 +685,8 @@ if (typeof isBrowse !== 'undefined') {
         console.log('address' + address);
         $('.address').html(address);
         $('.address_val').val(address);
+        
+        get_keyAuth(address, fill_api_info) 
     }
     init_wallet(eth_salt, check_key);
 
