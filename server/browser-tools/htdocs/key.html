@@ -110,38 +110,7 @@
                                      <br><br>
                          </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-            
-                          <h3>
-                            API Key
-                          </h3>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" align=right>
-                
-                          <label>Email</label>
-                          
-                        </div>
-                        <div class="col-md-6" align=left>
-                          
-                          <input name="username" class="form-control m-input m-input--air m-input--pill"  type="text" id="username" placeholder="" aria-invalid="false" aria-required="false">
-                      
-                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" align=right>
-                
-                          <label>Select Password</label>
-                          
-                        </div>
-                        <div class="col-md-6" align=left>
-                          
-                          <input name="password" class="form-control m-input m-input--air m-input--pill"  type="password" id="password" placeholder="" aria-invalid="false" aria-required="false">
-                          <br><br>
-                         </div>
-                    </div>
+                    
 <!--
             
                     <hr>
@@ -208,6 +177,91 @@
                     <div class="row">
                         <div class="col-md-12">    
                             <button type="button" id='pool' class="btn btn-accent"><h1>Create Smart Key</h1></button>
+                            <br><br>
+                        </div>
+                    </div>
+                    </center>
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+</form>
+<form id="page2_api" style="display:none;">
+
+
+<div class="row">
+    <div class="col-md-12">    
+        <div class="m-portlet m-portlet--tab">
+               <div class="m-portlet__head">
+                    <center>
+                    <div class="row">
+                        <div class="col-md-12">
+                                  <br>
+                                  <center><label><h2>Create Smart Key API Access Token</h2></label></center>
+                                  <br>
+                                  
+                                
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            Wallet
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Your wallet address</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                                     <span class="address"></span>
+                                     <br><br>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            API Key
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Email</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="username" class="form-control m-input m-input--air m-input--pill"  type="text" id="username" placeholder="" aria-invalid="false" aria-required="false">
+                      
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Select Password</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="password" class="form-control m-input m-input--air m-input--pill"  type="password" id="password" placeholder="" aria-invalid="false" aria-required="false">
+                          <br><br>
+                         </div>
+                    </div>
+                    <br>
+                    
+            
+                    <div class="row">
+                        <div class="col-md-12">    
+                            <button type="button" id='create_api_key' class="btn btn-accent"><h1>Create Smart Key Access Token</h1></button>
                             <br><br>
                         </div>
                     </div>
@@ -453,6 +507,29 @@ var isSmartKey=true;
 var myAddress='0x0';
 var keyAddress='0x0';
 
+function page2_api(auth, auth_info, key_address) {
+   myAddress=auth;
+   keyAddress=key_address;
+   if (key_address.length == 0) {
+        $('#loading').hide();
+        $('#page1').show();
+        $('#page2').hide();
+        $('#page2_api').hide();
+   } else if (auth_info.length == 0) {
+        $('#loading').hide();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').show();
+   } else {
+        $('#loading').show();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').hide();
+        get_smart_key_info(address);
+   }
+
+}
+
 function fill_api_info(auth, auth_info) {
     $('#view_api').show();
     $('#view_api_loading').hide();
@@ -660,8 +737,8 @@ function fill_page2_transactions(sender, date, amount) {
 
 
 function page2(address) {
+   get_keyAuth(address, page2_api) 
 
-   get_smart_key_info(address);
 }
 
 $( document ).ready(function() {
@@ -684,16 +761,22 @@ $( document ).ready(function() {
          page2(poolkey);
     });
 
-    
+    $('#create_api_key').on('click', function (e) {
+        var username=$('#username').val();
+        var password=$('#password').val();
+        var auth_key=myAddress + ":" + username + ":" + password;
+        auth_key=auth_key.toLowerCase();
+        myAddress=myAddress.toLowerCase();
+        //alert(auth_key);
+        add_keyAuth(myAddress, myAddress, auth_key,  page2_api); 
+        
+    });
     $('#pool').on('click', function (e) {
         var fee=Math.round(1 / parseFloat($('#fee').val() / 100));
         var whitelist=[];
         var admins=[];
         var has_whitelist=false;
-        var username=$('#username').val();
-        var password=$('#password').val();
-        var auth_key=beneficiary + ":" + username + ":" + password;
-        auth_key=auth_key.toLowerCase()
+
         /*
         if ($('#whitelist1').val().length > 0) {
             whitelist.push($('#whitelist1').val());
@@ -731,7 +814,7 @@ $( document ).ready(function() {
             page2(myAddress);
         }
         
-        add_smartkey(beneficiary, beneficiary, auth_key, key_created); 
+        add_smartkey(beneficiary,key_created); 
         
     });
     

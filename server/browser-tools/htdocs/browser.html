@@ -57,9 +57,11 @@ var api_auth='';
     
 function fill_api_info(auth, auth_info) {
 
-    if (auth_info.length < 1)    
+    if (auth_info.length < 1)    {
         auth="Please Generate API Key <a href='key.html'>Here</a>";
-
+        location.href='key.html';
+    }
+        
     $('.auth').html(auth);
     api_key=auth_info;
     api_auth=auth;
