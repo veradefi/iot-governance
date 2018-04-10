@@ -74,7 +74,7 @@ function parseCatalogue(url, doc) {
 }
 
 function explore(url, cb) {
-    fetch(url, $('#key').val(), function(err, doc) {
+    fetch(url, '', function(err, doc) {
         if (err) {
             log("Error in "+url+" ("+err+")");
             cb(err); // done
@@ -281,41 +281,45 @@ $(document).ready(function() {
     Interactive catalogue explorer. Click a <span class="yellow">yellow</span> catalogue node to expand. The <span class="green">green</span> node is the current cursor.
     </p>
     <div class="row">
-    <div class="col-md-6">
-    <p>
-        <form>
-            <select id="urls" class="form-control m-input m-input--air" ></select>
-            <h3>
-            <br>
-            URL:&nbsp;
-            </h3>
-            <input class="form-control m-input m-input--air" type="text" id="url" size=80 value="Enter a URL" />
-            <h3>
-            <br>
-            Key&nbsp;
-            </h3>
-            <input  class="form-control m-input m-input--air" type="password" id="key" size=40 value="" />
-            <input type="button"  class="btn m-btn--pill m-btn--air         btn-outline-info"  id="go" value="Go" />
-            <input type="button"   class="btn m-btn--pill m-btn--air         btn-outline-info" id="clear" value="Clear" />
-        </form>
-    </p>
+    <div class="col-md-12">
+        <p>
+            <form>
+                
+                <div class="input-group">
+                <h3>
+                URL:&nbsp;
+                </h3><select id="urls" class="form-control m-input m-input--air" ></select>
+                <input class="form-control m-input m-input--air" type="text" id="url" size=80 value="Enter a URL" />
+                <input type="button"  class="btn m-btn--pill m-btn--air         btn-outline-info"  id="go" value="Go" />
+                </div>
+                <!--
+                <h3>
+                <br>
+                Key&nbsp;
+                </h3>
+                <input  class="form-control m-input m-input--air" type="password" id="key" size=40 value="" />
+                //-->
+            </form>
+        </p>
 
-    <p>
-        <form>
-            Number of hops to show:&nbsp;
-            <input type="button" id="dec_baconism" value="-" />
-            <input type="text" id="baconism" size=4 value="3" />
-            <input type="button" id="inc_baconism" value="+" />
-            Subscribe:&nbsp;<input type="button" id="subscribe" value="Subscribe" disabled />
-        </form>
-    </p>
+        </div>
     </div>
-    <div class="col-md-6">
+    <div class="row">
+    <div class="col-md-12">
 
     <p>
         <div id="canvascontainer">
             <canvas id="graph"/>
         </div>
+                <div class="input-group">
+                <h3>Number of hops to show:&nbsp;</h3>
+                <input type="button" id="dec_baconism" value="-" />
+                <input type="text" id="baconism" size=4 value="3" />
+                <input type="button" id="inc_baconism" value="+" />
+                <!--
+                Subscribe:&nbsp;<input type="button" id="subscribe" value="Subscribe" disabled />
+                //-->
+                </div>
     </p>
 
     <p>

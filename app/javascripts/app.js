@@ -243,11 +243,8 @@ window.get_graph = function(url, path)
 
 
 
-window.add_smartkey = function(beneficiary, auth, auth_key, callback) 
-{
-       var auth_str=auth.toLowerCase(); //createKeccak('keccak256').update(auth.toLowerCase())._resetState().digest('hex');
-       var auth_key_str=createKeccak('keccak256').update(auth_key.toLowerCase())._resetState().digest('hex');
-       
+window.add_smartkey = function(beneficiary, callback) 
+{       
        var SmartKey = contract(sk_artifacts);                
        SmartKey.setProvider(window.web3.currentProvider);
          
@@ -256,18 +253,19 @@ window.add_smartkey = function(beneficiary, auth, auth_key, callback)
        return SmartKey.deployed().then(function(contractInstance) {
         
                 var eth1=1000000000000000000;
-                return contractInstance.addSmartKey(beneficiary.toLowerCase(), {from: window.address, value: eth1, gas:4000000}).then(function(address) {
-                    return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
-                         return Key.at(keyAddress).then(function(keyInstance) {
-                             return keyInstance.addKeyAuth(auth_str.toLowerCase(), auth_key_str.toLowerCase(), {from: window.address, gas:4000000}).then(function(res) {
-                             
-                                    console.log('Key Address', keyAddress.toLowerCase());
-                                    callback(keyAddress.toLowerCase());
-                                    
-                             });
-                         });
-                            
-                    });                
+                return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
+                    if (keyAddress != '0x0000000000000000000000000000000000000000') {
+                        //alert(keyAddress);
+                        console.log('Key Address', keyAddress.toLowerCase());
+                        callback(keyAddress.toLowerCase());
+                    } else {
+                        return contractInstance.addSmartKey(beneficiary.toLowerCase(), {from: window.address, value: eth1, gas:4000000, gasPrice:1000000000}).then(function(keyAddress) {
+                       
+                                        //alert(keyAddress.toString());
+                                        console.log('Key Address', keyAddress.toString().toLowerCase());
+                                        callback(keyAddress.toString().toLowerCase());
+                        });   
+                    }                            
                 });
                 
        });
@@ -292,10 +290,10 @@ window.add_keyAuth = function(beneficiary, auth, auth_key, callback)
                 return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
                 
                      return Key.at(keyAddress).then(function(keyInstance) {
-                         return keyInstance.addKeyAuth(auth_str.toLowerCase(), auth_key_str.toLowerCase(), {from: window.address, gas: 4000000}).then(function(res) {
+                         return keyInstance.addKeyAuth(auth_str.toLowerCase(), auth_key_str.toLowerCase(), {from: window.address, gas: 4000000, gasPrice:1000000000}).then(function(res) {
                          
                                 console.log('Key Address', keyAddress.toLowerCase());
-                                callback( auth_str.toLowerCase(), auth_key_str.toLowerCase() );
+                                callback( auth_str.toLowerCase(), auth_key_str.toLowerCase(), keyAddress.toLowerCase() );
                                 
                          });
                      });
@@ -319,18 +317,19 @@ window.get_keyAuth = function(beneficiary, callback)
         
                 var eth1=1000000000000000000;
                 return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
-                   if (keyAddress != '0x0000000000000000000000000000000000000000') {
+                    //alert(keyAddress);
+                    if (keyAddress != '0x0000000000000000000000000000000000000000') {
                 
                      return Key.at(keyAddress).then(function(keyInstance) {
                          return keyInstance.getKeyAuth.call(beneficiary.toLowerCase(), {from: window.address}).then(function(res) {
                          
-                                console.log('Key', res.toString().toLowerCase());
-                                callback(beneficiary, res.toString().toLowerCase());
+                                //console.log('API Key', res.toString().toLowerCase());
+                                callback(beneficiary, res.toString().toLowerCase(), keyAddress.toLowerCase());
                                 
                          });
                      });
                     } else {
-                                callback(beneficiary, '');
+                                callback(beneficiary, '', '');
                     }
                         
                 });                
@@ -455,7 +454,7 @@ window.add_node = function(parent_address, _href, callback)
        return GraphRoot.deployed().then(function(graphRoot) {
             if (!parent_address) {
                 parent_address=graphRoot.address;
-                alert(parent_address);
+                //alert(parent_address);
             }
             
             return SmartNode.deployed().then(function(contractInstance) {
