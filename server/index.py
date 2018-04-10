@@ -506,7 +506,7 @@ def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
     return data
 
 
-def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
+def nodeEthTransfer(amount, beneficiary, href, auth):
     amount=int(amount)
     if href: 
         
@@ -518,8 +518,9 @@ def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
         except Exception as e:
             print (e)
-            
-    print('transferEth',graphRoot.transact({ 'from': address }).transferEth(amount, beneficiary));
+    
+    if graphRoot.call({'from':address}).isOwner(auth['auth']):        
+        print('transferEth',graphRoot.transact({ 'from': address }).transferEth(amount, beneficiary));
         
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
@@ -553,7 +554,7 @@ def nodeEthTransfer(amount, beneficiary, href, key=None,auth=None):
     return cat
 
 
-def setHealth(health, href, eth_contrib=100000000, key=None,auth=None):
+def setHealth(health, href, eth_contrib):
     contrib=int(int(eth_contrib) / 2)
     health=int(health)
     if href: 
@@ -839,9 +840,10 @@ def transferNodeEth():
     href = request.args.get('href')
     beneficiary = request.args.get('beneficiary')
     amount = request.args.get('amount')
-    key=''
-    auth=''
-    data = nodeEthTransfer(amount, beneficiary, href, key, auth)
+    data={}
+    status, auth=doAuth()
+    if status: 
+        data = nodeEthTransfer(amount, beneficiary, href, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
