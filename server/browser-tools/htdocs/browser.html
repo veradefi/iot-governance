@@ -299,7 +299,11 @@ function get_transfer_node_eth(href, beneficiary, amount) {
    $('#eth_transfer').hide();
    $('#eth_transfer_loading').show();
    $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/transferNodeEth?href=' + encodeURI(href) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
             //data: JSON.stringify(user_item),
@@ -886,7 +890,7 @@ function fill_page2_transactions(sender, date, amount) {
                         
                     </select>
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" onClick="JavaScript:browseCatalogue();">Set Payment Terms</button>
+                            <button class="btn btn-primary" type="button" >Set Payment Terms</button>
                         </div>
                     </div>
                 
