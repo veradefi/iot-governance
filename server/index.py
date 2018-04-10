@@ -74,9 +74,14 @@ def authKey(user, auth):
 
 
 def getSmartKey(address):
+    keyAddress = '0x0000000000000000000000000000000000000000'
     
-    keyAddress=gc.call({ 'from': address }).getSmartKey(address)
-    print (keyAddress)
+    try:
+        keyAddress=gc.call({ 'from': address }).getSmartKey(address)
+        print (keyAddress)
+    except Exception as e:
+        print(e)
+        
     if keyAddress != '0x0000000000000000000000000000000000000000':
         key=getContract('Key',network, keyAddress, prefix="pki_")
         

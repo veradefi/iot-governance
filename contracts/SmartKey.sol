@@ -82,6 +82,7 @@ contract SmartKey is MintableToken
     function addSmartKey(address beneficiary) 
     public
     payable 
+    returns(address) 
     {
         require(beneficiary != 0x0);
         require(validPurchase());
@@ -116,8 +117,10 @@ contract SmartKey is MintableToken
             balances[address(key)] = balances[address(key)].add(tokens);
             Mint(address(key), tokens);
             Transfer(address(0), address(key), tokens);
+            return address(key);
         }        
         
+        return 0x0;
     }
     
     function putSmartKey(Key key, address beneficiary) 

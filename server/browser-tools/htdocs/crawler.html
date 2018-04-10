@@ -288,25 +288,38 @@ function searchForLocations() {
     <h1>Catalogue Crawler</h1>
     
     <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <p>
             <form>
-                <select  class="form-control m-input m-input--air"   id="urls"></select>
-                <br>
+                <div class="input-group">
                 <h3>
                 URL:&nbsp;
                 </h3>
+                <select  class="form-control m-input m-input--air"   id="urls"></select>
                 <input  class="form-control m-input m-input--air"  type="text" id="url" size=80 value="Select example from dropdown or type URL" />
-                <br>
+                <input class="btn m-btn--pill m-btn--air         btn-outline-info"  type="button" id="crawl" value="Crawl (and add to existing graph)" />
+                <input class="btn m-btn--pill m-btn--air         btn-outline-info"  type="button" id="crawlreplace" value="Crawl (and replace existing graph)" />
+                </div>
+                <!--
                 <h3>Key&nbsp;
                 </h3>
                 <input  class="form-control m-input m-input--air"   type="password" id="key" size=40 value="" />
-                <br><input class="btn m-btn--pill m-btn--air         btn-outline-info"  type="button" id="crawl" value="Crawl (and add to existing graph)" />
-                <br><input class="btn m-btn--pill m-btn--air         btn-outline-info"  type="button" id="crawlreplace" value="Crawl (and replace existing graph)" />
+                //-->
             </form>
         </p>
     
-        <div class="collapsibleContainer" title="Filter graph (click to toggle)">
+        
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+            <p>
+                <div id="canvascontainer">
+                    <canvas id="graph"/>
+                </div>
+            </p>
+            
+            <div class="collapsibleContainer" title="Filter graph (click to toggle)">
             <p>
                 The filters act independently.<br/>
                 The graph is in the form: <b>subject --predicate--&gt; object</b><br/>
@@ -340,13 +353,6 @@ function searchForLocations() {
         <p>
             <i>Drag graph nodes around for a clearer view</i>
         </p>
-    </div>
-    <div class="col-md-6">
-            <p>
-                <div id="canvascontainer">
-                    <canvas id="graph"/>
-                </div>
-            </p>
         
             <div class="collapsibleContainer" title="Activity and error log (click to toggle)">
                 <p>

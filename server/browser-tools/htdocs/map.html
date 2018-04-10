@@ -79,7 +79,7 @@ function crawl(cb) {
         var url = unexplored.pop();
 
         if (explored.indexOf(url) == -1) {   // not seen before
-            fetch(url, $('#key').val(), function(err, doc, location) {
+            fetch(url, '', function(err, doc, location) {
                 if (err) {
                     log("Error in "+url+" ("+err+")");
                     explored.push(url); // was bad, but explored
@@ -158,7 +158,6 @@ $(document).ready(function() {
     if (param_key === undefined)
         param_key = "";
 
-    $('#key').val(param_key);
     if (param_url !== undefined) {
         $('#url').val(param_url);
         startcrawl($('#url').val());
@@ -248,38 +247,44 @@ function searchForLocations() {
 </form>
 
     <h1>Mapping Catalogue Crawler</h1>
-    <p>
-    </p>
     <div class="row">
-    <div class="col-md-6">
+        <div class="col-md-12">
         <p>
             <form>
-                <select class="form-control m-input m-input--air" id="urls"></select>
-                <br>
+                <div class="input-group">
                 <h3>URL:&nbsp;
-                </h3><input type="text" class="form-control m-input m-input--air" id="url" size=80 value="Select example from dropdown or type URL" />
+                </h3>
+                <select class="form-control m-input m-input--air" id="urls"></select>
+                <input type="text" class="form-control m-input m-input--air" id="url" size=80 value="Select example from dropdown or type URL" />
+                <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info"  id="crawl" value="Crawl" />
+                </div>
+                <!--
+                <br>
                 <h3>
                     Key&nbsp;
                 </h3><input type="password" class="form-control m-input m-input--air" id="key" size=40 value="" />
                 <br>
-                <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info"  id="crawl" value="Crawl" />
-                <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info"  id="clear" value="Clear" />
+                <br>    
+                <input type="button" class="btn m-btn--pill m-btn--air         btn-outline-info"  id="clear" value="Clear" />//-->
+                
             </form>
-            <p>
-                <div id="log" style="height:200px"></div>
-            </p>
         </p>
     
         
+        </div>
     </div>
-    <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-12">
     
         
         <p>
-            <div id="map_canvas" style=" height:480px;"></div>
-            The map knows about: "http://www.w3.org/2003/01/geo/wgs84_pos#long"<Br> and "http://www.w3.org/2003/01/geo/wgs84_pos#lat"
+            <div id="map_canvas" style="width:100%; height:480px;"></div>
+            The map knows about: "http://www.w3.org/2003/01/geo/wgs84_pos#long" and "http://www.w3.org/2003/01/geo/wgs84_pos#lat"
         </p>
-    </div>
+            <p>
+                <div id="log" style="height:200px"></div>
+            </p>
+        </div>
     </div>
 </body>
 
