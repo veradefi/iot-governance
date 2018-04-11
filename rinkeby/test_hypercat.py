@@ -38,6 +38,7 @@ amount=1000000000000000000 #1 ETH
 
 price=10
 amount=100
+
 # get smart key
 print (io.transact({ 'from': address, 'value': amount}).addSmartKey(address))
 #print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(address))
@@ -58,35 +59,41 @@ def fillData(graphRoot, href, fillItem=True):
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
 
     def getMeta(metaData):
-        metaJson=[]
-        for meta in metaData:
-            meta_c=getContract('MetaData',network, meta)
-            metaJson.append({'rel':meta_c.call().rel(),
-                             'val':meta_c.call().val()})
-            print (meta_c.call().rel(), meta_c.call().val())
-            #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
-        return metaJson
+        try:
+            metaJson=[]
+            for meta in metaData:
+                meta_c=getContract('MetaData',network, meta)
+                metaJson.append({'rel':meta_c.call().rel(),
+                                 'val':meta_c.call().val()})
+                print (meta_c.call().rel(), meta_c.call().val())
+                #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
+            return metaJson
+        except Exception as e:
+            print (e)
     
     metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData())
  
-    if fillItem:
-        print ('upsertNodeItem', smartNodeItem.transact({ 'from': address, 'value':price }).upsertItem(graphRoot.address, href))
-        graphItem=getContract('GraphRoot',network, graphRoot.call({'from':address}).getItem(href))
-
-    #print ('upsertItem',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertItem("https://iotblock.io/cat"))
-    items=graphRoot.call({'from':address}).selectItems()
- 
     itemJson=[]
-    for item in items:
-        item_c=getContract('CatalogueItem',network,item)
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
-        print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
-        meta=getMeta(item_c.call({'from':address}).selectMetaData())
+    try:
+        if fillItem:
+            print ('upsertNodeItem', smartNodeItem.transact({ 'from': address, 'value':price }).upsertItem(graphRoot.address, href))
+            graphItem=getContract('GraphRoot',network, graphRoot.call({'from':address}).getItem(href))
     
-        itemJson.append({'href':item_c.call().href(),
-                         'item-metadata':meta})
+        #print ('upsertItem',graphRoot.transact({ 'from': address, 'value':1000000 }).upsertItem("https://iotblock.io/cat"))
+        items=graphRoot.call({'from':address}).selectItems()
+     
+        for item in items:
+            item_c=getContract('CatalogueItem',network,item)
+            print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
+            print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
+            print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
+            print ('upsertMetaData',item_c.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+            meta=getMeta(item_c.call({'from':address}).selectMetaData())
+        
+            itemJson.append({'href':item_c.call().href(),
+                             'item-metadata':meta})
+    except Exception as e:
+        print (e)
     import json
     
     cat={"catalogue-metadata":metaJson,"items":itemJson}
