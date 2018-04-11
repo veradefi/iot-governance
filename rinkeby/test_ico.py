@@ -24,7 +24,7 @@ network='4'
 port='8666'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 address=web3.eth.coinbase
-address2=web3.eth.accounts[1]
+address2=web3.eth.accounts[0]
 
 print (address, address2)
 gc=getContract('SmartKey',network)

@@ -26,7 +26,7 @@ port='8666'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
-address=web3.eth.accounts[1]
+address=web3.eth.accounts[0]
 
 address3='0x04F1C2fCed3A83546af51769E0139A84AdD841D2'
 address4='0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544'

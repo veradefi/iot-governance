@@ -27,7 +27,8 @@ import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
 //var providerUrl = "https://iotblock.io/rpc";
-var providerUrl = "http://localhost:8545";
+//var providerUrl = "http://localhost:8545";
+var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
 var host=providerUrl;
     
 var shajs = require('sha.js')
