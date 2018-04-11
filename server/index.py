@@ -315,7 +315,7 @@ def getNodeKeyTx(href):
             sender=transactions[0]
             date=transactions[1]
             amount=transactions[2]
-            if sender != '0x0' and sender != re.search('0x0000000000000000000000000000000000000000',sender):
+            if sender != '0x0' and not re.search('0x0000000000000000000000000000000000000000',sender):
                 tx.append({'sender':sender,'date':date,'amount':amount})
                 idx+=1
     except Exception as e:
