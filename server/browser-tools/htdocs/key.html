@@ -811,8 +811,32 @@ $( document ).ready(function() {
         function key_created(address) {
             myAddress=beneficiary;
             keyAddress=address;
-            page2(myAddress);
+            
+            /*
+            $.ajax({
+                //beforeSend: function(xhr){setHeaders(xhr);},
+                type: 'GET',
+                url: '/cat/getSmartKey?address=' + encodeURI(myAddress),
+                //data: JSON.stringify(user_item),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(body, textStatus, xhr) {
+                    page2(myAddress);
+                },
+                error: function(xhr, textStatus, err) {
+                    log(xhr.status + ' ' + xhr.statusText);
+                }
+            });
+            location.href="key.html";
+            */
+            
+            
+            setTimeout(function () { page2(myAddress) }, 10000)
         }
+        $('#loading').show();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').hide();
         
         add_smartkey(beneficiary,key_created); 
         
