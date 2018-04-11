@@ -36,8 +36,8 @@ smartNode=getContract('SmartNode',network)
 smartNodeItem=getContract('SmartNodeItem',network)
 amount=1000000000000000000 #1 ETH
 
-price=amount/10
-
+price=10
+amount=100
 # get smart key
 print (io.transact({ 'from': address, 'value': amount}).addSmartKey(address))
 #print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(address))
