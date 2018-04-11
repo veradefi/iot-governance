@@ -70,8 +70,12 @@ def fillData(graphRoot, href, fillItem=True):
             return metaJson
         except Exception as e:
             print (e)
+    metaJson=[]
     
-    metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData())
+    try:
+        metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData())
+    except Exception as e:
+        print (e)
  
     itemJson=[]
     try:
