@@ -28,12 +28,12 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-network='5'
-port='8545'
+network='4'
+port='8666'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
-address=web3.eth.accounts[1]
+address=web3.eth.accounts[0]
 
 print (address, address2)
 gc=getContract('SmartKey',network)
