@@ -21,8 +21,8 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-network='5'
-port='8545'
+network='4'
+port='8666'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
@@ -30,10 +30,11 @@ address=web3.eth.accounts[1]
 
 address3='0x04F1C2fCed3A83546af51769E0139A84AdD841D2'
 address4='0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544'
-
+address5='0xe4E39Df68919ba8754C2500b4535C0d444Ef3b20'
+address6='0x1e3387f473adc1755C388d99699D871B497eBc7b'
 
 amount=10000000000000000000
-#web3.eth.sendTransaction({ 'from' :address2, 'to':address3, 'value': amount})
+#web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})
 #web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
 
 
@@ -42,7 +43,7 @@ spk=getContract('SmartPoolKey',network);
 max_contrib=100000000000000000000000
 max_per_contrib=100000000000000000000000
 min_per_contrib=1
-admins=[ address, address2, address3, address4 ]
+admins=[ address, address2, address3, address4, address5, address6 ]
 whitelist=admins
 fee=int(round(1/0.05))
 #address, uint256, uint256, uint256, address[], address[], uint256

@@ -26,8 +26,8 @@ import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
-var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://iotblock.io/rpc";
+var providerUrl = "http://localhost:8545";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -260,10 +260,12 @@ window.add_smartkey = function(beneficiary, callback)
                         callback(keyAddress.toLowerCase());
                     } else {
                         return contractInstance.addSmartKey(beneficiary.toLowerCase(), {from: window.address, value: eth1, gas:4000000, gasPrice:1000000000}).then(function(keyAddress) {
+                            return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
                        
                                         //alert(keyAddress.toString());
-                                        console.log('Key Address', keyAddress.toString().toLowerCase());
                                         callback(keyAddress.toString().toLowerCase());
+                                        console.log('New Key Address', keyAddress.toString().toLowerCase());
+                            });
                         });   
                     }                            
                 });
@@ -318,6 +320,7 @@ window.get_keyAuth = function(beneficiary, callback)
                 var eth1=1000000000000000000;
                 return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
                     //alert(keyAddress);
+                    console.log('Key Address for Auth', keyAddress);
                     if (keyAddress != '0x0000000000000000000000000000000000000000') {
                 
                      return Key.at(keyAddress).then(function(keyInstance) {
