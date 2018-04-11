@@ -669,6 +669,7 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
    $('#loading').show();
    $('#page1').hide();
    $('#page2').hide();
+   $('#page2_api').hide();
 
     if (address == '0' || address == '0x0000000000000000000000000000000000000000') {
         $('#page1').show();
@@ -762,12 +763,18 @@ $( document ).ready(function() {
     });
 
     $('#create_api_key').on('click', function (e) {
+    
         var username=$('#username').val();
         var password=$('#password').val();
         var auth_key=myAddress + ":" + username + ":" + password;
         auth_key=auth_key.toLowerCase();
         myAddress=myAddress.toLowerCase();
         //alert(auth_key);
+        $('#loading').show();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').hide();
+        
         add_keyAuth(myAddress, myAddress, auth_key,  page2_api); 
         
     });
