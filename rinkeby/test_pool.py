@@ -30,11 +30,11 @@ address=web3.eth.accounts[0]
 
 address3='0x04F1C2fCed3A83546af51769E0139A84AdD841D2'
 address4='0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544'
-address5='0xe4E39Df68919ba8754C2500b4535C0d444Ef3b20'
-address6='0x1e3387f473adc1755C388d99699D871B497eBc7b'
+address5=address3
+address6=address4
 
-amount=10000000000000000000
-#web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})
+amount=2000000000000000000
+web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
 #web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
 
 
