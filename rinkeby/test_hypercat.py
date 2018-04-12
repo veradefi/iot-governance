@@ -49,6 +49,23 @@ print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 
+def upsertNode(graphRoot, href):
+     tx=smartNode.transact({ 'from': address, 'value':price }).upsertItem(graphRoot, href)
+     print ('upsertItem', tx)
+     tx_log=web3.eth.getTransaction(tx)
+     tx_receipt=web3.eth.getTransactionReceipt(tx)
+     addr=root.call({'from':address}).getItem(href)
+     print('Node Address',addr)
+
+     while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
+     	tx_log=web3.eth.getTransaction(tx)
+     	print('getTransaction',tx_log)
+     	tx_receipt=web3.eth.getTransactionReceipt(tx)
+     	print('getTransactionReceipt',tx_receipt)
+        addr=root.call({'from':address}).getItem(href)
+        print('Node Address',addr)
+	print("Waiting for Transaction Completion")
+	sleep(10)
 def fillData(graphRoot, href):
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
@@ -101,38 +118,40 @@ fillData(root, href)
 
 
 href="https://iotblock.io/cat/brand"
-print ('upsertItem', smartNode.transact({ 'from': address, 'value':price }).upsertItem(root.address, href))
+upsertNode(root.address, href)
 brand=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
 fillData(brand, href)
 
 href="https://iotblock.io/cat/brand/iotblock"
-print ('upsertItem', smartNode.transact({ 'from': address, 'value':price }).upsertItem(brand.address, href))
+upsertNode(brand.address, href)
 iotblock=getContract('GraphNode', network, brand.call({'from':address}).getItem(href))
 fillData(iotblock, href)
 
 
 href="https://iotblock.io/cat/location"
-
-print ('upsertItem', smartNode.transact({ 'from': address, 'value':price }).upsertItem(root.address, href))
+upsertNode(root.address, href)
 location=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
 fillData(location, href)
 
 href="https://iotblock.io/cat/location/earth"
-print ('upsertItem', smartNode.transact({ 'from': address, 'value':price }).upsertItem(location.address, href))
+upsertNode(location.address, href)
 earth=getContract('GraphNode', network, location.call({'from':address}).getItem(href))
 fillData(earth, href)
 
 href="https://iotblock.io/cat/location/earth/singapore"
-print ('upsertItem', smartNode.transact({ 'from': address, 'value':price }).upsertItem(earth.address, href))
+upsertNode(earth.address, href)
 singapore=getContract('GraphNode',network, earth.call({'from':address}).getItem(href))
 fillData(singapore, href)
 
 href="https://iotblock.io/cat/location/earth/singapore/changee"
-print ('upsertItem', smartNode.transact({ 'from': address, 'value':price }).upsertItem(singapore.address, href))
+upsertNode(singapore.address, href)
 changee=getContract('GraphNode',network, singapore.call({'from':address}).getItem(href))
 fillData(changee, href)
 
 href="https://iotblock.io/cat/location/earth/singapore/changee/airport"
+upsertNode(changee.address, href)
+airport=getContract('GraphNode',network, changee.call({'from':address}).getItem(href))
+fillData(airport, href)
 
 '''
 "catalogue-metadata":[
