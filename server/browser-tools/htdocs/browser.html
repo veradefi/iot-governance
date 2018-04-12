@@ -84,8 +84,10 @@ function add_item(id) {
 function add_auth(xhr) {
         var eth1=1000000000000000000;
         var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
+        var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
+        data=btoa(data);
         xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
-        xhr.setRequestHeader("Authorization","Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"" ); 
+        xhr.setRequestHeader("Authorization", data); 
 
 }
 

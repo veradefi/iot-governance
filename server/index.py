@@ -10,6 +10,7 @@ import StringIO
 import re
 import os
 from datetime import datetime
+import base64
 from flask import Flask
 
 
@@ -635,25 +636,30 @@ app = Flask(__name__)
 '''
 
 def doAuth():
-    auth_key=request.headers.get('Authorization')
-    auth_reg=re.compile('(\w+)[:=] ?"?(\w+)"?')
-    auth=dict(auth_reg.findall(auth_key))
-    
-    auth['eth_contrib']=int(auth['eth_contrib'])
-    auth['auth']=auth['auth'].lower();
-    auth['api_key']=auth['api_key'].lower();
-    
-    print (auth)
-    print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
-    status, key=authKey(auth['auth'], auth['api_key'])
-    if status:
-        balance=web3.eth.getBalance(key.address)
-        if balance > int(auth['eth_contrib']):
-            to=address
-            sender=auth['auth']
-            userEthTransfer(auth['eth_contrib'], to, sender, '', '')
+    try:
+        auth_b64=request.headers.get('Authorization')
+        auth_key=base64.b64decode(auth_b64)
 
-            return True, auth
+        auth_reg=re.compile('(\w+)[:=] ?"?(\w+)"?')
+        auth=dict(auth_reg.findall(auth_key))
+        
+        auth['eth_contrib']=int(auth['eth_contrib'])
+        auth['auth']=auth['auth'].lower();
+        auth['api_key']=auth['api_key'].lower();
+        
+        print (auth)
+        print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
+        status, key=authKey(auth['auth'], auth['api_key'])
+        if status:
+            balance=web3.eth.getBalance(key.address)
+            if balance > int(auth['eth_contrib']):
+                to=address
+                sender=auth['auth']
+                userEthTransfer(auth['eth_contrib'], to, sender, '', '')
+    
+                return True, auth
+    except Exception as e:
+        print (e)
         
     return False, auth
 
