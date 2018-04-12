@@ -909,6 +909,38 @@ def catch_all(path):
         node  =  getContract('GraphNode', network, root.call({'from':address}).getGraphNode(href))
         data  =  getNode(node)
     
+    '''
+    ?rel=urn:X­hypercat:rels:1
+    ?rel=urn:X­hypercat:rels:2
+    ?rel=urn:X­hypercat:rels:3
+    ?val=1
+    ?val=2
+    ?val=
+    ?rel=urn:X­hypercat:rels:1&val=1
+    ?rel=urn:X­hypercat:rels:3&val=
+    '''
+    try:
+        
+        rel = request.args.get('rel')
+        val = request.args.get('val')
+        if rel or val:
+            filtered_items=[]
+            items=data['items']
+            for item in items:
+                try:
+                    found=False
+                    metas=item['item-metadata']
+                    for meta in metas:
+                        if meta['rel'] == rel or meta['val'] == val:
+                            found=True
+                    if found:
+                        filtered_items.append(item)
+                except Exception as e:
+                    print (e)
+            data['items']=filtered_items
+    except Exception as e:
+        print (e)
+    
     response = app.response_class(
             
         response=json.dumps(data, sort_keys=True, indent=4),
