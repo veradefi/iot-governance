@@ -385,7 +385,7 @@ def upsertNode(graphAddr, href, auth, contrib):
     tx_log=web3.eth.getTransaction(tx)
     tx_receipt=web3.eth.getTransactionReceipt(tx)
     addr=root.call({'from':address}).getItem(href)
-    print('Node Address',addr)
+    print(href, 'Node Address',addr)
 
     while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
          tx_log=web3.eth.getTransaction(tx)
@@ -393,7 +393,7 @@ def upsertNode(graphAddr, href, auth, contrib):
          tx_receipt=web3.eth.getTransactionReceipt(tx)
          print('getTransactionReceipt',tx_receipt)
          addr=root.call({'from':address}).getItem(href)
-         print('Node Address',addr)
+         print(href, 'Node Address',addr)
          print("Waiting for Transaction Completion")
          sleep(10)
 
