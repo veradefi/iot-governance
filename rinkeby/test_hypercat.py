@@ -52,7 +52,7 @@ print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 
 def upsertNode(graphAddr, href, auth, contrib):
-    if graphAddr != root.address:
+    if not re.search('/cat$',href):
         tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
         print ('upsertItem', tx)
         tx_log=web3.eth.getTransaction(tx)
