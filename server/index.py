@@ -638,7 +638,8 @@ app = Flask(__name__)
 def doAuth():
     try:
         auth_b64=request.headers.get('Authorization')
-        auth_key=base64.b64decode(auth_b64)
+        auth_key=base64.b64decode(auth_b64).split(':')[0]
+        auth_key=base64.b64decode(auth_key)
 
         auth_reg=re.compile('(\w+)[:=] ?"?(\w+)"?')
         auth=dict(auth_reg.findall(auth_key))

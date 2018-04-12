@@ -536,6 +536,7 @@ function add_auth(xhr) {
         var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
         var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
         data=btoa(data);
+        data=btoa(data + ':' + '');
         xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
         xhr.setRequestHeader("Authorization", data); 
 
@@ -578,6 +579,7 @@ function fill_api_info(auth, auth_info) {
 
     var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
     data=btoa(data);
+    data=btoa(data + ':' + '');
     $('.auth_key').html(data);
     
 }
