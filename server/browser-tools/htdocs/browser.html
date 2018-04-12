@@ -183,7 +183,10 @@ function save_meta(id, node_href, item_href) {
             dataType: 'json',
             success: function(body, textStatus, xhr) {
                 //alert(body);
-                parseCatalogue(get_url(node_href), body);   
+                //parseCatalogue(get_url(node_href), body);   
+                browse($('#browse_url').val(), function() {
+                    log('browse complete');
+                });
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
@@ -242,7 +245,10 @@ function save_location(node_href, lat, lng) {
                     dataType: 'json',
                     success: function(body, textStatus, xhr) {
                         //alert(body);
-                        parseCatalogue(get_url(node_href), body);   
+                        browse($('#browse_url').val(), function() {
+                            log('browse complete');
+                        });
+                        //parseCatalogue(get_url(node_href), body);   
                     },
                     error: function(xhr, textStatus, err) {
                         log(xhr.status + ' ' + xhr.statusText);
