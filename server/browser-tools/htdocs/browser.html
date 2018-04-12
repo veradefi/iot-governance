@@ -111,9 +111,12 @@ function save_item(id) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
-                                
+                browse($('#browse_url').val(), function() {
+                    log('browse complete');
+                });
+
                 //$('#browse_url').val(url);
-                parseCatalogue(get_url(url), body);   
+                //parseCatalogue(get_url(url), body);   
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
