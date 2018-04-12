@@ -12,6 +12,8 @@ import os
 from time import sleep
 from datetime import datetime
 import base64
+import threading
+
 from flask import Flask
 
 
@@ -377,10 +379,40 @@ def getNode(graphRoot):
 
 
 
+def upsertNode(graphAddr, href, auth, contrib):
+    tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
+    print ('upsertItem', tx)
+    tx_log=web3.eth.getTransaction(tx)
+    tx_receipt=web3.eth.getTransactionReceipt(tx)
+    addr=root.call({'from':address}).getItem(href)
+    print(href, 'Node Address',addr)
 
+    while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
+         tx_log=web3.eth.getTransaction(tx)
+         print('getTransaction',tx_log)
+         tx_receipt=web3.eth.getTransactionReceipt(tx)
+         print('getTransactionReceipt',tx_receipt)
+         addr=root.call({'from':address}).getItem(href)
+         print(href, 'Node Address',addr)
+         print("Waiting for Transaction Completion")
+         sleep(10)
+
+    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#lat", "51.508775"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+    
+    print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
+    print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
 
 def addNode(parent_href, href, key, auth, eth_contrib):
     if href:
+        threads = []
         contrib=int(int(eth_contrib) / 10)
         if parent_href: 
             
@@ -393,32 +425,27 @@ def addNode(parent_href, href, key, auth, eth_contrib):
             except Exception as e:
                 print (e)
             print (parent_href, href, address, graphRoot.address, root.address)
-            print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib * 2 }).upsertItem(graphRoot.address, href))
-            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+            #print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib * 2 }).upsertItem(graphRoot.address, href))
+            #graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
             
-            
+            #upsertNode(graphRoot.address, href, auth, contrib)    
+            t = threading.Thread(target=upsertNode, args=[graphRoot.address, href, auth, contrib])
+            threads.append(t)
+
         else:
         
-            print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib}).upsertItem(root.address, href))            
-            graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-        
-        sleep(60)
-                    
-        #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#lat", "51.508775"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+            #print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib}).upsertItem(root.address, href))            
+            #graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+            #upsertNode(root.address, href, auth, contrib)    
+            t = threading.Thread(target=upsertNode, args=[root.address, href, auth, contrib])
+            threads.append(t)
 
-        print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
-        print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
 
-    
+        for x in threads:
+            x.start()
+
     data={}
-    data= getNode(graphRoot)
+    #data= getNode(graphRoot)
     
     return data
 
