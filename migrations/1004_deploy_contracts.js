@@ -1,7 +1,6 @@
 require('babel-polyfill');
 
 const Catalogue = artifacts.require("./Catalogue.sol");
-const CatalogueItem = artifacts.require("./CatalogueItem.sol");
 const GraphNode = artifacts.require("./GraphNode.sol");
 const GraphRoot = artifacts.require("./GraphRoot.sol");
 const PublicOffering = artifacts.require("./PublicOffering.sol");

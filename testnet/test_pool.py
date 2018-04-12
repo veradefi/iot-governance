@@ -28,10 +28,10 @@ web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 address2=web3.eth.coinbase
 address=web3.eth.accounts[1]
 
-address3='0x04F1C2fCed3A83546af51769E0139A84AdD841D2'
-address4='0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544'
-address5='0xe4E39Df68919ba8754C2500b4535C0d444Ef3b20'
-address6='0x1e3387f473adc1755C388d99699D871B497eBc7b'
+address3='0x5c6a178D57454536D269fc81DCF31d274E75E060'
+address4='0x3f4BC017C2aC1766F98073F50B4fA9423a3e916f'
+address5=address3
+address6=address4
 
 amount=10000000000000000000
 #web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})

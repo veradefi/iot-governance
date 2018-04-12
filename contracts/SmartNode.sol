@@ -16,7 +16,7 @@ contract SmartNode is Administered {
   }
 
   
-  function upsertNode(GraphNode _parentNode, string _href)
+  function upsertItem(GraphNode _parentNode, string _href)
   public
   payable
   returns (bool)
@@ -31,8 +31,8 @@ contract SmartNode is Administered {
      
      smartKey.putSmartKey(_node, address(_node));
       
-     _parentNode.upsertNode.value(msg.value/2)(_node, _href);
-     return graphRoot.upsertNode.value(msg.value/2)(_node, _href);
+     _parentNode.upsertItem.value(msg.value/2)(_node, _href);
+     return graphRoot.upsertItem.value(msg.value/2)(_node, _href);
       
   }
     
