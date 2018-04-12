@@ -9,6 +9,7 @@ import codecs
 import StringIO
 import re
 import os
+from time import sleep
 from datetime import datetime
 import base64
 from flask import Flask
@@ -29,8 +30,8 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-network='4'
-port='8666'
+network='5'
+port='8545'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
@@ -400,7 +401,8 @@ def addNode(parent_href, href, key, auth, eth_contrib):
         
             print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib}).upsertItem(root.address, href))            
             graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-            
+        
+        sleep(60)
                     
         #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))

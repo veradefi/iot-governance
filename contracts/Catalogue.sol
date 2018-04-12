@@ -1,20 +1,18 @@
 pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
 
-import "./CatalogueItem.sol";
+import "./NodeMetaData.sol";
 
 contract Catalogue is NodeMetaData {
        
   // PAS212:216
-  CatalogueItem[] public items;  
+  string public href;
+  address[] public items;  
   // MetaData[] meta; // inherited from NodeMetaData
   // PAS212:216
   
-  mapping (bytes32 => CatalogueItem) public catItemData; 
+  mapping (bytes32 => address) public nodeData; 
  
-  //GraphNode public parentGraphNode;
-  //GraphNode[] public childGraphNode;
-  
-  //event CatItemDataUpdate(address indexed user, CatalogueItem indexed catItem);
+  //event CatItemDataUpdate(address indexed user, address indexed catItem);
 
   function Catalogue(SmartKey _smartKey, address[] _adminAddress) 
   public
@@ -25,9 +23,28 @@ contract Catalogue is NodeMetaData {
   function selectItems() 
   constant
   public
-  returns (CatalogueItem[]) 
+  returns (address[]) 
   {
          return items;
+  }
+  
+  function selectHref() 
+  constant
+  public
+  returns (bytes) 
+  {
+         return bytes(href);
+  }
+
+  function setHref(string _href) 
+  public
+  payable
+  returns (bool)
+  {
+      SmartKey(smartKey).addSmartKey.value(msg.value)(address(this));
+      
+      href=_href;
+      return true;      
   }
 
 }

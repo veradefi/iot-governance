@@ -21,7 +21,7 @@ import key_artifacts from '../../build/contracts/Key.json'
 import db_artifacts from '../../build/contracts/GraphRoot.json'
 import node_artifacts from '../../build/contracts/GraphNode.json'
 import meta_artifacts from '../../build/contracts/MetaData.json'
-import item_artifacts from '../../build/contracts/CatalogueItem.json'
+import item_artifacts from '../../build/contracts/Catalogue.json'
 import pool_artifacts from '../../build/contracts/SmartPoolKey.json'
 import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
@@ -201,7 +201,7 @@ window.get_graph = function(url, path)
         }
     
         window.getNode = function(node, href) {
-                return node.getGraphNode.call(href, {'from':window.account}).then(function(address) {
+                return node.getItem.call(href, {'from':window.account}).then(function(address) {
                     return GraphNode.at(address).then(function(node) {
                         return window.getCatalogue(node).then(function(pas212Root) {     
                             return pas212Root;                                                
@@ -413,7 +413,7 @@ window.get_graphnode_smartkey = function(href, callback)
 
         return GraphRoot.deployed().then(function(node) 
         {
-            return node.getGraphNode.call(href, {'from':window.account}).then(function(keyAddress) 
+            return node.getItem.call(href, {'from':window.account}).then(function(keyAddress) 
             {  
                    return Key.at(keyAddress).then(function(keyInstance) 
                    {
@@ -463,9 +463,9 @@ window.add_node = function(parent_address, _href, callback)
             
             return SmartNode.deployed().then(function(contractInstance) {
 
-                return contractInstance.upsertNode(parent_address, _href, {from: window.address}).then(function(res) {
+                return contractInstance.upsertItem(parent_address, _href, {from: window.address}).then(function(res) {
                                 
-                        return graphRoot.getGraphNode.call(_href, {from: window.address}).then(function(node_address) {
+                        return graphRoot.getItem.call(_href, {from: window.address}).then(function(node_address) {
                                                               
                             console.log(node_address);
                             return callback(node_address);
