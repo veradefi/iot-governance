@@ -40,6 +40,8 @@ amount=1000000000000000000 #1 ETH
 price=amount/10000
 amount=amount/10000
 
+auth={ 'auth':address }
+
 # get smart key
 print (io.transact({ 'from': address, 'value': amount}).addSmartKey(address))
 #print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(address))
@@ -49,32 +51,41 @@ print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 
-def upsertNode(graphRoot, href):
-     tx=smartNode.transact({ 'from': address, 'value':price }).upsertItem(graphRoot, href)
-     print ('upsertItem', tx)
-     tx_log=web3.eth.getTransaction(tx)
-     tx_receipt=web3.eth.getTransactionReceipt(tx)
-     addr=root.call({'from':address}).getItem(href)
-     print('Node Address',addr)
-
-     while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
-     	tx_log=web3.eth.getTransaction(tx)
-     	print('getTransaction',tx_log)
-     	tx_receipt=web3.eth.getTransactionReceipt(tx)
-     	print('getTransactionReceipt',tx_receipt)
+def upsertNode(graphAddr, href, auth, contrib):
+    if graphAddr != root.address:
+        tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
+        print ('upsertItem', tx)
+        tx_log=web3.eth.getTransaction(tx)
+        tx_receipt=web3.eth.getTransactionReceipt(tx)
         addr=root.call({'from':address}).getItem(href)
-        print('Node Address',addr)
-	print("Waiting for Transaction Completion")
-	sleep(10)
-def fillData(graphRoot, href):
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#lat", "51.508775"))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':price }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+        print(href, 'Node Address',addr)
+    
+        while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
+             tx_log=web3.eth.getTransaction(tx)
+             print('getTransaction',tx_log)
+             tx_receipt=web3.eth.getTransactionReceipt(tx)
+             print('getTransactionReceipt',tx_receipt)
+             addr=root.call({'from':address}).getItem(href)
+             print(href, 'Node Address',addr)
+             print("Waiting for Transaction Completion")
+             sleep(10)
+    
+        graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    else:
+        graphRoot=root
+    #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:lastUpdated", datetime.now().strftime("%Y-%m-%d1T%H:%M:%SZ")))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#lat", "51.508775"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("http://www.w3.org/2003/01/geo/wgs84_pos#long", "-0.116993"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
+    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
+    
+    print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
+    print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
+    
+def getData(graphRoot, href):
 
     def getMeta(metaData):
         try:
@@ -114,44 +125,45 @@ def fillData(graphRoot, href):
     print(json.dumps(cat,sort_keys=True, indent=4))
 
 href="https://iotblock.io/cat"
-fillData(root, href)
+upsertNode(root.address, href, auth, price)
+getData(root, href)
 
 
 href="https://iotblock.io/cat/brand"
-upsertNode(root.address, href)
+upsertNode(root.address, href, auth, price)
 brand=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-fillData(brand, href)
+getData(brand, href)
 
 href="https://iotblock.io/cat/brand/iotblock"
-upsertNode(brand.address, href)
+upsertNode(brand.address, href, auth, price)
 iotblock=getContract('GraphNode', network, brand.call({'from':address}).getItem(href))
-fillData(iotblock, href)
+getData(iotblock, href)
 
 
 href="https://iotblock.io/cat/location"
-upsertNode(root.address, href)
+upsertNode(root.address, href, auth, price)
 location=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-fillData(location, href)
+getData(location, href)
 
 href="https://iotblock.io/cat/location/earth"
-upsertNode(location.address, href)
+upsertNode(location.address, href, auth, price)
 earth=getContract('GraphNode', network, location.call({'from':address}).getItem(href))
-fillData(earth, href)
+getData(earth, href)
 
 href="https://iotblock.io/cat/location/earth/singapore"
-upsertNode(earth.address, href)
+upsertNode(earth.address, href, auth, price)
 singapore=getContract('GraphNode',network, earth.call({'from':address}).getItem(href))
-fillData(singapore, href)
+getData(singapore, href)
 
 href="https://iotblock.io/cat/location/earth/singapore/changee"
-upsertNode(singapore.address, href)
+upsertNode(singapore.address, href, auth, price)
 changee=getContract('GraphNode',network, singapore.call({'from':address}).getItem(href))
-fillData(changee, href)
+getData(changee, href)
 
 href="https://iotblock.io/cat/location/earth/singapore/changee/airport"
-upsertNode(changee.address, href)
+upsertNode(changee.address, href, auth, price)
 airport=getContract('GraphNode',network, changee.call({'from':address}).getItem(href))
-fillData(airport, href)
+getData(airport, href)
 
 '''
 "catalogue-metadata":[
