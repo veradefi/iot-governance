@@ -364,8 +364,23 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12" align=left>
-                                    
-                                    <a href="#auth" id="view_api" onclick="JavaScript:get_api_key()" class="btn m-btn--pill m-btn--air         btn-outline-info" >View API Key</a>
+                                    <div id="view_api">
+                                            <b>ETH Contribution Per Transaction:
+                                            </b>
+                                            <div class="input-group">
+                                                <select id="eth_contrib" class="form-control m-input m-input--air">
+                                                    <option value='0.0001'>0.0001 ETH</option>
+                                                    <option value='0.001'>0.001 ETH</option>
+                                                    <option value='0.01'>0.01 ETH</option>
+                                                    <option value='0.1'>0.1 ETH</option>
+                                                    <option value='1'>1 ETH</option>
+                                                    
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button   onclick="JavaScript:get_api_key()"  class="btn btn-primary" type="button" >View API Key</button>
+                                                </div>
+                                            </div>
+                                    </div>
                                     <div id="view_api_loading" style="display:none">
                                     <center><img src="images/wait.gif" width=100></center>
                                     </div>
@@ -454,12 +469,16 @@
         </div>
         <div id="new_api_key" style="display:none;">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                          
                          <center>
-                         <h3>API AUTH:</h3> <pre><span class="auth"></span></pre><br>  
-                         <h3>API AUTH KEY: </h3><pre><span class="auth_key"></span></pre>
+                         <h3>Authorization API KEY: </h3><pre><span class="auth_key"></span></pre>
                          </center>
                          <br>
+                </div>
+                <div class="col-md-2">
                 </div>
             </div>
         </div>
@@ -508,6 +527,19 @@
 var isSmartKey=true;
 var myAddress='0x0';
 var keyAddress='0x0';
+var api_key='';
+var api_auth='';
+
+
+function add_auth(xhr) {
+        var eth1=1000000000000000000;
+        var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
+        var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
+        data=btoa(data);
+        xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
+        xhr.setRequestHeader("Authorization", data); 
+
+}
 
 function page2_api(auth, auth_info, key_address) {
    myAddress=auth;
@@ -527,6 +559,8 @@ function page2_api(auth, auth_info, key_address) {
         $('#page1').hide();
         $('#page2').hide();
         $('#page2_api').hide();
+        api_key=auth_info;
+        api_auth=auth;
         get_smart_key_info(address);
    }
 
@@ -536,18 +570,24 @@ function fill_api_info(auth, auth_info) {
     $('#view_api').show();
     $('#view_api_loading').hide();
     $('#new_api_key').show();
-    $('.auth').html(auth);
-    $('.auth_key').html(auth_info);
+    //$('.auth').html(auth);
+    var eth1=1000000000000000000;
+    var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
+    api_key=auth_info;
+    api_auth=auth;
+
+    var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
+    data=btoa(data);
+    $('.auth_key').html(data);
     
 }
 
 function fill_new_api_info(auth, auth_info) {
-    $('#replace_api').html('<br><br>New API Key Generated');
+    $('#replace_api').html('New API Key Generated');
     $('#replace_api_loading').hide();
     $('#new_api_key').show();
-    $('.auth').html(auth);
-    $('.auth_key').html(auth_info);
-    
+    fill_api_info(auth, auth_info);
+        
 }
     
 function get_api_key() {
