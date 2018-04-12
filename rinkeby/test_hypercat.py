@@ -52,24 +52,27 @@ print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 
 def upsertNode(graphAddr, href, auth, contrib):
-    tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
-    print ('upsertItem', tx)
-    tx_log=web3.eth.getTransaction(tx)
-    tx_receipt=web3.eth.getTransactionReceipt(tx)
-    addr=root.call({'from':address}).getItem(href)
-    print(href, 'Node Address',addr)
-
-    while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
-         tx_log=web3.eth.getTransaction(tx)
-         print('getTransaction',tx_log)
-         tx_receipt=web3.eth.getTransactionReceipt(tx)
-         print('getTransactionReceipt',tx_receipt)
-         addr=root.call({'from':address}).getItem(href)
-         print(href, 'Node Address',addr)
-         print("Waiting for Transaction Completion")
-         sleep(10)
-
-    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    if graphAddr != root.address:
+        tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
+        print ('upsertItem', tx)
+        tx_log=web3.eth.getTransaction(tx)
+        tx_receipt=web3.eth.getTransactionReceipt(tx)
+        addr=root.call({'from':address}).getItem(href)
+        print(href, 'Node Address',addr)
+    
+        while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
+             tx_log=web3.eth.getTransaction(tx)
+             print('getTransaction',tx_log)
+             tx_receipt=web3.eth.getTransactionReceipt(tx)
+             print('getTransactionReceipt',tx_receipt)
+             addr=root.call({'from':address}).getItem(href)
+             print(href, 'Node Address',addr)
+             print("Waiting for Transaction Completion")
+             sleep(10)
+    
+        graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    else:
+        graphRoot=root
     #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
@@ -122,6 +125,7 @@ def getData(graphRoot, href):
     print(json.dumps(cat,sort_keys=True, indent=4))
 
 href="https://iotblock.io/cat"
+upsertNode(root.address, href, auth, price)
 getData(root, href)
 
 
