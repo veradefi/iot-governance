@@ -23,8 +23,6 @@ contract GraphNode is Catalogue, Key {
   payable
   returns (bool)
   {  
-      //smartKey.addSmartKey.value(msg.value)(address(vault));  
-      //bytes32 hashVal=Key(smartKey.getKey(address(vault))).getHash(_href);
       smartKey.addSmartKey.value(msg.value)(address(this));
 
       bytes32 hashVal=getHash(_href);
@@ -36,8 +34,6 @@ contract GraphNode is Catalogue, Key {
             items.push(address(_node));
             _node.setHref.value(msg.value)(_href);
       }
-      //smartKey.addSmartKey.value(msg.value)(address(vault));
-      //vault.transfer(msg.value);
       
       return true;
       

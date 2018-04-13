@@ -267,7 +267,12 @@ window.add_smartkey = function(beneficiary, callback)
                                         callback(keyAddress.toString().toLowerCase());
                                         console.log('New Key Address', keyAddress.toString().toLowerCase());
                             });
-                        });   
+                            
+                        }).catch(function(error) {
+                            console.log(error);
+                            alert(error);
+                            callback('0x0000000000000000000000000000000000000000');
+                        });
                     }                            
                 });
                 
