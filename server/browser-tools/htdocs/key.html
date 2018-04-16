@@ -663,7 +663,12 @@ function get_transfer_user_eth(beneficiary, amount) {
    $('#eth_transfer').hide();
    $('#eth_transfer_loading').show();
    $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/transferUserEth?address=' + encodeURI(myAddress) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
             //data: JSON.stringify(user_item),
@@ -688,7 +693,12 @@ function setHealth(health) {
    $('#health').hide();
    $('#health_loading').show();
    $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/setUserHealth?address=' + encodeURI(myAddress) + '&health=' + encodeURI(health),
             //data: JSON.stringify(user_item),
