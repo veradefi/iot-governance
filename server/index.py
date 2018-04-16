@@ -635,7 +635,7 @@ def doAuth():
             if balance > int(auth['eth_contrib']):
                 to=address
                 sender=auth['auth']
-                userEthTransfer(auth['eth_contrib'], to, sender, '', '')
+                userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
     
                 return True, auth
     except Exception as e:
