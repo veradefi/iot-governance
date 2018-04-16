@@ -267,7 +267,11 @@ function get_smart_key_info(href) {
 
     
     $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/getNodeSmartKey?href=' + encodeURI(href),
             //data: JSON.stringify(user_item),
@@ -285,7 +289,11 @@ function get_smart_key_info(href) {
 
 function get_smartkey_transactions(href) {
    $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/getNodeSmartKeyTx?href=' + encodeURI(href),
             //data: JSON.stringify(user_item),
@@ -647,10 +655,10 @@ function parseCatalogue(url, doc) {
 
 function browse(url, cb) {
     var history=[];
-    url=get_url(url);
+    //url=get_url(url);
         
     //alert(url);
-    fetch(url, $('#key').val(), function(err, doc, location) {
+    fetch(url, '', function(err, doc, location) {
         location= get_full_url(location);
         $('#browse_url').val(location);
         
