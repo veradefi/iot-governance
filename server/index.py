@@ -667,7 +667,9 @@ def get_node():
     data={}
     href = request.args.get('href')
     href=re.sub('\/$','',href);
+    print("URL:",href)  
     if re.search('https:\/\/iotblock.io\/cat$',href):
+        print("Root Node")
         data  =  getNode(root)
     else:
         node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
