@@ -206,37 +206,13 @@ def setUserHealth(health, userAddress, key=None,auth=None):
     keyAddress=smartKey.call({ 'from': address }).getSmartKey(userAddress)
     
     key=getContract('Key',network, keyAddress, prefix="pki_")
-        
-    print('setHealth',key.transact({ 'from': address }).setHealth(health))
-    
-    
     try:
-        
-        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-        balance=web3.eth.getBalance(key.address)
-        amount=key.call({'from':address}).contrib_amount()
-        state=key.call({'from':address}).state()
-        health=key.call({'from':address}).health()
-        tokens=smartKey.call({'from':address}).balanceOf(key.address)
-        #transactions=key.call({'from':address}).transactions(key.address,0)
-        vault=key.call({'from':address}).vault()
-        #amount=tokens
+        print('setHealth',key.transact({ 'from': address }).setHealth(health))
     except Exception as e:
         print (e)
         
-    cat = { 
-            "address":key.address,
-            "eth_recv":amount,
-            "balance":balance,
-            "state":state,
-            "health":health,
-            "tokens":tokens,
-            #"transactions":transactions,
-            "vault":vault,
-            
-            }
-    
-    return cat
+    return key
+
 
 
 def getNodeKey(href, auth=None):
@@ -503,8 +479,10 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
         except Exception as e:
             print (e)
     
+    isOwner=False
     if graphRoot.call({'from':address}).isOwner(auth['auth']):        
         print('transferEth',graphRoot.transact({ 'from': address }).transferEth(amount, beneficiary));
+        isOwner=True
         
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
@@ -532,6 +510,7 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
             "tokens":tokens,
             #"transactions":transactions,
             "vault":vault,
+            "isOwner":isOwner,
             
             }
     
@@ -553,42 +532,18 @@ def setHealth(health, href, eth_contrib):
             print (e)
     healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
 
-     
-    print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
 
-    key=getContract('Key',network, graphRoot.address, prefix="pki_")
-
-    
-    try:
-        
-        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-        balance=web3.eth.getBalance(graphRoot.address)
-        amount=key.call({'from':address}).contrib_amount()
-        state=key.call({'from':address}).state()
-        health=key.call({'from':address}).health()
-        tokens=smartKey.call({'from':address}).balanceOf(key.address)
-        #transactions=key.call({'from':address}).transactions(key.address,0)
-        vault=key.call({'from':address}).vault()
-        #amount=tokens
+    try:     
+        print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
     except Exception as e:
         print (e)
         
-    cat = { 
-            "address":graphRoot.address,
-            "eth_recv":amount,
-            "balance":balance,
-            "state":state,
-            "health":health,
-            "tokens":tokens,
-            #"transactions":transactions,
-            "vault":vault,
-            
-            }
-    
-    return cat
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
+    return key;
+    
 
 
 app = Flask(__name__)
@@ -872,7 +827,11 @@ def setUserHealthStatus():
     status, auth=doAuth()
     data={}
     if status: 
-        data = setUserHealth(health, address, key, auth)
+        try:
+            key = setUserHealth(health, address, key, auth)
+            data = getKeyInfo(key, auth)
+        except Exception as e:
+            print (e)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -891,6 +850,7 @@ def transferNodeEth():
     status, auth=doAuth()
     if status: 
         data = nodeEthTransfer(amount, beneficiary, href, auth)
+        
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -908,7 +868,8 @@ def setDeviceHealth():
     status, auth=doAuth()
     if status:            
         health=int(health)
-        data = setHealth(health, href, auth['eth_contrib'])
+        key = setHealth(health, href, auth['eth_contrib'])
+        data = getNodeKey(href, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
