@@ -616,14 +616,19 @@ function get_smart_key_info(address) {
 
     
     $.ajax({
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/getSmartKey?address=' + encodeURI(address),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
-                fill_page2(address, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"]);
+                fill_page2(address, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"], body["isOwner"]);
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
@@ -635,7 +640,12 @@ function get_smart_key_info(address) {
 function get_smartkey_transactions(address) {
    $.ajax({
                     
-            //beforeSend: function(xhr){setHeaders(xhr);},
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
             type: 'GET',
             url: '/cat/getSmartKeyTx?address=' + encodeURI(address),
             //data: JSON.stringify(user_item),
@@ -677,7 +687,7 @@ function get_transfer_user_eth(beneficiary, amount) {
             success: function(body, textStatus, xhr) {
                $('#eth_transfer').show();
                $('#eth_transfer_loading').hide();
-                fill_page2(myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"]);
+                fill_page2(myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"], body["isOwner"]);
             },
             error: function(xhr, textStatus, err) {
                $('#eth_transfer').show();
@@ -707,7 +717,7 @@ function setHealth(health) {
             success: function(body, textStatus, xhr) {
                $('#health').show();
                $('#health_loading').hide();
-                fill_page2(myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"]);
+                fill_page2(myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"],  body["isOwner"]);
             },
             error: function(xhr, textStatus, err) {
                $('#health').show();
@@ -718,7 +728,7 @@ function setHealth(health) {
 }
 
 
-function fill_page2(userAddress, address, balance, eth_recv, vault, state, health, tokens) {
+function fill_page2(userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner) {
    console.log(userAddress, address, balance, eth_recv, vault, state, health, tokens);
    $('#loading').show();
    $('#page1').hide();
@@ -743,6 +753,13 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
        //$('#page1').hide();
        $('#loading').hide();
        $('#page2').show();
+
+       if (isOwner) {
+           $('#eth_transfer').show();
+       } else {
+           $('#eth_transfer').hide();
+       
+       }
        
        $('.token_balance').html(tokens);
        $('.eth_balance').html(balance);
