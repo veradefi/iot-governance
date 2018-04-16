@@ -29,7 +29,7 @@ function parseLinks() {
         
     //alert(url);
     fetch(url, $('#key').val(), function(err, doc, location) {
-        location= get_full_url(location);
+        location=get_full_url(location);
         var urls=[url];
     
         try {
@@ -95,7 +95,7 @@ function fetch(url, key, cb) {
         dataType: 'json',
         success: function(body, textStatus, xhr) {
             log('<- ' + xhr.status + ' ' + xhr.statusText);
-            cb(null, body, xhr.getResponseHeader('Location'));
+            cb(null, body, url); //xhr.getResponseHeader('Location'));
         },
         error: function(xhr, textStatus) {
             log('<- Error ' + xhr.status + ' ' + xhr.statusText);
