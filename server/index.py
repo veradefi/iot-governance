@@ -185,19 +185,21 @@ def getKeyInfo(key, auth=None):
     return cat
 
 def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
-
-    amount=int(amount)
+    try:
+        amount=int(amount)
+        
+        keyAddress=smartKey.call({ 'from': address }).getSmartKey(sender)
+        
+        key=getContract('Key',network, keyAddress, prefix="pki_")
     
-    keyAddress=smartKey.call({ 'from': address }).getSmartKey(sender)
-    
-    key=getContract('Key',network, keyAddress, prefix="pki_")
-
-    print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
-    if not auth is None and key.call({'from':address}).isOwner(auth['auth']):   
-        print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
-   
-    return key
-
+        #print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
+        if not auth is None and key.call({'from':address}).isOwner(auth['auth']):   
+            print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
+       
+        return key
+    except Exception as e:
+        print (e)
+        
 def setUserHealth(health, userAddress, key=None,auth=None):
     health=int(health)
     keyAddress=smartKey.call({ 'from': address }).getSmartKey(userAddress)
