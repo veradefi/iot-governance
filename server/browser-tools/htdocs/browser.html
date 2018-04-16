@@ -300,6 +300,7 @@ function get_smartkey_transactions(href) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
+                $('#transactions').html('');
                 var transactions=body["transactions"];
                 for (var i=0; i < transactions.length; i++) {
                     var sender=transactions[i]["sender"];
