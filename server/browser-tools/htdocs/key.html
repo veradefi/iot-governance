@@ -657,7 +657,8 @@ function get_smartkey_transactions(address) {
                     var sender=transactions[i]["sender"];
                     var date=transactions[i]["date"];
                     var amount=transactions[i]["amount"];
-                    fill_page2_transactions(sender, date, amount)
+                    var tx_type=transactions[i]["tx_type"];
+                    fill_page2_transactions(sender, date, amount, tx_type)
                 }
             },
             error: function(xhr, textStatus, err) {
@@ -793,15 +794,20 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
    
 }  
 
-function fill_page2_transactions(sender, date, amount) {
+function fill_page2_transactions(sender, date, amount, tx_type) {
         console.log(sender, date, amount);
         var dateTime = new Date(parseInt(date) * 1000);
         date=dateTime.toISOString(); 
         var eth1=1000000000000000000;
-        var html ="<div class=row><div class=col-md-4>";
+        var tx='Incoming';
+        if (tx_type > 0) {
+            tx='Outgoing';
+        }
+        var html ="<div class=row><div class=col-md-2>";
         html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
-        html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
-        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
+        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-4>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
         html +="</div><hr><br>";
         
         $('#transactions').append(html);
