@@ -1,39 +1,4 @@
-<html lang="en">
-<head>
-<link rel="stylesheet" type="text/css" href="css/diQuery-collapsiblePanel.css">
-<script src="js/jquery-1.9.1.min.js"></script>
-<script src="js/jquery.scrollTo-1.4.2-min.js"></script>
-<script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
-<script type="text/javascript" src="js/URI.js"></script>
-<script type="text/javascript" src="js/base64.js"></script>
-<script type="text/javascript" src="js/api.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUU90mGUU8I7wHFPfteUJmZHdy-CSOApM&libraries=places&sensor=true" async="" defer=""></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-<link rel="stylesheet" type="text/css" href="css/style.bundle.css">
-<link rel="stylesheet" type="text/css" href="css/vendors.bundle.css">
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-<script>
-  WebFont.load({
-    google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
-    active: function() {
-        sessionStorage.fonts = true;
-    }
-  });
-</script>
-<style>
-.Logo {
-  width: 136px;
-  height: 40px;
-  object-fit: contain;
-}
-</style>
-<!-- svg -->
-<img src="images/logo.svg"
-     class="Logo">
-
+<%- include('partials/header') %>
 <script>
 
 var map_json={};
@@ -859,38 +824,15 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
     
 
 </script>
-</head>
-
-<body>
-<form id="header">
-<div class="row">
-     <div class="col-md-12">
-         <center>
-          <a href="https://iotblock.io">
-        <img src="logo-32x32.png" style="float: right;width:81px;" border=0>
-        </a>
-        <div class="btn-group m-btn-group m-btn-group--pill">
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="pool.html">Smart Pool Key</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="key.html">Smart Key</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="browser.html">Catalogue browser and editor (text)</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="explorer.html">Catalogue explorer (graphical)</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="crawler.html">Catalogue crawler (graphical)</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="map.html">Catalogue Map</a>
-            <!--
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="validator.html">Catalogue syntax validator</a></li>
-            //-->
-        </div>
-           </center>
-    </div>
-</div>
-</form>
-
 <form id="page1">
     
 
 <div class="row">
 <div class="col-md-12">
-        <h1>Catalogue Browser</h1>
+        <center>
+        <h1 style="padding-top:5px;">Catalogue Browser & Editor</h1>
+        <hr>
+        </center>
         <form class="form-group">
             <div class="row">
                 <div class="col-md-6">
@@ -1116,7 +1058,6 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
                             </div>
                     </div>
             </div>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div id="health">
@@ -1172,7 +1113,6 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
         <div class="catalogue"></div>
     </div>
     </div>
-    <a href="https://iotblock.io"><img src="logo-32x32.png" style="float: right;width:81px;" border=0></a>
     
 <script>
 var isBrowse=true;
@@ -1207,7 +1147,5 @@ var isBrowse=true;
             </form>
 
 </script>
+<%- include('partials/footer') %>
 
-</body>
-
-</html>

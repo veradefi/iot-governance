@@ -1,0 +1,887 @@
+<%- include('partials/header') %>
+<form id="page1" style="display:none;">
+
+<!--
+<div class="row">
+     <div class="col-md-12">
+            <div class="m-portlet m-portlet--tab">
+                   <div class="m-portlet__head">
+                          <br>
+                          <center><label><h3>Find Smart Key</h3></label></center>
+                          <div class="row">
+                                 <div class="col-md-12">
+                                         <center>
+                                         
+                                             <input name="find_poolkey" class="form-control m-input m-input--air m-input--pill"  placeholder="Enter Smart Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
+                                             <br>
+                                             <button type="button" id='find_poolkey_btn' class="btn btn-accent"><h1>Find My Smart Key</h1></button>
+                                          </center>
+                                          <br>
+                                  </div>
+                            </div>
+ 
+                      </div>
+                </div>
+            
+     </div>
+</div>
+//-->
+
+     
+
+<div class="row">
+    <div class="col-md-12">    
+        <div class="m-portlet m-portlet--tab">
+               <div class="m-portlet__head">
+                    <center>
+                    <div class="row">
+                        <div class="col-md-12">
+                                  <br>
+                                  <center><label><h2>Create Smart Key  (Rinkeby Ethereum Network)</h2></label></center>
+                                  <br>
+                                  
+                                
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            Wallet
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Your wallet address</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                                     <input name="address" class="address_val form-control m-input m-input--air m-input--pill"  style="width:100%" type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
+                                     <br><br>
+                         </div>
+                    </div>
+                    
+<!--
+            
+                    <hr>
+            
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            Admins
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Admin 1 Wallet Address</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="admin1" class="address_val form-control m-input m-input--air m-input--pill"  type="text" id="admin1" placeholder="" aria-invalid="false" aria-required="false">
+                      
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Admin 2 Wallet Address</label>
+                        </div>
+                        <div class="col-md-6" align=left>
+                            <input name="admin2" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="admin2" placeholder="" aria-invalid="false" aria-required="false">
+                        </div>
+                    </div>
+                      
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Admin 3 Wallet Address</label>
+                        </div>
+                        <div class="col-md-6" align=left>
+                            <input name="admin3" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="admin3" placeholder="" aria-invalid="false" aria-required="false">
+                        </div>
+                    </div>
+                    
+                    <hr>
+-->                    
+                    <div class="row">
+                        <div class="col-md-12">
+                          <h3>Ether</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6" align=right>    
+                          <label>Minimum Ether Needed</label>
+                        </div>
+                        <div class="col-md-6" align=left>
+                           1 ETH                           
+                        </div>
+                    </div>
+                    <br>
+                    
+            
+                    <div class="row">
+                        <div class="col-md-12">    
+                            <button type="button" id='pool' class="btn btn-accent"><h1>Create Smart Key</h1></button>
+                            <br><br>
+                        </div>
+                    </div>
+                    </center>
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+</form>
+<form id="page2_api" style="display:none;">
+
+
+<div class="row">
+    <div class="col-md-12">    
+        <div class="m-portlet m-portlet--tab">
+               <div class="m-portlet__head">
+                    <center>
+                    <div class="row">
+                        <div class="col-md-12">
+                                  <br>
+                                  <center><label><h2>Create Smart Key API Access Token  (Rinkeby Ethereum Network)</h2></label></center>
+                                  <br>
+                                  
+                                
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            Wallet
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Your wallet address</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                                     <span class="address"></span>
+                                     <br><br>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+            
+                          <h3>
+                            API Key
+                          </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Email</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="username" class="form-control m-input m-input--air m-input--pill"  type="text" id="username" placeholder="" aria-invalid="false" aria-required="false">
+                      
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                          <label>Select Password</label>
+                          
+                        </div>
+                        <div class="col-md-6" align=left>
+                          
+                          <input name="password" class="form-control m-input m-input--air m-input--pill"  type="password" id="password" placeholder="" aria-invalid="false" aria-required="false">
+                          <br><br>
+                         </div>
+                    </div>
+                    <br>
+                    
+            
+                    <div class="row">
+                        <div class="col-md-12">    
+                            <button type="button" id='create_api_key' class="btn btn-accent"><h1>Create Smart Key Access Token</h1></button>
+                            <br><br>
+                        </div>
+                    </div>
+                    </center>
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+</form>
+<form id="loading" >
+<img src="images/wait.gif">
+</form>
+<form id="page2" style="display:none;">
+<div class="row">
+    <div class="col-md-12">    
+        <center><h3>Smart Key Contract Address (Rinkeby Ethereum Network)</h3></center><br>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">    
+
+        <center><h3><pre id='poolkey'></pre></h3></center>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">    
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">    
+        <div class="m-portlet m-portlet--tab">
+               <div class="m-portlet__head">
+        
+                    <br><br>                    
+                    
+                    <div class="row">
+                        <div class="col-md-6">    
+                            
+                            <h3>ETH BALANCE</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3><span class="eth_balance"></span></h3>
+                                    <font size=2>ETH</font><br>
+                                </div>
+                            </div>                            
+                            
+                            
+                        </div>
+                        <div class="col-md-6">    
+                            
+                            <h3>ETH RECEIVED</h3>
+                            <h3><span class="eth_received"></span></h3> <font size=2>ETH</font>
+
+                            
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-md-12">
+                                <h4>
+                                     
+                                     <div class="progress m-progress--sm">
+                						<div class="progress-bar m--bg-accent" role="progressbar" style="height:35px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                						<b><span class="eth_sent"></b>
+                						</div>
+                					</div>
+                					
+                                    
+                                </h4>
+                                <br>
+                        </div>
+                    </div>
+                    
+                     <div class="row">
+                        <div class="col-md-6">    
+                            <h3 class='status'>Health Status</h3>
+                            <h1><span class='health'></span></h1>
+                            
+                        </div>
+                        <div class="col-md-6">    
+                            <h3>Key State</h3>
+                            <h1>    
+                            <span class="state"></span>   
+                            </h1> <font size=2></font><br>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">    
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>API Key
+                                    </h3>                                                       
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" align=left>
+                                    <div id="view_api">
+                                            <b>ETH Contribution Per Transaction:
+                                            </b>
+                                            <div class="input-group">
+                                                <select id="eth_contrib" class="form-control m-input m-input--air">
+                                                    <option value='0.0001'>0.0001 ETH</option>
+                                                    <option value='0.001'>0.001 ETH</option>
+                                                    <option value='0.01'>0.01 ETH</option>
+                                                    <option value='0.1'>0.1 ETH</option>
+                                                    <option value='1'>1 ETH</option>
+                                                    
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button   onclick="JavaScript:get_api_key()"  class="btn btn-primary" type="button" >View API Key</button>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div id="view_api_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Replace API Key
+                                            </h3>       
+                                        </div>
+                                    </div>
+                                    <div id="replace_api">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input name="new_username" class="form-control m-input m-input--air m-input--pill"  type="text" id="new_username" placeholder="Email Address" aria-invalid="false" aria-required="false">
+                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input name="new_password" class="form-control m-input m-input--air m-input--pill"  type="password" id="new_password" placeholder="Select Password" aria-invalid="false" aria-required="false">
+                                            </div>               
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    <br>    
+                                                    <a href="#auth" onclick="JavaScript:generate_api_key()" class="form-control btn m-btn--pill m-btn--air         btn-outline-info" >Regenerate API Key</a>
+                                                    <br>    
+                                                    <br>    
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="replace_api_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+
+                        </div>           
+
+                    </div>
+                </div>
+              </div>
+             </div>
+             <div class="col-md-6">    
+                    <div class="m-portlet m-portlet--tab">
+                           <div class="m-portlet__head">     
+                               <br><br>
+                               <div class="row>
+                                   <div class="col-md-12">
+                                        <h3>Vault
+                                        <pre><span class="vault"></span> <font size=2></font>
+                                        </h3>
+                                       <div id="contrib-stat" style="height: 200px;"></div>
+                                       
+                                    </div>
+                                    
+                                    <div class="col-md-12" id="eth_transfer">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                ETH Amount:<br>
+                                                <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                            </div>
+                                            <div class="col-md-4">
+                                                Beneficiary Address:<br>
+                                                <input id='beneficiary' class="address_val form-control m-input m-input--air m-input--pill" placeholder="Beneficiary Address">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <br>
+                                                <a href='#eth_transfer' onClick="JavaScript:get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val())" class="btn m-btn--pill m-btn--air         btn-outline-info" id='wd_ether'>Transfer Ether</a>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        
+                                    </div>
+                                    <div id="eth_transfer_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+
+                                </div>                              
+    
+                            </div>
+                    </div>
+            </div>
+        <div id="new_api_key" style="display:none;">
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                          
+                         <center>
+                         <h3>Authorization API KEY: </h3><pre><span class="auth_key"></span></pre>
+                         </center>
+                         <br>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="health">
+                <center>
+                <h3>Update Device Integrity Status</h3>
+                <div class="m-btn-group m-btn-group--pill btn-group m-btn-group m-btn-group--pill btn-group-lg">
+                    <button onClick="JavaScript:setHealth(0)" type="button" class="btn btn-primary">Provisioning</button>
+                    <button onClick="JavaScript:setHealth(1)" type="button" class="btn btn-success">Certified</button>
+                    <button onClick="JavaScript:setHealth(2)" type="button" class="btn btn-info">Modified</button>
+                    <button onClick="JavaScript:setHealth(3)" type="button" class="btn btn-danger">Compromised</button>
+                    <button onClick="JavaScript:setHealth(4)" type="button" class="btn btn-danger">Malfunctioning</button>
+                    <button onClick="JavaScript:setHealth(5)" type="button" class="btn btn-danger">Harmful</button>
+                    <button onClick="JavaScript:setHealth(6)" type="button" class="btn btn-danger">Counterfeit</button>
+                </div>
+                </center>
+                </div>
+                <div id="health_loading" style="display:none">
+                <center><img src="images/wait.gif" width=100></center>
+                </div>
+                <br><br><br>    
+            </div>
+        </div> 
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="m-portlet m-portlet--tab">
+                           <div class="m-portlet__head">
+                               <br>
+                               <center><h3>Transactions</h3></center> 
+                                <hr>
+                               <div id='transactions'>
+                               </div>
+                           </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>            
+
+
+</form>
+<script>
+var isSmartKey=true;
+var myAddress='0x0';
+var keyAddress='0x0';
+var api_key='';
+var api_auth='';
+
+
+function add_auth(xhr) {
+        var eth1=1000000000000000000;
+        var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
+        var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
+        data=btoa(data);
+        data=btoa(data + ':' + '');
+        xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
+        xhr.setRequestHeader("Authorization", data); 
+
+}
+
+function page2_api(auth, auth_info, key_address) {
+   myAddress=auth;
+   keyAddress=key_address;
+   if (key_address.length == 0) {
+        $('#loading').hide();
+        $('#page1').show();
+        $('#page2').hide();
+        $('#page2_api').hide();
+   } else if (auth_info.length == 0) {
+        $('#loading').hide();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').show();
+   } else {
+        $('#loading').show();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').hide();
+        api_key=auth_info;
+        api_auth=auth;
+        get_smart_key_info(address);
+   }
+
+}
+
+function fill_api_info(auth, auth_info) {
+    $('#view_api').show();
+    $('#view_api_loading').hide();
+    $('#new_api_key').show();
+    //$('.auth').html(auth);
+    var eth1=1000000000000000000;
+    var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
+    api_key=auth_info;
+    api_auth=auth;
+
+    var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
+    data=btoa(data);
+    data=btoa(data + ':' + '');
+    $('.auth_key').html(data);
+    
+}
+
+function fill_new_api_info(auth, auth_info) {
+    $('#replace_api').html('New API Key Generated');
+    $('#replace_api_loading').hide();
+    $('#new_api_key').show();
+    fill_api_info(auth, auth_info);
+        
+}
+    
+function get_api_key() {
+    //alert(myAddress.toLowerCase());
+    $('#view_api').hide();
+    $('#view_api_loading').show();
+    get_keyAuth(myAddress.toLowerCase(), fill_api_info);
+     
+}
+
+function generate_api_key() {
+    $('#replace_api').hide();
+    $('#replace_api_loading').show();
+    var username=$('#username').val();
+    var password=$('#password').val();
+    var auth_key=beneficiary + ":" + username + ":" + password;
+    auth_key=auth_key.toLowerCase()
+
+    add_keyAuth(myAddress.toLowerCase(), myAddress.toLowerCase(), auth_key, fill_new_api_info) 
+     
+}
+
+function get_smart_key_info(address) {
+
+    
+    $.ajax({
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: '/cat/getSmartKey?address=' + encodeURI(address),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                fill_page2(address, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"], body["isOwner"]);
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
+function get_smartkey_transactions(address) {
+   $.ajax({
+                    
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: '/cat/getSmartKeyTx?address=' + encodeURI(address),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                $('#transactions').html('');
+                var transactions=body["transactions"];
+
+                for (var i=0; i < transactions.length; i++) {
+                    var sender=transactions[i]["sender"];
+                    var date=transactions[i]["date"];
+                    var amount=transactions[i]["amount"];
+                    var tx_type=transactions[i]["tx_type"];
+                    fill_page2_transactions(sender, date, amount, tx_type)
+                }
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
+function get_transfer_user_eth(beneficiary, amount) {
+   var eth1=1000000000000000000;
+   var amt=parseFloat(amount) * eth1;
+   $('#eth_transfer').hide();
+   $('#eth_transfer_loading').show();
+   $.ajax({
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: '/cat/transferUserEth?address=' + encodeURI(myAddress) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+               $('#eth_transfer').show();
+               $('#eth_transfer_loading').hide();
+                fill_page2(myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"], body["isOwner"]);
+            },
+            error: function(xhr, textStatus, err) {
+               $('#eth_transfer').show();
+               $('#eth_transfer_loading').hide();
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
+function setHealth(health) {
+   var health=parseInt(health)
+   $('#health').hide();
+   $('#health_loading').show();
+   $.ajax({
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: '/cat/setUserHealth?address=' + encodeURI(myAddress) + '&health=' + encodeURI(health),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+               $('#health').show();
+               $('#health_loading').hide();
+                fill_page2(myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"],  body["isOwner"]);
+            },
+            error: function(xhr, textStatus, err) {
+               $('#health').show();
+               $('#health_loading').hide();
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+
+function fill_page2(userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner) {
+   console.log(userAddress, address, balance, eth_recv, vault, state, health, tokens);
+   $('#loading').show();
+   $('#page1').hide();
+   $('#page2').hide();
+   $('#page2_api').hide();
+
+    if (address == '0' || address == '0x0000000000000000000000000000000000000000') {
+        $('#page1').show();
+        $('#loading').hide();
+        $('#page2').hide();
+        return;
+    } else {
+       myAddress=userAddress;
+       keyAddress=address;
+       var eth1_amount=1000000000000000000       
+       balance/=eth1_amount;
+       eth_recv/=eth1_amount;
+       tokens/=eth1_amount;
+       var states=[ 'Issued', 'Active', 'Returned' ]
+       var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
+       
+       //$('#page1').hide();
+       $('#loading').hide();
+       $('#page2').show();
+
+       if (isOwner) {
+           $('#eth_transfer').show();
+           
+       } else {
+           $('#eth_transfer').hide();
+       
+       }
+       
+       $('.token_balance').html(tokens);
+       $('.eth_balance').html(balance);
+       $('.eth_received').html(eth_recv);
+       $('.vault').html( vault );
+       $('.state').html( states[state] );
+       $('.health').html( healthStates[health] );
+       $('.progress-bar').val( balance / eth_recv * 100 );
+       $('#poolkey').html('<pre>' + address + '</pre>');
+       
+       $('#contrib-stat').html('');
+       Morris.Donut({
+          element: 'contrib-stat',
+          data: [
+            {label: "Received ETH", value:  eth_recv},
+            {label: "Available ETH", value:  balance},
+          ]
+        });
+        
+         
+        $('#send_ether').on('click', function(e) {
+               var eth1=1000000000000000000;
+               var amt=parseInt($('#send_amt').val()) * eth1;
+               send_ether(address, amt);
+       });       
+   }
+   $('#transactions').html('');
+   get_smartkey_transactions(userAddress);
+
+   
+}  
+
+function fill_page2_transactions(sender, date, amount, tx_type) {
+        console.log(sender, date, amount);
+        var dateTime = new Date(parseInt(date) * 1000);
+        date=dateTime.toISOString(); 
+        var eth1=1000000000000000000;
+        var tx='Incoming';
+        if (tx_type > 0) {
+            tx='Outgoing';
+        }
+        var html ="<div class=row><div class=col-md-2>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-4>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
+        html +="</div><hr><br>";
+        
+        $('#transactions').append(html);
+}
+    
+
+
+function page2(address) {
+   get_keyAuth(address, page2_api) 
+
+}
+
+$( document ).ready(function() {
+    
+    $('#fee').on('change', function(e) {
+        $('#fee_struct').show();
+        var you_msg = you + '%';
+        
+        var fee=parseFloat($('#fee').val());
+        var you=fee - 0.5;
+        $('#you').html(you_msg);
+        var total_msg = fee  + '%';
+        $('#total').html(total_msg);
+                
+        
+    });
+    
+    $('#find_poolkey_btn').on('click',function(e) {
+         var poolkey=$('#find_poolkey').val();
+         page2(poolkey);
+    });
+
+    $('#create_api_key').on('click', function (e) {
+    
+        var username=$('#username').val();
+        var password=$('#password').val();
+        var auth_key=myAddress + ":" + username + ":" + password;
+        auth_key=auth_key.toLowerCase();
+        myAddress=myAddress.toLowerCase();
+        //alert(auth_key);
+        $('#loading').show();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').hide();
+        
+        add_keyAuth(myAddress, myAddress, auth_key,  page2_api); 
+        
+    });
+    $('#pool').on('click', function (e) {
+        var fee=Math.round(1 / parseFloat($('#fee').val() / 100));
+        var whitelist=[];
+        var admins=[];
+        var has_whitelist=false;
+
+        /*
+        if ($('#whitelist1').val().length > 0) {
+            whitelist.push($('#whitelist1').val());
+        }
+        if ($('#whitelist2').val().length > 0) {
+            whitelist.push($('#whitelist2').val());
+        }
+        if ($('#whitelist3').val().length > 0) {
+            whitelist.push($('#whitelist3').val());
+        }
+        if ($('#has_whitelist')[0].checked) {
+            has_whitelist=true;
+        }
+        
+        if ($('#admin1').val().length > 0) {
+            admins.push($('#admin1').val());
+        }
+        if ($('#admin2').val().length > 0) {
+            admins.push($('#admin2').val());
+        }
+        if ($('#admin3').val().length > 0) {
+            admins.push($('#admin3').val());
+        }
+        var max_contrib=parseInt($('#max_contrib').val()) * eth1;
+        var max_per_contrib=parseInt($('#max_per_contrib').val()) * eth1;
+        var min_per_contrib=parseInt($('#min_per_contrib').val()) * eth1;
+        */
+        
+        var eth1=1000000000000000000;
+        
+        var beneficiary=$('#address').val();
+        function key_created(address) {
+            myAddress=beneficiary;
+            keyAddress=address;
+            
+            /*
+            $.ajax({
+                //beforeSend: function(xhr){setHeaders(xhr);},
+                type: 'GET',
+                url: '/cat/getSmartKey?address=' + encodeURI(myAddress),
+                //data: JSON.stringify(user_item),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(body, textStatus, xhr) {
+                    page2(myAddress);
+                },
+                error: function(xhr, textStatus, err) {
+                    log(xhr.status + ' ' + xhr.statusText);
+                }
+            });
+            location.href="key.html";
+            */
+            
+            
+            setTimeout(function () { page2(myAddress) }, 10000)
+        }
+        $('#loading').show();
+        $('#page1').hide();
+        $('#page2').hide();
+        $('#page2_api').hide();
+        
+        add_smartkey(beneficiary,key_created); 
+        
+    });
+    
+   
+});
+</script>
+<script src="js/app.js"></script>
+<%- include('partials/footer') %>
