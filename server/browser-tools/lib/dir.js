@@ -70,19 +70,4 @@ console.log(start);
 }
 
 
-exports.listexamples = function(req, res) {
-    readDir(path.join(__dirname, config.htdocs), function(err, found) {
-        if (err)
-            res.send(500, err);
-        else {
-            var filtered = found.files.filter(function(item){
-                return (/.json$/).test(item);
-            });
-            filtered = filtered.map(function(abspath) {
-                return '/'+path.relative(path.join(__dirname, config.htdocs), abspath);
-            });
-            res.send(JSON.stringify(filtered));
-        }
-    });
-};
 

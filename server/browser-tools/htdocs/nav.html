@@ -23,16 +23,7 @@
     }
   });
 </script>
-<style>
-.Logo {
-  width: 136px;
-  height: 40px;
-  object-fit: contain;
-}
-</style>
-<!-- svg -->
-<img src="images/logo.svg"
-     class="Logo">
+
 
 <script>
 
@@ -863,24 +854,94 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
 
 <body>
 <form id="header">
+<style>
+.Logo {
+  width: 136px;
+  height: 40px;
+  object-fit: contain;
+}
+.primary-item {
+  width: 138px;
+  height: 15px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.07;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.secondary-item {
+  width: 138px;
+  height: 15px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.07;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6eb4;
+}
+</style>
+
 <div class="row">
      <div class="col-md-12">
-         <center>
-          <a href="https://iotblock.io">
-        <img src="logo-32x32.png" style="float: right;width:81px;" border=0>
-        </a>
-        <div class="btn-group m-btn-group m-btn-group--pill">
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="pool.html">Smart Pool Key</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="key.html">Smart Key</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="browser.html">Catalogue browser and editor (text)</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="explorer.html">Catalogue explorer (graphical)</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="crawler.html">Catalogue crawler (graphical)</a>
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="map.html">Catalogue Map</a>
-            <!--
-            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="validator.html">Catalogue syntax validator</a></li>
-            //-->
-        </div>
-           </center>
+         <div class="m-portlet m-portlet--tab">
+               <div class="m-portlet__head" style="box-shadow: 0 2px 7px 0 rgba(160, 160, 160, 0.5);">
+                    <div class="row">
+                        <div class="col-md-12" align=left>
+                            <br>
+                            <img style="margin-left:135px;" src="images/logo.svg"
+                         class="Logo">
+                        </div>
+                        <div class="col-md-10">
+                             
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="row" >
+                        <div class="col-md-3 col-xs-3" align=right style="text-align:right;">
+                                        <div class="m-stack__item"> 
+										<button type="button" style="width:170px;height:60px;text-align:left;box-shadow: inset 0 0 6px 0 rgba(63, 63, 63, 0.5);" class="btn m-btn--square  btn-primary btn-lg" onClick="JavaScript:location.href='pool.html';">
+										<span class="primary-item">Smart Pool Key</span>
+										</button>
+										<br>
+										<button type="button" style="width:170px;height:60px;text-align:left;" class="btn m-btn--square  btn-secondary btn-lg" onClick="JavaScript:location.href='key.html';">
+										<span class="secondary-item">Smart Key</span>
+										</button>
+										<br>
+										<button type="button" style="width:170px;height:60px;text-align:left;" class="btn m-btn--square  btn-secondary btn-lg" onClick="JavaScript:location.href='browser.html';">
+										<span class="secondary-item">Browser & Editor</span>
+										</button>
+										<br>
+										<button type="button" style="width:170px;height:60px;text-align:left;" class="btn m-btn--square  btn-secondary btn-lg" onClick="JavaScript:location.href='explorer.html';">
+										<span class="secondary-item">Explorer</span>
+										</button>
+										<br>
+										<button type="button" style="width:170px;height:60px;text-align:left;" class="btn m-btn--square  btn-secondary btn-lg" onClick="JavaScript:location.href='crawler.html';">
+										<span class="secondary-item">Crawler</span>										
+										</button>
+										<br>
+										<button type="button" style="width:170px;height:60px;text-align:left;" class="btn m-btn--square  btn-secondary btn-lg" onClick="JavaScript:location.href='map.html';">
+										<span class="secondary-item">Map</span>										
+										</button>
+                                            <!--
+                                            <a class="btn m-btn--pill m-btn--air         btn-outline-info" href="validator.html">Catalogue syntax validator</a></li>
+                                            //-->
+									</div>
+								
+                        </div>
+                        <div class="col-md-9" style="box-shadow: 0 2px 8px 0 rgba(160, 160, 160, 0.5);margin-left:-15px;">
+                             
+                        </div>
+                </div>
+        </div>                
     </div>
 </div>
 </form>

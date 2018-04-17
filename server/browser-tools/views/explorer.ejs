@@ -1,0 +1,282 @@
+<%- include('partials/header') %>
+<script>
+var graph, springy;
+var cursor = "";
+var cursor_subURL = "";
+
+
+function parseCatalogue(url, doc) {
+    try {
+        // store metadata for catalogue
+        for (var i=0;i<doc['catalogue-metadata'].length;i++) {
+            //console.log("CATL-FACT "+url+" "+doc['catalogue-metadata'][i].rel+" "+doc['catalogue-metadata'][i].val);
+            storeFact({
+                origin: url,
+                subject: url,
+                predicate: doc['catalogue-metadata'][i].rel,
+                object: doc['catalogue-metadata'][i].val
+            });
+        }
+    } catch(e) {
+        log(e);
+    }
+
+    try {
+        // store metadata for items and expand any catalogues
+        for (var i=0;i<doc.items.length;i++) {
+            var item = doc.items[i];
+            item.href = URI(item.href).absoluteTo(url).toString();    // fixup relative URL
+            // store that catalogue has an item
+            storeFact({
+                origin: url,
+                subject: url,
+                predicate: "urn:X-tsbiot:rels:hasResource",
+                object: item.href
+            });
+            for (var j=0;j<item['item-metadata'].length;j++) {
+                var mdata = item['item-metadata'][j];
+                //console.log("ITEM-FACT "+item.href+" "+mdata.rel+" "+mdata.val);
+                storeFact({
+                    origin: url,
+                    subject: item.href,
+                    predicate: mdata.rel,
+                    object: mdata.val
+                });
+            }
+        }
+    } catch(e) {
+        log(e);
+    }
+}
+
+function explore(url, cb) {
+    fetch(url, '', function(err, doc) {
+        if (err) {
+            log("Error in "+url+" ("+err+")");
+            cb(err); // done
+        } else {
+            parseCatalogue(url, doc);    // parse doc
+            cb(null); // done
+        }
+    });
+}
+
+function dumpGraph(filterFunc) {
+    graph.filterNodes(function(){return false});
+
+    // draw edges and nodes
+    for (var i=0;i<facts.length;i++) {
+        if (!reachable(cursor, facts[i].subject, parseInt($('#baconism').val(),10)-1))
+            continue;
+        if (!reachable(cursor, facts[i].object, parseInt($('#baconism').val(),10)-1))
+            continue;
+		graph.addNodes(facts[i].subject);
+
+        // If this does not look like a URI, make it a unique node
+        var prefix = "";    // FIXME
+        if (!facts[i].object.match("/^http/") && facts[i].object.match("/^mqtt/") && !facts[i].object.match(/"^urn:"/) && !facts[i].object.match(/^\//))
+            prefix = facts[i].subject+facts[i].predicate;
+        var node = new Springy.Node(prefix+facts[i].object, {label:facts[i].object});
+        graph.addNode(node);
+        graph.addEdges([facts[i].subject, prefix+facts[i].object, {label:facts[i].predicate}]);
+    }
+
+    // decorate nodes
+    for (var i=0;i<graph.nodes.length;i++) {
+        if (subjectHasPredicateAndObject(graph.nodes[i].id, 'urn:X-tsbiot:rels:isContentType', 'application/vnd.tsbiot.catalogue+json'))
+            graph.nodes[i].data.color = '#FFFF66';
+        if (graph.nodes[i].id == cursor)
+            graph.nodes[i].data.color = '#008000';
+    }
+}
+
+function updateSubscribeButton() {
+    $("#subscribe").attr("disabled", "disabled");
+    for (var i=0;i<facts.length;i++) {
+        if (facts[i].subject == cursor &&
+            facts[i].predicate == "urn:X-tsbiot:rels:eventSource") {
+            cursor_subURL = URI(facts[i].object).absoluteTo(cursor).toString();
+            $("#subscribe").removeAttr("disabled");
+            return;
+        }
+    }
+}
+
+// http://stackoverflow.com/questions/10214873/make-canvas-as-wide-and-as-high-as-parent
+function fitToContainer(canvas){
+    // Make it visually fill the positioned parent
+    canvas.style.width ='100%';
+    canvas.style.height='50%';
+    // ...then set the internal size to match
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
+function subjectHasPredicateAndObject(s, p, o) {
+    for (var i=0;i<facts.length;i++) {
+        if (facts[i].subject == s &&
+            facts[i].predicate == p &&
+            facts[i].object == o) {
+                return true;
+        }
+    }
+    return false;
+}
+
+function subscribe(url) {
+    log("Subscribing to "+url);
+    var source = new EventSource(url);
+
+    source.addEventListener('message', function(e) {
+        // turn item into a mini-catalogue
+        var o = JSON.parse(e.data);
+        o.href = URI(o.href).absoluteTo(url).toString();    // fixup relative URL
+        var cat = {
+            "item-metadata":[],
+            items:[o]
+        };
+        // forget what we previously knew from this origin about this subject
+        var newfacts = [];
+        for (var i=0;i<facts.length;i++) {
+            if (!(facts[i].origin == cursor && facts[i].subject == o.href))
+                newfacts.push(facts[i]);
+        }
+        facts = newfacts;
+        parseCatalogue(cursor, cat);
+        dumpGraph();
+    }, false);
+
+    source.addEventListener('open', function(e) {
+        log("Subscription opened");
+    }, false);
+
+    source.addEventListener('error', function(e) {
+        if (e.readyState == EventSource.CLOSED)
+            log("Subscription closed");
+    }, false);
+}
+
+$(document).ready(function() { 
+    parseLinks();
+
+    $('#urls').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        $('#url').val(this.value);
+        cursor = this.value;
+        explore(this.value, function() {
+            log('explore complete');
+            dumpGraph();
+            updateSubscribeButton();
+        });
+    });
+
+    $("#go").click(function() {
+        cursor = $('#url').val();
+        explore($('#url').val(), function() {
+            log('explore complete');
+            dumpGraph();
+            updateSubscribeButton();
+        });
+    });
+
+    $("#clear").click(function() {
+        facts = [];
+        dumpGraph();
+    });
+
+    $("#subscribe").click(function() {
+        subscribe(cursor_subURL);
+    });
+
+    $("#inc_baconism").click(function() {
+        $('#baconism').val(parseInt($('#baconism').val(),10) + 1);
+        dumpGraph();
+    });
+    
+    $("#dec_baconism").click(function() {
+        var n = parseInt($('#baconism').val(),10);
+        if (n > 1) {
+            $('#baconism').val(n - 1);
+            dumpGraph();
+        }
+    });
+
+
+    graph = new Springy.Graph({stiffness:10000, repulsion:10000, damping:2.0});
+    springy = jQuery('#graph').springy({
+        graph: graph,
+        nodeSelected: function(node) {
+            if (subjectHasPredicateAndObject(node.data.label, 'urn:X-tsbiot:rels:isContentType', 'application/vnd.tsbiot.catalogue+json')) {
+                cursor = node.data.label;
+                explore(node.data.label, function() {
+                    log('explore complete');
+                    dumpGraph();
+                    updateSubscribeButton();
+                });
+            }
+        }
+    });
+
+    var canvas = document.querySelector('canvas');
+    fitToContainer(canvas);
+    
+
+});
+
+</script>
+
+    <h1>Catalogue Explorer</h1>
+
+    <p>
+    Interactive catalogue explorer. Click a <span class="yellow">yellow</span> catalogue node to expand. The <span class="green">green</span> node is the current cursor.
+    </p>
+    <div class="row">
+    <div class="col-md-12">
+        <p>
+            <form>
+                
+                <div class="input-group">
+                <h3>
+                URL:&nbsp;
+                </h3><select id="urls" class="form-control m-input m-input--air" ></select>
+                <input class="form-control m-input m-input--air" type="text" id="url" size=80 value="Enter a URL" />
+                <input type="button"  class="btn m-btn--pill m-btn--air         btn-outline-info"  id="go" value="Go" />
+                </div>
+                <!--
+                <h3>
+                <br>
+                Key&nbsp;
+                </h3>
+                <input  class="form-control m-input m-input--air" type="password" id="key" size=40 value="" />
+                //-->
+            </form>
+        </p>
+
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+
+    <p>
+        <div id="canvascontainer">
+            <canvas id="graph"/>
+        </div>
+                <div class="input-group">
+                <h3>Number of hops to show:&nbsp;</h3>
+                <input type="button" id="dec_baconism" value="-" />
+                <input type="text" id="baconism" size=4 value="3" />
+                <input type="button" id="inc_baconism" value="+" />
+                <!--
+                Subscribe:&nbsp;<input type="button" id="subscribe" value="Subscribe" disabled />
+                //-->
+                </div>
+    </p>
+
+    <p>
+        <div id="log"></div>
+    </p>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
