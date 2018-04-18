@@ -26,15 +26,15 @@ port='8666'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
-address=web3.eth.accounts[0]
+address=web3.eth.accounts[1]
 
-address3='0x04F1C2fCed3A83546af51769E0139A84AdD841D2'
-address4='0x63Ef6B75B8746a1A5eD4B7A16bCeC856A4245544'
-address5=address3
+address3='0x5c6a178D57454536D269fc81DCF31d274E75E060'
+address4='0x3f4BC017C2aC1766F98073F50B4fA9423a3e916f'
+address5='0xe60C7Cf65C7c3Ba677659745e1337b650CD7e994'
 address6=address4
 
-amount=2000000000000000000
-web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
+amount=10000000000000000000
+#web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})
 #web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
 
 
@@ -49,7 +49,8 @@ fee=int(round(1/0.05))
 #address, uint256, uint256, uint256, address[], address[], uint256
 print (address3, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee)
 has_whitelist=False
-print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee))
+autoDistribute=True
+print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute))
 poolkey=spk.call({ 'from': address}).getSmartPoolKey(address3)
 print(poolkey)
 pk=getContract('PoolKey', network, address=poolkey, prefix='pki_')
@@ -67,5 +68,5 @@ print ('Member Contribution',pk.call({ 'from': address}).isMember(address))
 print ('Total Contribution',pk.call({ 'from': address}).contrib_amount())
 print ('Sent',amount);
 print ('Received',pk.call({ 'from': address}).received(address))
-print ('Transactions',pk.call({ 'from': address}).transactions(address, 1))
+print ('Transactions',pk.call({ 'from': address}).transactions(address, 0))
 

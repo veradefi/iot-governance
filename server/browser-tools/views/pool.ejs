@@ -122,7 +122,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6" align=right >
-                          <label  class="label2">Enable Whitelist</label>
+                          <label class="label2">Enable Whitelist</label>
                         </div>
                         <div class="col-md-6" align=left valign=middle>
                             <span class="m-switch m-switch--info">
@@ -139,7 +139,7 @@
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                          <label>Whitelist 1 Wallet Address</label>
+                          <label class="label2">Whitelist 1 Wallet Address</label>
                           
                         </div>
                         <div class="col-md-6" align=left>
@@ -151,7 +151,7 @@
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                          <label>Whitelist 2 Wallet Address</label>
+                          <label class="label2">Whitelist 2 Wallet Address</label>
                         </div>
                         <div class="col-md-6" align=left>
                             <input name="whitelist2" class="form-control m-input m-input--air m-input--pill" matinput="" type="text" id="whitelist2" placeholder="" aria-invalid="false" aria-required="false">
@@ -161,7 +161,7 @@
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                          <label>Whitelist 3 Wallet Address</label>
+                          <label class="label2">Whitelist 3 Wallet Address</label>
                         </div>
                         <div class="col-md-6" align=left>
                             <input name="whitelist3" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="whitelist3" placeholder="" aria-invalid="false" aria-required="false">
@@ -177,20 +177,20 @@
                     
                     <div class="row">
                         <div class="col-md-6" align=right>    
-                          <label>Pool Fee Percentage</label>
+                          <label class="label2">Pool Fee Percentage</label>
                         </div>
                         <div class="col-md-6" align=left>
                         
-                            <input name="fee" class="form-control m-input m-input--air m-input--pill"  matinput="" max="50" min="0" size="6" type="number" id="fee" placeholder="" aria-invalid="false" aria-required="false">
+                            <input name="fee" class="form-control m-input m-input--air m-input--pill"  matinput="" max="50" min="0" size="6" type="number" id="fee" placeholder="" aria-invalid="false" aria-required="false" value='5'>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-6" align=right>
-                          Fee Percentage
+                           <label class="label2">Fee Percentage</label>
                         </div>
                         <div class="col-md-6" align=left>
-                                  <font size=2>Our Fee is fixed at 0.5%.</font>
+                                  <label class="text2">Our Fee is fixed at 0.5%.</label>
                   
                           <div id='fee_struct' style="display:None;" align=left>
                                    
@@ -207,7 +207,7 @@
                     
                     <div class="row">
                         <div class="col-md-12">    
-                            <h3><br></h3>
+                            <br>
                         </div>
                     </div>
                     <div class="row">
@@ -263,24 +263,19 @@
                     <div class="row">
                         <div class="col-md-6">    
                             
-                            <h3>ETH SENT TO POOL</h3>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h1><span class="eth_sent"></span></h1>
-                                    <font size=2>ETH</font><br>
+                                <div class="col-md-12">
+                                    <h3>SMART POOL KEY ETH BALANCE</h3>
+                                    <h1><span class="eth_balance"></span></h1>
+                                    <font size=2>ETH</font>
+                                   
+                                    <br>
                                 </div>
-                                <div class="col-md-6">                            
-                                    <h1><span class="fee"></span></h1>
-                                    <font size=2>% Fee </font><br>
-                                </div>
-                            </div>                            
-                            <br><br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='send_ether'>Send Ether</a>
+                            </div>    
+                            <br>                        
+                            <div class="row distribute" style="display:none">
+                                <div class="col-md-12">
+                                     <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='distribute_ether'>Distribute Ether to Members</a>
                                 </div>
                             </div>
                             
@@ -288,8 +283,12 @@
                         </div>
                         <div class="col-md-6">    
                             
-                            <h3>ETH RECEIVED FROM POOL</h3>
-                            <h1><span class="received"></span></h1> <font size=2>ETH</font>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>ETH RECEIVED FROM POOL</h3>
+                                    <h1><span class="received"></span></h1> <font size=2>ETH</font>
+                                </div>
+                            </div>                            
                             
                         </div>
                     </div>
@@ -311,14 +310,20 @@
                     </div>
                     
                      <div class="row">
-                        <div class="col-md-6">    
-                            <h3>MIN PER CONTRIBUTOR</h3>
+                        <div class="col-md-4">    
+                            <h4>MIN PER CONTRIBUTOR</h4>
                             <h1><span class="min_per_contrib"></span></h1> <font size=2>ETH</font><br>
                             
                         </div>
-                        <div class="col-md-6">    
-                            <h3>MAX PER CONTRIBUTOR</h3>
+                        <div class="col-md-4">    
+                            <h4>MAX PER CONTRIBUTOR</h4>
                             <h1><span class="max_per_contrib"></span></h1> <font size=2> ETH</font><br>
+                            
+                        </div>
+                        <div class="col-md-4">    
+                             <h4>MAX ALLOCATION</h4>
+                            <h1><span class="max_contrib"></span></h1> <font size=2>ETH</font>
+
                             
                         </div>
                     </div>
@@ -341,9 +346,30 @@
                                        <div id="contrib-stat" style="height: 250px;"></div>
                                        <br>
                                        <center>   
-                                                <h3>MAX ALLOCATION</h3>
-                                                <br>
-                                                <h1><span class="max_contrib"></span></h1> <font size=2>ETH</font>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3>TRANSACTION FEE</h3>
+                                    <h1><span class="fee"></span></h1>
+                                    <font size=2>% Fee </font><br>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3>ETH SENT TO POOL</h3>
+                                    <h1><span class="eth_sent"></span></h1>
+                                    <font size=2>ETH</font><br>
+                                    <br>
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href='#' class="btn m-btn--pill m-btn--air         btn-outline-info" id='send_ether'>Send Ether</a>
+                                </div>
+                            </div>
+                            <br>
+
+                                               
                                         </center> 
                                     </div>
                                     
@@ -392,13 +418,17 @@ $( document ).ready(function() {
          page2(poolkey);
     });
 
-    function fill_page2(address, eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee, received) {
+    function fill_page2(address, eth_balance, eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee, received, autoDistribute, members) {
        if (address != '0x0') {
            $('#page1').hide();
            $('#loading').hide();
            $('#page2').show();
-           
+           if (!autoDistribute) {
+               $('.distribute').show();
+           }
             console.log(eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee);
+           $('.eth_balance').html('' + eth_balance);
+           $('#distribute_ether').html('Distribute Balance to ' + members.length + ' Members');
            $('.eth_sent').html(eth_sent);
            $('.max_contrib').html( max_contrib);
            $('.max_per_contrib').html(max_per_contrib);
@@ -410,18 +440,35 @@ $( document ).ready(function() {
            Morris.Donut({
               element: 'contrib-stat',
               data: [
-                {label: "Total Contributed ETH", value: contrib_total},
+                {label: "Member Contributed ETH", value: contrib_total},
                 {label: "ETH Received", value:  received},
               ]
             });
             
             
             
-            $('#send_ether').on('click', function(e) {
+           $('#send_ether').on('click', function(e) {
                    var eth1=1000000000000000000;
                    var amt=parseInt($('#send_amt').val()) * eth1;
                    send_ether(address, amt);
            });       
+           
+           function done_sending(res) {
+             $('#page1').hide();
+             $('#loading').hide();
+             $('#page2').show();
+           }
+           
+           $('#distribute_ether').on('click', function(e) {
+                   var eth1=1000000000000000000;
+                     $('#page1').hide();
+                     $('#loading').show();
+                     $('#page2').hide();
+                
+                     distribute_pool_ether(address, done_sending);
+           });       
+           
+           
            $('#transactions').html('');
            get_pool_transactions(address, fill_page2_transactions);
          } else {
@@ -442,9 +489,9 @@ $( document ).ready(function() {
             tx='Outgoing';
         }
         var html ="<div class=row><div class=col-md-2>";
-        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-6>";
         html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
-        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-4>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
         html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
         html +="</div><hr><br>";
         
@@ -497,14 +544,18 @@ $( document ).ready(function() {
         var min_per_contrib=parseInt($('#min_per_contrib').val()) * eth1;
         
         var beneficiary=$('#address').val();
-        
+        var autoDistribute=true;
+        if ($('#auto').find('option:selected').val() == '1') {
+            autoDistribute=false;
+        }
          $('#page1').hide();
          $('#loading').show();
          $('#page2').hide();
-        add_pool(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, page2);
+         
+        add_pool(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, page2);
    
     });
-    
+    $('#fee').trigger('change');
    
 });
 </script>
