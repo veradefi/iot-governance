@@ -1,64 +1,50 @@
 <%- include('partials/header') %>
 <form id="page1">
 
-
-<div class="row">
-     <div class="col-md-12">
-            <div class="m-portlet m-portlet--tab">
-                   <div class="m-portlet__head">
                           <br>
-                          <center><label><h3>Find Smart Pool Key</h3></label></center>
+                          <center><label class="title2">Find Smart Pool Key</label></center>
+                          <br>
                           <div class="row">
                                  <div class="col-md-12">
                                          <center>
-                                         
-                                             <input name="find_poolkey" class="form-control m-input m-input--air m-input--pill"  placeholder="Enter Smart Pool Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
-                                             <br><button type="button" id='find_poolkey_btn' class="btn btn-accent"><h1>Find Pool Key</h1></button>
+                                             <div class="input-group">
+
+                                                 <input name="find_poolkey" class="inputbox2 form-control m-input m-input--air"  placeholder="Enter Smart Pool Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
+                                                    <div class="input-group-append">
+                                                     <button type="button" id='find_poolkey_btn' class="btn btn-accent button2"><span class="buttonText">Find</span></button>
+                                                    </div>
+                                             </div>
                                           </center>
                                           <br>
                                   </div>
                             </div>
- 
-                      </div>
-                </div>
-            
-     </div>
-</div>
-
-<div class="row">
-     <div class="col-md-12">
-              <center><label><h3>Create Smart Pool Key</h3></label></center>
-              <div class="row">
-                     <div class="col-md-12">
-                             <center>
-                             
-                                  <label><h5>Your wallet address</h5></label>
-                                 <input name="address" class="address_val form-control m-input m-input--air m-input--pill"  style="width:50%" type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
-                              </center>
-                      </div>
-                </div>
- 
-            <hr>
-            
-     </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">    
-        <div class="m-portlet m-portlet--tab">
-               <div class="m-portlet__head">
-                    <center>
-            
-                    <br>                    
+                            <hr>
                     <div class="row">
-                         <div class="col-md-12">
-                              <h3>Allocations</h3>
-                         </div>
+                        <div class="col-md-12">
+                          <center><label class="title2">Create Smart Pool Key</label></center>
+                          <br>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                                <label>Maximum Allocation (ETH)</label>
+                                <label class="label2">Your wallet address:</label>
+                        
+                         </div>
+                         <div class="col-md-6" align=left>
+                
+                                 <input name="address" class="address_val inputbox3 form-control m-input m-input--air"  type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" align=right>
+                             <br><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                
+                                <label class="label2">Maximum Allocation (ETH)</label>
                         
                          </div>
                          <div class="col-md-6" align=left>
@@ -68,7 +54,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6" align=right>
-                            <label>Maximum Per Contributor (ETH)</label>
+                            <label class="label2">Maximum Per Contributor (ETH)</label>
                         </div>
                          <div class="col-md-6" align=left>
                             <input name="max_per_contribr" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="max_per_contrib"  value='100000' placeholder="" aria-invalid="false" aria-required="false">
@@ -76,27 +62,26 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6" align=right>
-                            <label>Minimum Per Contributor (ETH)</label>
+                            <label class="label2">Minimum Per Contributor (ETH)</label>
                         </div>
                          <div class="col-md-6" align=left>
                             <input name="min_per_contrib" class="form-control m-input m-input--air m-input--pill" matinput="" type="text" id="min_per_contrib" value='1' placeholder="" aria-invalid="false" aria-required="false">
                         </div>
                     </div>
             
-                    <hr>
             
                     <div class="row">
                         <div class="col-md-12">
             
                           <h3>
-                            Admins
+                            <br>
                           </h3>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                          <label>Admin 1 Wallet Address</label>
+                          <label class="label2">Admin 1 Wallet Address</label>
                           
                         </div>
                         <div class="col-md-6" align=left>
@@ -108,7 +93,7 @@
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                          <label>Admin 2 Wallet Address</label>
+                          <label class="label2">Admin 2 Wallet Address</label>
                         </div>
                         <div class="col-md-6" align=left>
                             <input name="admin2" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="admin2" placeholder="" aria-invalid="false" aria-required="false">
@@ -118,20 +103,18 @@
                     <div class="row">
                         <div class="col-md-6" align=right>
                 
-                          <label>Admin 3 Wallet Address</label>
+                          <label class="label2">Admin 3 Wallet Address</label>
                         </div>
                         <div class="col-md-6" align=left>
                             <input name="admin3" class="form-control m-input m-input--air m-input--pill"  matinput="" type="text" id="admin3" placeholder="" aria-invalid="false" aria-required="false">
                         </div>
                     </div>
                     
-                    
-                    <hr>
-                    
+                                        
                     <div class="row">
                         <div class="col-md-12">
                 
-                          <label><h3>Whitelist</h3></label>
+                          <label><h3><br></h3></label>
                           
                                               
                         </div>
@@ -139,7 +122,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6" align=right >
-                          <label>Enable Whitelist</label>
+                          <label  class="label2">Enable Whitelist</label>
                         </div>
                         <div class="col-md-6" align=left valign=middle>
                             <span class="m-switch m-switch--info">
@@ -185,11 +168,10 @@
                         </div>
                     </div>
                     -->
-                    <hr>
                     
                     <div class="row">
                         <div class="col-md-12">
-                          <h3>Fees</h3>
+                          <h3><br></h3>
                         </div>
                     </div>
                     
@@ -217,52 +199,40 @@
                                     <li>0.5% goes to Our Fee.</li>
                                     <li><b>Total: <span id='total'>0.50%</span></b></li>
                                   </ul>
-                        </div>         
+                           </div>         
                         </div>
 
                                        
                     </div>
                     
-                    <hr>
-                    
                     <div class="row">
                         <div class="col-md-12">    
-                            <h3>TOKEN DISTRIBUTION</h3>
+                            <h3><br></h3>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">  
-                            <center>  
-                            Distributes Tokens Automatically
-                            </center>
+                        <div class="col-md-6" align=right>  
+                            <label class="label2"> 
+                            Distributes Tokens 
+                            </label>
                         </div>
-                        <!--
-                        <div class="col-md-6">    
+                        <div class="col-md-6" align=left>    
                             <select name='auto' id='auto'>
-                            Yes
+                            <option value='0'>Automatically</option>
+                            <option value='1'>Manually</option>
                             </select>
                         </div>
-                        //-->
                     </div>
-                    
-                    <hr>
-            
-                    <div class="row">
-                        <div class="col-md-12">    
-                            <button type="button" id='pool' class="btn btn-accent"><h1>Create Smart Pool Key</h1></button>
+                    <center>
+                            <br>
+                            <button type="button" id='pool' class="button2 btn btn-accent"><span class="buttonText">Create Smart Pool Key</span></button>
                             <br><br>
-                        </div>
-                    </div>
                     </center>
-            </div>
-        </div>
-    </div>
-</div>
-            
+
 
 </form>
 <form id="loading" style="display:none;">
-<img src="/images/wait.gif">
+<img src="images/wait.gif">
 </form>
 <form id="page2" style="display:none;">
 <div class="row">
@@ -423,52 +393,65 @@ $( document ).ready(function() {
     });
 
     function fill_page2(address, eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee, received) {
-    
-       $('#page1').hide();
-       $('#loading').hide();
-       $('#page2').show();
-       
-        console.log(eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee);
-       $('.eth_sent').html(eth_sent);
-       $('.max_contrib').html( max_contrib);
-       $('.max_per_contrib').html(max_per_contrib);
-       $('.min_per_contrib').html(min_per_contrib);
-       $('.fee').html(fee);
-       $('.received').html(received);
-       $('.progress-bar').val(eth_sent/max_per_contrib * 100);
-       $('#poolkey').html('<pre>' + address + '</pre>');
-       Morris.Donut({
-          element: 'contrib-stat',
-          data: [
-            {label: "Contributed ETH", value: contrib_total},
-            {label: "Available ETH", value:  max_contrib-contrib_total},
-          ]
-        });
-        
-        
-        
-        $('#send_ether').on('click', function(e) {
-               var eth1=1000000000000000000;
-               var amt=parseInt($('#send_amt').val()) * eth1;
-               send_ether(address, amt);
-       });       
-       
-       get_pool_transactions(address, fill_page2_transactions);
+       if (address != '0x0') {
+           $('#page1').hide();
+           $('#loading').hide();
+           $('#page2').show();
+           
+            console.log(eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee);
+           $('.eth_sent').html(eth_sent);
+           $('.max_contrib').html( max_contrib);
+           $('.max_per_contrib').html(max_per_contrib);
+           $('.min_per_contrib').html(min_per_contrib);
+           $('.fee').html(fee);
+           $('.received').html(received);
+           $('.progress-bar').val(eth_sent/max_per_contrib * 100);
+           $('#poolkey').html('<pre>' + address + '</pre>');
+           Morris.Donut({
+              element: 'contrib-stat',
+              data: [
+                {label: "Total Contributed ETH", value: contrib_total},
+                {label: "ETH Received", value:  received},
+              ]
+            });
+            
+            
+            
+            $('#send_ether').on('click', function(e) {
+                   var eth1=1000000000000000000;
+                   var amt=parseInt($('#send_amt').val()) * eth1;
+                   send_ether(address, amt);
+           });       
+           $('#transactions').html('');
+           get_pool_transactions(address, fill_page2_transactions);
+         } else {
+             $('#page1').show();
+             $('#loading').hide();
+             $('#page2').hide();
+           
+         }
     }  
 
-    function fill_page2_transactions(sender, date, amount) {
-            console.log(sender, date, amount);
-            var dateTime = new Date(parseInt(date) * 1000);
-            date=dateTime.toISOString(); 
-            var eth1=1000000000000000000;
-            var html ="<div class=row><div class=col-md-4>";
-            html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
-            html +='<b>Sender:</b><br> ' + sender + "</div><div class=col-md-4>";
-            html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH</div>";
-            html +="</div><hr><br>";
-            
-            $('#transactions').append(html);
-    }    
+    function fill_page2_transactions(sender, date, amount, tx_type) {
+        console.log(sender, date, amount);
+        var dateTime = new Date(parseInt(date) * 1000);
+        date=dateTime.toISOString(); 
+        var eth1=1000000000000000000;
+        var tx='Incoming';
+        if (tx_type > 0) {
+            tx='Outgoing';
+        }
+        var html ="<div class=row><div class=col-md-2>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-4>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
+        html +="</div><hr><br>";
+        
+        $('#transactions').append(html);
+    }
+
+    
     function page2(address) {
              
        $('#page1').hide();
@@ -515,6 +498,9 @@ $( document ).ready(function() {
         
         var beneficiary=$('#address').val();
         
+         $('#page1').hide();
+         $('#loading').show();
+         $('#page2').hide();
         add_pool(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, page2);
    
     });
