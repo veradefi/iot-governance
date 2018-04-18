@@ -81,9 +81,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/icatOS', (req, res) => {
-  var render_nav=get_nav();
-  render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav })
+  res.redirect('/icatOS/');
 })
 
 app.get('/index.html', (req, res) => {
