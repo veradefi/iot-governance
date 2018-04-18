@@ -30,7 +30,7 @@ address=web3.eth.accounts[1]
 
 address3='0x5c6a178D57454536D269fc81DCF31d274E75E060'
 address4='0x3f4BC017C2aC1766F98073F50B4fA9423a3e916f'
-address5=address3
+address5='0xe60C7Cf65C7c3Ba677659745e1337b650CD7e994'
 address6=address4
 
 amount=10000000000000000000
@@ -49,7 +49,8 @@ fee=int(round(1/0.05))
 #address, uint256, uint256, uint256, address[], address[], uint256
 print (address3, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee)
 has_whitelist=False
-print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee))
+autoDistribute=True
+print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute))
 poolkey=spk.call({ 'from': address}).getSmartPoolKey(address3)
 print(poolkey)
 pk=getContract('PoolKey', network, address=poolkey, prefix='pki_')
@@ -67,5 +68,5 @@ print ('Member Contribution',pk.call({ 'from': address}).isMember(address))
 print ('Total Contribution',pk.call({ 'from': address}).contrib_amount())
 print ('Sent',amount);
 print ('Received',pk.call({ 'from': address}).received(address))
-print ('Transactions',pk.call({ 'from': address}).transactions(address, 1))
+print ('Transactions',pk.call({ 'from': address}).transactions(address, 0))
 

@@ -13,12 +13,7 @@ from time import sleep
 from datetime import datetime
 import base64
 import threading
-
 from flask import Flask
-
-
-
-
 
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
@@ -76,7 +71,7 @@ def authKey(user, auth):
 
 
 
-def getSmartKey(address):
+def getSmartKey(address, auth=None):
     keyAddress = '0x0000000000000000000000000000000000000000'
     
     try:
@@ -87,36 +82,8 @@ def getSmartKey(address):
         
     if keyAddress != '0x0000000000000000000000000000000000000000':
         key=getContract('Key',network, keyAddress, prefix="pki_")
+        return getKeyInfo(key, auth)
         
-        try:
-            
-            #print ('Key Activated', kc.call({ 'from': address}).activated(address))
-            #print ('Key State', kc.call({ 'from': address}).state())
-            #print ('getBalance (eth) for address1',web3.eth.getBalance(address))
-    
-            #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-            balance=web3.eth.getBalance(key.address)
-            amount=key.call({'from':address}).contrib_amount()
-            state=key.call({'from':address}).state()
-            health=key.call({'from':address}).health()
-            tokens=smartKey.call({'from':address}).balanceOf(key.address)
-            #transactions=key.call({'from':address}).transactions(key.address,0)
-            vault=key.call({'from':address}).vault()
-            #amount=tokens
-        except Exception as e:
-            print (e)
-        
-        cat = { 
-                "address":keyAddress,
-                "eth_recv":amount,
-                "balance":balance,
-                "state":state,
-                "health":health,
-                "tokens":tokens,
-                #"transactions":transactions,
-                "vault":vault,
-                
-                }
     else:
         cat = { 
                 "address":"0x0000000000000000000000000000000000000000",
@@ -127,6 +94,7 @@ def getSmartKey(address):
                 "tokens":0,
                 #"transactions":transactions,
                 "vault":"0x0000000000000000000000000000000000000000",
+                "isOwner":False
                 
                 }
     print(cat)
@@ -147,8 +115,9 @@ def getSmartKeyTx(address):
             sender=transactions[0]
             date=transactions[1]
             amount=transactions[2]
+            tx_type=transactions[3]
             if sender != '0x0' and sender != re.search('0x0000000000000000000000000000000000000000',sender):
-                tx.append({'sender':sender,'date':date,'amount':amount})
+                tx.append({'sender':sender,'date':date,'amount':amount, 'tx_type':tx_type})
                 idx+=1
     except Exception as e:
         print (e)
@@ -162,7 +131,7 @@ def getSmartKeyTx(address):
     
     return cat
 
-def getKeyInfo(key):
+def getKeyInfo(key, auth=None):
     keyAddress=key.address
     if keyAddress != '0x0000000000000000000000000000000000000000':
      try:
@@ -175,6 +144,11 @@ def getKeyInfo(key):
         tokens=smartKey.call({'from':address}).balanceOf(key.address)
         #transactions=key.call({'from':address}).transactions(key.address,0)
         vault=key.call({'from':address}).vault()
+        isOwner=False
+        if not auth is None and 'auth' in auth:
+            if key.call({'from':address}).isOwner(auth['auth']):        
+                    isOwner=True
+
         #amount=tokens
      except Exception as e:
         print (e)
@@ -188,6 +162,7 @@ def getKeyInfo(key):
                 "tokens":tokens,
                 #"transactions":transactions,
                 "vault":vault,
+                "isOwner":isOwner
                 }
     else:
         cat = { 
@@ -199,64 +174,43 @@ def getKeyInfo(key):
                 "tokens":0,
                 #"transactions":transactions,
                 "vault":"0x0000000000000000000000000000000000000000",
+                "isOwner":False
                 }
     print(cat)
     
     return cat
 
 def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
-
-    amount=int(amount)
+    try:
+        amount=int(amount)
+        
+        keyAddress=smartKey.call({ 'from': address }).getSmartKey(sender)
+        
+        key=getContract('Key',network, keyAddress, prefix="pki_")
     
-    keyAddress=smartKey.call({ 'from': address }).getSmartKey(sender)
-    
-    key=getContract('Key',network, keyAddress, prefix="pki_")
-
-    print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
-    
-    print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
-   
-    return key
-
+        #print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
+        if not auth is None and key.call({'from':address}).isOwner(auth['auth']):   
+            print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
+       
+        return key
+    except Exception as e:
+        print (e)
+        
 def setUserHealth(health, userAddress, key=None,auth=None):
     health=int(health)
     keyAddress=smartKey.call({ 'from': address }).getSmartKey(userAddress)
     
     key=getContract('Key',network, keyAddress, prefix="pki_")
-        
-    print('setHealth',key.transact({ 'from': address }).setHealth(health))
-    
-    
     try:
-        
-        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-        balance=web3.eth.getBalance(key.address)
-        amount=key.call({'from':address}).contrib_amount()
-        state=key.call({'from':address}).state()
-        health=key.call({'from':address}).health()
-        tokens=smartKey.call({'from':address}).balanceOf(key.address)
-        #transactions=key.call({'from':address}).transactions(key.address,0)
-        vault=key.call({'from':address}).vault()
-        #amount=tokens
+        print('setHealth',key.transact({ 'from': address }).setHealth(health))
     except Exception as e:
         print (e)
         
-    cat = { 
-            "address":key.address,
-            "eth_recv":amount,
-            "balance":balance,
-            "state":state,
-            "health":health,
-            "tokens":tokens,
-            #"transactions":transactions,
-            "vault":vault,
-            
-            }
-    
-    return cat
+    return key
 
 
-def getNodeKey(href):
+
+def getNodeKey(href, auth=None):
     try:
         href=re.sub('\/$','',href)
         if re.search('/cat$',href):
@@ -280,6 +234,11 @@ def getNodeKey(href):
         #transactions=key.call({'from':address}).transactions(key.address,0)
         vault=key.call({'from':address}).vault()
         #amount=tokens
+        isOwner=False
+        if not auth is None and 'auth' in auth:
+            if graphRoot.call({'from':address}).isOwner(auth['auth']):        
+                    isOwner=True
+        
     except Exception as e:
         print (e)
         
@@ -292,7 +251,7 @@ def getNodeKey(href):
             "tokens":tokens,
             #"transactions":transactions,
             "vault":vault,
-            
+            "isOwner":isOwner,
             }
     
     return cat
@@ -318,9 +277,9 @@ def getNodeKeyTx(href):
             sender=transactions[0]
             date=transactions[1]
             amount=transactions[2]
-            transaction_type=transactions[3]
+            tx_type=transactions[3]
             if sender != '0x0' and not re.search('0x0000000000000000000000000000000000000000',sender):
-                tx.append({'sender':sender,'date':date,'amount':amount, 'transaction_type':transaction_type})
+                tx.append({'sender':sender,'date':date,'amount':amount, 'tx_type':tx_type})
                 idx+=1
     except Exception as e:
         print (e)
@@ -515,8 +474,10 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
         except Exception as e:
             print (e)
     
+    isOwner=False
     if graphRoot.call({'from':address}).isOwner(auth['auth']):        
         print('transferEth',graphRoot.transact({ 'from': address }).transferEth(amount, beneficiary));
+        isOwner=True
         
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
@@ -544,6 +505,7 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
             "tokens":tokens,
             #"transactions":transactions,
             "vault":vault,
+            "isOwner":isOwner,
             
             }
     
@@ -565,42 +527,18 @@ def setHealth(health, href, eth_contrib):
             print (e)
     healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
 
-     
-    print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
-    print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
 
-    key=getContract('Key',network, graphRoot.address, prefix="pki_")
-
-    
-    try:
-        
-        #eth_sent=key.call({'from':address}).activated(graphRoot.address)
-        balance=web3.eth.getBalance(graphRoot.address)
-        amount=key.call({'from':address}).contrib_amount()
-        state=key.call({'from':address}).state()
-        health=key.call({'from':address}).health()
-        tokens=smartKey.call({'from':address}).balanceOf(key.address)
-        #transactions=key.call({'from':address}).transactions(key.address,0)
-        vault=key.call({'from':address}).vault()
-        #amount=tokens
+    try:     
+        print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
     except Exception as e:
         print (e)
         
-    cat = { 
-            "address":graphRoot.address,
-            "eth_recv":amount,
-            "balance":balance,
-            "state":state,
-            "health":health,
-            "tokens":tokens,
-            #"transactions":transactions,
-            "vault":vault,
-            
-            }
-    
-    return cat
+    key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
+    return key;
+    
 
 
 app = Flask(__name__)
@@ -625,6 +563,8 @@ app = Flask(__name__)
 '''
 
 def doAuth():
+    auth=None
+    
     try:
         auth_b64=request.headers.get('Authorization')
         auth_key=base64.b64decode(auth_b64).split(':')[0]
@@ -645,7 +585,7 @@ def doAuth():
             if balance > int(auth['eth_contrib']):
                 to=address
                 sender=auth['auth']
-                userEthTransfer(auth['eth_contrib'], to, sender, '', '')
+                userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
     
                 return True, auth
     except Exception as e:
@@ -673,6 +613,52 @@ def create_node():
         mimetype='application/vnd.hypercat.catalogue+json'
     )
     return response
+
+@app.route('/get')
+@app.route('/cat/get')
+def get_node():
+    data={}
+    href = request.args.get('href')
+    href=re.sub('\/$','',href);
+    print("URL:",href)  
+    if re.search('https:\/\/iotblock.io\/cat$',href):
+        print("Root Node")
+        data  =  getNode(root)
+    else:
+        node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+        data  =  getNode(node)
+    
+    try:
+        
+        rel = request.args.get('rel')
+        val = request.args.get('val')
+        if rel or val:
+            filtered_items=[]
+            items=data['items']
+            for item in items:
+                try:
+                    found=False
+                    metas=item['item-metadata']
+                    for meta in metas:
+                        if meta['rel'] == rel or meta['val'] == val:
+                            found=True
+                    if found:
+                        filtered_items.append(item)
+                except Exception as e:
+                    print (e)
+            data['items']=filtered_items
+    except Exception as e:
+        print (e)
+    
+    response = app.response_class(
+            
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+        
+    )
+    return response
+
 
 
 
@@ -757,7 +743,9 @@ def save_nodeItemMetaData():
 @app.route('/cat/getNodeSmartKey')
 def getNodeSmartKey():
     href = request.args.get('href')
-    data = getNodeKey(href)
+    status, auth=doAuth()
+
+    data = getNodeKey(href, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -781,7 +769,8 @@ def getNodeSmartKeyTx():
 @app.route('/cat/getSmartKey')
 def getUserSmartKey():
     address = request.args.get('address')
-    data = getSmartKey(address)
+    status, auth=doAuth()
+    data = getSmartKey(address, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -809,8 +798,11 @@ def transferUserEth():
     amount = request.args.get('amount')
     api_key=''
     auth=''
-    key = userEthTransfer(amount, beneficiary, address, api_key, auth)
-    data = getKeyInfo(key)
+    data={}
+    status, auth=doAuth()
+    if status: 
+        key = userEthTransfer(amount, beneficiary, address, api_key, auth)
+        data = getKeyInfo(key, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -827,7 +819,14 @@ def setUserHealthStatus():
     key=''
     auth=''
     health=int(health)
-    data = setUserHealth(health, address, key, auth)
+    status, auth=doAuth()
+    data={}
+    if status: 
+        try:
+            key = setUserHealth(health, address, key, auth)
+            data = getKeyInfo(key, auth)
+        except Exception as e:
+            print (e)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -846,6 +845,7 @@ def transferNodeEth():
     status, auth=doAuth()
     if status: 
         data = nodeEthTransfer(amount, beneficiary, href, auth)
+        
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -863,7 +863,8 @@ def setDeviceHealth():
     status, auth=doAuth()
     if status:            
         health=int(health)
-        data = setHealth(health, href, auth['eth_contrib'])
+        key = setHealth(health, href, auth['eth_contrib'])
+        data = getNodeKey(href, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
