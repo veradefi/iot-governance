@@ -525,7 +525,7 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
 
 window.get_pool = function(poolkey, callback) 
 {
-    if (poolkey != '0x0') {
+    if (poolkey != '' && poolkey != '0x0') {
         var PoolKey = contract(poolkey_artifacts);                
         PoolKey.setProvider(window.web3.currentProvider);       
         return PoolKey.at(poolkey).then(function(contractInstance) {             
@@ -560,7 +560,16 @@ window.get_pool = function(poolkey, callback)
                 });            
             });
          });
-    }        
+    } else {
+        callback('0x0',
+                                                     0, 
+                                                     0, 
+                                                     0, 
+                                                     0, 
+                                                     0, 
+                                                     0,
+                                                     0);
+    } 
 }
 
 
@@ -578,8 +587,9 @@ window.get_pool_transactions = function(poolkey, callback)
                     var sender=v[0];
                     var date=v[1];
                     var amount=v[2];
-                    if (sender.toString() != '0x0' || date != 0) {
-                        callback(sender, date.toString(), amount.toString());                        
+                    var tx_type=v[3];
+                    if (sender.toString() != '0x' && sender.toString() != '0x0' && date != 0) {
+                        callback(sender, date.toString(), amount.toString(), parseInt(tx_type.toString()));                        
                         get_one_transaction(contractInstance, idx+1);
                     } else {
                         return;
