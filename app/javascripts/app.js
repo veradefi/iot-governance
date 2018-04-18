@@ -486,7 +486,7 @@ window.add_node = function(parent_address, _href, callback)
 
 
 
-window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, callback) 
+window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, callback) 
 {
 
 
@@ -505,7 +505,7 @@ window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_co
       
         return SmartPoolKey.deployed().then(function(contractInstance) {
              
-                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, {from: window.address}).then(function(address) {
+                return contractInstance.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, {from: window.address}).then(function(address) {
                     
                     return contractInstance.getSmartPoolKey.call(beneficiary, {from: window.address}).then(function(address) {
                           
@@ -536,22 +536,33 @@ window.get_pool = function(poolkey, callback)
                             return contractInstance.min_per_contrib.call().then(function(min_per_contrib) {
                                 return contractInstance.fee.call().then(function(fee) {
                                     return contractInstance.received.call(window.address).then(function(received) {
-                                           console.log('got member info');
-                                           var eth1=1000000000000000000;
-                                           eth_sent /= eth1;
-                                           contrib_total /= eth1;
-                                           max_contrib /= eth1
-                                           max_per_contrib /= eth1;
-                                           min_per_contrib /= eth1;
-                                           received /= eth1;
-                                           callback(poolkey,
-                                                     parseInt(eth_sent.toString()), 
-                                                     parseInt(contrib_total.toString()), 
-                                                     parseInt(max_contrib.toString()), 
-                                                     parseInt(max_per_contrib.toString()), 
-                                                     parseInt(min_per_contrib.toString()), 
-                                                     1/parseFloat(fee.toString()) * 100,
-                                                     parseInt(received));
+                                        return web3.eth.getBalance(poolkey).then(function (eth_amount) {
+                                            return contractInstance.autoDistribute.call().then(function(autoDistribute) {
+                                                return contractInstance.getMembers.call().then(function(members) {
+    
+                                                       console.log('got member info');
+                                                       var eth1=1000000000000000000;
+                                                       eth_amount /= eth1;
+                                                       eth_sent /= eth1;
+                                                       contrib_total /= eth1;
+                                                       max_contrib /= eth1
+                                                       max_per_contrib /= eth1;
+                                                       min_per_contrib /= eth1;
+                                                       received /= eth1;
+                                                       callback(poolkey,
+                                                                 parseInt(eth_amount.toString()),
+                                                                 parseInt(eth_sent.toString()), 
+                                                                 parseInt(contrib_total.toString()), 
+                                                                 parseInt(max_contrib.toString()), 
+                                                                 parseInt(max_per_contrib.toString()), 
+                                                                 parseInt(min_per_contrib.toString()), 
+                                                                 1/parseFloat(fee.toString()) * 100,
+                                                                 parseInt(received),
+                                                                 autoDistribute,
+                                                                 members);
+                                                });
+                                            });
+                                        });
                                     });                
                                 });                
                             });                
@@ -561,14 +572,14 @@ window.get_pool = function(poolkey, callback)
             });
          });
     } else {
-        callback('0x0',
+        callback('0x0',0,
                                                      0, 
                                                      0, 
                                                      0, 
                                                      0, 
                                                      0, 
                                                      0,
-                                                     0);
+                                                     0, true, []);
     } 
 }
 
@@ -613,6 +624,23 @@ window.send_ether = function(pooladdress, amount)
     }
 }
 
+
+window.distribute_pool_ether = function(pooladdress, callback)
+{
+    if (pooladdress != '0x0') {
+        var PoolKey = contract(poolkey_artifacts);                
+        PoolKey.setProvider(window.web3.currentProvider);       
+        return PoolKey.at(pooladdress).then(function(contractInstance) {                    
+            return web3.eth.getBalance(pooladdress).then(function (eth_amount) {            
+                return contractInstance.distributeEth(eth_amount,{from: window.address, gas:4000000, gasPrice:1000000000}).then(function(res) {
+                     callback(res);
+                });
+            });
+        });
+            
+    }
+    callback(false);
+}
 
 function syntaxHighlight(json) {
     if (typeof json != 'string') {

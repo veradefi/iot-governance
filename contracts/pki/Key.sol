@@ -156,6 +156,12 @@ contract Key is Ownable {
         return getValueByHash(keccak256(key));
    }
    
+   function () 
+   public
+   payable 
+   {
+        activateKey(msg.sender);
+   }
     
    /*
    struct Attr {
@@ -225,12 +231,7 @@ contract Key is Ownable {
         }
    }
    
-   function () 
-   public
-   payable 
-   {
-        activateKey(msg.sender);
-   }
+   
    */
 
    

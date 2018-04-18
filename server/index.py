@@ -13,12 +13,7 @@ from time import sleep
 from datetime import datetime
 import base64
 import threading
-
 from flask import Flask
-
-
-
-
 
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())

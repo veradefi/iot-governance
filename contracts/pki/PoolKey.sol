@@ -7,7 +7,8 @@ contract PoolKey is Key, Whitelisted
 {
     
     using SafeMath for uint256;
-    bool has_whitelist;
+    bool public has_whitelist;
+    bool public autoDistribute;
     address[] public members;
     mapping (address => uint256) public isMember;
     mapping (address => uint256) public received;
@@ -19,7 +20,7 @@ contract PoolKey is Key, Whitelisted
     uint256 public min_per_contrib;
     uint256 public fee;
         
-    function PoolKey(address _poolVault, address _beneficiary, uint256 _max_contrib, uint256 _max_per_contrib, uint256 _min_per_contrib, address[] _admins, bool _has_whitelist, uint256 _fee) 
+    function PoolKey(address _poolVault, address _beneficiary, uint256 _max_contrib, uint256 _max_per_contrib, uint256 _min_per_contrib, address[] _admins, bool _has_whitelist, uint256 _fee, bool _autoDistribute) 
     Whitelisted(_admins, _admins) 
     Key(_beneficiary) 
     public
@@ -32,7 +33,7 @@ contract PoolKey is Key, Whitelisted
       min_per_contrib=_min_per_contrib;
       contrib_amount=0;
       has_whitelist=_has_whitelist;
-      
+      autoDistribute=_autoDistribute;
       for (uint k=0; k < _admins.length; k++) {
           members.push(_admins[k]);
       }
@@ -51,8 +52,21 @@ contract PoolKey is Key, Whitelisted
     public
     payable 
     {
+        transactions[msg.sender].push(transaction(msg.sender,now,msg.value, 0));
+        
+        if (autoDistribute) {
+            contrib_amount=contrib_amount.add(msg.value);
+            
+            distributeEth(msg.value);
+        } else {
+            activateKey(msg.sender); 
+        }
+    }
     
-        uint256 weiAmount = msg.value;
+    function distributeEth(uint256 weiAmount) 
+    public
+    returns (bool)
+    {        
         if (weiAmount >= min_per_contrib && isMember[msg.sender] <= max_per_contrib) {
             if (!has_whitelist || isWhitelisted[msg.sender]) {
                 uint256 fee1=weiAmount.div(200); 
@@ -64,18 +78,16 @@ contract PoolKey is Key, Whitelisted
                 vault.transfer(fee2);
                 received[poolVault] = received[poolVault].add(fee1);
                 received[vault] = received[vault].add(fee2);
-                transactions[poolVault].push(transaction(msg.sender,now,fee1, 1));
-                transactions[vault].push(transaction(msg.sender,now,fee2, 1));
-                
+                transactions[poolVault].push(transaction(msg.sender,now,fee1, 0));
+                transactions[vault].push(transaction(msg.sender,now,fee2, 0));
                 
                 isMember[msg.sender] = isMember[msg.sender].add(weiAmount);
-                contrib_amount=contrib_amount.add(weiAmount);
-            
+                
                 for (uint i=0; i < members.length; i++) 
                 {
                     members[i].transfer(distAmount);
                     received[members[i]] = received[members[i]].add(distAmount);
-                    transactions[members[i]].push(transaction(msg.sender,now,distAmount, 1));
+                    transactions[members[i]].push(transaction(msg.sender,now,distAmount, 0));
                 }
                 
                 
@@ -83,9 +95,10 @@ contract PoolKey is Key, Whitelisted
                     members.push(msg.sender);
                 }
                 
-                transactions[msg.sender].push(transaction(msg.sender,now,weiAmount, 0));
+                return true;
             }
-        }        
+        }      
+        return false;  
     }
     
 }
