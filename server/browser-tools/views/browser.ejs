@@ -98,9 +98,11 @@ function save_item(id) {
 }
 
 function add_meta(id, node_href, item_href) {
+    /*
     node_href=get_full_url(node_href);
     if (item_href)
         item_href=get_full_url(item_href);
+    */
     var rel='urn:X-hypercat:rels:hasDescription:en';
     var val='';
     var html='<div class="input-group">';
@@ -114,10 +116,11 @@ function add_meta(id, node_href, item_href) {
 }
 
 function edit_meta(id, idx, data, node_href, item_href) {
+    /*
     node_href=get_full_url(node_href);
     if (item_href)
         item_href=get_full_url(item_href);
-							
+    */							
     var html='<div class="input-group">';
     html+='<input class="form-control" type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
     html+='<input class="form-control" type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
@@ -634,7 +637,7 @@ function browse(url, cb) {
         
     //alert(url);
     fetch(url, '', function(err, doc, location) {
-        location=url; //get_full_url(location);
+        location=url; 
         $('#browse_url').val(location);
         
          
