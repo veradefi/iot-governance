@@ -392,7 +392,11 @@ function add_auth(xhr) {
 
 }
 
+var page1_init=false;
+var page2_api_init=false;
+
 function showPage1() {
+    page1_init=true;
     $('#page1').dialog({
       dialogClass: "no-close",
       closeText: "hide",
@@ -400,9 +404,22 @@ function showPage1() {
       width: '770px',
       height: '400',
     });  
+    
+}
+
+function hidePage1() {
+   if (page1_init) {
+       if ($('#page1').dialog( "isOpen" )) {
+        $('#page1').dialog( "close" );
+       }
+   } else {
+        $('#page1').hide();
+   
+   }
 }
 
 function showPage2_api() {
+    page2_api_init=true;
     $('#page2_api').dialog({
       dialogClass: "no-close",
       closeText: "hide",
@@ -414,6 +431,16 @@ function showPage2_api() {
   
 }
 
+function hidePage2_api() {
+   if (page2_api_init) {
+       if ($('#page2_api').dialog( "isOpen" )) {
+        $('#page2_api').dialog( "close" );
+      }
+   } else {
+        $('#page2_api').hide();
+   }
+}
+
 function page2_api(auth, auth_info, key_address) {
    myAddress=auth;
    keyAddress=key_address;
@@ -421,17 +448,17 @@ function page2_api(auth, auth_info, key_address) {
         $('#loading').hide();
         showPage1() ;
         $('#page2').hide();
-        $('#page2_api').hide();
+        hidePage2_api();
    } else if (auth_info.length == 0) {
         $('#loading').hide();
-        $('#page1').hide();
+        hidePage1();
         $('#page2').hide();
         showPage2_api();
    } else {
         $('#loading').show();
-        $('#page1').hide();
+        hidePage1();
         $('#page2').hide();
-        $('#page2_api').hide();
+        hidePage2_api();
         api_key=auth_info;
         api_auth=auth;
         get_smart_key_info(address);
@@ -606,9 +633,9 @@ function setHealth(health) {
 function fill_page2(userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner) {
    console.log(userAddress, address, balance, eth_recv, vault, state, health, tokens);
    $('#loading').show();
-   $('#page1').hide();
+   hidePage1();
    $('#page2').hide();
-   $('#page2_api').hide();
+   hidePage2_api();
 
     if (address == '0' || address == '0x0000000000000000000000000000000000000000') {
        showPage1() ;
@@ -625,7 +652,7 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
        var states=[ 'Issued', 'Active', 'Returned' ]
        var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
        
-       //$('#page1').hide();
+       //hidePage1();
        $('#loading').hide();
        $('#page2').show();
 
@@ -723,9 +750,9 @@ $( document ).ready(function() {
         myAddress=myAddress.toLowerCase();
         //alert(auth_key);
         $('#loading').show();
-        $('#page1').hide();
+        hidePage1();
         $('#page2').hide();
-        $('#page2_api').hide();
+        hidePage2_api();
         
         add_keyAuth(myAddress, myAddress, auth_key,  page2_api); 
         
@@ -793,9 +820,9 @@ $( document ).ready(function() {
             setTimeout(function () { page2(myAddress) }, 10000)
         }
         $('#loading').show();
-        $('#page1').hide();
+        hidePage1();
         $('#page2').hide();
-        $('#page2_api').hide();
+        hidePage2_api();
         
         add_smartkey(beneficiary,key_created); 
         
