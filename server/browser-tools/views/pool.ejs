@@ -313,17 +313,17 @@
                     
                      <div class="row">
                         <div class="col-md-4">    
-                            <label class="label4">MIN PER CONTRIBUTOR</label>
+                            <label class="label4">MIN PER DONOR</label>
                             <h1><span class="min_per_contrib"></span></h1> <font size=2>ETH</font><br>
                             
                         </div>
                         <div class="col-md-4">    
-                            <label class="label4">MAX PER CONTRIBUTOR</label>
+                            <label class="label4">MAX PER DONOR</label>
                             <h1><span class="max_per_contrib"></span></h1> <font size=2> ETH</font><br>
                             
                         </div>
                         <div class="col-md-4">    
-                            <label class="label4">MAX ALLOCATION</label>
+                            <label class="label4">MAX TOTAL DONATION</label>
                             <h1><span class="max_contrib"></span></h1> <font size=2>ETH</font>
 
                             
@@ -442,7 +442,7 @@ $( document ).ready(function() {
            Morris.Donut({
               element: 'contrib-stat',
               data: [
-                {label: "Member Contributed ETH", value: contrib_total},
+                {label: "Member Donated ETH", value: contrib_total},
                 {label: "ETH Received", value:  received},
               ]
             });
