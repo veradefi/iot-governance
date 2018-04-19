@@ -166,7 +166,7 @@
                     <div class="row">
                         <div class="col-md-6">    
                             
-                            <h3>ETH BALANCE</h3>
+                            <label class='label2'>ETH BALANCE</label>
                             <div class="row">
                                 <div class="col-md-12">
                                     <h3><span class="eth_balance"></span></h3>
@@ -178,7 +178,7 @@
                         </div>
                         <div class="col-md-6">    
                             
-                            <h3>ETH RECEIVED</h3>
+                            <label class='label2'>ETH RECEIVED</label>
                             <h3><span class="eth_received"></span></h3> <font size=2>ETH</font>
 
                             
@@ -193,29 +193,66 @@
                     
                      <div class="row">
                         <div class="col-md-6">    
-                            <h3 class='status'>Health Status</h3>
+                            <label class='label2 status'>Health Status</label>
+                            <br>
                             <label class="title3"><span class='health'></span></label>
+                            <hr>
                         </div>
                         <div class="col-md-6">    
-                            <h3>Key State</h3>
-                            <label class="title3">    
-                            <span class="state"></span>   
-                            </label> <font size=2></font><br>                            
+                            <label class='label2'>Key State</label>
+                            <br>
+                            <label class="title3"><span class="state"></span></label> 
+                            <font size=2></font><hr>
                         </div>
                     </div>
                     <div class="row">
+                        
+                        <div class="col-md-6">    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class='label2'>Replace API Key</label>
+                                                   
+                                        </div>
+                                    </div>
+                                    <div id="replace_api">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input name="new_username" class="form-control m-input m-input--air m-input--pill"  type="text" id="new_username" placeholder="Email Address" aria-invalid="false" aria-required="false">
+                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input name="new_password" class="form-control m-input m-input--air m-input--pill"  type="password" id="new_password" placeholder="Select Password" aria-invalid="false" aria-required="false">
+                                            </div>               
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    <br>    
+                                                    <a href="#auth" onclick="JavaScript:generate_api_key()" class="btn btn-primary" >Regenerate API Key</a>
+                                                    <br>    
+                                                    <br>    
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="replace_api_loading" style="display:none">
+                                    <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+
+                        </div>      
+                        
                         <div class="col-md-6">    
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>API Key
-                                    </h3>                                                       
+                                    <label class='label2'>API Key</label>                            
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12" align=left>
                                     <div id="view_api">
-                                            <b>ETH Contribution Per Transaction:
-                                            </b>
+                                            <br>
+                                            <label class="label2">ETH Payment Per Transaction:
+                                            </label>
                                             <div class="input-group">
                                                 <select id="eth_contrib" class="form-control m-input m-input--air">
                                                     <option value='0.0001'>0.0001 ETH</option>
@@ -236,40 +273,7 @@
                                    
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">    
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h3>Replace API Key
-                                            </h3>       
-                                        </div>
-                                    </div>
-                                    <div id="replace_api">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input name="new_username" class="form-control m-input m-input--air m-input--pill"  type="text" id="new_username" placeholder="Email Address" aria-invalid="false" aria-required="false">
-                                                
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input name="new_password" class="form-control m-input m-input--air m-input--pill"  type="password" id="new_password" placeholder="Select Password" aria-invalid="false" aria-required="false">
-                                            </div>               
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <center>
-                                                    <br>    
-                                                    <a href="#auth" onclick="JavaScript:generate_api_key()" class="form-control btn m-btn--pill m-btn--air         btn-outline-info" >Regenerate API Key</a>
-                                                    <br>    
-                                                    <br>    
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="replace_api_loading" style="display:none">
-                                    <center><img src="images/wait.gif" width=100></center>
-                                    </div>
-
-                        </div>           
+                        </div>     
 
                     </div>
                 </div>
@@ -281,9 +285,13 @@
                                <br><br>
                                <div class="row>
                                    <div class="col-md-12">
-                                        <h3>Vault
-                                        <pre><span class="vault"></span> <font size=2></font>
-                                        </h3>
+                                        <label class="title3">Vault</label>
+                                        <br>
+                                        <label class="label2">
+                                        <pre><span class="vault"></span></pre>
+                                        <font size=2></font>
+                                        </label>
+                                        
                                        <div id="contrib-stat" style="height: 200px;"></div>
                                        
                                     </div>
@@ -294,13 +302,13 @@
                                                 ETH Amount:<br>
                                                 <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-5">
                                                 Beneficiary Address:<br>
                                                 <input id='beneficiary' class="address_val form-control m-input m-input--air m-input--pill" placeholder="Beneficiary Address">
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <br>
-                                                <a href='#eth_transfer' onClick="JavaScript:get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val())" class="btn m-btn--pill m-btn--air         btn-outline-info" id='wd_ether'>Transfer Ether</a>
+                                                <a href='#eth_transfer' onClick="JavaScript:get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val())" class="btn btn-primary" id='wd_ether'>Transfer Ether</a>
                                             </div>
                                         </div>
                                         <br>
