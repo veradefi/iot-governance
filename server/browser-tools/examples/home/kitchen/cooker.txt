@@ -1,2 +1,0 @@
-This is a text resource describing the kitchen cooker.
-It is electric and has four rings on the hotplate.
