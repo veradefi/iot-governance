@@ -79,7 +79,7 @@ function save_item(id) {
             
             },
             type: 'GET',
-            url: '/cat/post?parent_href=' + encodeURI(parent_address) + '&href=' + encodeURI(url),
+            url: '/cat/post?parent_href=' + encodeURIComponent(parent_address) + '&href=' + encodeURIComponent(url),
             data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -98,11 +98,6 @@ function save_item(id) {
 }
 
 function add_meta(id, node_href, item_href) {
-    /*
-    node_href=get_full_url(node_href);
-    if (item_href)
-        item_href=get_full_url(item_href);
-    */
     var rel='urn:X-hypercat:rels:hasDescription:en';
     var val='';
     var html='<div class="input-group">';
@@ -116,11 +111,6 @@ function add_meta(id, node_href, item_href) {
 }
 
 function edit_meta(id, idx, data, node_href, item_href) {
-    /*
-    node_href=get_full_url(node_href);
-    if (item_href)
-        item_href=get_full_url(item_href);
-    */							
     var html='<div class="input-group">';
     html+='<input class="form-control" type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
     html+='<input class="form-control" type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
@@ -158,8 +148,6 @@ function save_meta(id, node_href, item_href) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
-                //alert(body);
-                //parseCatalogue(get_url(node_href), body);   
                 browse($('#browse_url').val(), function() {
                     log('browse complete');
                 });
@@ -178,13 +166,7 @@ function save_location(node_href, lat, lng) {
        $('#location_save_loading').show();
        $('#location_map').hide();
         var key='';
-        
-        //if (item_href) {
-        //    post_url='/cat/postNodeItemMetaData?node_href=' + encodeURIComponent(node_href) + '&item_href=' + encodeURIComponent(item_href);
-        //}
-        
-        //console.log(post_url, rel, val);
-        
+                
         var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
         
         var lat_rel="http://www.w3.org/2003/01/geo/wgs84_pos#lat"
@@ -220,11 +202,9 @@ function save_location(node_href, lat, lng) {
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(body, textStatus, xhr) {
-                        //alert(body);
                         browse($('#browse_url').val(), function() {
                             log('browse complete');
                         });
-                        //parseCatalogue(get_url(node_href), body);   
                     },
                     error: function(xhr, textStatus, err) {
                         log(xhr.status + ' ' + xhr.statusText);
@@ -249,7 +229,7 @@ function get_smart_key_info(href) {
             
             },
             type: 'GET',
-            url: '/cat/getNodeSmartKey?href=' + encodeURI(href),
+            url: '/cat/getNodeSmartKey?href=' + encodeURIComponent(href),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -271,7 +251,7 @@ function get_smartkey_transactions(href) {
             
             },
             type: 'GET',
-            url: '/cat/getNodeSmartKeyTx?href=' + encodeURI(href),
+            url: '/cat/getNodeSmartKeyTx?href=' + encodeURIComponent(href),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -305,7 +285,7 @@ function get_transfer_node_eth(href, beneficiary, amount) {
             
             },
             type: 'GET',
-            url: '/cat/transferNodeEth?href=' + encodeURI(href) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
+            url: '/cat/transferNodeEth?href=' + encodeURIComponent(href) + '&beneficiary=' + encodeURIComponent(beneficiary) + '&amount=' + encodeURIComponent(amt),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -334,7 +314,7 @@ function setHealth(href, health) {
                     //setHeaders(xhr);
             },
             type: 'GET',
-            url: '/cat/setHealth?href=' + encodeURI(href) + '&health=' + encodeURI(health),
+            url: '/cat/setHealth?href=' + encodeURIComponent(href) + '&health=' + encodeURIComponent(health),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -367,7 +347,7 @@ function deleteCat(cat_url) {
 }
 
 function deleteItem(cat_url, item_url) {
-    var url = cat_url + "?href=" + encodeURI(item_url);
+    var url = cat_url + "?href=" + encodeURIComponent(item_url);
     del(url, $('#key').val(), function(err) {
         if (!err) {
             browse($('#url').val(), function() {
@@ -602,7 +582,7 @@ function parseCatalogue(url, doc) {
             else
                 link = '<a href="'+item.href+'">'+item.href+'</a>';
 
-            var editlink = '<a href="itemcreator.html?key='+encodeURIComponent($('#key').val())+'&cat_url='+encodeURI(url)+'&href='+encodeURI(item.href)+'" target="_blank"><strong>[edit item]</strong></a>';
+            var editlink = '<a href="itemcreator.html?key='+encodeURIComponent($('#key').val())+'&cat_url='+encodeURIComponent(url)+'&href='+encodeURIComponent(item.href)+'" target="_blank"><strong>[edit item]</strong></a>';
             var deletelink = '<a href="javascript:deleteItem(\''+url+'\',\''+item.href+'\');"><strong>[delete item]</strong></a>';
 
             
