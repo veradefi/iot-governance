@@ -1,42 +1,11 @@
 <%- include('partials/header') %>
 <form id="page1" style="display:none;">
-
-<!--
-<div class="row">
-     <div class="col-md-12">
-            <div class="m-portlet m-portlet--tab">
-                   <div class="m-portlet__head">
-                          <br>
-                          <center><label><h3>Find Smart Key</h3></label></center>
-                          <div class="row">
-                                 <div class="col-md-12">
-                                         <center>
-                                         
-                                             <input name="find_poolkey" class="form-control m-input m-input--air m-input--pill"  placeholder="Enter Smart Key Address" style="width:50%" type="text" id="find_poolkey" placeholder="" aria-invalid="false" aria-required="false">
-                                             <br>
-                                             <button type="button" id='find_poolkey_btn' class="btn btn-accent"><h1>Find My Smart Key</h1></button>
-                                          </center>
-                                          <br>
-                                  </div>
-                            </div>
- 
-                      </div>
-                </div>
-            
-     </div>
-</div>
-//-->
-
-     
-
 <div class="row">
     <div class="col-md-12">    
-        <div class="m-portlet m-portlet--tab">
-               <div class="m-portlet__head">
                     <center>
                     <div class="row">
                         <div class="col-md-12">
-                                  <br>
+                                  <br><br>
                                   <center><label class="title1">Create Smart Key<br>(Rinkeby Ethereum Network)</label></center>
                                   <br>
                                   
@@ -54,10 +23,8 @@
                                 <div class="col-md-3" align=right>
                                              <label class="label2">Your wallet address:</label>
                                 </div>
-                                <div class="col-md-6" align=left>
+                                <div class="col-md-7" align=left>
                                              <input name="address" class="address_val inputbox3 form-control m-input m-input--air"  style="width:100%" type="text" id="address" placeholder="" aria-invalid="false" aria-required="false">
-                                 </div>
-                                <div class="col-md-1" align=left>
                                  </div>
                             </div>
         
@@ -78,24 +45,16 @@
                             <button type="button" id='pool' class="button2 btn btn-accent"><span class="buttonText">Create Smart Key</span></button>
                             <br><br>
                             <a href='/icatOS/' class="link2">Go back to home</a>
-                            <br><br><br>    
+                           
                         </div>
                     </div>
                     </center>
-            </div>
-        </div>
     </div>
 </div>
-            
-
 </form>
 <form id="page2_api" style="display:none;">
-
-
 <div class="row">
     <div class="col-md-12">    
-        <div class="m-portlet m-portlet--tab">
-               <div class="m-portlet__head">
                     <center>
                     <div class="row">
                         <div class="col-md-12">
@@ -109,18 +68,19 @@
                     <div class="row">
                         <div class="col-md-12">
             
-                          <label class="title2">
+                          <label class="title3">
                             Wallet
                           </label>
+                          <br><br>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" align=right>
+                        <div class="col-md-4" align=right>
                 
                           <label class="label2">Your wallet address:</label>
                           
                         </div>
-                        <div class="col-md-7" align=left>
+                        <div class="col-md-8" align=left>
                             <div  style="width: 400px;height: 30px;" class="border2">
                                      <center>
                                      <span class="address label2"></span>
@@ -131,30 +91,31 @@
                     <div class="row">
                         <div class="col-md-12">
                           <br>
-                          <label class="title2">
+                          <label class="title3">
                             API Key
                           </label>
+                          <br><br>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" align=right>
+                        <div class="col-md-4" align=right>
                 
                           <label class="label2">Email</label>
                           
                         </div>
-                        <div class="col-md-7" align=left>
+                        <div class="col-md-8" align=left>
                           
                           <input name="username" class="form-control m-input m-input--air m-input--pill"  type="text" id="username" placeholder="" aria-invalid="false" aria-required="false">
                       
                          </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" align=right>
+                        <div class="col-md-4" align=right>
                 
                           <label class="label2">Select Password</label>
                           
                         </div>
-                        <div class="col-md-7" align=left>
+                        <div class="col-md-8" align=left>
                           
                           <input name="password" class="form-control m-input m-input--air m-input--pill"  type="password" id="password" placeholder="" aria-invalid="false" aria-required="false">
                           <br><br>
@@ -167,12 +128,9 @@
                             <button type="button" id='create_api_key' class="button2 btn btn-accent"><span class="buttonText">Create Smart Key Access Token</span></button>
                             <br><br>
                             <a href='/icatOS/' class="link2">Go back to home</a>
-                            <br><br><br>    
                         </div>
                     </div>
                     </center>
-            </div>
-        </div>
     </div>
 </div>
             
@@ -434,19 +392,41 @@ function add_auth(xhr) {
 
 }
 
+function showPage1() {
+    $('#page1').dialog({
+      dialogClass: "no-close",
+      closeText: "hide",
+      modal: true,
+      width: '770px',
+      height: '400',
+    });  
+}
+
+function showPage2_api() {
+    $('#page2_api').dialog({
+      dialogClass: "no-close",
+      closeText: "hide",
+      modal: true,
+      width: '770px',
+      height: '565',
+    });
+    
+  
+}
+
 function page2_api(auth, auth_info, key_address) {
    myAddress=auth;
    keyAddress=key_address;
    if (key_address.length == 0) {
         $('#loading').hide();
-        $('#page1').show();
+        showPage1() ;
         $('#page2').hide();
         $('#page2_api').hide();
    } else if (auth_info.length == 0) {
         $('#loading').hide();
         $('#page1').hide();
         $('#page2').hide();
-        $('#page2_api').show();
+        showPage2_api();
    } else {
         $('#loading').show();
         $('#page1').hide();
@@ -631,7 +611,7 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
    $('#page2_api').hide();
 
     if (address == '0' || address == '0x0000000000000000000000000000000000000000') {
-        $('#page1').show();
+       showPage1() ;
         $('#loading').hide();
         $('#page2').hide();
         return;
