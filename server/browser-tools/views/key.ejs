@@ -334,7 +334,7 @@
             <div class="col-md-12">
                 <div id="health">
                 <center>
-                <h3>Update Device Integrity Status</h3>
+                <label class="title3">Update Device Integrity Status</label>
                 <div class="m-btn-group m-btn-group--pill btn-group m-btn-group m-btn-group--pill btn-group-lg">
                     <button onClick="JavaScript:setHealth(0)" type="button" class="btn btn-primary">Provisioning</button>
                     <button onClick="JavaScript:setHealth(1)" type="button" class="btn btn-success">Certified</button>
@@ -358,7 +358,7 @@
                 <div class="m-portlet m-portlet--tab">
                            <div class="m-portlet__head">
                                <br>
-                               <center><h3>Transactions</h3></center> 
+                               <center><label class="title3">Transactions</label></center> 
                                 <hr>
                                <div id='transactions'>
                                </div>
@@ -703,9 +703,9 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
             tx='Outgoing';
         }
         var html ="<div class=row><div class=col-md-2>";
-        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-6>";
         html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
-        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-4>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
         html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
         html +="</div><hr><br>";
         
