@@ -88,8 +88,6 @@ function save_item(id) {
                     log('browse complete');
                 });
 
-                //$('#browse_url').val(url);
-                //parseCatalogue(get_url(url), body);   
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
@@ -613,7 +611,6 @@ function parseCatalogue(url, doc) {
 
 function browse(url, cb) {
     var history=[];
-    //url=get_url(url);
         
     //alert(url);
     fetch(url, '', function(err, doc, location) {

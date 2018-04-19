@@ -7,30 +7,12 @@ function log(msg) {
     log.scrollTo('100%');
 }
 
-function get_url(url) {
-    var path=url.replace(site_url,'');
-    path=path.replace(/http:\/\/localhost:8080/,'');
-    path=path.replace(/\/\//,'/');
-    path=path.replace(/\/$/, "");
-    path=path.replace(/icat/, "cat");
-    path=path.replace(/\?.*/, "");
-    
-    //alert(path);
-    return path;
-}
-
-function get_full_url(path) {
-    
-    return site_url + get_url(path);
-
-}
 
 function parseLinks() {
     var url=site_url + '/cat'
         
     //alert(url);
     fetch(url, $('#key').val(), function(err, doc, location) {
-        location=get_full_url(location);
         var urls=[url];
     
         try {
