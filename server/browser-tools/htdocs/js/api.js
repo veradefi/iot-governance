@@ -1,4 +1,5 @@
 var facts = [];
+var site_url='https://iotblock.io';
 
 function log(msg) {
     var log = $('#log');
@@ -7,7 +8,7 @@ function log(msg) {
 }
 
 function get_url(url) {
-    var path=url.replace(/https:\/\/iotblock.io/,'');
+    var path=url.replace(site_url,'');
     path=path.replace(/http:\/\/localhost:8080/,'');
     path=path.replace(/\/\//,'/');
     path=path.replace(/\/$/, "");
@@ -20,12 +21,12 @@ function get_url(url) {
 
 function get_full_url(path) {
     
-    return 'https://iotblock.io' + get_url(path);
+    return site_url + get_url(path);
 
 }
 
 function parseLinks() {
-    var url='https://iotblock.io/cat'
+    var url=site_url + '/cat'
         
     //alert(url);
     fetch(url, $('#key').val(), function(err, doc, location) {
@@ -55,7 +56,7 @@ function populateUrls(urls) {
     for (var i=0; i < urls.length; i++) {
         $("#urls").append(new Option(urls[i], urls[i]));
     }
-    $("#urls").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
+    $("#urls").append(new Option(site_url + '/cat', site_url + '/cat'));
 
 }
 

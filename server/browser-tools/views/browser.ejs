@@ -634,7 +634,7 @@ function browse(url, cb) {
         
     //alert(url);
     fetch(url, '', function(err, doc, location) {
-        location= get_full_url(location);
+        location=url; //get_full_url(location);
         $('#browse_url').val(location);
         
          
@@ -656,16 +656,6 @@ function browse(url, cb) {
 
 
 
-function populateUrls(urls) {
-
-    $("#urls").find('option').remove().end();
-    
-    for (var i=0; i < urls.length; i++) {
-        $("#urls").append(new Option(urls[i], urls[i]));
-    }
-    $("#urls").append(new Option('https://iotblock.io/cat', 'https://iotblock.io/cat'));
-
-}
 
 
 function refreshRaw() {
