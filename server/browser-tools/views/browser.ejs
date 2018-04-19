@@ -812,9 +812,9 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
             tx='Outgoing';
         }
         var html ="<div class=row><div class=col-md-2>";
-        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-4>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-6>";
         html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
-        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-4>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
         html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
         html +="</div><hr><br>";
         
@@ -1081,7 +1081,7 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
                 <div class="m-portlet m-portlet--tab">
                            <div class="m-portlet__head">
                                <br>
-                               <center><h3>Transactions</h3></center> 
+                               <center><label class="title3">Transactions</label></center> 
                                 <hr>
                                <div id='transactions'>
                                </div>
