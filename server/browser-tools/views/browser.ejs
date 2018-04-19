@@ -1026,13 +1026,13 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
                                                         ETH Amount:<br>
                                                         <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-5">
                                                         Beneficiary Address:<br>
                                                         <input id='beneficiary' class="address_val form-control m-input m-input--air m-input--pill" placeholder="Beneficiary Address">
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <br>
-                                                        <a href='#eth_transfer' onClick="JavaScript:get_transfer_node_eth($('#browse_url').val(), $('#beneficiary').val(), $('#send_amt').val())" class="btn m-btn--pill m-btn--air         btn-outline-info" id='wd_ether'>Transfer Ether</a>
+                                                        <a href='#eth_transfer' onClick="JavaScript:get_transfer_node_eth($('#browse_url').val(), $('#beneficiary').val(), $('#send_amt').val())" class="btn btn-primary" id='wd_ether'>Transfer Ether</a>
                                                     </div>
                                                  </div>
                                                  <div class="row" id="eth_transfer_loading" style="display:none">
