@@ -1,5 +1,4 @@
 var facts = [];
-var site_url='https://iotblock.io';
 
 function log(msg) {
     var log = $('#log');

@@ -21,4 +21,5 @@ THE SOFTWARE.
 
 exports.port = 8000;
 exports.htdocs = "../htdocs";
+exports.site_url = "https://iotblock.io";
 
