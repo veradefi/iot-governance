@@ -564,7 +564,7 @@ function parseCatalogue(url, doc) {
     //try {
         for (var i=0;i<doc.items.length;i++) {
             var item = doc.items[i];
-            item.href = URI(item.href).absoluteTo(url).toString();    // fixup relative URL
+            item.href = item.href.toString(); //URI(item.href).absoluteTo(url).toString();    // fixup relative URL
             urls.push(item.href);
             var isCat = false;
             var isGenericResource = false;
