@@ -8,6 +8,8 @@ truffle compile
 truffle migrate --reset --network rinkeby
 sh build_solcjs.sh
 
+sleep 200
+
 sh build_rinkeby_data.sh
 
 
