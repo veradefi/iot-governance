@@ -550,14 +550,14 @@ window.get_pool = function(poolkey, callback)
                                                        min_per_contrib /= eth1;
                                                        received /= eth1;
                                                        callback(poolkey,
-                                                                 parseInt(eth_amount.toString()),
-                                                                 parseInt(eth_sent.toString()), 
-                                                                 parseInt(contrib_total.toString()), 
+                                                                 parseFloat(eth_amount.toString()),
+                                                                 parseFloat(eth_sent.toString()), 
+                                                                 parseFloat(contrib_total.toString()), 
                                                                  parseInt(max_contrib.toString()), 
                                                                  parseInt(max_per_contrib.toString()), 
                                                                  parseInt(min_per_contrib.toString()), 
                                                                  1/parseFloat(fee.toString()) * 100,
-                                                                 parseInt(received),
+                                                                 parseFloat(received),
                                                                  autoDistribute,
                                                                  members);
                                                 });
