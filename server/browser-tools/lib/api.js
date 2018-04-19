@@ -76,7 +76,7 @@ function get_nav() {
 app.get('/', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav })
+  res.render('key', { nav:render_nav, config:config })
 })
 
 
@@ -87,79 +87,79 @@ app.get('/icatOS', (req, res) => {
 app.get('/index.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav })
+  res.render('key', { nav:render_nav, config:config })
 })
 
 app.get('/pool', (req, res) => {
   var render_nav=get_nav();
   render_nav[0]['selected']=true;
-  res.render('pool', { nav:render_nav })
+  res.render('pool', { nav:render_nav, config:config })
 })
 
 app.get('/pool.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[0]['selected']=true;
-  res.render('pool', { nav:render_nav })
+  res.render('pool', { nav:render_nav, config:config })
 })
 
 app.get('/key', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav })
+  res.render('key', { nav:render_nav, config:config })
 })
 
 app.get('/key.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav })
+  res.render('key', { nav:render_nav, config:config })
 })
 
 app.get('/browser', (req, res) => {
   var render_nav=get_nav();
   render_nav[2]['selected']=true;
-  res.render('browser', { nav:render_nav })
+  res.render('browser', { nav:render_nav, config:config })
 })
 
 app.get('/browser.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[2]['selected']=true;
-  res.render('browser', { nav:render_nav })
+  res.render('browser', { nav:render_nav, config:config })
 })
 
 app.get('/explorer', (req, res) => {
   var render_nav=get_nav();
   render_nav[3]['selected']=true;
-  res.render('explorer', { nav:render_nav })
+  res.render('explorer', { nav:render_nav, config:config })
 })
 
 app.get('/explorer.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[3]['selected']=true;
-  res.render('explorer', { nav:render_nav })
+  res.render('explorer', { nav:render_nav, config:config })
 })
 
 app.get('/crawler', (req, res) => {
   var render_nav=get_nav();
   render_nav[4]['selected']=true;
-  res.render('crawler', { nav:render_nav })
+  res.render('crawler', { nav:render_nav, config:config })
 })
 
 app.get('/crawler.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[4]['selected']=true;
-  res.render('crawler', { nav:render_nav })
+  res.render('crawler', { nav:render_nav, config:config })
 })
 
 app.get('/map', (req, res) => {
   var render_nav=get_nav();
   render_nav[5]['selected']=true;
-  res.render('map', { nav:render_nav })
+  res.render('map', { nav:render_nav, config:config })
 })
 
 app.get('/map.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[5]['selected']=true;
-  res.render('map', { nav:render_nav })
+  res.render('map', { nav:render_nav, config:config })
 })
 
 app.configure(function () {
