@@ -35,8 +35,6 @@ var app = express();
 
 app.set('view engine', 'ejs');
 
-
-
 function get_nav() {
     var nav_menu = [
       {

@@ -139,121 +139,203 @@
 <form id="loading" >
 <img src="images/wait.gif">
 </form>
+<form id="health_dialog" style="display:none;">
+    <div id="health">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <center>
+                            <label class="title4" style="width: 519px;height: 32px;">Update Device Integrity Status</label>
+                            </center>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4" align=right>
+                            <label class="label2">Status</label>
+                        </div>
+                        <div class="col-md-8" align=left>
+                            
+                            <select id="health_select" style="width:253px;border-radius:5px;border: solid 1px #d8d8d8;" class="form-control m-input m-input--air" onChange="JavaScript:alert(this.value);setHealth(parseInt(this.value));">
+                                <option value="0" class="m--font-primary">Provisioning</option>
+                                <option value="1" class="m--font-success">Certified</option>
+                                <option value="2" class="m--font-info">Modified</option>
+                                <option value="3" class="m--font-danger">Compromised</option>
+                                <option value="4" class="m--font-danger">Malfunctioning</option>
+                                <option value="5" class="m--font-danger">Harmful</option>
+                                <option value="6" class="m--font-danger">Counterfeit</option>
+                            </select>
+                            <br>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center>
+                            <button   style="width: 384px;height:56px;"  onclick="JavaScript:$('#health_select').trigger('change');"  
+                            class="button3 btn btn-primary" 
+                            type="button">
+                            <span class="buttonText">Update</span></button>
+                            </center>
+                            <br><br>
+                        </div>
+                    </div>
+    </div>
+    <div id="health_loading" style="display:none">
+    <center><img src="images/wait.gif" width=100></center>
+    </div>
+</form>
 <form id="page2" style="display:none;">
 <div class="row">
     <div class="col-md-12">    
-         <center>
-        <label class="title2" style="padding-top:5px;">Smart Key Contract Address (Rinkeby Ethereum Network)</label>
-        <br><br>
-        <center><h3><pre id='poolkey'></pre></h3></center>
-        <hr>
-        </center>
+
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-12">    
-
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-6">    
-        <div class="m-portlet m-portlet--tab">
-               <div class="m-portlet__head">
         
-                    <br><br>                    
-                    
-                    <div class="row">
-                        <div class="col-md-6">    
-                            
-                            <label class='label4'>ETH BALANCE</label>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3><span class="eth_balance"></span></h3>
-                                    <font size=2>ETH</font><br>
-                                </div>
-                            </div>                            
-                            
-                            
-                        </div>
-                        <div class="col-md-6">    
-                            
-                            <label class='label4'>ETH RECEIVED</label>
-                            <h3><span class="eth_received"></span></h3> <font size=2>ETH</font>
 
-                            
+                    <div class="row">
+                        <div class="col-md-12">    
+                             <center>
+                            <label class="title2" style="padding-top:5px;">Smart Key Contract Address (Rinkeby Ethereum Network)</label>
+                            <br><br>
+                            <center><pre class="inputbox4"><span class="label5" style="" id='poolkey'></span></pre></center>
+                            <hr>
+                            </center>
                         </div>
                     </div>
-                   
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center>
+                            <label class='title1'>Smart Key Status</label>                            
+                            </center>
+                            <br>
+                        </div>
+                    </div>
+                            
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                            <label class='label6'>Balance</label>
+                        </div>
+                        <div class="col-md-6" aligh=left>
+                            <span class="label7 eth_balance"></span>
+                            <font size=2>ETH</font><br>
+                        </div>
+                    </div>                            
+                                                
+                    <div class="row">
+                        <div class="col-md-6" align=right>
+                    
+                            <label class='label6'>Received</label>
+                        </div>
+                        <div class="col-md-6" align=left>
+                            <span class="label7 eth_received"></span>
+                            <font size=2>ETH</font>
+                        </div>
+                    </div>
+
+                    
+                     <div class="row">
+                        <div class="col-md-6" align=right>    
+                            <label class='label6'>Device Integrity Status</label>
+                        </div>
+                        <div class="col-md-6" align=left>
+                            <label class="label7">
+                                <span class='health'></span>
+                            </label>
+                            <br>
+                            <label class="label7">
+                                <button   onclick="JavaScript:showHealthDialog()"  
+                                class="button3 btn btn-primary" 
+                                type="button">
+                                    <span class="buttonText">Update Integrity Status</span>
+                                </button>
+                            </label>
+                            
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-6" align=right>    
+                            <label class='label6'>Key State</label>
+                        </div>
+                        <div class="col-md-6" align=left>
+                            <label class="label7 title3"><span class="state"></span></label> 
+                            <font size=2></font>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <hr>
                         </div>
-                    </div>
-                    
-                     <div class="row">
-                        <div class="col-md-6">    
-                            <label class='label4 status'>Health Status</label>
+                    </div>    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center>
+                            <label class='title1'>Transfer ETH</label>                            
+                            </center>
                             <br>
-                            <label class="title3"><span class='health'></span></label>
+                        </div>
+                    </div>
+                    <div id="eth_transfer">
+                        <div class="row">
+                            <div class="col-md-6" align=right>
+                                <label class="label6">ETH Amount:</label>
+                            </div>
+                            <div class="col-md-6" align=left>                                                
+                                <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" align=right>
+                                <label class="label6">Beneficiary Address:</label>
+                            </div>
+                            <div class="col-md-6" align=left>                                                
+                            
+                                <input id='beneficiary' class="address_val form-control m-input m-input--air m-input--pill" placeholder="Beneficiary Address">
+                                <br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" align=right>
+                            </div>
+                            <div class="col-md-6">
+                                <a href='#eth_transfer' onClick="JavaScript:get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val())" class="button3 form-control btn btn-primary" id='wd_ether'><span class="buttonText">Transfer Ether</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="eth_transfer_loading" style="display:none">
+                        <center><img src="images/wait.gif" width=100></center>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
                             <hr>
                         </div>
-                        <div class="col-md-6">    
-                            <label class='label4'>Key State</label>
+                    </div>    
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center>
+                            <label class='title1'>API Key</label>                          
+                            </center>  
                             <br>
-                            <label class="title3"><span class="state"></span></label> 
-                            <font size=2></font><hr>
                         </div>
                     </div>
                     <div class="row">
-                        
-                        <div class="col-md-6">    
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label class='label4'>Replace API Key</label>
-                                                   
-                                        </div>
-                                    </div>
-                                    <div id="replace_api">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input name="new_username" class="form-control m-input m-input--air m-input--pill"  type="text" id="new_username" placeholder="Email Address" aria-invalid="false" aria-required="false">
-                                                
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input name="new_password" class="form-control m-input m-input--air m-input--pill"  type="password" id="new_password" placeholder="Select Password" aria-invalid="false" aria-required="false">
-                                            </div>               
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <center>
-                                                    <br>    
-                                                    <a href="#auth" onclick="JavaScript:generate_api_key()" class="btn btn-primary" >Regenerate API Key</a>
-                                                    <br>    
-                                                    <br>    
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="replace_api_loading" style="display:none">
-                                    <center><img src="images/wait.gif" width=100></center>
-                                    </div>
+                        <div class="col-md-6" align=right>    
+                                            <label class="label6">ETH Donation per Transaction:</label>
+                        </div>
 
-                        </div>      
-                        
-                        <div class="col-md-6">    
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class='label4'>API Key</label>                            
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12" align=left>
+                        <div class="col-md-6" align=left>
                                     <div id="view_api">
-                                            <br>
-                                            <label class="label4">ETH Donation per Transaction:</label>
                                             <div class="input-group">
-                                                <select id="eth_contrib" class="form-control m-input m-input--air">
+                                                <select id="eth_contrib" style="width:253px;height:45px;border-radius:5px;border: solid 1px #d8d8d8;" class="form-control m-input m-input--air">
                                                     <option value='0.0001'>0.0001 ETH</option>
                                                     <option value='0.001'>0.001 ETH</option>
                                                     <option value='0.01'>0.01 ETH</option>
@@ -262,118 +344,78 @@
                                                     
                                                 </select>
                                                 <div class="input-group-append">
-                                                    <button   onclick="JavaScript:get_api_key()"  class="btn btn-primary" type="button" >View API Key</button>
+                                                    <button   onclick="JavaScript:get_api_key()"  class="form-control button3 btn btn-primary" type="button" ><span class="buttonText">View API Key</span></button>
                                                 </div>
                                             </div>
+                                            <br>
                                     </div>
                                     <div id="view_api_loading" style="display:none">
-                                    <center><img src="images/wait.gif" width=100></center>
+                                        <center><img src="images/wait.gif" width=100></center>
                                     </div>
-                                   
-                                </div>
-                            </div>
-                        </div>     
-
-                    </div>
-                </div>
-              </div>
-             </div>
-             <div class="col-md-6">    
-                    <div class="m-portlet m-portlet--tab">
-                           <div class="m-portlet__head">     
-                               <br><br>
-                               <div class="row>
-                                   <div class="col-md-12">
-                                        <label class="title3">Vault</label>
-                                        <br>
-                                        <label class="label4">
-                                        <pre><span class="vault"></span></pre>
-                                        <font size=2></font>
-                                        </label>
-                                        
-                                       <div id="contrib-stat" style="height: 200px;"></div>
-                                       
-                                    </div>
-                                    
-                                    <div class="col-md-12" id="eth_transfer">
+                                    <div id="new_api_key" style="display:none;">
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                ETH Amount:<br>
-                                                <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
+                                            <div class="col-md-2">
                                             </div>
-                                            <div class="col-md-5">
-                                                Beneficiary Address:<br>
-                                                <input id='beneficiary' class="address_val form-control m-input m-input--air m-input--pill" placeholder="Beneficiary Address">
+                                            <div class="col-md-8">
+                                                      
+                                                     <center>
+                                                     <h3>Authorization API KEY: </h3><pre><span class="auth_key"></span></pre>
+                                                     </center>
+                                                     <br>
                                             </div>
-                                            <div class="col-md-3">
-                                                <br>
-                                                <a href='#eth_transfer' onClick="JavaScript:get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val())" class="btn btn-primary" id='wd_ether'>Transfer Ether</a>
+                                            <div class="col-md-2">
                                             </div>
                                         </div>
-                                        <br>
-                                        
-                                    </div>
-                                    <div id="eth_transfer_loading" style="display:none">
-                                    <center><img src="images/wait.gif" width=100></center>
                                     </div>
 
-                                </div>                              
-    
-                            </div>
+                                   
+                        </div>
                     </div>
-            </div>
-        <div id="new_api_key" style="display:none;">
-            <div class="row">
-                <div class="col-md-2">
-                </div>
-                <div class="col-md-8">
-                          
-                         <center>
-                         <h3>Authorization API KEY: </h3><pre><span class="auth_key"></span></pre>
-                         </center>
-                         <br>
-                </div>
-                <div class="col-md-2">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="health">
-                <center>
-                <label class="title3">Update Device Integrity Status</label>
-                <br>
-                <div class="m-btn-group m-btn-group--pill btn-group m-btn-group m-btn-group--pill btn-group-lg">
-                    <button onClick="JavaScript:setHealth(0)" type="button" class="btn btn-primary">Provisioning</button>
-                    <button onClick="JavaScript:setHealth(1)" type="button" class="btn btn-success">Certified</button>
-                    <button onClick="JavaScript:setHealth(2)" type="button" class="btn btn-info">Modified</button>
-                    <button onClick="JavaScript:setHealth(3)" type="button" class="btn btn-danger">Compromised</button>
-                    <button onClick="JavaScript:setHealth(4)" type="button" class="btn btn-danger">Malfunctioning</button>
-                    <button onClick="JavaScript:setHealth(5)" type="button" class="btn btn-danger">Harmful</button>
-                    <button onClick="JavaScript:setHealth(6)" type="button" class="btn btn-danger">Counterfeit</button>
-                </div>
-                </center>
-                </div>
-                <div id="health_loading" style="display:none">
-                <center><img src="images/wait.gif" width=100></center>
-                </div>
-                <br><br><br>    
-            </div>
-        </div> 
+                    <div class="row">
+                        <div class="col-md-6" align=right>    
+                                    <label class='label6'>Replace API Key</label>                                                   
+                        </div>
+                        <div class="col-md-6" align=left>
+                                    <div id="replace_api">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input name="new_username" class="form-control m-input m-input--air m-input--pill"  type="text" id="new_username" placeholder="Email Address" aria-invalid="false" aria-required="false">                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input name="new_password" class="form-control m-input m-input--air m-input--pill"  type="password" id="new_password" placeholder="Select Password" aria-invalid="false" aria-required="false">
+                                                <br>
+                                            </div>               
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    <a href="#auth" onclick="JavaScript:generate_api_key()" class="form-control button3 btn btn-primary" ><span class="buttonText">Regenerate API Key</span></a>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="replace_api_loading" style="display:none">
+                                        <center><img src="images/wait.gif" width=100></center>
+                                    </div>
+
+                        </div>      
+                    </div>
+                                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                    </div>
+                   
         
-        <div class="row">
-            <div class="col-md-12">
-                <div class="m-portlet m-portlet--tab">
-                           <div class="m-portlet__head">
-                               <br>
-                               <center><label class="title3">Transactions</label></center> 
-                                <hr>
-                               <div id='transactions'>
-                               </div>
-                           </div>
-                </div>
-            </div>
-        </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                                           <center><label class="title3">Transactions</label></center> 
+                                            <hr>
+                                           <div id='transactions'>
+                                           </div>
+                        </div>
+                    </div>
     </div>
 </div>            
 
@@ -400,7 +442,8 @@ function add_auth(xhr) {
 
 var page1_init=false;
 var page2_api_init=false;
-    
+var health_init=false
+
 function showPage1() {
     page1_init=true;
     $('#page1').dialog({
@@ -448,6 +491,8 @@ function hidePage2_api() {
 }
 
 function page2_api(auth, auth_info, key_address) {
+   //$('#page2').show();
+
    myAddress=auth;
    keyAddress=key_address;
    if (key_address.length == 0) {
@@ -469,8 +514,33 @@ function page2_api(auth, auth_info, key_address) {
         api_auth=auth;
         get_smart_key_info(address);
    }
+   //$('#page2').show();
 
 }
+
+function showHealthDialog() {
+    health_init=true;
+    $('#health_dialog').dialog({
+      dialogClass: "no-close",
+      closeText: "hide",
+      modal: true,
+      width: '770px',
+      height: '400',
+    });  
+    
+}
+
+function hideHealthDialog() {
+   if (health_init) {
+       if ($('#health_dialog').dialog( "isOpen" )) {
+        $('#health_dialog').dialog( "close" );
+       }
+   } else {
+        $('#health_dialog').hide();
+   
+   }
+}
+
 
 function fill_api_info(auth, auth_info) {
     $('#view_api').show();
@@ -608,8 +678,9 @@ function get_transfer_user_eth(beneficiary, amount) {
 
 function setHealth(health) {
    var health=parseInt(health)
-   $('#health').hide();
-   $('#health_loading').show();
+   //$('#health').hide();
+   //$('#health_loading').show();
+   hideHealthDialog();
    $.ajax({
             beforeSend: function(xhr){
                 add_auth(xhr);
@@ -679,7 +750,9 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
        $('.progress-bar').val( balance / eth_recv * 100 );
        $('#poolkey').html('<pre>' + address + '</pre>');
        
+       /*
        $('#contrib-stat').html('');
+       
        Morris.Donut({
           element: 'contrib-stat',
           data: [
@@ -688,7 +761,8 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
           ]
         });
         
-         
+        */
+        
         $('#send_ether').on('click', function(e) {
                var eth1=1000000000000000000;
                var amt=parseInt($('#send_amt').val()) * eth1;
