@@ -1,4 +1,14 @@
-<%- include('partials/header') %>
+<% if (!bodyOnly) { %>
+    <%- include('partials/header') %>
+<% } else { %>
+<script>
+var isSmartKey=false;
+var isBrowse=false;
+var isWeb=false;
+var isPool=false;
+</script>
+<% } %>
+
 <script>
 
 var map_json={};
@@ -1077,7 +1087,6 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
 var isBrowse=true;
 
 </script>
-<script src="js/app.js"></script>
 
 <script id="ShowMapTemplate" type="text/x-jquery-tmpl">
             <div class="row" id="location_map">
@@ -1106,5 +1115,10 @@ var isBrowse=true;
             </form>
 
 </script>
-<%- include('partials/footer') %>
 
+<% if (!bodyOnly) { %>
+    <script src="js/app.js"></script>
+    <%- include('partials/footer') %>
+<% } else { %>
+    <script>runState();</script>
+<% } %>

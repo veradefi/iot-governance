@@ -687,102 +687,106 @@ function getCookie(name) {
 
 
 
-if (typeof isSmartKey !== 'undefined') {
-
-    var eth_salt = getCookie('iotcookie');
-    if (eth_salt == null) {
-        setCookie('iotcookie',new Date().toUTCString(),7);
-        eth_salt = getCookie('iotcookie');
+window.runState=function() {
+    if (typeof isSmartKey !== 'undefined' && isSmartKey) {
+    
+        var eth_salt = getCookie('iotcookie');
+        if (eth_salt == null) {
+            setCookie('iotcookie',new Date().toUTCString(),7);
+            eth_salt = getCookie('iotcookie');
+        }
+        
+        
+        var check_key=function(address) {
+            console.log('address' + address);
+            $('.address').html(address);
+            $('.address_val').val(address);
+            page2(address);
+        }
+        init_wallet(eth_salt, check_key);
+        
     }
     
     
-    var check_key=function(address) {
-        console.log('address' + address);
-        $('.address').html(address);
-        $('.address_val').val(address);
-        page2(address);
+    if (typeof isBrowse !== 'undefined' && isBrowse) {
+    
+        var eth_salt = getCookie('iotcookie');
+        if (eth_salt == null) {
+            setCookie('iotcookie',new Date().toUTCString(),7);
+            eth_salt = getCookie('iotcookie');
+        }
+        
+    
+        var check_key=function(address) {
+            var url='https://iotblock.io/cat';
+            var path='/cat';
+            url=url.replace(/\/$/, "");
+            url=url.replace(/icat/, "cat");
+            url="https://iotblock.io" + path
+            path=path.replace(/\/$/, "");
+            path=path.replace(/icat/, "cat");
+            
+            console.log(url); 
+            console.log(path)
+            
+            console.log('address' + address);
+            $('.address').html(address);
+            $('.address_val').val(address);
+            
+            get_keyAuth(address, fill_api_info) 
+        }
+        init_wallet(eth_salt, check_key);
+    
     }
-    init_wallet(eth_salt, check_key);
+    
+    if (typeof isWeb !== 'undefined' && isWeb) {
+    
+        var eth_salt = getCookie('iotcookie');
+        if (eth_salt == null) {
+            setCookie('iotcookie',new Date().toUTCString(),7);
+            eth_salt = getCookie('iotcookie');
+        }
+        
+        var callback=function(address) {
+            
+            var url=window.location;
+            var path=window.location.pathname;
+            url=url.replace(/\/$/, "");
+            url=url.replace(/icat/, "cat");
+            path=path.replace(/\/$/, "");
+            path=path.replace(/icat/, "cat");
+            
+            console.log(url); 
+            console.log(path)
+            
+            get_graph( url, path).then(function(pas212Root) {
+                var hyperJson=JSON.stringify(pas212Root, null, 4);
+                document.documentElement.innerHTML = "<pre><code>" + hyperJson + "</code></pre>";
+            });                        
+        }
+        
+        init_wallet(eth_salt, callback);
+        
+    }
+    
+    if (typeof isPool !== 'undefined' && isPool) {
+    
+        var eth_salt = getCookie('iotcookie');
+        if (eth_salt == null) {
+            setCookie('iotcookie',new Date().toUTCString(),7);
+            eth_salt = getCookie('iotcookie');
+        }
+        
+        var callback=function(address) {
+            console.log('address' + address);
+            $('.address').html(address);
+            $('.address_val').val(address);
+            
+        }
+        
+        init_wallet(eth_salt, callback);
+    }
     
 }
 
-
-if (typeof isBrowse !== 'undefined') {
-
-    var eth_salt = getCookie('iotcookie');
-    if (eth_salt == null) {
-        setCookie('iotcookie',new Date().toUTCString(),7);
-        eth_salt = getCookie('iotcookie');
-    }
-    
-
-    var check_key=function(address) {
-        var url='https://iotblock.io/cat';
-        var path='/cat';
-        url=url.replace(/\/$/, "");
-        url=url.replace(/icat/, "cat");
-        url="https://iotblock.io" + path
-        path=path.replace(/\/$/, "");
-        path=path.replace(/icat/, "cat");
-        
-        console.log(url); 
-        console.log(path)
-        
-        console.log('address' + address);
-        $('.address').html(address);
-        $('.address_val').val(address);
-        
-        get_keyAuth(address, fill_api_info) 
-    }
-    init_wallet(eth_salt, check_key);
-
-}
-
-if (typeof isWeb !== 'undefined') {
-
-    var eth_salt = getCookie('iotcookie');
-    if (eth_salt == null) {
-        setCookie('iotcookie',new Date().toUTCString(),7);
-        eth_salt = getCookie('iotcookie');
-    }
-    
-    var callback=function(address) {
-        
-        var url=window.location;
-        var path=window.location.pathname;
-        url=url.replace(/\/$/, "");
-        url=url.replace(/icat/, "cat");
-        path=path.replace(/\/$/, "");
-        path=path.replace(/icat/, "cat");
-        
-        console.log(url); 
-        console.log(path)
-        
-        get_graph( url, path).then(function(pas212Root) {
-            var hyperJson=JSON.stringify(pas212Root, null, 4);
-            document.documentElement.innerHTML = "<pre><code>" + hyperJson + "</code></pre>";
-        });                        
-    }
-    
-    init_wallet(eth_salt, callback);
-    
-}
-
-if (typeof isPool !== 'undefined') {
-
-    var eth_salt = getCookie('iotcookie');
-    if (eth_salt == null) {
-        setCookie('iotcookie',new Date().toUTCString(),7);
-        eth_salt = getCookie('iotcookie');
-    }
-    
-    var callback=function(address) {
-        console.log('address' + address);
-        $('.address').html(address);
-        $('.address_val').val(address);
-        
-    }
-    
-    init_wallet(eth_salt, callback);
-}
-
+runState();
