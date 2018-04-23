@@ -74,7 +74,10 @@ function get_nav() {
 app.get('/', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav, config:config })
+  res.render('key', 
+  { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 
@@ -85,79 +88,105 @@ app.get('/icatOS', (req, res) => {
 app.get('/index.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav, config:config })
+  res.render('key', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/pool', (req, res) => {
   var render_nav=get_nav();
   render_nav[0]['selected']=true;
-  res.render('pool', { nav:render_nav, config:config })
+  res.render('pool', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/pool.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[0]['selected']=true;
-  res.render('pool', { nav:render_nav, config:config })
+  res.render('pool', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/key', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav, config:config })
+  res.render('key', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/key.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[1]['selected']=true;
-  res.render('key', { nav:render_nav, config:config })
+  res.render('key', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/browser', (req, res) => {
   var render_nav=get_nav();
   render_nav[2]['selected']=true;
-  res.render('browser', { nav:render_nav, config:config })
+  res.render('browser', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/browser.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[2]['selected']=true;
-  res.render('browser', { nav:render_nav, config:config })
+  res.render('browser', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/explorer', (req, res) => {
   var render_nav=get_nav();
   render_nav[3]['selected']=true;
-  res.render('explorer', { nav:render_nav, config:config })
+  res.render('explorer', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/explorer.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[3]['selected']=true;
-  res.render('explorer', { nav:render_nav, config:config })
+  res.render('explorer', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/crawler', (req, res) => {
   var render_nav=get_nav();
   render_nav[4]['selected']=true;
-  res.render('crawler', { nav:render_nav, config:config })
+  res.render('crawler', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/crawler.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[4]['selected']=true;
-  res.render('crawler', { nav:render_nav, config:config })
+  res.render('crawler', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/map', (req, res) => {
   var render_nav=get_nav();
   render_nav[5]['selected']=true;
-  res.render('map', { nav:render_nav, config:config })
+  res.render('map', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.get('/map.html', (req, res) => {
   var render_nav=get_nav();
   render_nav[5]['selected']=true;
-  res.render('map', { nav:render_nav, config:config })
+  res.render('map', { nav:render_nav, 
+  config:config,
+  bodyOnly: req.query.bodyOnly  })
 })
 
 app.configure(function () {
