@@ -376,7 +376,7 @@ var isPool=false;
                                 <div class="col-md-12">
                                     <div class="input-group">
                                         <input id='send_amt' class="form-control m-input m-input--air m-input--pill" value=1>
-                                        <a href='#' class="btn btn-primary" id='send_ether'>Send Ether</a>
+                                        <a href='#' class="btn btn-primary" style="height:40px;" id='send_ether'>Send Ether</a>
                                     </div>
                                 </div>
                             </div>
@@ -501,7 +501,7 @@ $( document ).ready(function() {
         if (tx_type > 0) {
             tx='Outgoing';
         }
-        var html ="<div class=row><div class=col-md-2>";
+        var html ="<div class='row label8'><div class=col-md-2>";
         html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-6>";
         html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
         html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
