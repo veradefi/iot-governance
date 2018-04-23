@@ -784,9 +784,9 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
         if (tx_type > 0) {
             tx='Outgoing';
         }
-        var html ="<div class='row label6'><div class=col-md-2>";
+        var html ="<div class='row label6'><div class=col-md-3>";
         html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-6>";
-        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
+        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-1>";
         html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
         html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
         html +="</div><hr><br>";
