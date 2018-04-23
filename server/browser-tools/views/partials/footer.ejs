@@ -3,5 +3,45 @@
         </div>                
     </div>
 </div>
+
+<script>
+
+function get_link(link, item) {
+
+    $('.nav_menu').css("background-color", "#ffffff");
+    $('.nav_menu').css("box-shadow","inset 0 0 0px 0 rgba(63, 63, 63, 0.5)")
+    $('.nav_menu').removeClass('btn-primary')
+    $('.nav_menu').addClass("btn-secondary");
+    $('.nav_menu_item').removeClass('primary-item')
+    $('.nav_menu_item').addClass("nav-title");
+    $(item).removeClass("btn-secondary");
+    $(item).addClass("btn-primary");
+    $(item).css("background-color","#4a90e2");
+    $(item).css("box-shadow","inset 0 0 6px 0 rgba(103, 103, 103, 0.5)")
+    $(item).find('.nav_menu_item').removeClass("nav-title");
+    $(item).find('.nav_menu_item').addClass("primary-item");
+      
+    $.ajax({
+            beforeSend: function(xhr){
+                add_auth(xhr);
+        
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: link + '?bodyOnly=1',
+            //data: JSON.stringify(user_item),
+            //contentType: "application/json; charset=utf-8",
+            //dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                $('#nav_body').html(body);
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
+
+</script>
 </body>
 </html>
