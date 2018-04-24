@@ -622,7 +622,7 @@ function get_smart_key_info(address) {
 }
 
 
-function get_smartkey_transactions(address) {
+function get_smartkey_transactions(address, offset, limit) {
    $.ajax({
                     
             beforeSend: function(xhr){
@@ -632,7 +632,7 @@ function get_smartkey_transactions(address) {
             
             },
             type: 'GET',
-            url: '/cat/getSmartKeyTx?address=' + encodeURI(address),
+            url: '/cat/getSmartKeyTx?address=' + encodeURI(address) + '&offset=' + encodeURI(offset) + '&limit=' + encodeURI(limit),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -663,9 +663,6 @@ function get_transfer_user_eth(beneficiary, amount) {
    $.ajax({
             beforeSend: function(xhr){
                 add_auth(xhr);
-        
-                //setHeaders(xhr);
-            
             },
             type: 'GET',
             url: '/cat/transferUserEth?address=' + encodeURI(myAddress) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
@@ -680,7 +677,7 @@ function get_transfer_user_eth(beneficiary, amount) {
             error: function(xhr, textStatus, err) {
                $('#eth_transfer').show();
                $('#eth_transfer_loading').hide();
-                log(xhr.status + ' ' + xhr.statusText);
+               log(xhr.status + ' ' + xhr.statusText);
             }
         });
 }
@@ -688,15 +685,10 @@ function get_transfer_user_eth(beneficiary, amount) {
 
 function setHealth(health) {
    var health=parseInt(health)
-   //$('#health').hide();
-   //$('#health_loading').show();
    hideHealthDialog();
    $.ajax({
             beforeSend: function(xhr){
                 add_auth(xhr);
-        
-                //setHeaders(xhr);
-            
             },
             type: 'GET',
             url: '/cat/setUserHealth?address=' + encodeURI(myAddress) + '&health=' + encodeURI(health),
@@ -725,7 +717,7 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
    hidePage2_api();
 
     if (address == '0' || address == '0x0000000000000000000000000000000000000000') {
-       showPage1() ;
+        showPage1() ;
         $('#loading').hide();
         $('#page2').hide();
         return;
@@ -780,7 +772,7 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
        });       
    }
    $('#transactions').html('');
-   get_smartkey_transactions(userAddress);
+   get_smartkey_transactions(userAddress,0,10);
 
    
 }  
