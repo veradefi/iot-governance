@@ -116,8 +116,9 @@ def getSmartKeyTx(address, offset=0, limit=10):
         if txCount > 0:
             hasHistory=True
             idx=txCount - 1
+            idx -= offset;
             count=0
-            while hasHistory and idx >= offset and count < limit:
+            while hasHistory and count < limit and idx >= 0:
                 transactions=key.call({'from':address}).transactions(key.address,idx)
                 account=transactions[0]
                 date=transactions[1]
@@ -132,7 +133,7 @@ def getSmartKeyTx(address, offset=0, limit=10):
         
     cat = { 
             "transactions":tx,
-            "transaction_count":txCount,
+            "count":txCount,
             "offset":offset
             }
 
@@ -289,7 +290,9 @@ def getNodeKeyTx(href, offset=0, limit=10):
         if txCount > 0:
             hasHistory=True
             idx=txCount - 1
-            while hasHistory and idx >= offset and count < limit:
+            idx -= offset;
+            count=0
+            while hasHistory and count < limit and idx >= 0:
                 transactions=key.call({'from':address}).transactions(key.address,idx)
                 account=transactions[0]
                 date=transactions[1]
@@ -304,7 +307,7 @@ def getNodeKeyTx(href, offset=0, limit=10):
         
     cat = { 
             "transactions":tx,
-            "transaction_count":txCount,
+            "count":txCount,
             "offset":offset
             }
     
