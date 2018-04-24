@@ -87,13 +87,10 @@ contract SmartKey is MintableToken
         require(beneficiary != 0x0);
         require(validPurchase());
         
-        uint256 weiAmount = msg.value;
-
         // calculate token amount to be created
-        uint256 tokens = convertToToken(weiAmount);
-        
-        if (weiAmount > 0) 
-        {
+        uint256 tokens = convertToToken(msg.value);
+
+        if (msg.value > 10000000000000) {
             Key key;
             if (smartKeys[beneficiary] == address(0)) 
             {
