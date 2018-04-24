@@ -621,13 +621,11 @@ function get_smart_key_info(address) {
         });
 }
 
-
-function get_smartkey_transactions(address, offset, limit) {
+function get_smartkey_transactions(href, offset, limit) {
+   $('.loadmore').hide();
    $.ajax({
-                    
             beforeSend: function(xhr){
                 add_auth(xhr);
-        
                 //setHeaders(xhr);
             
             },
@@ -637,9 +635,10 @@ function get_smartkey_transactions(address, offset, limit) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
-                $('#transactions').html('');
+                if (parseInt(offset) == 0) {
+                    $('#transactions').html('');
+                }
                 var transactions=body["transactions"];
-
                 for (var i=0; i < transactions.length; i++) {
                     var account=transactions[i]["account"];
                     var date=transactions[i]["date"];
@@ -647,12 +646,47 @@ function get_smartkey_transactions(address, offset, limit) {
                     var tx_type=transactions[i]["tx_type"];
                     fill_page2_transactions(account, date, amount, tx_type)
                 }
+                var count=parseInt(body["count"]);
+                fill_page2_transactions_load_more(href, offset, limit, count);
+                
             },
             error: function(xhr, textStatus, err) {
                 log(xhr.status + ' ' + xhr.statusText);
             }
         });
 }
+
+function fill_page2_transactions(sender, date, amount, tx_type) {
+        console.log(sender, date, amount);
+        var dateTime = new Date(parseInt(date) * 1000);
+        date=dateTime.toISOString(); 
+        var eth1=1000000000000000000;
+        var tx='Incoming';
+        if (tx_type > 0) {
+            tx='Outgoing';
+        }
+        var html ="<div class='row label8'><div class=col-md-3>";
+        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-5>";
+        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
+        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
+        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
+        html +="<hr></div><br>";
+        
+        $('#transactions').append(html);
+}
+    
+function fill_page2_transactions_load_more(href, offset, limit, count) {
+        offset=parseInt(offset)
+        offset+=limit;
+        if (offset < count) {
+            var html ="<div class='row label8 loadmore'><div class=col-md-12><center>";
+            html +='<button class="button3 form-control btn btn-primary" onClick="JavaScript:get_smartkey_transactions(\'' + href + '\', ' + offset + ', ' + limit + ');">Load More</button>'
+            html +="</center><br><br></div>";
+            
+            $('#transactions').append(html);
+        }
+
+}    
 
 
 function get_transfer_user_eth(beneficiary, amount) {
@@ -776,26 +810,6 @@ function fill_page2(userAddress, address, balance, eth_recv, vault, state, healt
 
    
 }  
-
-function fill_page2_transactions(sender, date, amount, tx_type) {
-        console.log(sender, date, amount);
-        var dateTime = new Date(parseInt(date) * 1000);
-        date=dateTime.toISOString(); 
-        var eth1=1000000000000000000;
-        var tx='Incoming';
-        if (tx_type > 0) {
-            tx='Outgoing';
-        }
-        var html ="<div class='row label8'><div class=col-md-3>";
-        html +='<b>Date:</b><br> ' + date + "</div><div class=col-md-5>";
-        html +='<b>Address:</b><br> ' + sender + "</div><div class=col-md-2>";
-        html +='<b>Type:</b><br> ' + tx + "</div><div class=col-md-2>";
-        html +='<b>Amount:</b><br> ' + amount/eth1 + " ETH </div>";
-        html +="</div><hr><br>";
-        
-        $('#transactions').append(html);
-}
-    
 
 
 function page2(address) {
