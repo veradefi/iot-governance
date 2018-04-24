@@ -641,11 +641,11 @@ function get_smartkey_transactions(address) {
                 var transactions=body["transactions"];
 
                 for (var i=0; i < transactions.length; i++) {
-                    var sender=transactions[i]["sender"];
+                    var account=transactions[i]["account"];
                     var date=transactions[i]["date"];
                     var amount=transactions[i]["amount"];
                     var tx_type=transactions[i]["tx_type"];
-                    fill_page2_transactions(sender, date, amount, tx_type)
+                    fill_page2_transactions(account, date, amount, tx_type)
                 }
             },
             error: function(xhr, textStatus, err) {

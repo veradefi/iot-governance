@@ -595,12 +595,12 @@ window.get_pool_transactions = function(poolkey, callback)
         return PoolKey.at(poolkey).then(function(contractInstance) {
             window.get_one_transaction=function(contractInstance, idx) {
                 contractInstance.transactions.call(window.address, idx).then(function(v) {
-                    var sender=v[0];
+                    var account=v[0];
                     var date=v[1];
                     var amount=v[2];
                     var tx_type=v[3];
-                    if (sender.toString() != '0x' && sender.toString() != '0x0' && date != 0) {
-                        callback(sender, date.toString(), amount.toString(), parseInt(tx_type.toString()));                        
+                    if (account.toString() != '0x' && account.toString() != '0x0' && date != 0) {
+                        callback(account, date.toString(), amount.toString(), parseInt(tx_type.toString()));                        
                         get_one_transaction(contractInstance, idx+1);
                     } else {
                         return;
