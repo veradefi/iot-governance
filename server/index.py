@@ -27,8 +27,8 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-network='4'
-port='8666'
+network='5'
+port='8545'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
 address2=web3.eth.coinbase
@@ -577,7 +577,7 @@ app = Flask(__name__)
 }
 '''
 
-def doAuth():
+def doAuth(readOnly=False):
     auth=None
     
     try:
@@ -597,13 +597,18 @@ def doAuth():
             print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
             status, key=authKey(auth['auth'], auth['api_key'])
             if status:
-                balance=web3.eth.getBalance(key.address)
-                if balance > int(auth['eth_contrib']):
-                    to=address
-                    sender=auth['auth']
-                    userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
-        
-                    return True, auth
+                if not readOnly:
+                    balance=web3.eth.getBalance(key.address)
+                    if balance > int(auth['eth_contrib']):
+                        to=address
+                        sender=auth['auth']
+                        userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
+            
+                        return True, auth
+                else:
+                        auth['eth_contrib']=0
+                        return True, auth
+                    
     except Exception as e:
         print (e)
         
@@ -759,7 +764,7 @@ def save_nodeItemMetaData():
 @app.route('/cat/getNodeSmartKey')
 def getNodeSmartKey():
     href = request.args.get('href')
-    status, auth=doAuth()
+    status, auth=doAuth(True)
 
     data = getNodeKey(href, auth)
     response = app.response_class(
@@ -794,7 +799,7 @@ def getNodeSmartKeyTx():
 @app.route('/cat/getSmartKey')
 def getUserSmartKey():
     address = request.args.get('address')
-    status, auth=doAuth()
+    status, auth=doAuth(True)
     data = getSmartKey(address, auth)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
