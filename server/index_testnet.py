@@ -102,32 +102,39 @@ def getSmartKey(address, auth=None):
     return cat
 
 
-def getSmartKeyTx(address):
+def getSmartKeyTx(address, offset=0):
     keyAddress=gc.call({ 'from': address }).getSmartKey(address)
     key=getContract('Key',network, keyAddress, prefix="pki_")
 
     tx=[]
     try:
-        hasHistory=True
-        idx=0
-        while hasHistory:
-            transactions=key.call({'from':address}).transactions(key.address,idx)
-            sender=transactions[0]
-            date=transactions[1]
-            amount=transactions[2]
-            tx_type=transactions[3]
-            if sender != '0x0' and sender != re.search('0x0000000000000000000000000000000000000000',sender):
-                tx.append({'sender':sender,'date':date,'amount':amount, 'tx_type':tx_type})
-                idx+=1
+        txCount=key.call({'from':address}).getTransactionCount(key.address)
+        if offset:
+            offset=int(offset)
+        else:
+            offset=0
+        if txCount > 0:
+            hasHistory=True
+            idx=txCount - 1
+            while hasHistory and idx >= offset:
+                transactions=key.call({'from':address}).transactions(key.address,idx)
+                account=transactions[0]
+                date=transactions[1]
+                amount=transactions[2]
+                tx_type=transactions[3]
+                if account != '0x0' and account != re.search('0x0000000000000000000000000000000000000000',account):
+                    tx.append({'account':account,'date':date,'amount':amount, 'tx_type':tx_type})
+                    idx-=1
     except Exception as e:
         print (e)
         
     cat = { 
-            "transactions":tx
-               
+            "transactions":tx,
+            "transaction_count":txCount,
+            "offset":offset
             }
 
-    print(cat)
+    #print(cat)
     
     return cat
 
@@ -202,7 +209,8 @@ def setUserHealth(health, userAddress, key=None,auth=None):
     
     key=getContract('Key',network, keyAddress, prefix="pki_")
     try:
-        print('setHealth',key.transact({ 'from': address }).setHealth(health))
+        if auth and auth['eth_contrib']:
+            print('setHealth',key.transact({ 'from': address, 'value':int(auth['eth_contrib']) }).setHealth(health))
     except Exception as e:
         print (e)
         
@@ -256,7 +264,7 @@ def getNodeKey(href, auth=None):
     
     return cat
 
-def getNodeKeyTx(href):
+def getNodeKeyTx(href, offset=0):
     try:
         href=re.sub('\/$','',href)
         if re.search('/cat$',href):
@@ -270,23 +278,30 @@ def getNodeKeyTx(href):
 
     tx=[]
     try:
-        hasHistory=True
-        idx=0
-        while hasHistory:
-            transactions=key.call({'from':address}).transactions(key.address,idx)
-            sender=transactions[0]
-            date=transactions[1]
-            amount=transactions[2]
-            tx_type=transactions[3]
-            if sender != '0x0' and not re.search('0x0000000000000000000000000000000000000000',sender):
-                tx.append({'sender':sender,'date':date,'amount':amount, 'tx_type':tx_type})
-                idx+=1
+        txCount=key.call({'from':address}).getTransactionCount(key.address)
+        if offset:
+            offset=int(offset)
+        else:
+            offset=0
+        if txCount > 0:
+            hasHistory=True
+            idx=txCount - 1
+            while hasHistory and idx >= offset:
+                transactions=key.call({'from':address}).transactions(key.address,idx)
+                account=transactions[0]
+                date=transactions[1]
+                amount=transactions[2]
+                tx_type=transactions[3]
+                if account != '0x0' and account != re.search('0x0000000000000000000000000000000000000000',account):
+                    tx.append({'account':account,'date':date,'amount':amount, 'tx_type':tx_type})
+                    idx-=1
     except Exception as e:
         print (e)
         
     cat = { 
-            "transactions":tx
-               
+            "transactions":tx,
+            "transaction_count":txCount,
+            "offset":offset
             }
     
     return cat
@@ -577,17 +592,18 @@ def doAuth():
         auth['auth']=auth['auth'].lower();
         auth['api_key']=auth['api_key'].lower();
         
-        print (auth)
-        print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
-        status, key=authKey(auth['auth'], auth['api_key'])
-        if status:
-            balance=web3.eth.getBalance(key.address)
-            if balance > int(auth['eth_contrib']):
-                to=address
-                sender=auth['auth']
-                userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
-    
-                return True, auth
+        if auth['eth_contrib'] > 0:
+            print (auth)
+            print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
+            status, key=authKey(auth['auth'], auth['api_key'])
+            if status:
+                balance=web3.eth.getBalance(key.address)
+                if balance > int(auth['eth_contrib']):
+                    to=address
+                    sender=auth['auth']
+                    userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
+        
+                    return True, auth
     except Exception as e:
         print (e)
         
@@ -757,7 +773,16 @@ def getNodeSmartKey():
 @app.route('/cat/getNodeSmartKeyTx')
 def getNodeSmartKeyTx():
     href = request.args.get('href')
-    data = getNodeKeyTx(href)
+    offset = request.args.get('offset')
+    data={}
+    try:
+        if offset:
+            offset=int(offset)
+        else:
+            offset=0
+        data = getNodeKeyTx(href, offset)
+    except Exception as e:
+        print (e)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -782,7 +807,16 @@ def getUserSmartKey():
 @app.route('/cat/getSmartKeyTx')
 def getUserSmartKeyTx():
     address = request.args.get('address')
-    data = getSmartKeyTx(address)
+    offset = request.args.get('offset')
+    data={}
+    try:
+        if offset:
+            offset=int(offset)
+        else:
+            offset=0
+        data = getSmartKeyTx(address, offset)
+    except Exception as e:
+        print (e)
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,

@@ -23,7 +23,7 @@ contract Key is Ownable {
 
    struct transaction {
         
-        address from;
+        address account;
         uint256 date;
         uint256 amount;
         
@@ -43,6 +43,13 @@ contract Key is Ownable {
         KeyStateUpdate(msg.sender, vault, state);
    }
 
+   function getTransactionCount(address _address) 
+   view
+   public
+   returns (uint256)
+   {
+       return transactions[_address].length;
+   }
 
    function transferEth(uint amount, address beneficiary) 
    public
@@ -52,22 +59,25 @@ contract Key is Ownable {
         beneficiary.transfer(amount);
         transactions[address(this)].push(transaction(beneficiary,now,amount, 1));
    }
+   
    function setHealth(Health _health) 
    public
    payable
    {
-
-        health = _health;
-        HealthUpdate(_health);
-        
-        activated[msg.sender] = activated[msg.sender].add(msg.value);     
-        
-        contrib_amount=contrib_amount.add(msg.value);    
-        transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
-        
-        //if (vault != address(this) && vault != address(msg.sender)) {
-        //    vault.transfer(msg.value);
-        //}
+   
+        if (msg.value > 10000000000000) {
+            health = _health;
+            HealthUpdate(_health);
+            
+            activated[msg.sender] = activated[msg.sender].add(msg.value);     
+            
+            contrib_amount=contrib_amount.add(msg.value);    
+            transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
+            
+            //if (vault != address(this) && vault != address(msg.sender)) {
+            //    vault.transfer(msg.value);
+            //}
+        }
    
    }
    
@@ -85,18 +95,14 @@ contract Key is Ownable {
    payable
    {
 
-        // payable 
-   
-        state = State.Active;
-        KeyStateUpdate(msg.sender, vault, state);
-        activated[user] = activated[user].add(msg.value);     
-        
-        contrib_amount=contrib_amount.add(msg.value);    
-        transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
-        //if (vault != address(this)) {
-        //    vault.transfer(msg.value);
-        //}
-
+        if (msg.value > 10000000000000) {
+            state = State.Active;
+            KeyStateUpdate(msg.sender, vault, state);
+            activated[user] = activated[user].add(msg.value);     
+            
+            contrib_amount=contrib_amount.add(msg.value);    
+            transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
+        }
    }
 
     
@@ -162,77 +168,5 @@ contract Key is Ownable {
    {
         activateKey(msg.sender);
    }
-    
-   /*
-   struct Attr {
-        address user;
-        string attrType;
-        bool has_proof;
-        bytes32 id;
-        string data;
-        string datahash;
-   }
-
-   struct Sign {
-        address signer;
-        uint attrID;
-        uint expiry;
-   }
-
-   struct Rev {
-        uint signID;
-   }
-
-   Attr[] public attrs;
-   Sign[] public signs;
-   Rev[] public revs;
-
-   event AttrAdded(uint indexed attrID, address indexed user, string attrType, bool has_proof, bytes32 indexed id, string data, string datahash);
-   event AttrSigned(uint indexed signID, address indexed signer, uint indexed attrID, uint expiry);
-   event SignRev(uint indexed revID, uint indexed signID);
-
-   
-   function addAttr(string attrType, bool has_proof, bytes32 id, string data, string datahash) 
-   public
-   returns (uint attrID) 
-   {
-        attrID = attrs.length++;
-        Attr storage attr = attrs[attrID];
-        attr.user = msg.sender;
-        attr.attrType = attrType;
-        attr.has_proof = has_proof;
-        attr.id = id;
-        attr.data = data;
-        attr.datahash = datahash;
-        AttrAdded(attrID, msg.sender, attrType, has_proof, id, data, datahash);
-   }
-
-   function signAttr(uint attrID, uint expiry)
-   public
-   returns (uint signID) 
-   {
-        signID = signs.length++;
-        Sign storage sign = signs[signID];
-        sign.signer = msg.sender;
-        sign.attrID = attrID;
-        sign.expiry = expiry;
-        AttrSigned(signID, msg.sender, attrID, expiry);
-   }
-
-   function revSign(uint signID) 
-   public
-   returns (uint revID) 
-   {
-        if (signs[signID].signer == msg.sender) {
-            revID = revs.length++;
-            Rev storage rev = revs[revID];
-            rev.signID = signID;
-            SignRev(revID, signID);
-        }
-   }
-   
-   
-   */
-
    
 }
