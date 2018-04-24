@@ -251,7 +251,7 @@ function get_smart_key_info(href) {
 }
 
 
-function get_smartkey_transactions(href) {
+function get_smartkey_transactions(href, offset, limit) {
    $.ajax({
             beforeSend: function(xhr){
                 add_auth(xhr);
@@ -259,7 +259,7 @@ function get_smartkey_transactions(href) {
             
             },
             type: 'GET',
-            url: '/cat/getNodeSmartKeyTx?href=' + encodeURIComponent(href),
+            url: '/cat/getNodeSmartKeyTx?href=' + encodeURIComponent(href) + '&offset=' + encodeURIComponent(offset) + '&limit=' + encodeURIComponent(limit),
             //data: JSON.stringify(user_item),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
@@ -777,7 +777,7 @@ function fill_page2(href, address, balance, eth_recv, vault, state, health, isOw
                send_ether(address, amt);
        });       
    }
-   get_smartkey_transactions(href);
+   get_smartkey_transactions(href, 0, 10);
 
    
 }  

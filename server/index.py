@@ -102,7 +102,7 @@ def getSmartKey(address, auth=None):
     return cat
 
 
-def getSmartKeyTx(address, offset=0):
+def getSmartKeyTx(address, offset=0, limit=10):
     keyAddress=gc.call({ 'from': address }).getSmartKey(address)
     key=getContract('Key',network, keyAddress, prefix="pki_")
 
@@ -116,7 +116,8 @@ def getSmartKeyTx(address, offset=0):
         if txCount > 0:
             hasHistory=True
             idx=txCount - 1
-            while hasHistory and idx >= offset:
+            count=0
+            while hasHistory and idx >= offset and count < limit:
                 transactions=key.call({'from':address}).transactions(key.address,idx)
                 account=transactions[0]
                 date=transactions[1]
@@ -125,6 +126,7 @@ def getSmartKeyTx(address, offset=0):
                 if account != '0x0' and account != re.search('0x0000000000000000000000000000000000000000',account):
                     tx.append({'account':account,'date':date,'amount':amount, 'tx_type':tx_type})
                     idx-=1
+                    count+=1
     except Exception as e:
         print (e)
         
@@ -264,7 +266,7 @@ def getNodeKey(href, auth=None):
     
     return cat
 
-def getNodeKeyTx(href, offset=0):
+def getNodeKeyTx(href, offset=0, limit=10):
     try:
         href=re.sub('\/$','',href)
         if re.search('/cat$',href):
@@ -283,10 +285,11 @@ def getNodeKeyTx(href, offset=0):
             offset=int(offset)
         else:
             offset=0
+        count=0
         if txCount > 0:
             hasHistory=True
             idx=txCount - 1
-            while hasHistory and idx >= offset:
+            while hasHistory and idx >= offset and count < limit:
                 transactions=key.call({'from':address}).transactions(key.address,idx)
                 account=transactions[0]
                 date=transactions[1]
@@ -295,6 +298,7 @@ def getNodeKeyTx(href, offset=0):
                 if account != '0x0' and account != re.search('0x0000000000000000000000000000000000000000',account):
                     tx.append({'account':account,'date':date,'amount':amount, 'tx_type':tx_type})
                     idx-=1
+                    count += 1
     except Exception as e:
         print (e)
         
@@ -779,13 +783,18 @@ def getNodeSmartKey():
 def getNodeSmartKeyTx():
     href = request.args.get('href')
     offset = request.args.get('offset')
+    limit = request.args.get('limit')
     data={}
     try:
         if offset:
             offset=int(offset)
         else:
             offset=0
-        data = getNodeKeyTx(href, offset)
+        if limit:
+            limit=int(limit)
+        else:
+            limit=10
+        data = getNodeKeyTx(href, offset, limit)
     except Exception as e:
         print (e)
     response = app.response_class(
@@ -813,13 +822,18 @@ def getUserSmartKey():
 def getUserSmartKeyTx():
     address = request.args.get('address')
     offset = request.args.get('offset')
+    limit = request.args.get('limit')
     data={}
     try:
         if offset:
             offset=int(offset)
         else:
             offset=0
-        data = getSmartKeyTx(address, offset)
+        if limit:
+            limit=int(limit)
+        else:
+            limit=10
+        data = getSmartKeyTx(address, offset, limit)
     except Exception as e:
         print (e)
     response = app.response_class(
