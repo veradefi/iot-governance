@@ -78,7 +78,7 @@ function add_auth(xhr) {
 function save_item(id) {
         var parent_address = $('#browse_url').val();
         var url = $('#new_url').val();
-        var html='<img src="images/wait.gif">';
+        var html='<img src="images/wait.gif"  width=100>';
         $('#' + id).html(html);
    
         
@@ -908,7 +908,7 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
         </p>    
         </form>
         <form id="loading" style="display:none;">
-        <img src="images/wait.gif">
+        <img src="images/wait.gif"  width=100>
         </form>
 
             
@@ -917,7 +917,7 @@ function fill_page2_transactions(sender, date, amount, tx_type) {
 </div>
 </form>
 <form id="loading" >
-<img src="images/wait.gif">
+<img src="images/wait.gif" width=100>
 </form>
 <form id="page2" style="display:none;">
 <div class="row">
@@ -1111,7 +1111,7 @@ var isBrowse=true;
                 </div>
             </div>
             <form id="location_save_loading" style="display:none;">
-            <img src="images/wait.gif">
+            <img src="images/wait.gif"  width=100>
             </form>
 
 </script>
