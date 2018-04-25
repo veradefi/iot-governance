@@ -1,7 +1,10 @@
 .. _smartcontract-label:
 
-Smart Contract
+Smart Contracts
 ******
+
+The Universal IoT Blockchain Database Smart Contracts
+=============
 
 The primary entities storing IotBlock Data in Blockchain are individual Smart Contracts deployed on Ethereum network stored decentrally, collectively called The Universal IoT Blockchain Database.
 

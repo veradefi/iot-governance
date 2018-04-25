@@ -1,6 +1,6 @@
 .. _hypercat-label:
 
-Hypercat
+Hypercat (PAS212:2016)
 ********
 
 IotBlock's Universal IoT Blockchain Database API uses Hypercat (PAS212:2016) endpoint.
