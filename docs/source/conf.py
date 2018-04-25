@@ -17,11 +17,12 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+from sphinx.util.docutils import new_document
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-import sys
-sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath('../sphinxext'))
+#import sys
+#sys.path.insert(0, os.path.abspath('.'))
+#sys.path.insert(0, os.path.abspath('../sphinxext'))
 
 def setup(app):
     app.add_stylesheet('css/theme.css')
