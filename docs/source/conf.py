@@ -96,6 +96,8 @@ todo_include_todos = False
 #    "relbarbgcolor": "black"
 #}
 html_theme = 'default'
+
+'''
 try:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
@@ -117,7 +119,7 @@ try:
     }
 except ImportError:
     pass
-
+'''
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
