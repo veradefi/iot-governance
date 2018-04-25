@@ -19,8 +19,9 @@
 #
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-#import sys
-#sys.path.insert(0, os.path.abspath('.'))
+import sys
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../sphinxext'))
 
 def setup(app):
     app.add_stylesheet('css/theme.css')
