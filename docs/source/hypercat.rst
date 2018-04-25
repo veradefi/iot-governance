@@ -3,9 +3,9 @@
 Hypercat
 ********
 
-IotBlock now also exposes information about indexed Things via a Hypercat endpoint.
-This endpoint offers similar functionality as the ``/cat`` search endpoint, but
-results are returned in Hypercat format.
+IotBlock's Universal IoT Blockchain Database API uses Hypercat (PAS212:2016) endpoint.
+This endpoint offers similar functionality as the ``/cat`` search endpoint, with
+results returned in Hypercat format.
 
 Hypercat Data Model
 ===================
