@@ -8,7 +8,7 @@ Welcome to IotBlock's API documentation!
    api 
    smartcontract
    hypercat
-   :maxdepth: 5
+   :maxdepth: 3
 
 
 Indices and tables

@@ -1,20 +1,20 @@
 .. _smartcontract-label:
 
 Smart Contracts
-******
+************************************************
 
-******************
+******************************************************
 The Universal IoT Blockchain Database Smart Contracts
-******************
+******************************************************
 
 The primary entities storing IotBlock Data in Blockchain are individual Smart Contracts deployed on Ethereum network stored decentrally, collectively called The Universal IoT Blockchain Database.
 
 Typically you will use the Ethereum Client (e.g. Web3) to access the IoTBlock Smart Contracts. Each mutating transaction involves gas and an ETH donation, which are shared between Catalogue Creators and IoTBlock on 50/50 basis.
 
 
-******************
+******************************************************
 Smart Key Smart Contract (SmartKey.sol)
-******************
+******************************************************
 
 
 ::
@@ -206,15 +206,15 @@ Smart Key Smart Contract (SmartKey.sol)
 .. index:: ! visibility, external, public, private, internal
 
 getSmartKey(address user) 
-=============
+==============================================================================
 
 transferEth(uint amount, address sender, address beneficiary) 
-=============
+==============================================================================
 
 
-******************
+******************************************************
 Key Smart Contract (Key.sol)
-******************
+******************************************************
 
 ::
 
@@ -392,18 +392,18 @@ Key Smart Contract (Key.sol)
     }
 
 getKeyAuth(string key) 
-=============
+==============================================================================
 
 setHealth(Health _health) 
-=============
+==============================================================================
 
 transferEth(uint amount, address beneficiary) 
-=============
+==============================================================================
 
     
-******************
+******************************************************
 Catalogue Smart Contract (Catalogue.sol)
-******************
+******************************************************
 
 ::
 
@@ -459,9 +459,9 @@ Catalogue Smart Contract (Catalogue.sol)
     }
 
    
-******************
+******************************************************
 Graph Node Smart Contract (GraphNode.sol)
-******************
+******************************************************
 
 
 ::
