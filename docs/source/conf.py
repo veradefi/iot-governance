@@ -18,8 +18,8 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 #from sphinx.util.docutils import new_document
-#import os
-#on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+import os
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 #import sys
 #sys.path.insert(0, os.path.abspath('.'))
 #sys.path.insert(0, os.path.abspath('../sphinxext'))
@@ -101,7 +101,6 @@ todo_include_todos = False
 #}
 html_theme = 'default'
 
-'''
 if not on_rtd:
  try:
     import sphinx_rtd_theme
@@ -124,7 +123,6 @@ if not on_rtd:
     }
  except ImportError:
     pass
-'''
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
