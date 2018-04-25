@@ -2,7 +2,7 @@ Overview
 ********
 
 Introduction
-============
+========================================================================
 
 Welcome to The Universal IoT Blockchain Database, the Open Source Ethereum Hypercat Database as a Service.
 You can use The Universal IoT Blockchain Database, Hypercat API, and Hypercat Web Interface to search for, store, and retrieve
@@ -13,7 +13,7 @@ predictable resource-oriented URLs and to use standard HTTP response codes to
 indicate errors.
 
 Github Source Code
-===================
+========================================================================
 We encourage participation to contribute to the open-source development efforts of this project, which is available at <https://github.com/iotblock/iotblock>
 
 Accessing the Source Code Repository:
@@ -24,7 +24,7 @@ Accessing the Source Code Repository:
     
     
 Transport Protocols
-===================
+========================================================================
 
 All requests to the IotBlock Hypercat (PAS212:2016) API can currently be made over either ``http`` or
 ``https``. We strongly recommend using the ``https`` endpoint if your client can
@@ -32,7 +32,7 @@ support it, which it almost certainly will. The only clients that might have a
 problem with ``https`` would be low powered devices like an Arduino.
 
 Data Protocols
-==============
+========================================================================
 
 The IotBlock API currently exposes it's data via two protocols: `JSON API
 <http://jsonapi.org>`_ and `Hypercat <http://www.hypercat.io>`_.  Both
@@ -68,7 +68,7 @@ http://www.hypercat.io/standard.html, but for more details on how we are
 implementing Hypercat please see our :ref:`hypercat-label` implementation.
 
 Authentication
-==============
+========================================================================
 
 Not every request to the IotBlock API requires authentication; for example
 simple search requests for API or requests for the IotBlock Hypercat can be
@@ -82,7 +82,7 @@ Some requests that require authentication will return ``404 Not Found`` instead 
 private resources to unauthorised clients.
 
 Smart Key API Token (sent as a header)
----------------------------------
+------------------------------------------------------------------
 
 You can make authenticated requests by sending API Key in the ``Authorization``
 header::
@@ -92,7 +92,7 @@ header::
 Smart Key API Token can be obtained via ``https://iotblock.io/icatOS/key.html``
 
 Schema & Date Format
-====================
+========================================================================
 
 The IotBlock API returns all requested data as JSON, including error messages.
 
@@ -105,7 +105,7 @@ All timestamps will be returned in the standard ISO8601 format including
 milliseconds, e.g. ``YYYY-MM-DDTHH:MM:SS.sssZ``
 
 Root Endpoint
-=============
+========================================================================
 
 You may issue a ``GET`` request to the root endpoint of the API to receive a
 JSON body containing all of the endpoints supported via the API. This is
@@ -117,7 +117,7 @@ wishing to build something using the API.
    $ curl https://iotblock.io/cat
 
 HTTP Status Codes
-=================
+========================================================================
 
 The IotBlock API attempts to use standard HTTP status codes. In general
 responses in the **2xx** range indicate success, codes in the **4xx** range
@@ -189,14 +189,14 @@ Time Zones
 Currently the IotBlock API returns all timestamps in UTC.
 
 Cross Origin Resource Sharing (CORS)
-====================================
+========================================================================
 
 The IotBlock API supports simple CORS as every response currently includes the
 required ``Access-Control-Allow-Origin: *`` header which means that **any
 resource** can be accessed by **any domain** in a cross-site manner
 
 Content Types
-=============
+========================================================================
 
 All content published by the IotBlock API will have one of two content types:
 
@@ -209,12 +209,3 @@ All content published by the IotBlock API will have one of two content types:
     returned for all clients interacting with our Hypercat endpoint.
 
 Both of the above mime types describe a JSON document format.
-
-.. rubric:: Footnotes
-
-.. [#f1] cURL or curl is an open source command line tool and library for
-     transferring data across the network. It supports a huge range of
-     protocols, but we're just using it as a tool for making HTTP requests from
-     the command line. If you have an OSX or Linux machine you probably already
-     have curl installed on your system, windows users will have to work harder
-     to install it. See: http://curl.haxx.se/
