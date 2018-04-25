@@ -318,24 +318,22 @@ var site_url="<%= config.site_url %>";
                         <div class="col-md-12" align=left style="height:73px">
                             <br>
                             <span align=left>
-                            <a href='/icatOS/'>
-                            <img style="margin-left:16px;height:40px;" src="images/logo.svg"
-                         class="Logo">
-                             </a>
-                             </span>
-                             <span align=right>
                              <a href='/icatOS/'>
-                             <img src="images/home.svg"
-                         class="Home" style="margin-right:16px;" align=right>
+                             <img style="margin-left:16px;height:40px;" src="images/logo.svg" class="Logo">
                              </a>
-                             </span>
+                            </span>
+                            <span align=right>
+                             <a href='/icatOS/'>
+                             <img src="images/home.svg" class="Home" style="margin-right:16px;" align="right">
+                             </a>
+                            </span>
                         </div>
                     </div>
 </div>
 <br>
 
-<div class="" style="box-shadow: 0 2px 7px 0 rgba(160, 160, 160, 0.5);border: solid 1px #e7e7e7;margin-left:32px;margin-right:32px;">
-                            <div class="row" style="background-color: #ffffff;" >
+<div class="inner-container" style="box-shadow: 0 2px 7px 0 rgba(160, 160, 160, 0.5);border: solid 1px #e7e7e7;margin-left:32px;margin-right:32px;">
+    <div class="row" style="background-color: #ffffff;" >
                         <div class="col-md-2 col-sm-2 col-xs-2 mt-0" style="border-radius:0px;padding: 0px;text-align:left;border: solid 1px #e7e7e7;" id="nav_left">
                                  <% nav.forEach((item) => { %>
                                    <a href='#' onClick="JavaScript:get_link('<%= item.href %>', this);">
