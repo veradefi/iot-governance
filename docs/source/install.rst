@@ -27,7 +27,7 @@ IoTBlock Ethereum Smart Contracts (/contracts)
 
 Rinkeby
 --------
-Ethereum Ganache RPC
+Ethereum Rinkeby RPC
 
 ::
 
