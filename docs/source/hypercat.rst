@@ -12,7 +12,7 @@ Hypercat Data Model
 ===================
 
 The data model for Hypercat is very minimal and simply provides a mechanism for
-specifying metadata about resources in the form of RDF-like\ [#f1]_
+specifying metadata about resources in the form of RDF-like
 relation/value pairs (``rel`` and ``val`` in Hypercat parlance), where both
 ``rel`` and ``val`` are simple string values containing either a URN, which
 formally identifies a relation or a value, or any arbitrary application
@@ -248,12 +248,10 @@ Get Hypercat
         ]
       }
 
-   :query q: full text search string to only return cat that match the given query.
+   :query rel: full text search string to only return cat that match the given query.
+   :query val: full text search string to only return cat that match the given query.
    :query geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request cat within a specific geographical area.
    :query geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request cat within a specific geographical area.
    :query geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request cat within a specific geographical area.
    :query geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request cat within a specific geographical area.
 
-.. rubric:: Footnotes
-
-.. [#f1] RDF information
