@@ -386,6 +386,16 @@ Key Smart Contract (Key.sol)
        }
        
     }
+
+getKeyAuth(string key) 
+=============
+
+setHealth(Health _health) 
+=============
+
+transferEth(uint amount, address beneficiary) 
+=============
+
     
 ******************
 Catalogue Smart Contract (Catalogue.sol)
