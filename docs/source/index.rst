@@ -3,11 +3,10 @@ Welcome to IotBlock's API documentation!
 
 .. toctree::
    overview
-   smartkey
-   catalogues
+   web
    api 
-   hypercat
    smartcontract
+   hypercat
    :maxdepth: 2
 
 
