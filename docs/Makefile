@@ -4,9 +4,9 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = TheUniversalIoTBlockchainDatabasePAS2122016
-SOURCEDIR     = .
-BUILDDIR      = _build
+SPHINXPROJ    = IoTBlock
+SOURCEDIR     = source
+BUILDDIR      = build
 
 # Put it first so that "make" without argument is like "make help".
 help:
