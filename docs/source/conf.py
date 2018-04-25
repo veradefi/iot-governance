@@ -17,9 +17,11 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-#import os
+import os
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 #import sys
 #sys.path.insert(0, os.path.abspath('.'))
+
 def setup(app):
     app.add_stylesheet('css/theme.css')
     app.add_stylesheet('css/badge_only.css')
@@ -97,8 +99,8 @@ todo_include_todos = False
 #}
 html_theme = 'default'
 
-'''
-try:
+if not on_rtd:
+ try:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
@@ -117,9 +119,8 @@ try:
         'includehidden': True,
         'titles_only': False
     }
-except ImportError:
+ except ImportError:
     pass
-'''
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
