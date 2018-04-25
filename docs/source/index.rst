@@ -3,6 +3,7 @@ Welcome to IotBlock's API documentation!
 
 .. toctree::
    overview
+   install
    web
    api 
    smartcontract
