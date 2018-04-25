@@ -23,6 +23,9 @@
 def setup(app):
     app.add_stylesheet('css/theme.css')
     app.add_stylesheet('css/badge_only.css')
+    app.add_javascript('jquery.js')
+    app.add_javascript('underscore.js')
+    app.add_javascript('doctools.js')
     app.add_javascript('js/modernizr.min.js')
     app.add_javascript('js/theme.js')
 # -- General configuration ------------------------------------------------
