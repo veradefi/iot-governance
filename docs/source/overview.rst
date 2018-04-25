@@ -5,8 +5,8 @@ Introduction
 ============
 
 Welcome to The Universal IoT Blockchain Database, the Open Source Ethereum Hypercat Database as a Service.
-You can use The Universal IoT Blockchain Database and our API to search for and retrieve
-Device Integrity and Relationship Metadata on the IoT objects information crowdsourced by the community.
+You can use The Universal IoT Blockchain Database, Hypercat API, and Hypercat Web Interface to search for, store, and retrieve
+Device Integrity and Relationship Metadata on the IoT objects information crowdsourced by the community participants like you.
 
 Our Hypercat (PAS212:2016) API is designed to follow standard RESTful design practices featuring
 predictable resource-oriented URLs and to use standard HTTP response codes to
