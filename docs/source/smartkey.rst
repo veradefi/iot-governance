@@ -22,7 +22,7 @@ Login
    .. sourcecode:: http
 
       POST /login HTTP/1.1
-      Host: api.thingful.net
+      Host: iotblock.io
 
       {
         "username": "string",
