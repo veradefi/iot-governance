@@ -4,17 +4,29 @@ Overview
 Introduction
 ============
 
-Welcome to the IotBlock API. You can use our API to search for and retrieve
-data on all of the IoT objects currently indexed by IotBlock.
+Welcome to The Universal IoT Blockchain Database, the Open Source Ethereum Hypercat Database as a Service.
+You can use The Universal IoT Blockchain Database and our API to search for and retrieve
+Device Integrity and Relationship Metadata on the IoT objects information crowdsourced by the community.
 
-Our API is designed to follow standard RESTful design practices featuring
+Our Hypercat (PAS212:2016) API is designed to follow standard RESTful design practices featuring
 predictable resource-oriented URLs and to use standard HTTP response codes to
 indicate errors.
 
+Github Source Code
+===================
+We encourage participation to contribute to the open-source development efforts of this project, which is available at <https://github.com/iotblock/iotblock>
+
+Accessing the Source Code Repository:
+
+::
+    
+    git clone https://github.com/iotblock/iotblock
+    
+    
 Transport Protocols
 ===================
 
-All requests to the IotBlock API can currently be made over either ``http`` or
+All requests to the IotBlock Hypercat (PAS212:2016) API can currently be made over either ``http`` or
 ``https``. We strongly recommend using the ``https`` endpoint if your client can
 support it, which it almost certainly will. The only clients that might have a
 problem with ``https`` would be low powered devices like an Arduino.
@@ -63,7 +75,7 @@ simple search requests for API or requests for the IotBlock Hypercat can be
 made without providing any credentials. However for endpoints where access
 requires specific permissions authentication credentials can be sent via API Token generated from Smart Key:
 
-* Smart Key Creation URL:  ``https://iotblock.io/icatOS/key.html``
+* Smart Key Creation Web Interface URL:  ``https://iotblock.io/icatOS/key.html``
 
 Some requests that require authentication will return ``404 Not Found`` instead of
 ``403 Forbidden`` where returning a ``403 Forbidden`` might leak information on
