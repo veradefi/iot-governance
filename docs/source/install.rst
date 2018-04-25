@@ -4,7 +4,7 @@ Installation
 ********
 
 ******************
-The Universal IoT Blockchain Smart Contracts
+The Universal IoT Blockchain Database Smart Contracts
 ******************
 
 TestRPC
