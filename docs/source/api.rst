@@ -3,8 +3,9 @@
 Hypercat API
 ******
 
+******************
 The Universal IoT Blockchain Database Hypercat API
-=============
+******************
 
 The primary entities indexed by IotBlock are individual IoT Device API URL that exist
 somewhere out in the world, and that typically publish one or more sensor feeds
@@ -14,8 +15,9 @@ Typically you will use the IotBlock Hypercat Catalogue to search for API out the
 some search criteria you have, however you can also use the Universal Iot Blockchain Database to
 request data for a Hypercat (PAS212:2016) IoT Device you already know the identifier of.
 
+******************
 Search API
-=============
+******************
 
 .. http:get:: /cat
 
@@ -104,8 +106,9 @@ Search API
    :status 400: client error - either a request with no parameters was made, or an invalid parameter combination was submitted.
    :status 500: internal server error
 
+******************
 GET /cat/get
-===========
+******************
 
 .. http:get:: https://iotblock.io/cat/get?href=:href
 
@@ -388,8 +391,9 @@ GET /cat/get
    :status 404: IotBlock was unable to find the specified resource.
    :status 500: Internal server error
    
+******************
 GET /cat/setHealth
-===========
+******************
 
 .. http:get:: /cat/setHealth
 
@@ -429,8 +433,9 @@ GET /cat/setHealth
    :status 404: IotBlock was unable to find the specified resource.
    :status 500: Internal server error
 
+******************
 Catalogues
-============
+******************
 
 Catalogue is the term used to describe the logical or organisational unit
 responsible for a particular collection of networked devices. Typically this
@@ -440,9 +445,8 @@ combination of open and closed data, or be entirely closed.
 
 Access to this endpoint always require authentication.
 
-******************
 Get Catalogue
-******************
+============
 
 .. http:get:: /cat/:id
 
