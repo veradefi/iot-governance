@@ -2,13 +2,14 @@ Welcome to IotBlock's API documentation!
 ========================================
 
 .. toctree::
+   :maxdepth: 5
+
    overview
    install
    web
    api 
    smartcontract
    hypercat
-   :maxdepth: 3
 
 
 Indices and tables
