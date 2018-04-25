@@ -1,1 +1,0 @@
-Search.setIndex({docnames:["index"],envversion:53,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{index:0,modul:0,page:0,search:0},titles:["Welcome to The Universal IoT Blockchain Database (PAS212:2016)\u2019s documentation!"],titleterms:{The:0,blockchain:0,databas:0,document:0,indic:0,iot:0,pas212:0,tabl:0,univers:0,welcom:0}})
