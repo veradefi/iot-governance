@@ -21,7 +21,7 @@
 #import sys
 #sys.path.insert(0, os.path.abspath('.'))
 def setup(app):
-    app.add_stylesheet('_static/style.css')  # may also be an URL
+    app.add_stylesheet('style.css')  # may also be an URL
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
