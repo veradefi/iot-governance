@@ -23,8 +23,8 @@
 def setup(app):
     app.add_stylesheet('css/theme.css')
     app.add_stylesheet('css/badge_only.css')
-    app.add_javascript('js/theme.js')
     app.add_javascript('js/modernizr.min.js')
+    app.add_javascript('js/theme.js')
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
