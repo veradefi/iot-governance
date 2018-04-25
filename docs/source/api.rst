@@ -15,7 +15,7 @@ Typically you will use the IotBlock Hypercat Catalogue to search for API out the
 some search criteria you have, however you can also use the Universal Iot Blockchain Database to
 request data for a Hypercat (PAS212:2016) IoT Device you already know the identifier of.
 
-IoTBlock's Universal IoT Blockchain Database Hypercat API can be accessed at ``https://iotblock.io/cat``
+IoTBlock's Universal IoT Blockchain Database Hypercat API can be accessed at <https://iotblock.io/cat>
     
 ******************************************************************
 Search API
