@@ -144,9 +144,7 @@ Get Hypercat
 .. http:get:: /cat
 
    Search for cat indexed by IotBlock via Hypercat. If you make a request
-   without specifying any query parameters you will receive a **400 Bad
-   Request** response, as the IotBlock API currently requires you to specify
-   some criteria when querying our catalogue.
+   without specifying any query parameters you will receive all Catalogue Items associated with the Catalogue.
 
    **Example Request**:
 
