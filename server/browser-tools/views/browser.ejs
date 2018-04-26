@@ -811,7 +811,7 @@ function fill_page2_transactions_load_more(href, offset, limit, count) {
         offset+=limit;
         if (offset < count) {
             var html ="<div class='row label8 loadmore'><div class=col-md-12><center>";
-            html +='<a href="#transactions" class="button3 form-control btn btn-primary" onClick="JavaScript:get_smartkey_transactions(\'' + href + '\', ' + offset + ', ' + limit + ');">Load More</a>'
+            html +='<a href="#transactions" class="button3 form-control btn btn-primary" onClick="JavaScript:get_smartkey_transactions(\'' + href + '\', ' + offset + ', ' + limit + ');"><span class="buttonText">Load More</span></a>'
             html +="</center><br><br></div>";
             
             $('#transactions').append(html);
