@@ -14,6 +14,7 @@ indicate errors.
 
 Github Source Code
 ========================================================================
+
 We encourage participation to contribute to the open-source development efforts of this project, which is available at <https://github.com/iotblock/iotblock>
 
 Accessing the Source Code Repository:
@@ -116,6 +117,10 @@ wishing to build something using the API.
 
    $ curl https://iotblock.io/cat
 
+Further details on this are given in the individual sections for
+:ref:`api-label` and :ref:`hypercat-label`.
+
+
 HTTP Status Codes
 ========================================================================
 
@@ -168,20 +173,6 @@ An example error response might look like this:
      ]
    }
 
-Pagination
-==========
-
-Resources that return multiple items will be paginated to 50 items by default.
-Larger or smaller page sizes can be requested by sending a ``limit`` parameter
-where the maximum limit possible is ``500``.
-
-The pagination supported by IotBlock is a *cursor* style pagination
-implementation where any requests made to the API that return content that
-might be paginated will include in the response body links to allow the client
-to navigate through the complete data set by requesting subsequent pages.
-
-Further details on this are given in the individual sections for
-:ref:`api-label` and :ref:`hypercat-label`.
 
 Time Zones
 ==========
@@ -198,14 +189,7 @@ resource** can be accessed by **any domain** in a cross-site manner
 Content Types
 ========================================================================
 
-All content published by the IotBlock API will have one of two content types:
-
-``application/vnd.api+json``
-    This is the standard content type mandated for server implementations that
-    conform to the JSON API standard.
-
 ``application/vnd.hypercat.catalogue+json``
     This content type is required MIME type for Hypercat documents, and will be
     returned for all clients interacting with our Hypercat endpoint.
 
-Both of the above mime types describe a JSON document format.
