@@ -146,6 +146,7 @@ Get Hypercat
    Search for cat indexed by IotBlock via Hypercat. If you make a request
    without specifying any query parameters you will receive all Catalogue Items associated with the Catalogue.
 
+   IoTBlocks's Hypercat Catalogue can be accessed at <https://iotblock.io/cat>
    **Example Request**:
 
    .. sourcecode:: http
