@@ -27,6 +27,7 @@ IoTBlock Ethereum Smart Contracts (/contracts)
 
 Rinkeby
 ------------------------------------------------------------------
+
 Ethereum Rinkeby RPC
 
 ::
@@ -42,14 +43,12 @@ IoTBlock Ethereum Smart Contracts (/contracts)
         
 
 
-
 ******************************************************************
 The Universal IoT Blockchain Web Interface
 ******************************************************************
 
-https://iotblock.io/icatOS
-------------------------------------------------------------------
-NodeJS iCat Admin Tools
+Web Interface to access the The Universal IoT Blockchain Hypercat API and The Universal IoT Blockchain Smart Contracts
+
 
 ::
 
@@ -57,20 +56,20 @@ NodeJS iCat Admin Tools
 	npm install
 	npm start
 
+IoTBlock's Web Interface is accessible via <https://iotblock.io/icatOS>
+
 
 ******************************************************************
 The Universal IoT Blockchain Hypercat API
 ******************************************************************
 
-https://iotblock.io/cat
-------------------------------------------------------------------
-Python RESTful /cat web server + HTTP proxy
-
+The Universal IoT Blockchain Hypercat API to access The Universal IoT Blockchain Smart Contracts
 
 ::
 	
     python server/index.py
     
-    
+IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
+
 
 
