@@ -4,6 +4,22 @@ Installation
 **********************************************************
 
 ******************************************************************
+Github Source Code
+******************************************************************
+
+All components of this project, including The Universal IoT Blockchain Database, Hypercat API, and Hypercat Web Interface are open-source to allow community contribution and participation, to join in on our mission to Bring Governance to Technology using Blockchain.
+
+We encourage contribution to the open-source development efforts of this project, which is available at <https://github.com/iotblock/iotblock>
+
+Accessing the Source Code Repository:
+
+::
+    
+    git clone https://github.com/iotblock/iotblock
+    
+    
+
+******************************************************************
 The Universal IoT Blockchain Database Smart Contracts
 ******************************************************************
 
