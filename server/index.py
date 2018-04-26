@@ -391,7 +391,9 @@ def upsertNode(graphAddr, href, auth, contrib):
     print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
     print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
 
-def addNode(parent_href, href, key, auth, eth_contrib):
+def addNode(parent_href, href, auth, eth_contrib):
+    data={ 'healthStatus':'Provisioning' }
+    
     if href:
         threads = []
         contrib=int(int(eth_contrib) / 10)
@@ -406,18 +408,11 @@ def addNode(parent_href, href, key, auth, eth_contrib):
             except Exception as e:
                 print (e)
             print (parent_href, href, address, graphRoot.address, root.address)
-            #print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib * 2 }).upsertItem(graphRoot.address, href))
-            #graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-            
-            #upsertNode(graphRoot.address, href, auth, contrib)    
             t = threading.Thread(target=upsertNode, args=[graphRoot.address, href, auth, contrib])
             threads.append(t)
 
         else:
         
-            #print ('upsertItem', smartNode.transact({ 'from': address, 'value':contrib}).upsertItem(root.address, href))            
-            #graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-            #upsertNode(root.address, href, auth, contrib)    
             t = threading.Thread(target=upsertNode, args=[root.address, href, auth, contrib])
             threads.append(t)
 
@@ -425,11 +420,8 @@ def addNode(parent_href, href, key, auth, eth_contrib):
         for x in threads:
             x.start()
 
-    data={}
-    #data= getNode(graphRoot)
     
     return data
-
 
 
 
@@ -621,192 +613,6 @@ def doAuth(readOnly=False):
         
     return False, auth
 
-@app.route('/post')
-@app.route('/cat/post')
-def create_node():
-    data={}
-    parent_href = request.args.get('parent_href')
-    href = request.args.get('href')
-    key = request.args.get('key')
-    #auth = request.args.get('auth')
-    val = request.args.get('val')
-    
-    status, auth=doAuth()
-    if status:    
-            data=addNode(parent_href, href, key, auth, int(auth['eth_contrib']))
-    
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
-@app.route('/get')
-@app.route('/cat/get')
-def get_node():
-    data={}
-    href = request.args.get('href')
-    href=re.sub('\/$','',href);
-    print("URL:",href)  
-    if re.search('https:\/\/iotblock.io\/cat$',href):
-        print("Root Node")
-        data  =  getNode(root)
-    else:
-        node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-        data  =  getNode(node)
-    
-    try:
-        
-        rel = request.args.get('rel')
-        val = request.args.get('val')
-        if rel or val:
-            filtered_items=[]
-            items=data['items']
-            for item in items:
-                try:
-                    found=False
-                    metas=item['item-metadata']
-                    for meta in metas:
-                        if meta['rel'] == rel or meta['val'] == val:
-                            found=True
-                    if found:
-                        filtered_items.append(item)
-                except Exception as e:
-                    print (e)
-            data['items']=filtered_items
-    except Exception as e:
-        print (e)
-    
-    response = app.response_class(
-            
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-        
-    )
-    return response
-
-
-
-
-
-@app.route('/postNodeMetaData')
-@app.route('/cat/postNodeMetaData')
-def save_nodeMetaData():
-    href = request.args.get('href')
-    key = request.args.get('key')
-    auth = request.args.get('auth')
-    rel = request.args.get('rel')
-    val = request.args.get('val')
-    '''
-    {
-    "catalogue-metadata":[
-        {
-        "rel":"urn:X-hypercat:rels:isContentType",
-        "val":"application/vnd.hypercat.catalogue+json"
-        },
-        {
-        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-        }
-    ],
-    "items":[
-    ]
-    }
-    '''
-    data={}
-    
-    status, auth=doAuth()
-    if status: 
-        data=addNodeMetaData(href, rel, val,auth, auth['eth_contrib'])
-        
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
-
-
-@app.route('/postNodeItemMetaData')
-@app.route('/cat/postNodeItemMetaData')
-def save_nodeItemMetaData():
-    node_href = request.args.get('node_href')
-    item_href = request.args.get('item_href')
-    key = request.args.get('key')
-    auth = request.args.get('auth')
-    rel = request.args.get('rel')
-    val = request.args.get('val')
-    '''
-    {
-    "catalogue-metadata":[
-        {
-        "rel":"urn:X-hypercat:rels:isContentType",
-        "val":"application/vnd.hypercat.catalogue+json"
-        },
-        {
-        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-        }
-    ],
-    "items":[
-    ]
-    }
-    '''
-    data={}
-    status, auth=doAuth()
-    if status: 
-    
-        #data['transactionId']=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
-        data=addNodeItemMetaData(node_href, item_href, rel, val, auth, auth['eth_contrib'])
-    
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
-@app.route('/getNodeSmartKey')
-@app.route('/cat/getNodeSmartKey')
-def getNodeSmartKey():
-    href = request.args.get('href')
-    status, auth=doAuth(True)
-
-    data = getNodeKey(href, auth)
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
-@app.route('/getNodeSmartKeyTx')
-@app.route('/cat/getNodeSmartKeyTx')
-def getNodeSmartKeyTx():
-    href = request.args.get('href')
-    offset = request.args.get('offset')
-    limit = request.args.get('limit')
-    data={}
-    try:
-        if offset:
-            offset=int(offset)
-        else:
-            offset=0
-        if limit:
-            limit=int(limit)
-        else:
-            limit=10
-        data = getNodeKeyTx(href, offset, limit)
-    except Exception as e:
-        print (e)
-    response = app.response_class(
-        response=json.dumps(data, sort_keys=True, indent=4),
-        status=200,
-        mimetype='application/vnd.hypercat.catalogue+json'
-    )
-    return response
-
 @app.route('/getSmartKey')
 @app.route('/cat/getSmartKey')
 def getUserSmartKey():
@@ -890,6 +696,168 @@ def setUserHealthStatus():
     )
     return response
 
+
+@app.route('/post')
+@app.route('/cat/post')
+def create_node():
+    data={}
+    parent_href = request.args.get('parent_href')
+    href = request.args.get('href')
+    
+    status, auth=doAuth()
+    if status:    
+            data=addNode(parent_href, href, auth, int(auth['eth_contrib']))
+    
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+@app.route('/get')
+@app.route('/cat/get')
+def get_node():
+    data={}
+    href = request.args.get('href')
+    href=re.sub('\/$','',href);
+    print("URL:",href)  
+    if re.search('https:\/\/iotblock.io\/cat$',href):
+        print("Root Node")
+        data  =  getNode(root)
+    else:
+        node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+        data  =  getNode(node)
+    
+    try:
+        
+        rel = request.args.get('rel')
+        val = request.args.get('val')
+        if rel or val:
+            filtered_items=[]
+            items=data['items']
+            for item in items:
+                try:
+                    found=False
+                    metas=item['item-metadata']
+                    for meta in metas:
+                        if meta['rel'] == rel or meta['val'] == val:
+                            found=True
+                    if found:
+                        filtered_items.append(item)
+                except Exception as e:
+                    print (e)
+            data['items']=filtered_items
+    except Exception as e:
+        print (e)
+    
+    response = app.response_class(
+            
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+        
+    )
+    return response
+
+
+
+@app.route('/postNodeMetaData')
+@app.route('/cat/postNodeMetaData')
+def save_nodeMetaData():
+    href = request.args.get('href')
+    rel = request.args.get('rel')
+    val = request.args.get('val')
+    '''
+    {
+    "catalogue-metadata":[
+        {
+        "rel":"urn:X-hypercat:rels:isContentType",
+        "val":"application/vnd.hypercat.catalogue+json"
+        },
+        {
+        "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
+        }
+    ],
+    "items":[
+    ]
+    }
+    '''
+    data={}
+    
+    status, auth=doAuth()
+    if status: 
+        data=addNodeMetaData(href, rel, val,auth, auth['eth_contrib'])
+        
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+
+@app.route('/postNodeItemMetaData')
+@app.route('/cat/postNodeItemMetaData')
+def save_nodeItemMetaData():
+    parent_href = request.args.get('parent_href')
+    href = request.args.get('href')
+    rel = request.args.get('rel')
+    val = request.args.get('val')
+    data={}
+    status, auth=doAuth()
+    if status: 
+    
+        #data['transactionId']=addNodeItemMetaData(node_href, item_href, rel, val, key,auth)
+        data=addNodeItemMetaData(parent_href, href, rel, val, auth, auth['eth_contrib'])
+    
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+
+@app.route('/getNodeSmartKey')
+@app.route('/cat/getNodeSmartKey')
+def getNodeSmartKey():
+    href = request.args.get('href')
+    status, auth=doAuth(True)
+
+    data = getNodeKey(href, auth)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
+
+@app.route('/getNodeSmartKeyTx')
+@app.route('/cat/getNodeSmartKeyTx')
+def getNodeSmartKeyTx():
+    href = request.args.get('href')
+    offset = request.args.get('offset')
+    limit = request.args.get('limit')
+    data={}
+    try:
+        if offset:
+            offset=int(offset)
+        else:
+            offset=0
+        if limit:
+            limit=int(limit)
+        else:
+            limit=10
+        data = getNodeKeyTx(href, offset, limit)
+    except Exception as e:
+        print (e)
+    response = app.response_class(
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+    )
+    return response
 
 @app.route('/transferNodeEth')
 @app.route('/cat/transferNodeEth')
