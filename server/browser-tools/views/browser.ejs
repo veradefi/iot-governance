@@ -137,7 +137,7 @@ function save_meta(id, node_href, item_href) {
         var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
         
         if (item_href) {
-            post_url='/cat/postNodeItemMetaData?node_href=' + encodeURIComponent(node_href) + '&item_href=' + encodeURIComponent(item_href);
+            post_url='/cat/postNodeItemMetaData?parent_href=' + encodeURIComponent(node_href) + '&href=' + encodeURIComponent(item_href);
         }
         
         //console.log(post_url, rel, val);
