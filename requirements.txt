@@ -1,6 +1,6 @@
 sphinx
 sphinx_rtd_theme
 sphinxcontrib-httpdomain 
-#web3
+web3
 flask
 
