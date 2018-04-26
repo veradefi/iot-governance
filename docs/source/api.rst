@@ -263,8 +263,7 @@ Catalogue API
 Catalogue is the term used to describe the logical or organisational unit
 responsible for a particular collection of networked devices. Typically this
 will be a data infrastructure provider or a company with a batch of devices
-that use a specific data infrastructure. Catalogues may include all open data, a
-combination of open and closed data, or be entirely closed.
+that use a specific data infrastructure.
 
 Access to this endpoint always require authentication.
 
@@ -1029,19 +1028,8 @@ Search a Catalogue
         "items": []
     }
 
-   :query rel: full text search string to only return things that match the given query.
-   :query val: full text search string to only return things that match the given query.
-   :query geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request things within a specific geographical area.
-   :query geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request things within a specific geographical area.
-   :query geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request things within a specific geographical area.
-   :query geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request things within a specific geographical area.
-   :query geo-long: numerical value representing the longitude coordinate of geographic point allowing clients to request things within a specific geographical area.
-   :query geo-lat: numerical value representing the latitude coordinate of a geographic point allowing clients to request things within a specific geographical area.
-   :query geo-radius: numerical value representing radius in meters allowing clients to request things within a specific geographical area.
-   :query sort: parameter that specifies how results are sorted. Permitted values are ``score`` or ``distance``. Default value is ``score`` meaning results are returned in order of _best_ to _worst_. Each value can also be negated by prefixing with a **-**, i.e. ``-distance``.
-   :query limit: numerical value indicating how many results should be returned in each response. Default value is 50.
-   :query starting-after: string parameter used when paginating to navigate to the next page of results. The value of this parameter is calculated on the server, so clients should not expect to be able to infer the value for this parameter, rather they **must** just use the *next* link returned by the server.
-   :query starting-before: string parameter used when paginating to navigate to the previous page of results. The value of this parameter is calculated on the server so clients should not expect to be able to infer the value of this parameter, rather they **must** just use the *previous* link returned by the server.
+   :query rel: full text search string to only return Catalogues that match the given query.
+   :query val: full text search string to only return Catalogues that match the given query.
    :>jsonarr type: JSON API requires all resource documents to specify a type, all things return a type of ``thing``.
    :>jsonarr id: The UID of the Hypercat (PAS212:2016) IoT Device
    :>jsonarr attributes: A JSON object containing the attributes of the Hypercat (PAS212:2016) IoT Device described below.
