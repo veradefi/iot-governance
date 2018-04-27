@@ -205,12 +205,24 @@ Smart Key Smart Contract (SmartKey.sol)
 
 .. index:: ! visibility, external, public, private, internal
 
+
 getSmartKey(address user) 
 ==============================================================================
 
-transferEth(uint amount, address sender, address beneficiary) 
+.. js:function:: getSmartKey(address user) 
+
+   :param address user: Ethereum Address of the user
+   :returns: The Smart Key of the User
+   :rtype: Key
+
+transferEth(uint amount, address sender, address beneficiary) public
 ==============================================================================
 
+.. js:function:: transferEth(uint amount, address sender, address beneficiary) public
+
+   :param uint amount: Amount of Wei to transfer
+   :param address sender: Ethereum Address of the sender
+   :param address beneficiary: Ethereum Address of the beneficiary
 
 ******************************************************
 Key Smart Contract (Key.sol)
@@ -391,16 +403,55 @@ Key Smart Contract (Key.sol)
        
     }
 
-getKeyAuth(string key) 
+
+getHealth() view public returns (Health)
 ==============================================================================
 
-setHealth(Health _health) 
+.. js:function:: getHealth() view public returns (Health)
+
+   :returns: Health of the Catalogue
+   :rtype: enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
+
+   
+setHealth(Health _health) public payable
 ==============================================================================
+
+.. js:function:: setHealth(Health _health) public payable
+
+   :param _health: Health Status specified as integer between 0-6. 
+   :type _health: enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
+   
+addKeyAuth(string key, string value) onlyOwner public returns(bool)
+==============================================================================
+
+.. js:function:: addKeyAuth(string key, string value) onlyOwner public returns(bool)
+
+   :param string key: Authorization Key String to associate with Value
+   :param string value: Authorization Value String to associate with Key
+   :returns: True if successfully added, False if error
+   :rtype: bool
+   
+getKeyAuth(string key) onlyOwner constant public returns(string)
+==============================================================================
+.. js:function:: getKeyAuth(string key) onlyOwner constant public returns(string)
+
+   :param string key: Authorization Key String 
+   :returns: Authorization Value String associated with the Key
+   :rtype: string
 
 transferEth(uint amount, address beneficiary) 
 ==============================================================================
 
-    
+addSmartKey(address beneficiary) public payable returns(address) 
+==============================================================================
+
+.. js:function:: addSmartKey(address beneficiary) public payable returns(address) 
+
+   :param address beneficiary: Ethereum Address of the user
+   :returns: The Smart Key address of the User
+   :rtype: address
+   
+   
 ******************************************************
 Catalogue Smart Contract (Catalogue.sol)
 ******************************************************
@@ -530,4 +581,72 @@ Graph Node Smart Contract (GraphNode.sol)
         
     }
 
+
+
+******************************************************
+Smart Node Contract (SmartNode.sol)
+******************************************************
+
+::
+
+    pragma solidity ^0.4.18; 
+    
+    import "./GraphRoot.sol";
+    
+    contract SmartNode is Administered {
+      
+      SmartKey smartKey;
+      GraphRoot graphRoot;
+      
+      function SmartNode(GraphRoot _graphRoot, SmartKey _smartKey, address[] adminAddress) 
+        Administered(adminAddress)
+        public
+      {
+          smartKey=_smartKey; 
+          graphRoot=_graphRoot;
+      }
+    
+      
+      function upsertItem(GraphNode _parentNode, string _href)
+      public
+      payable
+      returns (bool)
+      {
+          
+         if (msg.value > 10000000000000) {
+             address addr=graphRoot.getItem(_href);
+             GraphNode _node;
+             if (addr == 0x0) { 
+                  address[] memory _admins=new address[](3);
+                 _admins[0]=msg.sender;
+                 _admins[1]=address(_parentNode);  
+                 _admins[2]=address(this);  
+                    
+                 _node = new GraphNode(smartKey, _admins);
+             } else {
+                 _node = GraphNode(addr);
+             }
+             smartKey.putSmartKey(_node, address(_node));
+                   
+             _parentNode.upsertItem.value(msg.value/2)(_node, _href);
+             return graphRoot.upsertItem.value(msg.value/2)(_node, _href);
+         }
+         return false;
+          
+      }
+        
+      
+    }
+
+upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
+==============================================================================
+
+.. js:function:: upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
+
+   :param address _parentNode: Ethereum Address of the Parent Graph Node Catalogue
+   :param string _href: URL of the Catalogue to create or link (Catalogue is linked if URL is already catalogued)
+   :returns: true or false
+   :rtype: bool
+   
+    
 .. index:: ! visibility, external, public, private, internal
