@@ -1028,13 +1028,24 @@ Search a Catalogue
         "items": []
     }
 
-   :query rel: full text search string to only return Catalogues that match the given query.
-   :query val: full text search string to only return Catalogues that match the given query.
-   :>jsonarr type: JSON API requires all resource documents to specify a type, all things return a type of ``thing``.
-   :>jsonarr id: The UID of the Hypercat (PAS212:2016) IoT Device
-   :>jsonarr attributes: A JSON object containing the attributes of the Hypercat (PAS212:2016) IoT Device described below.
-   :>json title: The title of the Hypercat (PAS212:2016) IoT Device
-   :>json description: The description of the Hypercat (PAS212:2016) IoT Device (may be null).
-   :status 200: response was handled successfully
-   :status 400: client error - either a request with no parameters was made, or an invalid parameter combination was submitted.
-   :status 500: internal server error
+    :query rel: full text search string to only return Catalogues that match the given query.
+    :query val: full text search string to only return Catalogues that match the given query.
+    :prefix­rel: Any metadata relation URI as a JSON string
+    :prefix­val: Any metadata value URI as a JSON string
+    :prefix­href: A resource URI URI as a JSON string
+    :lexrange-­rel: Specifies the ​rel ​to search on (e.g. urn:X­hypercat:rels:lastUpdated)
+    :lexrange-­min: Lower bound of range to return (inclusive) (e.g. 2007­03­01T13:00:00Z)
+    :lexrange-­max: Upper bound of range to return (non­inclusive) (e.g. 2007­04­02T12:07:41Z)
+    :geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request things within a specific geographical area.
+    :geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request things within a specific geographical area.
+    :geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request things within a specific geographical area.
+    :geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request things within a specific geographical area.
+    :>jsonarr type: JSON API requires all resource documents to specify a type, all things return a type of ``thing``.
+    :>jsonarr id: The UID of the Hypercat (PAS212:2016) IoT Device
+    :>jsonarr attributes: A JSON object containing the attributes of the Hypercat (PAS212:2016) IoT Device described below.
+    :>json title: The title of the Hypercat (PAS212:2016) IoT Device
+    :>json description: The description of the Hypercat (PAS212:2016) IoT Device (may be null).
+    :status 200: response was handled successfully
+    :status 400: client error - either a request with no parameters was made, or an invalid parameter combination was submitted.
+    :status 500: internal server error
+    
