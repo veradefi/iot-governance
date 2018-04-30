@@ -93,22 +93,17 @@ Hypercat Relations
     latitude value of the location of the resource in the WGS84 reference
     system.
 
-``urn:X-IotBlock:rels:hasDataProvider``
-    IotBlock specific relation intended to be used at the resource level. A
-    link pointing to the upstream data provider of this resource.
-
-``urn:X-IotBlock:rels:hasVisibility``
-    IotBlock specific relation intended to be used at the resource level. A
-    string indicating whether the listed resource is ``public`` or ``private``.
-
-``urn:X-IotBlock:rels:hasCategory``
-    IotBlock specific relation intended to be used at the resource level. A
-    string indicating the IotBlock specific category of the resource.
-
+``urn:X-hypercat:rels:health``
+    Numerical Health Indicator
+    
+``urn:X-hypercat:rels:healthStatus``
+    Descriptive Device Integrity Status. Possible values include ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
+    
 ``urn:X-IotBlock:rels:hasOwner``
     IotBlock specific relation intended to be used at the resource level. A
     string containing a reference to an individual that has claimed ownership
     of the resource.
+    
 
 Hypercat Values
 ---------------
@@ -118,24 +113,11 @@ Hypercat Values
     queries. This value must be attached to the
     ``urn:X-hypercat:rels:supportsSearch`` rel to be valid.
 
-``urn:X-IotBlock:search:simple``
+``urn:X-hypercat:search:simple``
     IotBlock specific value indicating that our catalogue supports a simple
-    full text search functionality where a ``q`` parameter may be submitted to
+    full text search functionality where a ``rel`` and ``val`` parameter may be submitted to
     filter the catalogue down to results that contain that query term somewhere
     within their description.
-
-``urn:X-IotBlock:paging:simple``
-    IotBlock specific value indicating the type of pagination that the server
-    supports. This method of pagination is the one described in the current
-    pagination RFC for Hypercat that we hope might see adoption soon.
-
-``urn:X-IotBlock:visibility:public``
-    IotBlock specific value indicating that a resource is publicly available.
-
-``urn:X-IotBlock:visibility:private``
-    IotBlock specific value indicating that a resource is private. This means
-    that gaining access to this data source will require requesting
-    authentication.
 
 
 Get Hypercat
@@ -246,10 +228,15 @@ Get Hypercat
         ]
       }
 
-   :query rel: full text search string to only return cat that match the given query.
-   :query val: full text search string to only return cat that match the given query.
-   :query geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request cat within a specific geographical area.
-   :query geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request cat within a specific geographical area.
-   :query geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request cat within a specific geographical area.
-   :query geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request cat within a specific geographical area.
-
+    :query rel: full text search string to only return Catalogues that match the given query.
+    :query val: full text search string to only return Catalogues that match the given query.
+    :query prefix­rel: Any metadata relation URI as a JSON string
+    :query prefix­val: Any metadata value URI as a JSON string
+    :query prefix­href: A resource URI URI as a JSON string
+    :query lexrange-­rel: Specifies the ​rel ​to search on (e.g. urn:X­hypercat:rels:lastUpdated)
+    :query lexrange-­min: Lower bound of range to return (inclusive) (e.g. 2007­03­01T13:00:00Z)
+    :query lexrange-­max: Upper bound of range to return (non­inclusive) (e.g. 2007­04­02T12:07:41Z)
+    :query geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request things within a specific geographical area.
+    :query geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request things within a specific geographical area.
+    :query geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request things within a specific geographical area.
+    :query geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request things within a specific geographical area.
