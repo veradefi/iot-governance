@@ -206,6 +206,16 @@ Smart Key Smart Contract (SmartKey.sol)
 .. index:: ! visibility, external, public, private, internal
 
 
+addSmartKey(address beneficiary) public payable returns(address)
+==============================================================================
+
+.. js:function:: addSmartKey(address beneficiary) public payable returns(address)
+
+   :param address beneficiary: Ethereum Address of the user
+   :returns: The Smart Key address of the User
+   :rtype: Key address
+
+
 getSmartKey(address user) 
 ==============================================================================
 
@@ -439,8 +449,13 @@ getKeyAuth(string key) onlyOwner constant public returns(string)
    :returns: Authorization Value String associated with the Key
    :rtype: string
 
-transferEth(uint amount, address beneficiary) 
+transferEth(uint amount, address beneficiary) public onlyOwner 
 ==============================================================================
+
+.. js:function:: transferEth(uint amount, address beneficiary) public
+
+   :param address sender: Ethereum Address of the sender
+   :param address beneficiary: Ethereum Address of the beneficiarys
 
 addSmartKey(address beneficiary) public payable returns(address) 
 ==============================================================================
@@ -509,7 +524,7 @@ Catalogue Smart Contract (Catalogue.sol)
     
     }
 
-   
+
 ******************************************************
 Graph Node Smart Contract (GraphNode.sol)
 ******************************************************
@@ -650,3 +665,131 @@ upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
    
     
 .. index:: ! visibility, external, public, private, internal
+
+
+
+******************************************************
+MetaData Smart Contract (MetaData.sol)
+******************************************************
+
+::
+
+    pragma solidity ^0.4.18;
+    
+    import "./admin/Administered.sol";
+    import "./SmartKey.sol";
+    
+    contract MetaData is Administered {
+           
+      SmartKey smartKey;
+      string public rel;
+      string public val;
+     
+      event MetaDataRel(address indexed user, MetaData indexed metaDataContract, string rel);
+      event MetaDataVal(address indexed user, MetaData indexed metaDataContract, string rel, string val);
+    
+      function MetaData(SmartKey _smartKey, address[] adminAddress, string _rel) 
+      public
+      Administered(adminAddress)
+      {
+          smartKey=_smartKey;
+          rel=_rel;
+          MetaDataRel(msg.sender, this, rel);
+      }
+      
+      function setVal(string _val) 
+      public
+      onlyAdmin
+      returns (bool)
+      {
+      
+          val=_val;
+          
+          MetaDataVal(msg.sender, this, rel, val);
+          return true;
+      }
+      
+    
+    }
+    
+******************************************************
+NodeMetaData Smart Contract (NodeMetaData.sol)
+******************************************************
+
+::
+
+    import "./admin/Administered.sol";
+    import "./SmartKey.sol";
+    import "./MetaData.sol";
+    pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
+    
+    contract NodeMetaData is Administered {
+           
+      //PAS 212:2016
+      MetaData[] public meta;
+      mapping (bytes32 => MetaData) public itemMetaData; // rel is hashed to bytes32 data   
+      //PAS 212:2016
+      
+      SmartKey public smartKey;
+    
+      function NodeMetaData(SmartKey _smartKey, address[] adminAddress) 
+      public
+      Administered(adminAddress)
+      {
+          smartKey=_smartKey;  
+      }
+    
+      function getSmartKey()
+      constant
+      public
+      returns (SmartKey)
+      {
+          return smartKey;
+      }
+    
+      function selectMetaData() 
+      constant
+      public
+      returns (MetaData[]) 
+      {
+             return meta;
+      }
+    
+      
+      function upsertMetaData(string _rel, string _val) 
+      public
+      payable
+      returns (bool)
+      {
+      
+          Key key=smartKey.getSmartKey(msg.sender);
+          bytes32 hashVal=key.getHash(_rel);
+          MetaData data;
+          if (itemMetaData[hashVal] == address(0)) {
+                address[] storage _admins=admins;
+                _admins.push(address(this));
+                _admins.push(msg.sender);
+                data = new MetaData(smartKey, admins, _rel);
+                itemMetaData[hashVal]=data;
+                meta.push(data);
+          } else {
+                data = itemMetaData[hashVal];
+          }
+          
+          smartKey.addSmartKey.value(msg.value)(address(this));
+    
+          return data.setVal(_val);
+      }
+     
+    }
+    
+upsertMetaData(string _rel, string _val) public payable returns (bool)
+==============================================================================
+
+.. js:function:: upsertMetaData(string _rel, string _val) public payable returns (bool)
+
+   :param string _rel: Meta Data Relationship
+   :param string _val: Meta Data Value
+   :returns: true if success, false if not successful
+   :rtype: bool
+   
