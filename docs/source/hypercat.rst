@@ -228,15 +228,15 @@ Get Hypercat
         ]
       }
 
-    :query rel: full text search string to only return Catalogues that match the given query.
-    :query val: full text search string to only return Catalogues that match the given query.
-    :query prefix­rel: Any metadata relation URI as a JSON string
-    :query prefix­val: Any metadata value URI as a JSON string
-    :query prefix­href: A resource URI URI as a JSON string
-    :query lexrange-­rel: Specifies the ​rel ​to search on (e.g. urn:X­hypercat:rels:lastUpdated)
-    :query lexrange-­min: Lower bound of range to return (inclusive) (e.g. 2007­03­01T13:00:00Z)
-    :query lexrange-­max: Upper bound of range to return (non­inclusive) (e.g. 2007­04­02T12:07:41Z)
-    :query geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request things within a specific geographical area.
-    :query geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request things within a specific geographical area.
-    :query geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request things within a specific geographical area.
-    :query geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request things within a specific geographical area.
+   :query rel: full text search string to only return Catalogues that match the given query.
+   :query val: full text search string to only return Catalogues that match the given query.
+   :query prefix­rel: Any metadata relation URI as a JSON string
+   :query prefix­val: Any metadata value URI as a JSON string
+   :query prefix­href: A resource URI URI as a JSON string
+   :query lexrange-­rel: Specifies the ​rel ​to search on (e.g. urn:X­hypercat:rels:lastUpdated)
+   :query lexrange-­min: Lower bound of range to return (inclusive) (e.g. 2007­03­01T13:00:00Z)
+   :query lexrange-­max: Upper bound of range to return (non­inclusive) (e.g. 2007­04­02T12:07:41Z)
+   :query geobound-minlong: numerical value representing the minimum longitude of a bounding box allowing clients to request things within a specific geographical area.
+   :query geobound-minlat: numerical value representing the minimum latitude of a bounding box allowing clients to request things within a specific geographical area.
+   :query geobound-maxlong: numerical value representing the maximum longitude of a bounding box allowing clients to request things within a specific geographical area.
+   :query geobound-maxlat: numerical value representing the maximum latitude of a bounding box allowing clients to request things within a specific geographical area.
