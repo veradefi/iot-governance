@@ -555,26 +555,125 @@ def setHealth(health, href, eth_contrib):
     
 
 
+def metaSearch(request, data):
+    
+    try:
+        try:
+            rel = request.args.get('rel')
+            val = request.args.get('val')
+            if rel or val:
+                filtered_items=[]
+                items=data['items']
+                for item in items:
+                    try:
+                        found=False
+                        metas=item['item-metadata']
+                        for meta in metas:
+                            if (rel and meta['rel'] == rel) or \
+                               (val and meta['val'] == val):
+                                found=True
+                        if found:
+                            filtered_items.append(item)
+                    except Exception as e:
+                        print (e)
+                data['items']=filtered_items
+        except Exception as e:
+            print (e)
+        
+        try:
+            prefixrel = request.args.get('prefixrel')
+            prefixval = request.args.get('prefixval')
+            prefixhref = request.args.get('prefixhref')
+    
+            if prefixrel or prefixval or prefixhref:
+                filtered_items=[]
+                items=data['items']
+                for item in items:
+                    try:
+                        found=False
+                        metas=item['item-metadata']
+                        href=item['href']
+                        for meta in metas:
+                            if (prefixrel and meta['rel'].startsWith(prefixrel)) or \
+                               (prefixval and meta['val'].startsWith(prefixval)):
+                                found=True
+                        
+                        if href and re.search(href, prefixhref):
+                            found=True
+                            
+                        if found:
+                            filtered_items.append(item)
+                    except Exception as e:
+                        print (e)
+                data['items']=filtered_items
+        except Exception as e:
+            print (e)
+        
+        try:
+            geobound_minlong = request.args.get('geobound-minlong')
+            geobound_maxlong = request.args.get('geobound-maxlong')
+            geobound_minlat = request.args.get('geobound-minlat')
+            geobound_maxlat = request.args.get('geobound-maxlat')
+            if geobound_minlong and geobound_minlat and geobound_maxlong and geobound_maxlat:
+                filtered_items=[]
+                items=data['items']
+                for item in items:
+                    try:
+                        found=False
+                        metas=item['item-metadata']
+                        for meta in metas:
+                            if meta['rel'] == "http://www.w3.org/2003/01/geo/wgs84_pos#lat":
+                                if int(meta['val']) >= int(geobound_minlat) and \
+                                   int(meta['val']) < int(geobound_maxlat):
+                                    found=True
+                            if meta['rel'] == "http://www.w3.org/2003/01/geo/wgs84_pos#long":
+                                if int(meta['val']) >= int(geobound_minlong) and \
+                                   int(meta['val']) < int(geobound_maxlong):
+                                    found=True
+                        if found:
+                            filtered_items.append(item)
+                    except Exception as e:
+                        print (e)
+                data['items']=filtered_items
+
+        except Exception as e:
+            print (e)
+        
+        try:
+            lexrange_rel = request.args.get('lexrange-rel')
+            lexrange_min = request.args.get('lexrange-min')
+            lexrange_max = request.args.get('lexrange-max')
+            
+            if lexrange_rel and lexrange_min and lexrange_max:
+                print (lexrange_rel, lexrange_min, lexrange_max)
+                filtered_items=[]
+                items=data['items']
+                for item in items:
+                    try:
+                        found=False
+                        metas=item['item-metadata']
+                        for meta in metas:
+                            if meta['rel'] == lexrange_rel and meta['val'] >= lexrange_min and meta['val'] < lexrange_max:
+                                found=True
+                        if found:
+                            filtered_items.append(item)
+                    except Exception as e:
+                        print (e)
+                data['items']=filtered_items
+        except Exception as e:
+            print (e)
+        
+        
+    except Exception as e:
+        print (e)
+    
+    return data
+
+
+
+
 app = Flask(__name__)
 
-
-
-
-'''
-{
-"catalogue-metadata":[
-    {
-    "rel":"urn:X-hypercat:rels:isContentType",
-    "val":"application/vnd.hypercat.catalogue+json"
-    },
-    {
-    "rel":"urn:X-hypercat:rels:hasDescription:en", "val":""
-    }
-],
-"items":[
-]
-}
-'''
 
 def doAuth(readOnly=False):
     auth=None
@@ -730,24 +829,7 @@ def get_node():
         data  =  getNode(node)
     
     try:
-        
-        rel = request.args.get('rel')
-        val = request.args.get('val')
-        if rel or val:
-            filtered_items=[]
-            items=data['items']
-            for item in items:
-                try:
-                    found=False
-                    metas=item['item-metadata']
-                    for meta in metas:
-                        if meta['rel'] == rel or meta['val'] == val:
-                            found=True
-                    if found:
-                        filtered_items.append(item)
-                except Exception as e:
-                    print (e)
-            data['items']=filtered_items
+        data=metaSearch(request, data)       
     except Exception as e:
         print (e)
     
@@ -933,28 +1015,12 @@ def catch_all(path):
     ?rel=urn:X­hypercat:rels:1&val=1
     ?rel=urn:X­hypercat:rels:3&val=
     '''
+    
     try:
-        
-        rel = request.args.get('rel')
-        val = request.args.get('val')
-        if rel or val:
-            filtered_items=[]
-            items=data['items']
-            for item in items:
-                try:
-                    found=False
-                    metas=item['item-metadata']
-                    for meta in metas:
-                        if meta['rel'] == rel or meta['val'] == val:
-                            found=True
-                    if found:
-                        filtered_items.append(item)
-                except Exception as e:
-                    print (e)
-            data['items']=filtered_items
+        data=metaSearch(request, data)       
     except Exception as e:
         print (e)
-    
+
     response = app.response_class(
             
         response=json.dumps(data, sort_keys=True, indent=4),
@@ -963,10 +1029,6 @@ def catch_all(path):
         
     )
     return response
-
-
-
-
 
 
 if __name__ == '__main__':
