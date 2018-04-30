@@ -16,7 +16,7 @@ Create Smart Key
 
 .. http:get:: https://iotblock.io/icatOS/key.html
 
-   Get a single Smart Key
+   Get a Smart Key to access Catalogues. 1 ETH deposit is needed to create a Smart Key.
 
 
 Browse & Edit The Universal IoT Blockchain Database
@@ -27,3 +27,24 @@ Browse & Edit The Universal IoT Blockchain Database
    Browse & Edit The Universal IoT Blockchain Database
 
 
+Explorer
+====================================================
+
+.. http:get:: https://iotblock.io/icatOS/explorer.html
+
+   Visually Explore the catalogues in The Universal IoT Blockchain Database
+
+Crawler
+====================================================
+
+.. http:get:: https://iotblock.io/icatOS/crawler.html
+
+   Crawl through the Graph Node Catalgoues and Meta Data in The Universal IoT Blockchain Database
+
+Map
+====================================================
+
+.. http:get:: https://iotblock.io/icatOS/map.html
+
+   Visually locate Catalogues in a map
+   
