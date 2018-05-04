@@ -12,7 +12,7 @@ contract Key is Ownable {
     
    enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
    event HealthUpdate(Health status);
-    
+
    address public vault;
    State public state;
    Health public health;

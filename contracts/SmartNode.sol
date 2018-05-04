@@ -7,6 +7,7 @@ contract SmartNode is Administered {
   SmartKey smartKey;
   GraphRoot graphRoot;
   
+         
   function SmartNode(GraphRoot _graphRoot, SmartKey _smartKey, address[] adminAddress) 
     Administered(adminAddress)
     public
@@ -36,7 +37,8 @@ contract SmartNode is Administered {
              _node = GraphNode(addr);
          }
          smartKey.putSmartKey(_node, address(_node));
-               
+        
+         
          _parentNode.upsertItem.value(msg.value/2)(_node, _href);
          return graphRoot.upsertItem.value(msg.value/2)(_node, _href);
      }

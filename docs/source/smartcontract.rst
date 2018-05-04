@@ -3,6 +3,8 @@
 Smart Contracts
 ************************************************
 
+
+
 ******************************************************
 The Universal IoT Blockchain Database Smart Contracts
 ******************************************************
@@ -10,6 +12,8 @@ The Universal IoT Blockchain Database Smart Contracts
 The primary entities storing IotBlock Data in Blockchain are individual Smart Contracts deployed on Ethereum network stored decentrally, collectively called The Universal IoT Blockchain Database.
 
 Typically you will use the Ethereum Client (e.g. Web3) to access the IoTBlock Smart Contracts. Each mutating transaction involves gas and an ETH donation, which are shared between Catalogue Creators and IoTBlock on 50/50 basis.
+
+
 
 
 ******************************************************
@@ -206,6 +210,7 @@ Smart Key Smart Contract (SmartKey.sol)
 .. index:: ! visibility, external, public, private, internal
 
 
+
 addSmartKey(address beneficiary) public payable returns(address)
 ==============================================================================
 
@@ -214,6 +219,7 @@ addSmartKey(address beneficiary) public payable returns(address)
    :param address beneficiary: Ethereum Address of the user
    :returns: The Smart Key address of the User
    :rtype: Key address
+
 
 
 getSmartKey(address user) 
@@ -652,6 +658,8 @@ Smart Node Contract (SmartNode.sol)
         
       
     }
+
+
 
 upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
 ==============================================================================
