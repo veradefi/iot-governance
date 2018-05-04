@@ -12,8 +12,6 @@ contract Catalogue is NodeMetaData {
   
   mapping (bytes32 => address) public nodeData; 
  
-  //event CatItemDataUpdate(address indexed user, address indexed catItem);
-
   function Catalogue(SmartKey _smartKey, address[] _adminAddress) 
   public
   NodeMetaData(_smartKey, _adminAddress) 

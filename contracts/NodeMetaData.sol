@@ -12,6 +12,8 @@ contract NodeMetaData is Administered {
   
   SmartKey public smartKey;
 
+  event MetaDataUpdate(address indexed user, address indexed metaDataContract, string rel, string val);
+  
   function NodeMetaData(SmartKey _smartKey, address[] adminAddress) 
   public
   Administered(adminAddress)
@@ -58,6 +60,8 @@ contract NodeMetaData is Administered {
       
       smartKey.addSmartKey.value(msg.value)(address(this));
 
+      MetaDataUpdate(msg.sender, address(this), _rel, _val);
+      
       return data.setVal(_val);
   }
  
