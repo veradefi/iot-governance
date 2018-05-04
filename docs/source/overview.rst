@@ -92,18 +92,6 @@ header::
 
 Smart Key API Token can be obtained via ``https://iotblock.io/icatOS/key.html``
 
-Schema & Date Format
-========================================================================
-
-The IotBlock API returns all requested data as JSON, including error messages.
-
-Blank fields in response bodies will be always included, and will be returned
-with a value of ``null`` if they are a simple value. If they are an array type
-they will be represented as the empty array: ``[]``, or if they represent a
-nested JSON object they will be an empty object: ``{}``.
-
-All timestamps will be returned in the standard ISO8601 format including
-milliseconds, e.g. ``YYYY-MM-DDTHH:MM:SS.sssZ``
 
 Root Endpoint
 ========================================================================
@@ -121,75 +109,18 @@ Further details on this are given in the individual sections for
 :ref:`api-label` and :ref:`hypercat-label`.
 
 
-HTTP Status Codes
+Smart Contracts
+========================================================================
+The primary entities storing IotBlock Data in Blockchain are individual Smart Contracts deployed on Ethereum network stored decentrally, collectively called The Universal IoT Blockchain Database.
+
+Typically you will use the Ethereum Client (e.g. Web3) to access the IoTBlock Smart Contracts. Each mutating transaction involves gas and an ETH donation, which are shared between Catalogue Creators and IoTBlock on 50/50 basis.
+
+
+Web Interface
 ========================================================================
 
-The IotBlock API attempts to use standard HTTP status codes. In general
-responses in the **2xx** range indicate success, codes in the **4xx** range
-indicate an error on the client side (e.g. missing or incorrect parameters or
-invalid request bodies), and codes in the **5xx** range indicate an error in
-the IotBlock servers.
+The Universal IoT Blockchain Database Web Interface provides browser access to IoTBlock Smart Contract and IoTBlock Hypercat API
 
-============================= ==============================================================
-Response Code                 Meaning
-============================= ==============================================================
-``200 OK``                    Request succeeded, response is included
-``204 No Content``            Request succeeded, no response body has been sent
-``400 Bad Request``           Client error, often a missing or incorrect parameter
-``404 Not Found``             Server unable to locate specified resource
-``422 Unprocessable Entity``  Client error, often a malformed JSON body
-``500 Internal Server Error`` Some unexpected error happened in the IotBlock server stack
-``502 Bad Gateway``           One or more of the services IotBlock depends on is unavailable
-``503 Service Unavailable``   The main IotBlock API server is temporarily down
-============================= ==============================================================
+IoTBlock's Web Interface can be accessed at <https://iotblock.io/icatOS>
 
-Errors
-======
-
-In general the IotBlock API attempts to return HTTP status codes that correlate
-with any errors, but to aid debugging for **4xx** errors where the client can
-reasonably expect that an amendment to their request might resolve the problem,
-we also return a JSON body containing some additional information about the
-problem.
-
-An example error response might look like this:
-
-.. sourcecode:: http
-
-   HTTP/1.1 400 Bad Request
-   Content-Length: 200
-   Content-Type: application/vnd.api+json
-
-   {
-     "errors": [
-       {
-         "status": "400",
-         "title": "Invalid query parameter",
-         "detail": "Value must be less than 500"
-         "source": {
-           "parameter": "limit"
-         }
-       }
-     ]
-   }
-
-
-Time Zones
-==========
-
-Currently the IotBlock API returns all timestamps in UTC.
-
-Cross Origin Resource Sharing (CORS)
-========================================================================
-
-The IotBlock API supports simple CORS as every response currently includes the
-required ``Access-Control-Allow-Origin: *`` header which means that **any
-resource** can be accessed by **any domain** in a cross-site manner
-
-Content Types
-========================================================================
-
-``application/vnd.hypercat.catalogue+json``
-    This content type is required MIME type for Hypercat documents, and will be
-    returned for all clients interacting with our Hypercat endpoint.
 
