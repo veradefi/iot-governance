@@ -11,13 +11,31 @@ contract SmartKey is MintableToken
     string public name;                                       //name
     uint8  public decimals;                                   //There could 1000 base units with 3 decimals. 
     string public symbol;                     
-    string public version = 'IoTBlock_Smart_Key_0.01';       // version
+    string public version = 'IoTBlock_SmartKey_0.01';       // version
     address vault;
 
-    event IssueSmartKey(address indexed user, address indexed key);
-    event ActivateSmartKey(address indexed user, address indexed key);
-        
+    //event IssueSmartKey(address indexed user, address indexed key);
+    //event ActivateSmartKey(address indexed user, address indexed key);
+    
+    event KeyEvent(address user, address key, uint256 transaction_type, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
+    
     mapping (address => Key) public  smartKeys;
+
+    struct event_transaction {
+        
+        address account;
+        uint256 date;
+        uint256 amount;
+        
+        uint256 transaction_type;
+        
+        bytes32 transaction_name;
+        bytes32 health_status;
+        
+    }
+    
+    mapping (address => event_transaction[]) public events;
+    
     
     function SmartKey(uint256 _tokens, uint256 _rate, address[] adminAddress) 
     Administered(adminAddress)
@@ -66,7 +84,7 @@ contract SmartKey is MintableToken
     // @return true if the transaction can buy tokens
     function validPurchase() internal constant returns (bool) 
     {
-        bool nonZeroPurchase = msg.value != 0;
+        bool nonZeroPurchase = msg.value > 10000000000000;
         return nonZeroPurchase;
     }
 
@@ -75,49 +93,49 @@ contract SmartKey is MintableToken
     public
     payable 
     {
-        addSmartKey(msg.sender);
+        addSmartKey(msg.sender, 'Deposit');
     }
-
     
-    function addSmartKey(address beneficiary) 
+    
+    function addSmartKey(address beneficiary, bytes32 transaction_name) 
     public
     payable 
     returns(address) 
     {
-        require(beneficiary != 0x0);
-        require(validPurchase());
-        
-        // calculate token amount to be created
-        uint256 tokens = convertToToken(msg.value);
+            require(beneficiary != 0x0);
+            require(validPurchase());
+            
 
-        if (msg.value > 10000000000000) {
             Key key;
             if (smartKeys[beneficiary] == address(0)) 
             {
-                key = new Key(beneficiary); 
+                key = new Key(this, beneficiary); 
                 smartKeys[beneficiary] = key;
-                IssueSmartKey(beneficiary, key);
+                //KeyEvent(msg.sender, address(key), 0,  0, 'IssueKey', key.getHealthStatus());
+                //events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, 'ActivateKey', key.getHealthStatus()));
+                //recordEvent(beneficiary, key, transaction_name, 0, msg.value);
+                //IssueSmartKey(beneficiary, key);
             }
             else 
             {
                 key = smartKeys[beneficiary];
             }
 
+            
+            KeyEvent(msg.sender, address(key), 0, msg.value, transaction_name, key.getHealthStatus());
+            //events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, transaction_name, key.getHealthStatus()));
+                        
             key.activateKey.value(msg.value)(address(key));
             key.addOwner(address(this));
-            //key.activateKey(beneficiary);
+            //ActivateSmartKey(beneficiary, key); 
             
-            ActivateSmartKey(beneficiary, key); 
+            tokenMinted = tokenMinted.add(convertToToken(msg.value));
             
-            tokenMinted = tokenMinted.add(tokens);
+            balances[address(key)] = balances[address(key)].add(convertToToken(msg.value));
+            //Mint(address(key), tokens);
+            Transfer(address(0), address(key), convertToToken(msg.value));
             
-            balances[address(key)] = balances[address(key)].add(tokens);
-            Mint(address(key), tokens);
-            Transfer(address(0), address(key), tokens);
             return address(key);
-        }        
-        
-        return 0x0;
     }
     
     function putSmartKey(Key key, address beneficiary) 

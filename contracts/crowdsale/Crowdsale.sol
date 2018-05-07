@@ -105,7 +105,7 @@ contract Crowdsale is Administered {
     // update state
     weiRaised = weiRaised.add(weiAmount);
     
-    token.addSmartKey.value(msg.value)(beneficiary);
+    token.addSmartKey.value(msg.value)(beneficiary, "CrowdSale");
         
     SmartKeyPurchase(msg.sender, beneficiary, weiAmount, tokens);
     

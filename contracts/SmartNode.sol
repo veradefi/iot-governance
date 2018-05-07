@@ -27,6 +27,8 @@ contract SmartNode is Administered {
          address addr=graphRoot.getItem(_href);
          GraphNode _node;
          if (addr == 0x0) { 
+             
+             
               address[] memory _admins=new address[](3);
              _admins[0]=msg.sender;
              _admins[1]=address(_parentNode);  

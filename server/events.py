@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import threading, logging, time
 import multiprocessing
-
 from kafka import KafkaConsumer, KafkaProducer
-
 import json
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
 from flask import request
@@ -20,6 +18,7 @@ import base64
 import threading
 #from flask import Flask
 
+
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
     bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
@@ -31,6 +30,7 @@ def getContract(item, network, address=None, prefix=""):
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
     conf=conf_c(address)
     return conf
+
 
 network='5'
 port='8545'
@@ -46,7 +46,27 @@ root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartKey=getContract('SmartKey',network)
 # do something....
+
+'''
+
+GET /cat/events
+Client recieves an item update event for item http://example.org/item
+
+id: 14:23:51
+event: http://example.org/item
+data:
+{"href":"http://example.org/item","item­metadata":[{"rel":"urn:X­
+hypercat:rels:hasDescription:en","val":"thing"},{"rel":"...","val
+":"..."},{"rel":"...","val":"..."}]}
     
+Client recieves an item deletion event for item http://example.org/item
+
+id: 14:23:51
+event: http://example.org/item
+data:
+    
+'''
+
 class Producer(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -74,7 +94,6 @@ class Producer(threading.Thread):
             u'childNode': u'0xb9cb9645272e4Aa25b3d2B0e5fE577f1Cc7AcF35'}, 
             'blockNumber': 173, 
             'address': u'0x7725D50411054e1027863363F6e8d6bf8B7ae499', 'logIndex': 18, 'transactionIndex': 0, 'event': u'NewCatalogue'}
-
             '''
             producer.send('Catalogue', json.dumps(event))
             print(event)
