@@ -3,7 +3,7 @@ import "./SmartKey.sol";
 import "./MetaData.sol";
 pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
 
-contract NodeMetaData is Administered {
+contract NodeMetaData is Administered, Key {
        
   //PAS 212:2016
   MetaData[] public meta;
@@ -12,11 +12,12 @@ contract NodeMetaData is Administered {
   
   SmartKey public smartKey;
 
-  event MetaDataUpdate(address indexed user, address indexed metaDataContract, string rel, string val);
+  //event MetaDataUpdate(address indexed user, address indexed metaDataContract, string rel, string val);
   
   function NodeMetaData(SmartKey _smartKey, address[] adminAddress) 
   public
   Administered(adminAddress)
+  Key(_smartKey, address(this))
   {
       smartKey=_smartKey;  
   }
@@ -44,6 +45,8 @@ contract NodeMetaData is Administered {
   returns (bool)
   {
   
+      smartKey.addSmartKey.value(msg.value)(address(this), "MetaDataUpdate");
+
       Key key=smartKey.getSmartKey(msg.sender);
       bytes32 hashVal=key.getHash(_rel);
       MetaData data;
@@ -58,9 +61,8 @@ contract NodeMetaData is Administered {
             data = itemMetaData[hashVal];
       }
       
-      smartKey.addSmartKey.value(msg.value)(address(this));
 
-      MetaDataUpdate(msg.sender, address(this), _rel, _val);
+      //MetaDataUpdate(msg.sender, address(this), _rel, _val);
       
       return data.setVal(_val);
   }

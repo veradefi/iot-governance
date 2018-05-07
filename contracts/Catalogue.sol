@@ -39,7 +39,7 @@ contract Catalogue is NodeMetaData {
   payable
   returns (bool)
   {
-      SmartKey(smartKey).addSmartKey.value(msg.value)(address(this));
+      SmartKey(smartKey).addSmartKey.value(msg.value)(address(this), "NewCatalogueURL");
       
       href=_href;
       return true;      

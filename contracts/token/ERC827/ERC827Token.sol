@@ -91,6 +91,7 @@ contract ERC827Token is ERC827, StandardToken {
    * @param _addedValue The amount of tokens to increase the allowance by.
    * @param _data ABI-encoded contract call to call `_spender` address.
    */
+   
   function increaseApproval(address _spender, uint _addedValue, bytes _data) public returns (bool) {
     require(_spender != address(this));
 
