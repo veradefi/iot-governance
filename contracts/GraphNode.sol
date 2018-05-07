@@ -2,14 +2,13 @@ pragma solidity ^0.4.18; //We have to specify what version of the compiler this 
 
 import "./Catalogue.sol";
 
-contract GraphNode is Catalogue, Key {
+contract GraphNode is Catalogue {
 
   event NewCatalogue(address indexed user, address indexed parentNode, address indexed childNode, string href);
   
   function GraphNode(SmartKey _smartKey, address[] adminAddress) 
   public
   Catalogue(_smartKey, adminAddress)
-  Key(address(this))
   {      
       
       for (uint i=0; i < adminAddress.length; i++) {
@@ -25,7 +24,7 @@ contract GraphNode is Catalogue, Key {
   payable
   returns (bool)
   {  
-      smartKey.addSmartKey.value(msg.value)(address(this));
+      smartKey.addSmartKey.value(msg.value)(address(this), "NewCatalogue");
 
       bytes32 hashVal=getHash(_href);
       

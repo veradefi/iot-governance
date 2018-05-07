@@ -70,6 +70,8 @@ contract MintableToken is ERC827Token, Administered {
    * @dev Function to stop minting new tokens.
    * @return True if the operation was successful.
    */
+
+  /*
   function finishMinting() 
   public
   onlyAdmin 
@@ -87,4 +89,5 @@ contract MintableToken is ERC827Token, Administered {
     MintReopened();
     return true;
   }
+  */
 }

@@ -2,23 +2,23 @@ pragma solidity ^0.4.18;
 
 import '../math/SafeMath.sol';
 import '../ownership/Ownable.sol';
+import '../SmartKey.sol';
 
 contract Key is Ownable {
    
    using SafeMath for uint256;
     
    enum State { Issued, Active, Returned }
-   event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
+   //event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
     
    enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
    event HealthUpdate(Health status);
 
+   SmartKey public smartKey;
    address public vault;
    State public state;
    Health public health;
-   
    uint256 public contrib_amount;
-    
    mapping (address => uint256) public activated;
 
    struct transaction {
@@ -33,14 +33,15 @@ contract Key is Ownable {
     
    mapping (address => transaction[]) public transactions;
 
-   function Key(address _vault) 
+   function Key(SmartKey _smartKey, address _vault) 
    public
    {
         require(_vault != 0x0);
         vault = _vault;
+        smartKey=_smartKey;
         state = State.Issued;
         isOwner[_vault]=true;
-        KeyStateUpdate(msg.sender, vault, state);
+        //KeyStateUpdate(msg.sender, vault, state);
    }
 
    function getTransactionCount(address _address) 
@@ -67,13 +68,19 @@ contract Key is Ownable {
    
         if (msg.value > 10000000000000) {
             health = _health;
+            
+            if (uint256(_health) > 1) {
+                smartKey.addSmartKey.value(msg.value)(address(this), 'HealthWarning');
+                
+            } else {
+                smartKey.addSmartKey.value(msg.value)(address(this), 'HealthUpdate');
+                
+            }
             HealthUpdate(_health);
-            
-            activated[msg.sender] = activated[msg.sender].add(msg.value);     
-            
-            contrib_amount=contrib_amount.add(msg.value);    
-            transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
-            
+                        
+            //activated[msg.sender] = activated[msg.sender].add(msg.value);     
+            //contrib_amount=contrib_amount.add(msg.value);    
+            //transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
             //if (vault != address(this) && vault != address(msg.sender)) {
             //    vault.transfer(msg.value);
             //}
@@ -90,6 +97,30 @@ contract Key is Ownable {
         return health;   
    }
    
+   function getHealthStatus()
+   view 
+   public 
+   returns (bytes32)
+   {
+       if (health == Health.Provisioning) 
+           return 'Provisioning';
+       else if (health == Health.Certified) 
+           return 'Certified';
+       else if (health == Health.Modified) 
+           return 'Modified';
+       else if (health == Health.Compromised) 
+           return 'Compromised';
+       else if (health == Health.Malfunctioning) 
+           return 'Malfunctioning';
+       else if (health == Health.Harmful) 
+           return 'Harmful';
+       else if (health == Health.Counterfeit) 
+           return 'Counterfeit';
+
+       return 'Counterfeit';
+
+   }
+   
    function activateKey(address user) 
    public
    payable
@@ -97,11 +128,12 @@ contract Key is Ownable {
 
         if (msg.value > 10000000000000) {
             state = State.Active;
-            KeyStateUpdate(msg.sender, vault, state);
+            //KeyStateUpdate(msg.sender, vault, state);
             activated[user] = activated[user].add(msg.value);     
             
             contrib_amount=contrib_amount.add(msg.value);    
             transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
+            
         }
    }
 
@@ -112,7 +144,7 @@ contract Key is Ownable {
    {
         require(state == State.Active);
         state = State.Returned;
-        KeyStateUpdate(msg.sender, vault, state);
+        //KeyStateUpdate(msg.sender, vault, state);
    }
    
    function getHash(string key) 

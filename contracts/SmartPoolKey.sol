@@ -42,7 +42,7 @@ contract SmartPoolKey is Administered
         PoolKey key;
         if (smartPoolKeys[beneficiary] == address(0)) 
         {
-            key = new PoolKey(vault, beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, _has_whitelist, fee, _autoDistribute);    
+            key = new PoolKey(smartKey, vault, beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, _has_whitelist, fee, _autoDistribute);    
             smartPoolKeys[beneficiary]=key;
         }
         else 
