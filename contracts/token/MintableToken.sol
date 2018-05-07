@@ -89,5 +89,5 @@ contract MintableToken is ERC827Token, Administered {
     MintReopened();
     return true;
   }
-  */
+  */    
 }
