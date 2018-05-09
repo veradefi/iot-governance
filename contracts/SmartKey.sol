@@ -14,7 +14,7 @@ contract SmartKey is MintableToken
     string public version = 'IoTBlock_SmartKey_0.01';       // version
     address vault;
 
-    event KeyEvent(address user, address key, address data_contract, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
+    event KeyEvent(address user, address key, address beneficiary, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
     
     mapping (address => Key) public  smartKeys;
 
@@ -58,15 +58,6 @@ contract SmartKey is MintableToken
     }
     
   
-    function getBalanceInEth(address addr) 	
-    public
-    view
-    returns(uint)
-    {
-    
-		return convertToWei( balances[addr] );
-		
-	}
 
     function getBalance(address addr) 
 	public
@@ -87,43 +78,43 @@ contract SmartKey is MintableToken
     public
     payable 
     {
-        addSmartKey(getSmartKey(msg.sender), address(this), 'Deposit');
+        loadSmartKey(getSmartKey(msg.sender), address(this), 'Deposit');
     }
     
-
     function getSmartKey(address beneficiary) 	
     public
+    view
     returns (Key) 
     { 
-        if (smartKeys[beneficiary] == address(0)) 
-        {
-            smartKeys[beneficiary] = new Key(this, beneficiary); 
-            //events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, 'ActivateKey', smartKeys[beneficiary].getHealthStatus()));
-           
-        }
       
         return smartKeys[beneficiary];
         
     }
-    
-    function addSmartKey(Key key, address data_contract,  bytes32 transaction_name) 
+
+    function loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) 
     public
     payable 
     returns(bool) 
     {
-            require(address(key) != address(0));
+            //require(address(key) != address(0));
             require(validPurchase());
+            
+            if (address(key) == address(0) && smartKeys[beneficiary] == address(0)) 
+            {
+                key = new Key(this, beneficiary); 
+                smartKeys[beneficiary]=key;
+            }
             
             uint256 token=convertToToken(msg.value);            
             bytes32 healthStatus=key.getHealthStatus();
             
-            KeyEvent(msg.sender, address(key), data_contract, msg.value, transaction_name, healthStatus);
-            events[address(key)].push(event_transaction(data_contract,now,msg.value, 0, transaction_name, healthStatus));            
+            KeyEvent(msg.sender, address(key), beneficiary, msg.value, transaction_name, healthStatus);
+            events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, transaction_name, healthStatus));            
             tokenMinted = tokenMinted.add(token);
-            balances[address(data_contract)] = balances[address(data_contract)].add(token);
-            Transfer(address(0), address(data_contract), token);
+            balances[address(beneficiary)] = balances[address(beneficiary)].add(token);
+            Transfer(address(0), address(beneficiary), token);
    
-            key.activateKey.value(msg.value)(address(data_contract));
+            key.activateKey.value(msg.value)(address(beneficiary));
             
             return true;
     }
@@ -163,14 +154,6 @@ contract SmartKey is MintableToken
     }
 
         
-    function convertToWei(uint256 amount) 
-    public
-    view
-    returns (uint256) 
-    {
-		return amount.mul(rate);
-    }
-
     function convertToToken(uint256 amount) 
     public
     view
