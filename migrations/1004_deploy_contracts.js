@@ -15,7 +15,7 @@ var admins=[
             
 module.exports = async (deployer) => {
   
-  await deployer.deploy(GraphRoot, SmartKey.address, admins,  "https://iotblock.io/cat");
+  await deployer.deploy(GraphRoot, SmartKey.address, admins,  "/cat");
   //deployer.deploy(CatalogueItem, SmartKey.address, admins);
   //await deployer.deploy(Catalogue, SmartKey.address, admins);
 };

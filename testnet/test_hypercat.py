@@ -46,7 +46,7 @@ auth={ 'auth':address }
 key=gc.call({ 'from': address}).smartKeys(address);
 print (key)
 if key == '0x0000000000000000000000000000000000000000':
-    gc.transact({ 'from': address }).getSmartKey(address)
+    print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, "Deposit"))
     key=gc.call({ 'from': address}).smartKeys(address);
     print(key)
     kc=getContract('Key',network, key, prefix="pki_")
@@ -54,8 +54,8 @@ else:
     kc=getContract('Key',network, key, prefix="pki_")
 
 print (key, address, "Deposit")
-print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(key, address, "Deposit"))
-#print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(address))
+print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, "Deposit"))
+#print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(address))
 kc=getContract('Key',network, key, prefix="pki_")
 print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())

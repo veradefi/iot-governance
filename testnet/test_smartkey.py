@@ -25,21 +25,18 @@ network='5'
 port='8545'
 web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 address=web3.eth.coinbase
-address2=web3.eth.accounts[1]
+address2=web3.eth.accounts[0]
 
 print (address, address2)
 gc=getContract('SmartKey',network)
 io=getContract('PublicOffering',network)
 amount=1000000000000000000 #1 ETH
 
-print ('getTokenBalanceInEth for address1', gc.call({ 'from': address2}).getBalanceInEth(address))
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
-print (io.transact({ 'from': address2, 'value': amount}).addSmartKey(address2))
+print (io.transact({ 'from': address2, 'value': amount}).loadSmartKey(address2))
 print ('convertToToken', gc.call({ 'from': address2}).convertToToken(amount))
-print (gc.transact({ 'from': address2, 'value': amount}).addSmartKey(address2))
-#print ('addSmartKey', gc.call({ 'from': address2, 'value': amount}).addSmartKey(address2))
-print ('getBalanceInEth', gc.call({ 'from': address2}).getBalanceInEth(address2))
+print (gc.transact({ 'from': address2, 'value': amount}).loadSmartKey(address2))
 print ('getBalance', gc.call({ 'from': address2}).getBalance(address2))
 print ('getSmartKey', gc.call({ 'from': address2 }).getSmartKey(address2))
 key=gc.call({ 'from': address2 }).getSmartKey(address2)
@@ -48,10 +45,8 @@ print ('Key Activated', kc.call({ 'from': address2}).activated(address2))
 print ('Key State', kc.call({ 'from': address2}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 
-print ('getTokenBalanceInEth for address1', gc.call({ 'from': address2}).getBalanceInEth(address))
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
 print ('getBalance (eth) for key',web3.eth.getBalance(key))
-print ('getTokenBalanceInEth for key', gc.call({ 'from': address2}).getBalanceInEth(key))
 
 
