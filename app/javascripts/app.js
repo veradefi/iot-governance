@@ -27,8 +27,8 @@ import poolkey_artifacts from '../../build/contracts/PoolKey.json'
 import smart_node_artifacts from '../../build/contracts/SmartNode.json'
 
 //var providerUrl = "https://iotblock.io/rpc";
-//var providerUrl = "http://localhost:8545";
-var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
+var providerUrl = "http://localhost:8545";
+//var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
 var host=providerUrl;
     
 var shajs = require('sha.js')
@@ -260,8 +260,8 @@ window.add_smartkey = function(beneficiary, callback)
                         console.log('Key Address', keyAddress.toLowerCase());
                         callback(keyAddress.toLowerCase());
                     } else {
-                        return contractInstance.addSmartKey(beneficiary.toLowerCase(), {from: window.address, value: eth1, gas:4000000, gasPrice:1000000000}).then(function(keyAddress) {
-                            return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
+                        return contractInstance.loadSmartKey(keyAddress, beneficiary.toLowerCase(), "Deposit", {from: window.address, value: eth1, gas:4000000, gasPrice:1000000000}).then(function(keyAddress) {
+                            return contractInstance.getSmartKey(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
                        
                                         //alert(keyAddress.toString());
                                         callback(keyAddress.toString().toLowerCase());

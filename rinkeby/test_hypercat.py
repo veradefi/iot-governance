@@ -37,19 +37,30 @@ root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 amount=1000000000000000000 #1 ETH
 
-price=amount/10000
-amount=amount/10000
+price=amount/100
+amount=amount/100
 
 auth={ 'auth':address }
 
 # get smart key
-print (io.transact({ 'from': address, 'value': amount}).addSmartKey(address))
-#print (gc.transact({ 'from': address, 'value': amount}).addSmartKey(address))
-key=gc.call({ 'from': address }).getSmartKey(address)
+key=gc.call({ 'from': address}).smartKeys(address);
+print (key)
+if key == '0x0000000000000000000000000000000000000000':
+    print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, "Deposit"))
+    key=gc.call({ 'from': address}).smartKeys(address);
+    print(key)
+    kc=getContract('Key',network, key, prefix="pki_")
+else:
+    kc=getContract('Key',network, key, prefix="pki_")
+
+print (key, address, "Deposit")
+print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, "Deposit"))
+#print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(address))
 kc=getContract('Key',network, key, prefix="pki_")
 print ('Key Activated', kc.call({ 'from': address}).activated(address))
 print ('Key State', kc.call({ 'from': address}).state())
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
+
 
 def upsertNode(graphAddr, href, auth, contrib):
     if not re.search('/cat$',href):
@@ -84,6 +95,7 @@ def upsertNode(graphAddr, href, auth, contrib):
     
     print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
     print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
+
     
 def getData(graphRoot, href):
 
@@ -139,7 +151,6 @@ upsertNode(brand.address, href, auth, price)
 iotblock=getContract('GraphNode', network, brand.call({'from':address}).getItem(href))
 getData(iotblock, href)
 
-
 href="https://iotblock.io/cat/location"
 upsertNode(root.address, href, auth, price)
 location=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
@@ -147,22 +158,22 @@ getData(location, href)
 
 href="https://iotblock.io/cat/location/earth"
 upsertNode(location.address, href, auth, price)
-earth=getContract('GraphNode', network, location.call({'from':address}).getItem(href))
+earth=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
 getData(earth, href)
 
 href="https://iotblock.io/cat/location/earth/singapore"
 upsertNode(earth.address, href, auth, price)
-singapore=getContract('GraphNode',network, earth.call({'from':address}).getItem(href))
+singapore=getContract('GraphNode',network, root.call({'from':address}).getItem(href))
 getData(singapore, href)
 
 href="https://iotblock.io/cat/location/earth/singapore/changee"
 upsertNode(singapore.address, href, auth, price)
-changee=getContract('GraphNode',network, singapore.call({'from':address}).getItem(href))
+changee=getContract('GraphNode',network, root.call({'from':address}).getItem(href))
 getData(changee, href)
 
 href="https://iotblock.io/cat/location/earth/singapore/changee/airport"
 upsertNode(changee.address, href, auth, price)
-airport=getContract('GraphNode',network, changee.call({'from':address}).getItem(href))
+airport=getContract('GraphNode',network, root.call({'from':address}).getItem(href))
 getData(airport, href)
 
 '''

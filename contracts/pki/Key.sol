@@ -71,10 +71,10 @@ contract Key is Ownable {
             health = _health;
             
             if (uint256(_health) > 1) {
-                smartKey.addSmartKey.value(msg.value)(this, address(this), bytes32('HealthWarning'));
+                smartKey.loadSmartKey.value(msg.value)(this, address(this), bytes32('HealthWarning'));
                 
             } else {
-                smartKey.addSmartKey.value(msg.value)(this, address(this), bytes32('HealthUpdate'));
+                smartKey.loadSmartKey.value(msg.value)(this, address(this), bytes32('HealthUpdate'));
                 
             }
             HealthUpdate(_health);

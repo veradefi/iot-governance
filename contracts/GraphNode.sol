@@ -40,7 +40,7 @@ contract GraphNode is Catalogue {
       
       }
   
-      smartKey.addSmartKey.value(msg.value)(Key(this), address(_node), bytes32("NewCatalogue"));
+      smartKey.loadSmartKey.value(msg.value)(Key(this), address(_node), bytes32("NewCatalogue"));
       
       //NewCatalogue(msg.sender, address(this), address(_node), _href);
             
