@@ -14,10 +14,7 @@ contract SmartKey is MintableToken
     string public version = 'IoTBlock_SmartKey_0.01';       // version
     address vault;
 
-    //event IssueSmartKey(address indexed user, address indexed key);
-    //event ActivateSmartKey(address indexed user, address indexed key);
-    
-    event KeyEvent(address user, address key, uint256 transaction_type, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
+    event KeyEvent(address user, address key, address data_contract, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
     
     mapping (address => Key) public  smartKeys;
 
@@ -35,7 +32,6 @@ contract SmartKey is MintableToken
     }
     
     mapping (address => event_transaction[]) public events;
-    
     
     function SmartKey(uint256 _tokens, uint256 _rate, address[] adminAddress) 
     Administered(adminAddress)
@@ -61,7 +57,6 @@ contract SmartKey is MintableToken
         return true;                
     }
     
-    
   
     function getBalanceInEth(address addr) 	
     public
@@ -84,8 +79,7 @@ contract SmartKey is MintableToken
     // @return true if the transaction can buy tokens
     function validPurchase() internal constant returns (bool) 
     {
-        bool nonZeroPurchase = msg.value > 10000000000000;
-        return nonZeroPurchase;
+        return msg.value > 1000000000;
     }
 
     // fallback function can be used to buy tokens
@@ -93,49 +87,45 @@ contract SmartKey is MintableToken
     public
     payable 
     {
-        addSmartKey(msg.sender, 'Deposit');
+        addSmartKey(getSmartKey(msg.sender), address(this), 'Deposit');
     }
     
+
+    function getSmartKey(address beneficiary) 	
+    public
+    returns (Key) 
+    { 
+        if (smartKeys[beneficiary] == address(0)) 
+        {
+            smartKeys[beneficiary] = new Key(this, beneficiary); 
+            //events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, 'ActivateKey', smartKeys[beneficiary].getHealthStatus()));
+           
+        }
+      
+        return smartKeys[beneficiary];
+        
+    }
     
-    function addSmartKey(address beneficiary, bytes32 transaction_name) 
+    function addSmartKey(Key key, address data_contract,  bytes32 transaction_name) 
     public
     payable 
-    returns(address) 
+    returns(bool) 
     {
-            require(beneficiary != 0x0);
+            require(address(key) != address(0));
             require(validPurchase());
             
-
-            Key key;
-            if (smartKeys[beneficiary] == address(0)) 
-            {
-                key = new Key(this, beneficiary); 
-                smartKeys[beneficiary] = key;
-                //KeyEvent(msg.sender, address(key), 0,  0, 'IssueKey', key.getHealthStatus());
-                //events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, 'ActivateKey', key.getHealthStatus()));
-                //recordEvent(beneficiary, key, transaction_name, 0, msg.value);
-                //IssueSmartKey(beneficiary, key);
-            }
-            else 
-            {
-                key = smartKeys[beneficiary];
-            }
-
+            uint256 token=convertToToken(msg.value);            
+            bytes32 healthStatus=key.getHealthStatus();
             
-            KeyEvent(msg.sender, address(key), 0, msg.value, transaction_name, key.getHealthStatus());
-            //events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, transaction_name, key.getHealthStatus()));
-                        
-            key.activateKey.value(msg.value)(address(key));
-            key.addOwner(address(this));
-            //ActivateSmartKey(beneficiary, key); 
+            KeyEvent(msg.sender, address(key), data_contract, msg.value, transaction_name, healthStatus);
+            events[address(key)].push(event_transaction(data_contract,now,msg.value, 0, transaction_name, healthStatus));            
+            tokenMinted = tokenMinted.add(token);
+            balances[address(data_contract)] = balances[address(data_contract)].add(token);
+            Transfer(address(0), address(data_contract), token);
+   
+            //address(key).transfer(msg.value);
             
-            tokenMinted = tokenMinted.add(convertToToken(msg.value));
-            
-            balances[address(key)] = balances[address(key)].add(convertToToken(msg.value));
-            //Mint(address(key), tokens);
-            Transfer(address(0), address(key), convertToToken(msg.value));
-            
-            return address(key);
+            return true;
     }
     
     function putSmartKey(Key key, address beneficiary) 
@@ -161,26 +151,17 @@ contract SmartKey is MintableToken
     }
     
  
-   function transferEth(uint amount, address sender, address beneficiary) 
-   public
-   {
+    function transferEth(uint amount, address sender, address beneficiary) 
+    public
+    {
         require(sender != 0x0);
         require(beneficiary != 0x0);
         require(smartKeys[sender] != address(0));
         if (isAdmin[msg.sender] || smartKeys[sender].isOwner(msg.sender)) {
             smartKeys[sender].transferEth(amount, beneficiary);
         }
-   }
-
-    function getSmartKey(address user) 	
-    public
-    view
-    returns (Key) 
-    {    
-        
-        return smartKeys[user];
-        
     }
+
         
     function convertToWei(uint256 amount) 
     public
