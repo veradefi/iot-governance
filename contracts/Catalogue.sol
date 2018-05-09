@@ -33,7 +33,7 @@ contract Catalogue is NodeMetaData {
   {
       
       href=_href;
-      smartKey.addSmartKey.value(msg.value)(Key(this), address(this), bytes32("NewCatalogueURL"));
+      //smartKey.addSmartKey.value(msg.value)(Key(this), address(this), bytes32("NewCatalogueURL"));
       return true;      
   }
 

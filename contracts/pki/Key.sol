@@ -71,17 +71,17 @@ contract Key is Ownable {
             health = _health;
             
             if (uint256(_health) > 1) {
-                smartKey.addSmartKey.value(msg.value)(this, address(this), 'HealthWarning');
+                smartKey.addSmartKey.value(msg.value)(this, address(this), bytes32('HealthWarning'));
                 
             } else {
-                smartKey.addSmartKey.value(msg.value)(this, address(this), 'HealthUpdate');
+                smartKey.addSmartKey.value(msg.value)(this, address(this), bytes32('HealthUpdate'));
                 
             }
             HealthUpdate(_health);
                         
-            //activated[msg.sender] = activated[msg.sender].add(msg.value);     
-            //contrib_amount=contrib_amount.add(msg.value);    
+            contrib_amount=contrib_amount.add(msg.value);    
             transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
+            //activated[msg.sender] = activated[msg.sender].add(msg.value);     
             //if (vault != address(this) && vault != address(msg.sender)) {
             //    vault.transfer(msg.value);
             //}
@@ -127,14 +127,10 @@ contract Key is Ownable {
    payable
    {
 
-        if (msg.value > 10000000000000) {
-            state = State.Active;
-            //KeyStateUpdate(msg.sender, vault, state);
-            activated[user] = activated[user].add(msg.value);     
-            contrib_amount=contrib_amount.add(msg.value);    
-            transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
-            
-        }
+        state = State.Active;
+        //activated[msg.sender] = activated[msg.sender].add(msg.value);     
+        contrib_amount=contrib_amount.add(msg.value);    
+        transactions[user].push(transaction(msg.sender,now,msg.value, 0));
    }
 
     
@@ -144,7 +140,6 @@ contract Key is Ownable {
    {
         require(state == State.Active);
         state = State.Returned;
-        //KeyStateUpdate(msg.sender, vault, state);
    }
    
    function getHash(string key) 
