@@ -95,8 +95,10 @@ class Producer(threading.Thread):
             'blockNumber': 173, 
             'address': u'0x7725D50411054e1027863363F6e8d6bf8B7ae499', 'logIndex': 18, 'transactionIndex': 0, 'event': u'NewCatalogue'}
             '''
-            producer.send('Catalogue', json.dumps(event))
-            print(event)
+            evt=json.dumps(event)
+            evt=evt.replace('\u0000','')
+            producer.send('KeyEvent', evt)
+            print(evt)
           time.sleep(1)
 
         producer.close()
@@ -113,7 +115,7 @@ class Consumer(multiprocessing.Process):
         consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
                                  auto_offset_reset='earliest',
                                  consumer_timeout_ms=1000)
-        consumer.subscribe(['Catalogue'])
+        consumer.subscribe(['KeyEvent'])
 
         while not self.stop_event.is_set():
             for message in consumer:
