@@ -23,26 +23,24 @@ contract SmartNode is Administered {
   returns (bool)
   {
       
-     if (msg.value > 10000000000000) {
+     if (msg.value > 10000000) {
          address addr=graphRoot.getItem(_href);
-         GraphNode _node;
-         if (addr == 0x0) { 
+         if (addr == address(0)) { 
              
-             
-              address[] memory _admins=new address[](3);
+              address[] memory _admins=new address[](4);
              _admins[0]=msg.sender;
              _admins[1]=address(_parentNode);  
              _admins[2]=address(this);  
+             _admins[3]=address(graphRoot);  
                 
-             _node = new GraphNode(smartKey, _admins);
-         } else {
-             _node = GraphNode(addr);
+             addr=address(new GraphNode(smartKey, _admins, _href));
+             
          }
-         smartKey.putSmartKey(_node, address(_node));
-        
          
-         _parentNode.upsertItem.value(msg.value/2)(_node, _href);
-         return graphRoot.upsertItem.value(msg.value/2)(_node, _href);
+         smartKey.putSmartKey(GraphNode(addr), addr);
+         
+         _parentNode.upsertItem.value(msg.value/2)(GraphNode(addr), _href);
+         return graphRoot.upsertItem.value(msg.value/2)(GraphNode(addr), _href);
      }
      return false;
       

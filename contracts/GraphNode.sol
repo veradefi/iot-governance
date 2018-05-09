@@ -4,18 +4,21 @@ import "./Catalogue.sol";
 
 contract GraphNode is Catalogue {
 
-  event NewCatalogue(address indexed user, address indexed parentNode, address indexed childNode, string href);
+  //event NewCatalogue(address indexed user, address indexed parentNode, address indexed childNode, string href);
   
-  function GraphNode(SmartKey _smartKey, address[] adminAddress) 
+  function GraphNode(SmartKey _smartKey, address[] adminAddress, string _href) 
   public
   Catalogue(_smartKey, adminAddress)
   {      
       
+      href=_href;
       for (uint i=0; i < adminAddress.length; i++) {
         addOwner(adminAddress[i]);
          
       } 
       addOwner(address(_smartKey));
+      addOwner(address(this));
+      
      
   }
   
@@ -24,40 +27,44 @@ contract GraphNode is Catalogue {
   payable
   returns (bool)
   {  
-      smartKey.addSmartKey.value(msg.value)(address(this), "NewCatalogue");
 
-      bytes32 hashVal=getHash(_href);
       
-      if (nodeData[hashVal] == address(0)) 
+      bytes32 hashVal = getHash(_href);
+
+      if (getItem(_href) == 0x0)
       {
       
-            nodeData[hashVal]=address(_node);
             items.push(address(_node));
-            _node.setHref.value(msg.value)(_href);
-      }
+            nodeData[hashVal]=address(_node);
+            //
       
-      NewCatalogue(msg.sender, address(this), address(_node), _href);
+      }
+  
+      smartKey.addSmartKey.value(msg.value)(Key(this), address(_node), bytes32("NewCatalogue"));
+      
+      //NewCatalogue(msg.sender, address(this), address(_node), _href);
             
       return true;
       
   }
   
   function getItem(string _href) 
-  constant
   public
+  view
   returns (address) 
   {      
-      bytes32 hashVal=getHash(_href);
-      
-      if (nodeData[hashVal] != address(0)) 
-      {
-         return nodeData[hashVal];
-      }
-
-      if (bytes(_href).length < 1)
-      {
+      if (bytes(_href).length < 1) {
           return this;
-      }
+      } else {
+      
+          bytes32 hashVal=getHash(_href);
+          
+          if (nodeData[hashVal] != address(0)) 
+          {
+             return nodeData[hashVal];
+          }
+      }      
+
       
       return 0x0;
       

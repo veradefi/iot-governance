@@ -38,7 +38,6 @@ contract Whitelisted is Administered {
   modifier onlyWhitelist() 
   {    
     require(!hasWhitelist || isWhitelisted[msg.sender]);
-    require(!isBanned[msg.sender]);
     _;
   }
   
@@ -49,6 +48,19 @@ contract Whitelisted is Administered {
         isWhitelisted[_whitelistAddress]=true;
         whitelist.push(_whitelistAddress);
         hasWhitelist=true;
+  }
+
+  function removeWhitelist(address _user) 
+  public
+  onlyAdmin
+  {
+        isWhitelisted[_user]=false;
+        for (uint i=0; i < whitelist.length; i++) {
+            if (_user==whitelist[i]) {
+                delete whitelist[i];
+            }
+        } 
+        
   }
   
 

@@ -9,12 +9,13 @@ contract MetaData is Administered {
   string public rel;
   string public val;
  
-  function MetaData(SmartKey _smartKey, address[] adminAddress, string _rel) 
+  function MetaData(SmartKey _smartKey, address[] adminAddress, string _rel, string _val) 
   public
   Administered(adminAddress)
   {
       smartKey=_smartKey;
       rel=_rel;
+      val=_val;
   }
   
   function setVal(string _val) 
