@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
-from flask import request
+from flask import request, Flask, Response
 import json
 import sys
 import json
@@ -14,6 +14,12 @@ from datetime import datetime
 import base64
 import threading
 from flask import Flask
+import gevent
+from gevent.wsgi import WSGIServer
+from gevent.queue import Queue
+import threading, logging, time
+import multiprocessing
+from kafka import KafkaConsumer, KafkaProducer
 
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
@@ -40,6 +46,7 @@ io=getContract('PublicOffering',network)
 root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartKey=getContract('SmartKey',network)
+subscriptions = []
 
 
 
@@ -978,6 +985,26 @@ def setDeviceHealth():
     )
     return response
 
+@app.route("/events")
+@app.route("/cat/events")
+def subscribe():
+
+    def consume():
+            consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
+                             auto_offset_reset='earliest',
+                             consumer_timeout_ms=1000)
+            consumer.subscribe(['KeyEvent'])
+    
+            while True:
+                for message in consumer:
+                    print(message)
+                    url="/cat/events"
+                    yield "id: %s\nevent: %s\ndata: %s\n\n" % (message.offset,url, message.value)
+                    
+            consumer.close()
+
+    return Response(consume(), mimetype="text/event-stream")
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -1032,7 +1059,10 @@ def catch_all(path):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8888)
+    #app.run(debug=True, port=8888)
+    app.debug = True
+    server = WSGIServer(("", 8888), app)
+    server.serve_forever()
 
 
 
