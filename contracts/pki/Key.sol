@@ -41,6 +41,7 @@ contract Key is Ownable {
         smartKey=_smartKey;
         state = State.Issued;
         isOwner[_vault]=true;
+        isOwner[address(_smartKey)]=true;
         //KeyStateUpdate(msg.sender, vault, state);
    }
 
@@ -70,17 +71,17 @@ contract Key is Ownable {
             health = _health;
             
             if (uint256(_health) > 1) {
-                smartKey.addSmartKey.value(msg.value)(address(this), 'HealthWarning');
+                smartKey.addSmartKey.value(msg.value)(this, address(this), 'HealthWarning');
                 
             } else {
-                smartKey.addSmartKey.value(msg.value)(address(this), 'HealthUpdate');
+                smartKey.addSmartKey.value(msg.value)(this, address(this), 'HealthUpdate');
                 
             }
             HealthUpdate(_health);
                         
             //activated[msg.sender] = activated[msg.sender].add(msg.value);     
             //contrib_amount=contrib_amount.add(msg.value);    
-            //transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
+            transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
             //if (vault != address(this) && vault != address(msg.sender)) {
             //    vault.transfer(msg.value);
             //}
@@ -130,7 +131,6 @@ contract Key is Ownable {
             state = State.Active;
             //KeyStateUpdate(msg.sender, vault, state);
             activated[user] = activated[user].add(msg.value);     
-            
             contrib_amount=contrib_amount.add(msg.value);    
             transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
             

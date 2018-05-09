@@ -1,7 +1,6 @@
 pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
 
 
-
 /**
  * @title Admin
  * @dev The Admin contract has Admin addresses, and provides basic authorization control
@@ -9,7 +8,6 @@ pragma solidity ^0.4.18; //We have to specify what version of the compiler this 
  */
 contract Administered {
   mapping (address => bool) public isAdmin;
-  mapping (address => bool) public isBanned;
   address[] public admins;
 
   /**
@@ -32,7 +30,6 @@ contract Administered {
   modifier onlyAdmin() 
   {
     require(isAdmin[msg.sender]);
-    require(!isBanned[msg.sender]);
     _;
   }
   
@@ -41,7 +38,6 @@ contract Administered {
   onlyAdmin 
   {
         require(isAdmin[msg.sender]);
-        require(!isBanned[msg.sender]);
         isAdmin[admin]=true;
         admins.push(admin);
   }
@@ -51,17 +47,22 @@ contract Administered {
   onlyAdmin 
   {
         require(isAdmin[msg.sender]);
-        require(!isBanned[msg.sender]);
-        isBanned[banned]=true;
+        isAdmin[banned]=false;
+        for (uint i=0; i < admins.length; i++) {
+            if (banned==admins[i]) {
+                delete admins[i];
+            }
+        } 
+        
+        
   }
 
   function getAdmins() 
   public
   constant 
   returns (address[]) 
-  {
-        //require(isAdmin[msg.sender]);
-        //require(!isBanned[msg.sender]);
+  {     
+
         return admins;
   }
 

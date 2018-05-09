@@ -10,8 +10,6 @@ contract NodeMetaData is Administered, Key {
   mapping (bytes32 => MetaData) public itemMetaData; // rel is hashed to bytes32 data   
   //PAS 212:2016
   
-  SmartKey public smartKey;
-
   //event MetaDataUpdate(address indexed user, address indexed metaDataContract, string rel, string val);
   
   function NodeMetaData(SmartKey _smartKey, address[] adminAddress) 
@@ -45,26 +43,19 @@ contract NodeMetaData is Administered, Key {
   returns (bool)
   {
   
-      smartKey.addSmartKey.value(msg.value)(address(this), "MetaDataUpdate");
+      bytes32 hashVal=getHash(_rel);
+      
 
-      Key key=smartKey.getSmartKey(msg.sender);
-      bytes32 hashVal=key.getHash(_rel);
-      MetaData data;
       if (itemMetaData[hashVal] == address(0)) {
             address[] storage _admins=admins;
             _admins.push(address(this));
             _admins.push(msg.sender);
-            data = new MetaData(smartKey, admins, _rel);
-            itemMetaData[hashVal]=data;
-            meta.push(data);
-      } else {
-            data = itemMetaData[hashVal];
-      }
+            itemMetaData[hashVal]=new MetaData(smartKey, admins, _rel, _val);
+            meta.push(itemMetaData[hashVal]);
+      } 
       
-
-      //MetaDataUpdate(msg.sender, address(this), _rel, _val);
-      
-      return data.setVal(_val);
+      smartKey.addSmartKey.value(msg.value)(Key(this), address(itemMetaData[hashVal]), bytes32("MetaDataUpdate"));
+      return true;
   }
  
 }

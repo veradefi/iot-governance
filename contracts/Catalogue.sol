@@ -25,23 +25,15 @@ contract Catalogue is NodeMetaData {
   {
          return items;
   }
-  
-  function selectHref() 
-  constant
-  public
-  returns (bytes) 
-  {
-         return bytes(href);
-  }
 
   function setHref(string _href) 
   public
-  payable
+  onlyAdmin
   returns (bool)
   {
-      SmartKey(smartKey).addSmartKey.value(msg.value)(address(this), "NewCatalogueURL");
       
       href=_href;
+      smartKey.addSmartKey.value(msg.value)(Key(this), address(this), bytes32("NewCatalogueURL"));
       return true;      
   }
 

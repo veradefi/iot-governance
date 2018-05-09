@@ -5,9 +5,9 @@ import "./GraphNode.sol";
 contract GraphRoot is GraphNode
 {
       
-  function GraphRoot(SmartKey _smartKey, address[] adminAddress) 
+  function GraphRoot(SmartKey _smartKey, address[] adminAddress, string _href) 
   public
-  GraphNode(_smartKey, adminAddress)
+  GraphNode(_smartKey, adminAddress, _href)
   {
   }
   
