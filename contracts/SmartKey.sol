@@ -123,7 +123,7 @@ contract SmartKey is MintableToken
             balances[address(data_contract)] = balances[address(data_contract)].add(token);
             Transfer(address(0), address(data_contract), token);
    
-            //address(key).transfer(msg.value);
+            key.activateKey.value(msg.value)(address(data_contract));
             
             return true;
     }
