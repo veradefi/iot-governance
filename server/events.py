@@ -78,7 +78,7 @@ class Producer(threading.Thread):
     def run(self):
         producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
-        listener = root.on('NewCatalogue')
+        listener = smartKey.on('KeyEvent')
         while not self.stop_event.is_set():
           events = listener.get()
           if not events:
