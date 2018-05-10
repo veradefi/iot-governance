@@ -3,4 +3,6 @@ sphinx_rtd_theme
 sphinxcontrib-httpdomain 
 web3
 flask
+gevent
+kafka
 
