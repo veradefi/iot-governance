@@ -1,7 +1,8 @@
+pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
+
 import "./admin/Administered.sol";
 import "./SmartKey.sol";
 import "./MetaData.sol";
-pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
 
 contract NodeMetaData is Administered, Key {
        
