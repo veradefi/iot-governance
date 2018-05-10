@@ -36,7 +36,6 @@ contract GraphNode is Catalogue {
       
             items.push(address(_node));
             nodeData[hashVal]=address(_node);
-            //
       
       }
   

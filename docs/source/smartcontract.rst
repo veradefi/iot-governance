@@ -36,13 +36,27 @@ Smart Key Smart Contract (SmartKey.sol)
         string public name;                                       //name
         uint8  public decimals;                                   //There could 1000 base units with 3 decimals. 
         string public symbol;                     
-        string public version = 'IoTBlock_Smart_Key_0.01';       // version
+        string public version = 'IoTBlock_SmartKey_0.01';       // version
         address vault;
     
-        event IssueSmartKey(address indexed user, address indexed key);
-        event ActivateSmartKey(address indexed user, address indexed key);
-            
+        event KeyEvent(address user, address key, address beneficiary, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
+        
         mapping (address => Key) public  smartKeys;
+    
+        struct event_transaction {
+            
+            address account;
+            uint256 date;
+            uint256 amount;
+            
+            uint256 transaction_type;
+            
+            bytes32 transaction_name;
+            bytes32 health_status;
+            
+        }
+        
+        mapping (address => event_transaction[]) public events;
         
         function SmartKey(uint256 _tokens, uint256 _rate, address[] adminAddress) 
         Administered(adminAddress)
@@ -68,20 +82,10 @@ Smart Key Smart Contract (SmartKey.sol)
             return true;                
         }
         
-        
       
-        function getBalanceInEth(address addr) 	
-        public
-        view
-        returns(uint)
-        {
-        
-    		return convertToWei( balances[addr] );
-    		
-    	}
     
         function getBalance(address addr) 
-    	public
+        public
         view
         returns(uint) 
         {
@@ -91,8 +95,7 @@ Smart Key Smart Contract (SmartKey.sol)
         // @return true if the transaction can buy tokens
         function validPurchase() internal constant returns (bool) 
         {
-            bool nonZeroPurchase = msg.value != 0;
-            return nonZeroPurchase;
+            return msg.value > 1000000000;
         }
     
         // fallback function can be used to buy tokens
@@ -100,49 +103,45 @@ Smart Key Smart Contract (SmartKey.sol)
         public
         payable 
         {
-            addSmartKey(msg.sender);
+            loadSmartKey(getSmartKey(msg.sender), address(this), 'Deposit');
+        }
+        
+        function getSmartKey(address beneficiary) 	
+        public
+        view
+        returns (Key) 
+        { 
+          
+            return smartKeys[beneficiary];
+            
         }
     
-        
-        function addSmartKey(address beneficiary) 
+        function loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) 
         public
         payable 
-        returns(address) 
+        returns(bool) 
         {
-            require(beneficiary != 0x0);
-            require(validPurchase());
-            
-            // calculate token amount to be created
-            uint256 tokens = convertToToken(msg.value);
-    
-            if (msg.value > 10000000000000) {
-                Key key;
-                if (smartKeys[beneficiary] == address(0)) 
+                //require(address(key) != address(0));
+                require(validPurchase());
+                
+                if (address(key) == address(0) && smartKeys[beneficiary] == address(0)) 
                 {
-                    key = new Key(beneficiary); 
-                    smartKeys[beneficiary] = key;
-                    IssueSmartKey(beneficiary, key);
+                    key = new Key(this, beneficiary); 
+                    smartKeys[beneficiary]=key;
                 }
-                else 
-                {
-                    key = smartKeys[beneficiary];
-                }
-    
-                key.activateKey.value(msg.value)(address(key));
-                key.addOwner(address(this));
-                //key.activateKey(beneficiary);
                 
-                ActivateSmartKey(beneficiary, key); 
+                uint256 token=convertToToken(msg.value);            
+                bytes32 healthStatus=key.getHealthStatus();
                 
-                tokenMinted = tokenMinted.add(tokens);
+                KeyEvent(msg.sender, address(key), beneficiary, msg.value, transaction_name, healthStatus);
+                events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, transaction_name, healthStatus));            
+                tokenMinted = tokenMinted.add(token);
+                balances[address(beneficiary)] = balances[address(beneficiary)].add(token);
+                Transfer(address(0), address(beneficiary), token);
+       
+                key.activateKey.value(msg.value)(address(beneficiary));
                 
-                balances[address(key)] = balances[address(key)].add(tokens);
-                Mint(address(key), tokens);
-                Transfer(address(0), address(key), tokens);
-                return address(key);
-            }        
-            
-            return 0x0;
+                return true;
         }
         
         function putSmartKey(Key key, address beneficiary) 
@@ -168,35 +167,18 @@ Smart Key Smart Contract (SmartKey.sol)
         }
         
      
-       function transferEth(uint amount, address sender, address beneficiary) 
-       public
-       {
+        function transferEth(uint amount, address sender, address beneficiary) 
+        public
+        {
             require(sender != 0x0);
             require(beneficiary != 0x0);
             require(smartKeys[sender] != address(0));
             if (isAdmin[msg.sender] || smartKeys[sender].isOwner(msg.sender)) {
                 smartKeys[sender].transferEth(amount, beneficiary);
             }
-       }
-    
-        function getSmartKey(address user) 	
-        public
-        view
-        returns (Key) 
-        {    
-            
-            return smartKeys[user];
-            
-        }
-            
-        function convertToWei(uint256 amount) 
-        public
-        view
-        returns (uint256) 
-        {
-    		return amount.mul(rate);
         }
     
+            
         function convertToToken(uint256 amount) 
         public
         view
@@ -211,12 +193,14 @@ Smart Key Smart Contract (SmartKey.sol)
 
 
 
-addSmartKey(address beneficiary) public payable returns(address)
+loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) public payable returns(bool) 
 ==============================================================================
 
-.. js:function:: addSmartKey(address beneficiary) public payable returns(address)
+.. js:function:: loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) public payable returns(bool) 
 
+   :param Key key: Identification Key of the user
    :param address beneficiary: Ethereum Address of the user
+   :param bytes32 transacton_name: Purpose of ETH Donation
    :returns: The Smart Key address of the User
    :rtype: Key address
 
@@ -250,23 +234,23 @@ Key Smart Contract (Key.sol)
     
     import '../math/SafeMath.sol';
     import '../ownership/Ownable.sol';
+    import '../SmartKey.sol';
     
     contract Key is Ownable {
        
        using SafeMath for uint256;
         
        enum State { Issued, Active, Returned }
-       event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
+       //event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
         
        enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
        event HealthUpdate(Health status);
-        
+    
+       SmartKey public smartKey;
        address public vault;
        State public state;
        Health public health;
-       
        uint256 public contrib_amount;
-        
        mapping (address => uint256) public activated;
     
        struct transaction {
@@ -281,14 +265,16 @@ Key Smart Contract (Key.sol)
         
        mapping (address => transaction[]) public transactions;
     
-       function Key(address _vault) 
+       function Key(SmartKey _smartKey, address _vault) 
        public
        {
             require(_vault != 0x0);
             vault = _vault;
+            smartKey=_smartKey;
             state = State.Issued;
             isOwner[_vault]=true;
-            KeyStateUpdate(msg.sender, vault, state);
+            isOwner[address(_smartKey)]=true;
+            //KeyStateUpdate(msg.sender, vault, state);
        }
     
        function getTransactionCount(address _address) 
@@ -315,13 +301,19 @@ Key Smart Contract (Key.sol)
        
             if (msg.value > 10000000000000) {
                 health = _health;
+                
+                if (uint256(_health) > 1) {
+                    smartKey.loadSmartKey.value(msg.value)(this, address(this), bytes32('HealthWarning'));
+                    
+                } else {
+                    smartKey.loadSmartKey.value(msg.value)(this, address(this), bytes32('HealthUpdate'));
+                    
+                }
                 HealthUpdate(_health);
-                
-                activated[msg.sender] = activated[msg.sender].add(msg.value);     
-                
+                            
                 contrib_amount=contrib_amount.add(msg.value);    
                 transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
-                
+                //activated[msg.sender] = activated[msg.sender].add(msg.value);     
                 //if (vault != address(this) && vault != address(msg.sender)) {
                 //    vault.transfer(msg.value);
                 //}
@@ -338,19 +330,39 @@ Key Smart Contract (Key.sol)
             return health;   
        }
        
+       function getHealthStatus()
+       view 
+       public 
+       returns (bytes32)
+       {
+           if (health == Health.Provisioning) 
+               return 'Provisioning';
+           else if (health == Health.Certified) 
+               return 'Certified';
+           else if (health == Health.Modified) 
+               return 'Modified';
+           else if (health == Health.Compromised) 
+               return 'Compromised';
+           else if (health == Health.Malfunctioning) 
+               return 'Malfunctioning';
+           else if (health == Health.Harmful) 
+               return 'Harmful';
+           else if (health == Health.Counterfeit) 
+               return 'Counterfeit';
+    
+           return 'Counterfeit';
+    
+       }
+       
        function activateKey(address user) 
        public
        payable
        {
     
-            if (msg.value > 10000000000000) {
-                state = State.Active;
-                KeyStateUpdate(msg.sender, vault, state);
-                activated[user] = activated[user].add(msg.value);     
-                
-                contrib_amount=contrib_amount.add(msg.value);    
-                transactions[address(this)].push(transaction(msg.sender,now,msg.value, 0));
-            }
+            state = State.Active;
+            //activated[msg.sender] = activated[msg.sender].add(msg.value);     
+            contrib_amount=contrib_amount.add(msg.value);    
+            transactions[user].push(transaction(msg.sender,now,msg.value, 0));
        }
     
         
@@ -360,7 +372,6 @@ Key Smart Contract (Key.sol)
        {
             require(state == State.Active);
             state = State.Returned;
-            KeyStateUpdate(msg.sender, vault, state);
        }
        
        function getHash(string key) 
@@ -463,15 +474,6 @@ transferEth(uint amount, address beneficiary) public onlyOwner
    :param address sender: Ethereum Address of the sender
    :param address beneficiary: Ethereum Address of the beneficiarys
 
-addSmartKey(address beneficiary) public payable returns(address) 
-==============================================================================
-
-.. js:function:: addSmartKey(address beneficiary) public payable returns(address) 
-
-   :param address beneficiary: Ethereum Address of the user
-   :returns: The Smart Key address of the User
-   :rtype: address
-   
    
 ******************************************************
 Catalogue Smart Contract (Catalogue.sol)
@@ -480,7 +482,7 @@ Catalogue Smart Contract (Catalogue.sol)
 ::
 
     pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
-
+    
     import "./NodeMetaData.sol";
     
     contract Catalogue is NodeMetaData {
@@ -493,8 +495,6 @@ Catalogue Smart Contract (Catalogue.sol)
       
       mapping (bytes32 => address) public nodeData; 
      
-      //event CatItemDataUpdate(address indexed user, address indexed catItem);
-    
       function Catalogue(SmartKey _smartKey, address[] _adminAddress) 
       public
       NodeMetaData(_smartKey, _adminAddress) 
@@ -508,28 +508,18 @@ Catalogue Smart Contract (Catalogue.sol)
       {
              return items;
       }
-      
-      function selectHref() 
-      constant
-      public
-      returns (bytes) 
-      {
-             return bytes(href);
-      }
     
       function setHref(string _href) 
       public
-      payable
+      onlyAdmin
       returns (bool)
       {
-          SmartKey(smartKey).addSmartKey.value(msg.value)(address(this));
           
           href=_href;
           return true;      
       }
     
     }
-
 
 ******************************************************
 Graph Node Smart Contract (GraphNode.sol)
@@ -542,19 +532,21 @@ Graph Node Smart Contract (GraphNode.sol)
     
     import "./Catalogue.sol";
     
-    contract GraphNode is Catalogue, Key {
-     
-      function GraphNode(SmartKey _smartKey, address[] adminAddress) 
+    contract GraphNode is Catalogue {
+          
+      function GraphNode(SmartKey _smartKey, address[] adminAddress, string _href) 
       public
       Catalogue(_smartKey, adminAddress)
-      Key(address(this))
       {      
           
+          href=_href;
           for (uint i=0; i < adminAddress.length; i++) {
             addOwner(adminAddress[i]);
              
           } 
           addOwner(address(_smartKey));
+          addOwner(address(this));
+          
          
       }
       
@@ -563,44 +555,51 @@ Graph Node Smart Contract (GraphNode.sol)
       payable
       returns (bool)
       {  
-          smartKey.addSmartKey.value(msg.value)(address(this));
     
-          bytes32 hashVal=getHash(_href);
           
-          if (nodeData[hashVal] == address(0)) 
+          bytes32 hashVal = getHash(_href);
+    
+          if (getItem(_href) == 0x0)
           {
           
-                nodeData[hashVal]=address(_node);
                 items.push(address(_node));
-                _node.setHref.value(msg.value)(_href);
-          }
+                nodeData[hashVal]=address(_node);
           
+          }
+      
+          smartKey.loadSmartKey.value(msg.value)(Key(this), address(_node), bytes32("NewCatalogue"));
+                          
           return true;
           
       }
       
       function getItem(string _href) 
-      constant
       public
+      view
       returns (address) 
       {      
-          bytes32 hashVal=getHash(_href);
-          
-          if (nodeData[hashVal] != address(0)) 
-          {
-             return nodeData[hashVal];
-          }
-    
-          if (bytes(_href).length < 1)
-          {
+          if (bytes(_href).length < 1) {
               return this;
-          }
+          } else {
+          
+              bytes32 hashVal=getHash(_href);
+              
+              if (nodeData[hashVal] != address(0)) 
+              {
+                 return nodeData[hashVal];
+              }
+          }      
+    
           
           return 0x0;
           
       }
+      
+    
         
     }
+    
+    
 
 
 
@@ -619,6 +618,7 @@ Smart Node Contract (SmartNode.sol)
       SmartKey smartKey;
       GraphRoot graphRoot;
       
+             
       function SmartNode(GraphRoot _graphRoot, SmartKey _smartKey, address[] adminAddress) 
         Administered(adminAddress)
         public
@@ -634,23 +634,24 @@ Smart Node Contract (SmartNode.sol)
       returns (bool)
       {
           
-         if (msg.value > 10000000000000) {
+         if (msg.value > 10000000) {
              address addr=graphRoot.getItem(_href);
-             GraphNode _node;
-             if (addr == 0x0) { 
-                  address[] memory _admins=new address[](3);
+             if (addr == address(0)) { 
+                 
+                  address[] memory _admins=new address[](4);
                  _admins[0]=msg.sender;
                  _admins[1]=address(_parentNode);  
                  _admins[2]=address(this);  
+                 _admins[3]=address(graphRoot);  
                     
-                 _node = new GraphNode(smartKey, _admins);
-             } else {
-                 _node = GraphNode(addr);
+                 addr=address(new GraphNode(smartKey, _admins, _href));
+                 
              }
-             smartKey.putSmartKey(_node, address(_node));
-                   
-             _parentNode.upsertItem.value(msg.value/2)(_node, _href);
-             return graphRoot.upsertItem.value(msg.value/2)(_node, _href);
+             
+             smartKey.putSmartKey(GraphNode(addr), addr);
+             
+             _parentNode.upsertItem.value(msg.value/2)(GraphNode(addr), _href);
+             return graphRoot.upsertItem.value(msg.value/2)(GraphNode(addr), _href);
          }
          return false;
           
@@ -658,7 +659,6 @@ Smart Node Contract (SmartNode.sol)
         
       
     }
-
 
 
 upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
@@ -693,16 +693,13 @@ MetaData Smart Contract (MetaData.sol)
       string public rel;
       string public val;
      
-      event MetaDataRel(address indexed user, MetaData indexed metaDataContract, string rel);
-      event MetaDataVal(address indexed user, MetaData indexed metaDataContract, string rel, string val);
-    
-      function MetaData(SmartKey _smartKey, address[] adminAddress, string _rel) 
+      function MetaData(SmartKey _smartKey, address[] adminAddress, string _rel, string _val) 
       public
       Administered(adminAddress)
       {
           smartKey=_smartKey;
           rel=_rel;
-          MetaDataRel(msg.sender, this, rel);
+          val=_val;
       }
       
       function setVal(string _val) 
@@ -713,36 +710,39 @@ MetaData Smart Contract (MetaData.sol)
       
           val=_val;
           
-          MetaDataVal(msg.sender, this, rel, val);
           return true;
       }
       
     
     }
     
+    
 ******************************************************
 NodeMetaData Smart Contract (NodeMetaData.sol)
 ******************************************************
 
+
 ::
+
+    pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
 
     import "./admin/Administered.sol";
     import "./SmartKey.sol";
     import "./MetaData.sol";
-    pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use
     
-    contract NodeMetaData is Administered {
+    contract NodeMetaData is Administered, Key {
            
       //PAS 212:2016
       MetaData[] public meta;
       mapping (bytes32 => MetaData) public itemMetaData; // rel is hashed to bytes32 data   
       //PAS 212:2016
       
-      SmartKey public smartKey;
-    
+      //event MetaDataUpdate(address indexed user, address indexed metaDataContract, string rel, string val);
+      
       function NodeMetaData(SmartKey _smartKey, address[] adminAddress) 
       public
       Administered(adminAddress)
+      Key(_smartKey, address(this))
       {
           smartKey=_smartKey;  
       }
@@ -770,26 +770,23 @@ NodeMetaData Smart Contract (NodeMetaData.sol)
       returns (bool)
       {
       
-          Key key=smartKey.getSmartKey(msg.sender);
-          bytes32 hashVal=key.getHash(_rel);
-          MetaData data;
+          bytes32 hashVal=getHash(_rel);
+          
+    
           if (itemMetaData[hashVal] == address(0)) {
                 address[] storage _admins=admins;
                 _admins.push(address(this));
                 _admins.push(msg.sender);
-                data = new MetaData(smartKey, admins, _rel);
-                itemMetaData[hashVal]=data;
-                meta.push(data);
-          } else {
-                data = itemMetaData[hashVal];
-          }
+                itemMetaData[hashVal]=new MetaData(smartKey, admins, _rel, _val);
+                meta.push(itemMetaData[hashVal]);
+          } 
           
-          smartKey.addSmartKey.value(msg.value)(address(this));
-    
-          return data.setVal(_val);
+          smartKey.loadSmartKey.value(msg.value)(Key(this), address(itemMetaData[hashVal]), bytes32("MetaDataUpdate"));
+          return true;
       }
      
     }
+    
     
 upsertMetaData(string _rel, string _val) public payable returns (bool)
 ==============================================================================
