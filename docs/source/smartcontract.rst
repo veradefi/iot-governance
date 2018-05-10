@@ -192,8 +192,7 @@ Smart Key Smart Contract (SmartKey.sol)
 .. index:: ! visibility, external, public, private, internal
 
 
-
-loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) public payable returns(bool) 
+loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name)
 ==============================================================================
 
 .. js:function:: loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) public payable returns(bool) 
@@ -201,8 +200,8 @@ loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) public pay
    :param Key key: Identification Key of the user
    :param address beneficiary: Ethereum Address of the user
    :param bytes32 transacton_name: Purpose of ETH Donation
-   :returns: The Smart Key address of the User
-   :rtype: Key address
+   :returns: success
+   :rtype: bool
 
 
 
@@ -215,7 +214,8 @@ getSmartKey(address user)
    :returns: The Smart Key of the User
    :rtype: Key
 
-transferEth(uint amount, address sender, address beneficiary) public
+
+transferEth(uint amount, address sender, address beneficiary)
 ==============================================================================
 
 .. js:function:: transferEth(uint amount, address sender, address beneficiary) public
@@ -431,7 +431,7 @@ Key Smart Contract (Key.sol)
     }
 
 
-getHealth() view public returns (Health)
+getHealth() 
 ==============================================================================
 
 .. js:function:: getHealth() view public returns (Health)
@@ -440,7 +440,7 @@ getHealth() view public returns (Health)
    :rtype: enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
 
    
-setHealth(Health _health) public payable
+setHealth(Health _health) 
 ==============================================================================
 
 .. js:function:: setHealth(Health _health) public payable
@@ -448,7 +448,7 @@ setHealth(Health _health) public payable
    :param _health: Health Status specified as integer between 0-6. 
    :type _health: enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
    
-addKeyAuth(string key, string value) onlyOwner public returns(bool)
+addKeyAuth(string key, string value) 
 ==============================================================================
 
 .. js:function:: addKeyAuth(string key, string value) onlyOwner public returns(bool)
@@ -458,7 +458,7 @@ addKeyAuth(string key, string value) onlyOwner public returns(bool)
    :returns: True if successfully added, False if error
    :rtype: bool
    
-getKeyAuth(string key) onlyOwner constant public returns(string)
+getKeyAuth(string key) 
 ==============================================================================
 .. js:function:: getKeyAuth(string key) onlyOwner constant public returns(string)
 
@@ -466,7 +466,7 @@ getKeyAuth(string key) onlyOwner constant public returns(string)
    :returns: Authorization Value String associated with the Key
    :rtype: string
 
-transferEth(uint amount, address beneficiary) public onlyOwner 
+transferEth(uint amount, address beneficiary) 
 ==============================================================================
 
 .. js:function:: transferEth(uint amount, address beneficiary) public
@@ -661,7 +661,7 @@ Smart Node Contract (SmartNode.sol)
     }
 
 
-upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
+upsertItem(GraphNode _parentNode, string _href) 
 ==============================================================================
 
 .. js:function:: upsertItem(GraphNode _parentNode, string _href) public payable returns (bool)
@@ -788,7 +788,7 @@ NodeMetaData Smart Contract (NodeMetaData.sol)
     }
     
     
-upsertMetaData(string _rel, string _val) public payable returns (bool)
+upsertMetaData(string _rel, string _val) 
 ==============================================================================
 
 .. js:function:: upsertMetaData(string _rel, string _val) public payable returns (bool)
