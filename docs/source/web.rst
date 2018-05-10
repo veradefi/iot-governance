@@ -18,6 +18,30 @@ Create Smart Key
 
    Get a Smart Key to access Catalogues. 1 ETH deposit is needed to create a Smart Key.
 
+Step 1: Select Rinkeby Network on Metamask
+
+.. image:: _static/smartkey.png
+
+Step 2: Confirm the address of selected wallet in Metamask
+
+.. image:: _static/smartkey1.png
+
+Step 3: Confirm the deposit of 1 ETH and Gas to create the Wallet
+
+.. image:: _static/smartkey1.2.png
+
+Step 4: Input Authentication Information for API Key creation
+
+.. image:: _static/smartkey2.png
+
+Step 5: Confirm the needed Gas to create the API Key
+
+.. image:: _static/smartkey2.2.png
+
+Step 6: Confirm the Creation of Your Key and API Access Token
+
+.. image:: _static/smartkey3.png
+
 
 Browse & Edit The Universal IoT Blockchain Database
 ====================================================
