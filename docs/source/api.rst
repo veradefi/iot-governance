@@ -291,7 +291,7 @@ Get a Local Catalogue
       {
         "catalogue-metadata": [
             {
-                "rel": "urn:Xhypercat:rels:supportsSearch", 
+                "rel": "urn:X-hypercat:rels:supportsSearch", 
                 "val": "urn:X-hypercat:search:simple"
             }, 
             {
@@ -324,7 +324,7 @@ Get a Local Catalogue
                 "href": "https://iotblock.io/cat/brand/iotblock", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -385,7 +385,7 @@ Get a Catalogue by URL
       {
         "catalogue-metadata": [
             {
-                "rel": "urn:Xhypercat:rels:supportsSearch", 
+                "rel": "urn:X-hypercat:rels:supportsSearch", 
                 "val": "urn:X-hypercat:search:simple"
             }, 
             {
@@ -418,7 +418,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/brand", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -451,7 +451,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/brand/iotblock", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -484,7 +484,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/location", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -513,7 +513,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/location/earth", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -546,7 +546,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/location/earth/singapore", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -579,7 +579,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/location/earth/singapore/changee", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -612,7 +612,7 @@ Get a Catalogue by URL
                 "href": "https://iotblock.io/cat/location/earth/singapore/changee/airport", 
                 "item-metadata": [
                     {
-                        "rel": "urn:Xhypercat:rels:supportsSearch", 
+                        "rel": "urn:X-hypercat:rels:supportsSearch", 
                         "val": "urn:X-hypercat:search:simple"
                     }, 
                     {
@@ -698,7 +698,7 @@ Add a Meta Data to a Catalogue
        {
         "catalogue-metadata": [
             {
-                "rel": "urn:Xhypercat:rels:supportsSearch", 
+                "rel": "urn:X-hypercat:rels:supportsSearch", 
                 "val": "urn:X-hypercat:search:simple"
             }, 
             {
@@ -989,7 +989,7 @@ Search a Catalogue
       {
             "catalogue-metadata": [
                 {
-                    "rel": "urn:Xhypercat:rels:supportsSearch", 
+                    "rel": "urn:X-hypercat:rels:supportsSearch", 
                     "val": "urn:X-hypercat:search:simple"
                 }, 
                 {
