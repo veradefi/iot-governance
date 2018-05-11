@@ -95,6 +95,7 @@ class Producer(threading.Thread):
             'blockNumber': 173, 
             'address': u'0x7725D50411054e1027863363F6e8d6bf8B7ae499', 'logIndex': 18, 'transactionIndex': 0, 'event': u'NewCatalogue'}
             '''
+            
             evt=json.dumps(event)
             evt=evt.replace('\u0000','')
             producer.send('KeyEvent', evt)
