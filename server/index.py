@@ -1045,7 +1045,7 @@ def subscribe():
                     
             consumer.close()
 
-    return Response(consumeEthereumEvents(), mimetype="text/event-stream")
+    return Response(consumeKafka(), mimetype="text/event-stream")
 
 
 @app.route('/', defaults={'path': ''})
