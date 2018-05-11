@@ -18,6 +18,48 @@ import base64
 import threading
 #from flask import Flask
 
+def getNode(graphRoot):
+ 
+    def getMeta(metaData):
+        
+        metaJson=[]
+        for meta in metaData:
+            meta_c=getContract('MetaData',network, meta)
+            metaJson.append({'rel':meta_c.call().rel(),
+                             'val':meta_c.call().val()})
+            #print (meta_c.call().rel(), meta_c.call().val())
+            #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
+        return metaJson
+    
+    def getItem(items):
+     
+        itemJson=[]
+        for item in items:
+            item_c=getContract('Catalogue',network,item)
+            meta=getMeta(item_c.call({'from':address}).selectMetaData())
+        
+            itemJson.append({'href':item_c.call().href(),
+                             'item-metadata':meta})
+        return itemJson
+
+    metaJson=[]
+    itemJson=[]
+    
+    try:
+        
+        metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
+        itemJson=getItem(graphRoot.call({'from':address}).selectItems())
+        
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "catalogue-metadata":metaJson,
+            "items":itemJson
+          }
+    
+    return cat
+
 
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
@@ -95,10 +137,41 @@ class Producer(threading.Thread):
             'blockNumber': 173, 
             'address': u'0x7725D50411054e1027863363F6e8d6bf8B7ae499', 'logIndex': 18, 'transactionIndex': 0, 'event': u'NewCatalogue'}
             '''
+            #print (event)
+            if re.search('NewCatalogue', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["transacting_contract"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            if re.search('MetaDataUpdate', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+
+            if re.search('Deposit', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            if re.search('Health', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+            
+            url=""
+            try:
+                url=node.call().href()
+                event["href"]=url;
+            except Exception as e:
+                print (e)
             evt=json.dumps(event)
             evt=evt.replace('\u0000','')
             producer.send('KeyEvent', evt)
-            print(evt)
+            #print(evt)
           time.sleep(1)
 
         producer.close()

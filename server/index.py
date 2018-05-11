@@ -988,8 +988,50 @@ def setDeviceHealth():
 @app.route("/events")
 @app.route("/cat/events")
 def subscribe():
+    def consumeEthereumEvents():
+        listener = smartKey.on('KeyEvent')
+        while True:
+          events = listener.get()
+          if not events:
+            time.sleep(1)
+            continue
+          for event in events:                             
+            if re.search('NewCatalogue', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["transacting_contract"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            if re.search('MetaDataUpdate', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
 
-    def consume():
+            if re.search('Deposit', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            if re.search('Health', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            url=""
+            try:
+                url=node.call().href()
+                event["href"]=url;
+            except Exception as e:
+                print (e)
+            evt=json.dumps(event)
+            evt=evt.replace('\u0000','')
+                
+            yield "id: %s\nevent: %s\ndata: %s\n\n" % (event["blockHash"], url, evt)
+            
+    def consumeKafka():
             consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
                              auto_offset_reset='earliest',
                              consumer_timeout_ms=1000)
@@ -1003,7 +1045,7 @@ def subscribe():
                     
             consumer.close()
 
-    return Response(consume(), mimetype="text/event-stream")
+    return Response(consumeEthereumEvents(), mimetype="text/event-stream")
 
 
 @app.route('/', defaults={'path': ''})

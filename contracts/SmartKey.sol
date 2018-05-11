@@ -14,7 +14,7 @@ contract SmartKey is MintableToken
     string public version = 'IoTBlock_SmartKey_0.01';       // version
     address vault;
 
-    event KeyEvent(address user, address key, address beneficiary, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
+    event KeyEvent(address user, address key, address transacting_contract, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
     
     mapping (address => Key) public  smartKeys;
 
@@ -91,7 +91,7 @@ contract SmartKey is MintableToken
         
     }
 
-    function loadSmartKey(Key key, address beneficiary,  bytes32 transaction_name) 
+    function loadSmartKey(Key key, address transacting_contract,  bytes32 transaction_name) 
     public
     payable 
     returns(bool) 
@@ -99,22 +99,22 @@ contract SmartKey is MintableToken
             //require(address(key) != address(0));
             require(validPurchase());
             
-            if (address(key) == address(0) && smartKeys[beneficiary] == address(0)) 
+            if (address(key) == address(0) && smartKeys[transacting_contract] == address(0)) 
             {
-                key = new Key(this, beneficiary); 
-                smartKeys[beneficiary]=key;
+                key = new Key(this, transacting_contract); 
+                smartKeys[transacting_contract]=key;
             }
             
             uint256 token=convertToToken(msg.value);            
             bytes32 healthStatus=key.getHealthStatus();
             
-            KeyEvent(msg.sender, address(key), beneficiary, msg.value, transaction_name, healthStatus);
-            events[address(key)].push(event_transaction(beneficiary,now,msg.value, 0, transaction_name, healthStatus));            
+            KeyEvent(msg.sender, address(key), transacting_contract, msg.value, transaction_name, healthStatus);
+            events[address(key)].push(event_transaction(transacting_contract,now,msg.value, 0, transaction_name, healthStatus));            
             tokenMinted = tokenMinted.add(token);
-            balances[address(beneficiary)] = balances[address(beneficiary)].add(token);
-            Transfer(address(0), address(beneficiary), token);
+            balances[address(transacting_contract)] = balances[address(transacting_contract)].add(token);
+            Transfer(address(0), address(transacting_contract), token);
    
-            key.activateKey.value(msg.value)(address(beneficiary));
+            key.activateKey.value(msg.value)(address(transacting_contract));
             
             return true;
     }
