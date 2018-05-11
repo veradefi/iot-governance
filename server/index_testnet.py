@@ -996,19 +996,39 @@ def subscribe():
             time.sleep(1)
             continue
           for event in events:                             
-            '''
-            {'blockHash': u'0xad8be74664e83aaa68fe829ff8736c07a2b638bc81f6095529ab90ecf656e040', 
-            'transactionHash': u'0xca677383bd6a3db11ceb8e0a2c375170844cc406c5f373f214276904c955b67a', 
-            'args': {u'href': u'https://iotblock.io/cat/location/earth/singapore/changee/airport', 
-            u'user': u'0xdC36bf9327f714B7e3dEA4E368A23B6850a64394', 
-            u'parentNode': u'0x7725D50411054e1027863363F6e8d6bf8B7ae499', 
-            u'childNode': u'0xb9cb9645272e4Aa25b3d2B0e5fE577f1Cc7AcF35'}, 
-            'blockNumber': 173, 
-            'address': u'0x7725D50411054e1027863363F6e8d6bf8B7ae499', 'logIndex': 18, 'transactionIndex': 0, 'event': u'NewCatalogue'}
-            '''
+            if re.search('NewCatalogue', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["transacting_contract"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            if re.search('MetaDataUpdate', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+
+            if re.search('Deposit', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            if re.search('Health', event["args"]["transaction_name"]):
+                data={}
+                node  =  getContract('GraphNode', network, event["args"]["key"])
+                data  =  getNode(node)
+                event["data"]=data
+                
+            url=""
+            try:
+                url=node.call().href()
+                event["href"]=url;
+            except Exception as e:
+                print (e)
             evt=json.dumps(event)
             evt=evt.replace('\u0000','')
-            url="/cat/events"
+                
             yield "id: %s\nevent: %s\ndata: %s\n\n" % (event["blockHash"], url, evt)
             
     def consumeKafka():
