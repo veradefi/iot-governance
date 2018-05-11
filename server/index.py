@@ -1039,8 +1039,15 @@ def subscribe():
     
             while True:
                 for message in consumer:
-                    print(message)
                     url="/cat/events"
+                    try:
+                        print(message)                    
+                        msg=json.loads(message)
+                        href=msg["href"]
+                        if url:
+                            url=href
+                    except Exception as e:
+                        print (e)
                     yield "id: %s\nevent: %s\ndata: %s\n\n" % (message.offset,url, message.value)
                     
             consumer.close()
