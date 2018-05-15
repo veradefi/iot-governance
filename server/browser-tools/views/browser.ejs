@@ -489,12 +489,12 @@ function parseCatalogue(url, doc) {
     var count=0;
     //try {
     // store metadata for catalogue
-    
+    console.log('Received Document')
     console.log(doc);
     var eth1_amount=1000000000000000000;
     for (var i=0;i<doc['catalogue-metadata'].length;i++) {
         var bal=parseFloat(doc['catalogue-metadata'][i].bal)/eth1_amount;
-                alert(doc['catalogue-metadata'][i]);
+        //alert(doc['catalogue-metadata'][i]);
         catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
         catMetadataListHTML += '<b>' + bal + ' ETH ' + '</b> '
         catMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'catalogue_meta_' + count + '\', ' + count + ', catalogue_meta_data, \'' + url + '\',\'\')"> Edit </a> ] ';
