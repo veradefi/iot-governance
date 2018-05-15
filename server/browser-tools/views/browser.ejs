@@ -493,8 +493,9 @@ function parseCatalogue(url, doc) {
     console.log(doc);
     var eth1_amount=1000000000000000000 ;
     for (var i=0;i<doc['catalogue-metadata'].length;i++) {
+        var bal=parseFloat(doc['catalogue-metadata'][i].bal)/eth1_amount;
         catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
-        catMetadataListHTML += '<b>' + parseFloat(doc['catalogue-metadata'][i].bal)/eth1_amount + ' ETH ' + '</b> '
+        catMetadataListHTML += '<b>' + bal + ' ETH ' + '</b> '
         catMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'catalogue_meta_' + count + '\', ' + count + ', catalogue_meta_data, \'' + url + '\',\'\')"> Edit </a> ] ';
         catMetadataListHTML += doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"</li>';
         catalogue_meta_data.push({ 'rel':doc['catalogue-metadata'][i].rel, 'val':doc['catalogue-metadata'][i].val});
@@ -533,15 +534,18 @@ function parseCatalogue(url, doc) {
             var itemMetadataListHTML = '<ul>';
             var supportsQueryOpenIoT = false;
             for (var j=0;j<item['item-metadata'].length;j++) {
+                var bal=parseFloat(mdata.bal)/eth1_amount;
                 var mdata = item['item-metadata'][j];
                 if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                     supportsQueryOpenIoT = true;
-                itemMetadataListHTML += '<li id=item_meta_' + count + '>' + '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val + '"</li>' 
+                itemMetadataListHTML += '<li id=item_meta_' + count + '>' 
+                itemMetadataListHTML += ' <b> ' + bal + ' </b> ';
+                itemMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val + '"</li>' 
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     isCat = true;
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
                     isGenericResource = true;
-                catalogue_item_meta_data.push({ 'rel':mdata.rel, 'val':mdata.val});
+                catalogue_item_meta_data.push({ 'rel':mdata.rel, 'val':mdata.val, 'bal':bal});
             
                 count+=1;
             }
