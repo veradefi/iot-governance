@@ -372,7 +372,7 @@ def getNodeBalance(graphRoot):
         metaJson=[]
         for meta in metaData:
             meta_c=getContract('MetaData',network, meta)
-            bal=smartKey.call().balances(meta)
+            bal=smartKey.call().getBalance(meta)
             metaJson.append({'rel':meta_c.call().rel(),
                              'val':meta_c.call().val(),
                              'bal':bal})
