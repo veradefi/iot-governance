@@ -365,6 +365,49 @@ def getNode(graphRoot):
     return cat
 
 
+def getNodeBalance(graphRoot):
+ 
+    def getMeta(metaData):
+        
+        metaJson=[]
+        for meta in metaData:
+            meta_c=getContract('MetaData',network, meta)
+            bal=smartKey.call().balance(meta)
+            metaJson.append({'rel':meta_c.call().rel(),
+                             'val':meta_c.call().val(),
+                             'bal':bal})
+            #print (meta_c.call().rel(), meta_c.call().val())
+            #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
+        return metaJson
+    
+    def getItem(items):
+     
+        itemJson=[]
+        for item in items:
+            item_c=getContract('Catalogue',network,item)
+            meta=getMeta(item_c.call({'from':address}).selectMetaData())
+        
+            itemJson.append({'href':item_c.call().href(),
+                             'item-metadata':meta})
+        return itemJson
+
+    metaJson=[]
+    itemJson=[]
+    
+    try:
+        
+        metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
+        itemJson=getItem(graphRoot.call({'from':address}).selectItems())
+        
+    except Exception as e:
+        print (e)
+        
+    cat = { 
+            "catalogue-metadata":metaJson,
+            "items":itemJson
+          }
+    
+    return cat
 
 
 def upsertNode(graphAddr, href, auth, contrib):
@@ -821,6 +864,9 @@ def create_node():
     )
     return response
 
+
+
+
 @app.route('/get')
 @app.route('/cat/get')
 def get_node():
@@ -849,6 +895,33 @@ def get_node():
     )
     return response
 
+@app.route('/getBalance')
+@app.route('/cat/getBalance')
+def get_node():
+    data={}
+    href = request.args.get('href')
+    href=re.sub('\/$','',href);
+    print("URL:",href)  
+    if re.search('https:\/\/iotblock.io\/cat$',href):
+        print("Root Node")
+        data  =  getNodeBalance(root)
+    else:
+        node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+        data  =  getNode(node)
+    
+    try:
+        data=metaSearch(request, data)       
+    except Exception as e:
+        print (e)
+    
+    response = app.response_class(
+            
+        response=json.dumps(data, sort_keys=True, indent=4),
+        status=200,
+        mimetype='application/vnd.hypercat.catalogue+json'
+        
+    )
+    return response
 
 
 @app.route('/postNodeMetaData')
