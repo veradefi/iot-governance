@@ -534,8 +534,8 @@ function parseCatalogue(url, doc) {
             var itemMetadataListHTML = '<ul>';
             var supportsQueryOpenIoT = false;
             for (var j=0;j<item['item-metadata'].length;j++) {
-                var bal=parseFloat(mdata.bal)/eth1_amount;
                 var mdata = item['item-metadata'][j];
+                var bal=parseFloat(mdata.bal)/eth1_amount;
                 if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                     supportsQueryOpenIoT = true;
                 itemMetadataListHTML += '<li id=item_meta_' + count + '>' 
