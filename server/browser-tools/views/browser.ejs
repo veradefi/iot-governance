@@ -614,15 +614,10 @@ function browse(url, cb) {
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
                
-                if (err) {
-                    log("Error in "+url+" ("+err+")");
-                    cb(err); // done
-                } else {
                     history.push(url);
                     $('#url').val(url);
                     parseCatalogue(url, doc);    // parse doc
                     cb(null); // done
-                }
                 get_smart_key_info(url);
                 
             },
