@@ -37,9 +37,7 @@ exports.fetch = function(req, res) {
         requestCert: true,
         agent: false
     }, function (error, response, body) {
-        console.log(req)
-        console.log(response);
-        console.log(body)
+        
         if (error) {
             console.log(error);
             res.send(500, error);
