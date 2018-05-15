@@ -613,20 +613,17 @@ function browse(url, cb) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
-                location=url;
-          
+               
                 if (err) {
                     log("Error in "+url+" ("+err+")");
                     cb(err); // done
                 } else {
-                    if (location === undefined)
-                        location = url;
-                    history.push(location);
-                    $('#url').val(location);
-                    parseCatalogue(location, doc);    // parse doc
+                    history.push(url);
+                    $('#url').val(url);
+                    parseCatalogue(url, doc);    // parse doc
                     cb(null); // done
                 }
-                get_smart_key_info(location);
+                get_smart_key_info(url);
                 
             },
             error: function(xhr, textStatus, err) {
