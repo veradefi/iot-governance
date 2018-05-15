@@ -601,24 +601,39 @@ function browse(url, cb) {
     //alert(url);
     fetch_location='/cat/getBalance?href=' + url; 
 
-    fetch(fetch_location, '', function(err, doc, location) {
-        location=url;
+    $.ajax({
+            beforeSend: function(xhr){
+                //add_auth(xhr);
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: fetch_location,
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(doc, textStatus, xhr) {
+                location=url;
+          
+                if (err) {
+                    log("Error in "+url+" ("+err+")");
+                    cb(err); // done
+                } else {
+                    if (location === undefined)
+                        location = url;
+                    history.push(location);
+                    $('#url').val(location);
+                    parseCatalogue(location, doc);    // parse doc
+                    cb(null); // done
+                }
+                get_smart_key_info(location);
                 
-         
-        if (err) {
-            log("Error in "+url+" ("+err+")");
-            cb(err); // done
-        } else {
-            if (location === undefined)
-                location = url;
-            history.push(location);
-            $('#url').val(location);
-            parseCatalogue(location, doc);    // parse doc
-            cb(null); // done
-        }
-        get_smart_key_info(location);
-        
-    });
+            },
+            error: function(xhr, textStatus, err) {
+                log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+
 }
 
 
