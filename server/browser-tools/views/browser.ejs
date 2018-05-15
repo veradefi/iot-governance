@@ -491,7 +491,7 @@ function parseCatalogue(url, doc) {
     // store metadata for catalogue
     
     console.log(doc);
-    var eth1_amount=1000000000000000000 ;
+    var eth1_amount=1000000000000000000;
     for (var i=0;i<doc['catalogue-metadata'].length;i++) {
         var bal=parseFloat(doc['catalogue-metadata'][i].bal)/eth1_amount;
         catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
@@ -535,6 +535,7 @@ function parseCatalogue(url, doc) {
             var supportsQueryOpenIoT = false;
             for (var j=0;j<item['item-metadata'].length;j++) {
                 var mdata = item['item-metadata'][j];
+                alert(mdata.bal)
                 var bal=parseFloat(mdata.bal)/eth1_amount;
                 if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                     supportsQueryOpenIoT = true;
