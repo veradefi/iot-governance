@@ -593,10 +593,11 @@ function browse(url, cb) {
     var history=[];
         
     //alert(url);
-    fetch(url, '', function(err, doc, location) {
-        location=url; 
-        $('#browse_url').val(location);
-        
+    fetch_location='/cat/getBalance?href=' + url; 
+
+    fetch(fetch_location, '', function(err, doc, location) {
+        location=url;
+                
          
         if (err) {
             log("Error in "+url+" ("+err+")");
