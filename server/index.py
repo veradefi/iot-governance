@@ -897,7 +897,7 @@ def get_node():
 
 @app.route('/getBalance')
 @app.route('/cat/getBalance')
-def get_node():
+def get_nodeBalance():
     data={}
     href = request.args.get('href')
     href=re.sub('\/$','',href);
