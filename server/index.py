@@ -907,7 +907,7 @@ def get_nodeBalance():
         data  =  getNodeBalance(root)
     else:
         node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-        data  =  getNode(node)
+        data  =  getNodeBalance(node)
     
     try:
         data=metaSearch(request, data)       
