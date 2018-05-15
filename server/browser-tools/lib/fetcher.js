@@ -24,15 +24,15 @@ var URI = require('URIjs');
 
 // Implements a simple web proxy for GET /fetch?url=<URL>
 exports.fetch = function(req, res) {
-    var fullURL = req.protocol + "://" + req.get('host') + req.url;
+    //var fullURL = req.protocol + "://" + req.get('host') + req.url;
     var headers = {};
-    if (req.headers.authorization !== undefined)
-        headers.Authorization = req.headers.authorization;
-console.log(URI(req.query.url).absoluteTo(fullURL).toString());
+    //if (req.headers.authorization !== undefined)
+    //    headers.Authorization = req.headers.authorization;
+    //console.log(URI(req.query.url).absoluteTo(fullURL).toString());
 
     request.get({
         headers: headers,
-        url: URI(req.query.url).absoluteTo(fullURL).toString(),
+        url: req,
         rejectUnauthorized: false,
         requestCert: true,
         agent: false
