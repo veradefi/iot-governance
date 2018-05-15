@@ -593,7 +593,8 @@ function browse(url, cb) {
     var history=[];
         
     //alert(url);
-    fetch_location='/cat/getBalance?href=' + url; 
+    fetch_location=url
+    fetch_location.url='/cat/getBalance?href=' + url; 
 
     fetch(fetch_location, '', function(err, doc, location) {
         location=url;
