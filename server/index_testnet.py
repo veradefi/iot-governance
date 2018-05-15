@@ -1041,10 +1041,10 @@ def subscribe():
                 for message in consumer:
                     url="/cat/events"
                     try:
-                        print(message)                    
-                        msg=json.loads(message)
+                        print(message.value)                    
+                        msg=json.loads(message.value)
                         href=msg["href"]
-                        if url:
+                        if href:
                             url=href
                     except Exception as e:
                         print (e)
