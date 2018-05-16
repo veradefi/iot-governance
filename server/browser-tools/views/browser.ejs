@@ -571,7 +571,7 @@ function parseCatalogue(url, doc) {
             var deletelink = '<a href="javascript:deleteItem(\''+url+'\',\''+item.href+'\');"><strong>[delete item]</strong></a>';
 
             
-            itemListHTML += '<li>' + link + '</li>';
+            itemListHTML += '<li>' + link + '<br><br></li>';
             itemListHTML += itemMetadataListHTML;
         }
         var addItemLink = '[<a href="JavaScript:add_item(\'add_catalogue_item\')"> Add Item </a>] ';
