@@ -497,8 +497,8 @@ function parseCatalogue(url, doc) {
         //alert(doc['catalogue-metadata'][i]);
         catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
         catMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'catalogue_meta_' + count + '\', ' + count + ', catalogue_meta_data, \'' + url + '\',\'\')"> Edit </a> ] ';
-        catMetadataListHTML += doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val 
-        catMetadataListHTML += '<br>Donation Received: <b>' + bal + ' ETH ' + '</b> ' + '"</li>';
+        catMetadataListHTML += doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"'
+        catMetadataListHTML += '<br><b>Donation Received: ' + bal + ' ETH ' + '</b> ' + '</li>';
         
         catalogue_meta_data.push({ 'rel':doc['catalogue-metadata'][i].rel, 'val':doc['catalogue-metadata'][i].val});
         if (doc['catalogue-metadata'][i].rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
@@ -542,8 +542,8 @@ function parseCatalogue(url, doc) {
                     supportsQueryOpenIoT = true;
                 itemMetadataListHTML += '<li id=item_meta_' + count + '>' 
                 itemMetadataListHTML += ' <b> ' + bal + ' ETH </b> ';
-                itemMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val
-                itemMetadataListHTML += '<br>Donation Received: <b>' + bal + ' ETH ' + '</b> ' + '"</li>';
+                itemMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val + '"'
+                itemMetadataListHTML += '<br>Donation Received: <b>' + bal + ' ETH ' + '</b> ' + '</li>';
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     isCat = true;
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
