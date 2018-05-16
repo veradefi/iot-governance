@@ -543,7 +543,7 @@ function parseCatalogue(url, doc) {
                 itemMetadataListHTML += '<li id=item_meta_' + count + '>' 
                 itemMetadataListHTML += ' <b> ' + bal + ' ETH </b> ';
                 itemMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val + '"'
-                itemMetadataListHTML += '<br>Donation Received: <b>' + bal + ' ETH ' + '</b> ' + '<br><br></li>';
+                itemMetadataListHTML += '<br><b>Donation Received: ' + bal + ' ETH ' + '</b> ' + '<br><br></li>';
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     isCat = true;
                 if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
