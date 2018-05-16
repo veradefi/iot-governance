@@ -509,7 +509,7 @@ function parseCatalogue(url, doc) {
         }
         count+=1;
     }
-    var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data\',\'' + url + '\',\'\')">Add Meta Data</a>] ';
+    var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data\',\'' + url + '\',\'\')">Add Meta Data</a>] <br><br>';
 
     var maplink='[ <a href="JavaScript:getMap();">Edit Location</a> ]';
     
@@ -551,7 +551,7 @@ function parseCatalogue(url, doc) {
             
                 count+=1;
             }
-             var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data_' + i + '\',\'' + url + '\',\'' + item.href  + '\')">Add Meta Data</a>] ';
+             var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data_' + i + '\',\'' + url + '\',\'' + item.href  + '\')">Add Meta Data</a>] <br><br>';
 
             itemMetadataListHTML += '<li id="catalogue_create_meta_data_' + i + '">' + addItemMetaData + '</li>';
             itemMetadataListHTML += '</ul>';
