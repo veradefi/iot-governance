@@ -9,7 +9,7 @@ var site_url="<%= config.site_url %>";
 $(function(){
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
   var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
-  var mw = 480; // min width of site
+  var mw = 3000; // min width of site
   var ratio =  ww / mw; //calculate ratio
   if( ww < mw){ //smaller than minimum size
    $('#Viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
