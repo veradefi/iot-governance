@@ -6,7 +6,6 @@ import json
 import sys
 import json
 import codecs
-import StringIO
 import re
 import os
 from time import sleep
