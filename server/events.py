@@ -15,7 +15,7 @@ from time import sleep
 from datetime import datetime
 import base64
 import threading
-from eth_account import Account
+#from eth_account import Account
 #from flask import Flask
 
 def getNode(graphRoot):
