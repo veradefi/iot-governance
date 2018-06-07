@@ -3,19 +3,19 @@ import threading, logging, time
 import multiprocessing
 from kafka import KafkaConsumer, KafkaProducer
 import json
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
+from web3 import Web3, IPCProvider, contract, HTTPProvider
 from flask import request
 import json
 import sys
 import json
 import codecs
-import StringIO
 import re
 import os
 from time import sleep
 from datetime import datetime
 import base64
 import threading
+from eth_account import Account
 #from flask import Flask
 
 def getNode(graphRoot):
@@ -76,10 +76,13 @@ def getContract(item, network, address=None, prefix=""):
 
 network='4'
 port='8666'
-#web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
-web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
+web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
+#web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
+
 address2=web3.eth.coinbase
 address=web3.eth.accounts[0]
+#address2=acct.address
+#address=acct2.address
 
 print (address, address2)
 gc=getContract('SmartKey',network)
