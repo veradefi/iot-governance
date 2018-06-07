@@ -76,7 +76,7 @@ def getContract(item, network, address=None, prefix=""):
 
 network='4'
 port='8666'
-web3 = Web3(IPCProvider("~/.ethereum/geth.ipc"))
+web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
 #web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 
