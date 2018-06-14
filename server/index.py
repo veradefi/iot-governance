@@ -313,7 +313,7 @@ def getNodeKeyTx(href, offset=0, limit=10):
         
         if txCount < 1:
             txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(smartKey.address))
-            myaddress=smartKey/address;
+            myaddress=smartKey.address;
 
         if offset:
             offset=int(offset)
