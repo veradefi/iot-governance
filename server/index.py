@@ -545,7 +545,7 @@ def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
         item_c=getContract('Catalogue',network, graphRoot.call({'from':address}).getItem(href))   
-        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(bytes(rel,'utf-8'),bytes(val,'utf-8'))
+        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val);
         print ('upsertMetaData',transactionId)
         
     data={}
