@@ -604,8 +604,8 @@ function browse(url, cb) {
 
     $.ajax({
             beforeSend: function(xhr){
-                //add_auth(xhr);
-                //setHeaders(xhr);
+                add_auth(xhr);
+                setHeaders(xhr);
             
             },
             type: 'GET',
@@ -616,7 +616,7 @@ function browse(url, cb) {
             success: function(doc, textStatus, xhr) {
                
                     history.push(url);
-                    $('#url').val(url);
+                    $('#browse_url').val(url);
                     parseCatalogue(url, doc);    // parse doc
                     cb(null); // done
                 get_smart_key_info(url);
