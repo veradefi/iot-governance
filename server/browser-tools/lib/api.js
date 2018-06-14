@@ -57,16 +57,18 @@ function get_nav() {
         name: 'Explorer',
         selected: false,
       },
-      {
-        href: 'crawler.html',
-        name: 'Crawler',
-        selected: false,
-      },
+     
       {
         href: 'map.html',
         name: 'Map',
         selected: false,
       }
+       /*{
+        href: 'crawler.html',
+        name: 'Crawler',
+        selected: false,
+      },
+      */
     ]    
     return nav_menu;
 }
@@ -159,7 +161,7 @@ app.get('/explorer.html', (req, res) => {
 
 app.get('/crawler', (req, res) => {
   var render_nav=get_nav();
-  render_nav[4]['selected']=true;
+  render_nav[5]['selected']=true;
   res.render('crawler', { nav:render_nav, 
   config:config,
   bodyOnly: req.query.bodyOnly  })
@@ -167,7 +169,7 @@ app.get('/crawler', (req, res) => {
 
 app.get('/crawler.html', (req, res) => {
   var render_nav=get_nav();
-  render_nav[4]['selected']=true;
+  render_nav[5]['selected']=true;
   res.render('crawler', { nav:render_nav, 
   config:config,
   bodyOnly: req.query.bodyOnly  })
@@ -175,7 +177,7 @@ app.get('/crawler.html', (req, res) => {
 
 app.get('/map', (req, res) => {
   var render_nav=get_nav();
-  render_nav[5]['selected']=true;
+  render_nav[4]['selected']=true;
   res.render('map', { nav:render_nav, 
   config:config,
   bodyOnly: req.query.bodyOnly  })
@@ -183,7 +185,7 @@ app.get('/map', (req, res) => {
 
 app.get('/map.html', (req, res) => {
   var render_nav=get_nav();
-  render_nav[5]['selected']=true;
+  render_nav[4]['selected']=true;
   res.render('map', { nav:render_nav, 
   config:config,
   bodyOnly: req.query.bodyOnly  })
