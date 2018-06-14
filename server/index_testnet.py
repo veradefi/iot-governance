@@ -72,7 +72,7 @@ def authKey(user, auth):
         #print("addKeyAuth", key.transact({'from':address}).addKeyAuth(auth, auth_key))
         try:
             print ("user", user)
-            auth_key=key.functions.getKeyAuth(user.lower()).call({'from':address})
+            auth_key=key.call({'from':address}).getKeyAuth(user.lower())
             print ("AuthKey", auth_key)
             if auth_key == auth:
                 status=True

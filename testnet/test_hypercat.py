@@ -51,7 +51,7 @@ key=web3.toChecksumAddress(gc.call({ 'from': address}).smartKeys(address));
 print (key)
 if key == '0x0000000000000000000000000000000000000000':
     print (key, address, "Deposit")
-    print (gc.functions.loadSmartKey(key, address, bytes("Deposit",'utf-8')).transact({ 'from': address, 'value': amount}))
+    print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, bytes("Deposit",'utf-8')))
     key=gc.call({ 'from': address}).smartKeys(address);
     print(key)
     kc=getContract('Key',network, key, prefix="pki_")
