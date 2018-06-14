@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
+import traceback
+from web3 import Web3, IPCProvider, contract, HTTPProvider
 from flask import request, Flask, Response
 import json
 import sys
 import json
 import codecs
-import StringIO
 import re
 import os
 from time import sleep
@@ -15,7 +15,7 @@ import base64
 import threading
 from flask import Flask
 import gevent
-from gevent.wsgi import WSGIServer
+#from gevent.wsgi import WSGIServer
 from gevent.queue import Queue
 import threading, logging, time
 import multiprocessing
@@ -29,16 +29,20 @@ def getContract(item, network, address=None, prefix=""):
     
     if address is None:
         address=data['networks'][network]['address']
+    #print(address)
+    address=web3.toChecksumAddress(address)
+    #print(address)
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
     conf=conf_c(address)
     return conf
 
 network='5'
 port='8545'
-web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
-#web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
-address2=web3.eth.coinbase
-address=web3.eth.accounts[0]
+#web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
+#web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
+address2=web3.toChecksumAddress(web3.eth.coinbase)
+address=web3.toChecksumAddress(web3.eth.accounts[0])
 
 print (address, address2)
 gc=getContract('SmartKey',network)
@@ -51,7 +55,7 @@ subscriptions = []
 
 
 def authKey(user, auth):
-    
+    user=web3.toChecksumAddress(user)
     keyAddress=smartKey.call({ 'from': address }).getSmartKey(user)
     print (keyAddress)
     status=False
@@ -66,14 +70,17 @@ def authKey(user, auth):
             print("isOwner",isOwner)
         
         #print("addKeyAuth", key.transact({'from':address}).addKeyAuth(auth, auth_key))
-        auth_key=key.call({'from':address}).getKeyAuth(user.lower())
-    
-        if auth_key == auth:
-            status=True
-            
-     
-        print ("user", user)
-        print ("AuthKey", auth_key)
+        try:
+            print ("user", user)
+            auth_key=key.functions.getKeyAuth(user.lower()).call({'from':address})
+            print ("AuthKey", auth_key)
+            if auth_key == auth:
+                status=True
+        except Exception as e:
+            print (e)
+            traceback.print_exc()
+                
+        #status=True
     return status, key
 
 
@@ -82,10 +89,11 @@ def getSmartKey(address, auth=None):
     keyAddress = '0x0000000000000000000000000000000000000000'
     
     try:
-        keyAddress=gc.call({ 'from': address }).getSmartKey(address)
+        keyAddress=gc.call({ 'from': address }).getSmartKey(web3.toChecksumAddress(address))
         print (keyAddress)
     except Exception as e:
         print(e)
+        traceback.print_exc()
         
     if keyAddress != '0x0000000000000000000000000000000000000000':
         key=getContract('Key',network, keyAddress, prefix="pki_")
@@ -110,12 +118,13 @@ def getSmartKey(address, auth=None):
 
 
 def getSmartKeyTx(address, offset=0, limit=10):
+    address=web3.toChecksumAddress(address)
     keyAddress=gc.call({ 'from': address }).getSmartKey(address)
     key=getContract('Key',network, keyAddress, prefix="pki_")
 
     tx=[]
     try:
-        txCount=key.call({'from':address}).getTransactionCount(key.address)
+        txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(key.address))
         if offset:
             offset=int(offset)
         else:
@@ -126,7 +135,7 @@ def getSmartKeyTx(address, offset=0, limit=10):
             idx -= offset;
             count=0
             while hasHistory and count < limit and idx >= 0:
-                transactions=key.call({'from':address}).transactions(key.address,idx)
+                transactions=key.call({'from':address}).transactions(web3.toChecksumAddress(key.address),idx)
                 account=transactions[0]
                 date=transactions[1]
                 amount=transactions[2]
@@ -137,6 +146,7 @@ def getSmartKeyTx(address, offset=0, limit=10):
                     count+=1
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     cat = { 
             "transactions":tx,
@@ -149,7 +159,7 @@ def getSmartKeyTx(address, offset=0, limit=10):
     return cat
 
 def getKeyInfo(key, auth=None):
-    keyAddress=key.address
+    keyAddress=web3.toChecksumAddress(key.address)
     if keyAddress != '0x0000000000000000000000000000000000000000':
      try:
         
@@ -163,12 +173,13 @@ def getKeyInfo(key, auth=None):
         vault=key.call({'from':address}).vault()
         isOwner=False
         if not auth is None and 'auth' in auth:
-            if key.call({'from':address}).isOwner(auth['auth']):        
+            if key.call({'from':address}).isOwner(web3.toChecksumAddress(auth['auth'])):        
                     isOwner=True
 
         #amount=tokens
      except Exception as e:
         print (e)
+        traceback.print_exc()
         
         
      cat = {    "address":keyAddress,
@@ -201,21 +212,23 @@ def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
     try:
         amount=int(amount)
         
-        keyAddress=smartKey.call({ 'from': address }).getSmartKey(sender)
+        keyAddress=smartKey.call({ 'from': address }).getSmartKey(web3.toChecksumAddress(sender))
         
         key=getContract('Key',network, keyAddress, prefix="pki_")
     
         #print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
-        if not auth is None and key.call({'from':address}).isOwner(auth['auth']):   
+        if not auth is None and key.call({'from':address}).isOwner(web3.toChecksumAddress(auth['auth'])):   
             print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
        
         return key
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
 def setUserHealth(health, userAddress, key=None,auth=None):
     health=int(health)
-    keyAddress=smartKey.call({ 'from': address }).getSmartKey(userAddress)
+    userAddress=web3.toChecksumAddress(userAddress)
+    keyAddress=web3.toChecksumAddress(smartKey.call({ 'from': address }).getSmartKey(userAddress))
     
     key=getContract('Key',network, keyAddress, prefix="pki_")
     try:
@@ -223,6 +236,7 @@ def setUserHealth(health, userAddress, key=None,auth=None):
             print('setHealth',key.transact({ 'from': address, 'value':int(auth['eth_contrib']) }).setHealth(health))
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     return key
 
@@ -237,6 +251,7 @@ def getNodeKey(href, auth=None):
             graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
     except Exception as e:
         print (e)
+        traceback.print_exc()
 
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
@@ -254,11 +269,12 @@ def getNodeKey(href, auth=None):
         #amount=tokens
         isOwner=False
         if not auth is None and 'auth' in auth:
-            if graphRoot.call({'from':address}).isOwner(auth['auth']):        
+            if graphRoot.call({'from':address}).isOwner(web3.toChecksumAddress(auth['auth'])):        
                     isOwner=True
         
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     cat = { 
             "address":graphRoot.address,
@@ -283,12 +299,13 @@ def getNodeKeyTx(href, offset=0, limit=10):
             graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
     except Exception as e:
         print (e)
+        traceback.print_exc()
 
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
     tx=[]
     try:
-        txCount=key.call({'from':address}).getTransactionCount(key.address)
+        txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(key.address))
         if offset:
             offset=int(offset)
         else:
@@ -311,6 +328,7 @@ def getNodeKeyTx(href, offset=0, limit=10):
                     count += 1
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     cat = { 
             "transactions":tx,
@@ -356,6 +374,7 @@ def getNode(graphRoot):
         
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     cat = { 
             "catalogue-metadata":metaJson,
@@ -372,7 +391,7 @@ def getNodeBalance(graphRoot):
         metaJson=[]
         for meta in metaData:
             meta_c=getContract('MetaData',network, meta)
-            bal=smartKey.call().getBalance(meta)
+            bal=smartKey.call().getBalance(web3.toChecksumAddress(meta))
             metaJson.append({'rel':meta_c.call().rel(),
                              'val':meta_c.call().val(),
                              'bal':bal})
@@ -401,6 +420,7 @@ def getNodeBalance(graphRoot):
         
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     cat = { 
             "catalogue-metadata":metaJson,
@@ -411,6 +431,7 @@ def getNodeBalance(graphRoot):
 
 
 def upsertNode(graphAddr, href, auth, contrib):
+    graphAddr=web3.toChecksumAddress(graphAddr)
     tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
     print ('upsertItem', tx)
     tx_log=web3.eth.getTransaction(tx)
@@ -457,6 +478,8 @@ def addNode(parent_href, href, auth, eth_contrib):
                     graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(parent_href))
             except Exception as e:
                 print (e)
+                traceback.print_exc()
+
             print (parent_href, href, address, graphRoot.address, root.address)
             t = threading.Thread(target=upsertNode, args=[graphRoot.address, href, auth, contrib])
             threads.append(t)
@@ -478,6 +501,8 @@ def addNode(parent_href, href, auth, eth_contrib):
 
 
 def addNodeMetaData(node_href,rel, val,auth, eth_contrib):
+    eth_contrib=int(eth_contrib);
+    print('addNodeMetaData',node_href);
     if node_href: 
         try:
             node_href=re.sub('\/$','',node_href)
@@ -487,7 +512,10 @@ def addNodeMetaData(node_href,rel, val,auth, eth_contrib):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(node_href))
         except Exception as e:
             print (e)
-    transactionId=graphRoot.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val)
+            traceback.print_exc()
+    
+    transactionId=graphRoot.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel, val);
+    print("addNodeMetaData",rel,val);
     print ('upsertMetaData',transactionId)
     
     data={}
@@ -512,11 +540,12 @@ def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
                     graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(node_href))
             except Exception as e:
                 print (e)
+                traceback.print_exc()
         else:
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
         item_c=getContract('Catalogue',network, graphRoot.call({'from':address}).getItem(href))   
-        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val)
+        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(bytes(rel,'utf-8'),bytes(val,'utf-8'))
         print ('upsertMetaData',transactionId)
         
     data={}
@@ -537,6 +566,7 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
         except Exception as e:
             print (e)
+            traceback.print_exc()
     
     isOwner=False
     if graphRoot.call({'from':address}).isOwner(auth['auth']):        
@@ -559,6 +589,7 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
         #amount=tokens
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     cat = { 
             "address":graphRoot.address,
@@ -589,6 +620,7 @@ def setHealth(health, href, eth_contrib):
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
         except Exception as e:
             print (e)
+            traceback.print_exc()
     healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
 
 
@@ -598,6 +630,7 @@ def setHealth(health, href, eth_contrib):
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
@@ -626,9 +659,11 @@ def metaSearch(request, data):
                             filtered_items.append(item)
                     except Exception as e:
                         print (e)
+                        traceback.print_exc()
                 data['items']=filtered_items
         except Exception as e:
             print (e)
+            traceback.print_exc()
         
         try:
             prefixrel = request.args.get('prefixrel')
@@ -655,9 +690,11 @@ def metaSearch(request, data):
                             filtered_items.append(item)
                     except Exception as e:
                         print (e)
+                        traceback.print_exc()
                 data['items']=filtered_items
         except Exception as e:
             print (e)
+            traceback.print_exc()
         
         try:
             geobound_minlong = request.args.get('geobound-minlong')
@@ -684,10 +721,12 @@ def metaSearch(request, data):
                             filtered_items.append(item)
                     except Exception as e:
                         print (e)
+                        traceback.print_exc()
                 data['items']=filtered_items
 
         except Exception as e:
             print (e)
+            traceback.print_exc()
         
         try:
             lexrange_rel = request.args.get('lexrange-rel')
@@ -709,13 +748,16 @@ def metaSearch(request, data):
                             filtered_items.append(item)
                     except Exception as e:
                         print (e)
+                        traceback.print_exc()
                 data['items']=filtered_items
         except Exception as e:
             print (e)
+            traceback.print_exc()
         
         
     except Exception as e:
         print (e)
+        traceback.print_exc()
     
     return data
 
@@ -730,27 +772,31 @@ def doAuth(readOnly=False):
     
     try:
         auth_b64=request.headers.get('Authorization')
-        auth_key=base64.b64decode(auth_b64).split(':')[0]
-        auth_key=base64.b64decode(auth_key)
+        #print(auth_b64)
+        #print (base64.b64decode(auth_b64))
+        auth_key=base64.b64decode(auth_b64).decode("utf-8", "ignore").split(':')[0]
+        auth_key=base64.b64decode(auth_key).decode("utf-8", "ignore")
+
 
         auth_reg=re.compile('(\w+)[:=] ?"?(\w+)"?')
         auth=dict(auth_reg.findall(auth_key))
         
         auth['eth_contrib']=int(auth['eth_contrib'])
-        auth['auth']=auth['auth'].lower();
+        auth['auth']=web3.toChecksumAddress(auth['auth'].lower());
         auth['api_key']=auth['api_key'].lower();
         
         if auth['eth_contrib'] > 0:
-            print (auth)
-            print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
+            #print (auth)
+            #print (auth['auth'], auth['api_key'],  auth['eth_contrib'])
             status, key=authKey(auth['auth'], auth['api_key'])
+            print('Auth Status',status, 'Key',key)
             if status:
                 if not readOnly:
-                    balance=web3.eth.getBalance(key.address)
+                    balance=web3.eth.getBalance(web3.toChecksumAddress(key.address))
                     if balance > int(auth['eth_contrib']):
-                        to=address
-                        sender=auth['auth']
-                        userEthTransfer(auth['eth_contrib'], to, sender, '', auth)
+                        to=web3.toChecksumAddress(address)
+                        sender=web3.toChecksumAddress(auth['auth'])
+                        userEthTransfer(auth['eth_contrib'], web3.toChecksumAddress(to), web3.toChecksumAddress(sender), '', auth)
             
                         return True, auth
                 else:
@@ -759,6 +805,7 @@ def doAuth(readOnly=False):
                     
     except Exception as e:
         print (e)
+        traceback.print_exc()
         
     return False, auth
 
@@ -794,6 +841,7 @@ def getUserSmartKeyTx():
         data = getSmartKeyTx(address, offset, limit)
     except Exception as e:
         print (e)
+        traceback.print_exc()
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -834,10 +882,11 @@ def setUserHealthStatus():
     data={}
     if status: 
         try:
-            key = setUserHealth(health, address, key, auth)
+            key = setUserHealth(health, web3.toChecksumAddress(address), key, auth)
             data = getKeyInfo(key, auth)
         except Exception as e:
             print (e)
+            traceback.print_exc()
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -885,6 +934,7 @@ def get_node():
         data=metaSearch(request, data)       
     except Exception as e:
         print (e)
+        traceback.print_exc()
     
     response = app.response_class(
             
@@ -913,6 +963,7 @@ def get_nodeBalance():
         data=metaSearch(request, data)       
     except Exception as e:
         print (e)
+        traceback.print_exc()
     
     response = app.response_class(
             
@@ -1014,6 +1065,7 @@ def getNodeSmartKeyTx():
         data = getNodeKeyTx(href, offset, limit)
     except Exception as e:
         print (e)
+        traceback.print_exc()
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
         status=200,
@@ -1099,6 +1151,7 @@ def subscribe():
                 event["href"]=url;
             except Exception as e:
                 print (e)
+                traceback.print_exc()
             evt=json.dumps(event)
             evt=evt.replace('\u0000','')
                 
@@ -1121,6 +1174,7 @@ def subscribe():
                             url=href
                     except Exception as e:
                         print (e)
+                        traceback.print_exc()
                     yield "id: %s\nevent: %s\ndata: %s\n\n" % (message.offset,url, message.value)
                     
             consumer.close()
@@ -1169,6 +1223,7 @@ def catch_all(path):
         data=metaSearch(request, data)       
     except Exception as e:
         print (e)
+        traceback.print_exc()
 
     response = app.response_class(
             
@@ -1181,10 +1236,10 @@ def catch_all(path):
 
 
 if __name__ == '__main__':
-    #app.run(debug=True, port=8888)
-    app.debug = True
-    server = WSGIServer(("", 8888), app)
-    server.serve_forever()
+    app.run(debug=True, port=8888)
+    #app.debug = True
+    #server = WSGIServer(("", 8888), app)
+    #server.serve_forever()
 
 
 
