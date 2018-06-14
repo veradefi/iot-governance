@@ -305,7 +305,16 @@ def getNodeKeyTx(href, offset=0, limit=10):
 
     tx=[]
     try:
+        myAddress=key.address;
         txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(key.address))
+        if txCount < 1:
+            txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(address))
+            myaddress=address;
+        
+        if txCount < 1:
+            txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(smartKey.address))
+            myaddress=smartKey/address;
+
         if offset:
             offset=int(offset)
         else:
@@ -317,7 +326,7 @@ def getNodeKeyTx(href, offset=0, limit=10):
             idx -= offset;
             count=0
             while hasHistory and count < limit and idx >= 0:
-                transactions=key.call({'from':address}).transactions(key.address,idx)
+                transactions=key.call({'from':address}).transactions(myAddress,idx)
                 account=transactions[0]
                 date=transactions[1]
                 amount=transactions[2]
