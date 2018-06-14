@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
+from web3 import Web3, IPCProvider, contract, HTTPProvider
 
 import sys
 import json
@@ -17,20 +17,24 @@ def getContract(item, network, address=None, prefix=""):
     
     if address is None:
         address=data['networks'][network]['address']
+    print(address)
+    address=web3.toChecksumAddress(address)
+    print(address)
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
     conf=conf_c(address)
     return conf
 
 network='4'
 port='8666'
-web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
-#web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
+#web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
+#web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.eth.coinbase
 address=web3.eth.accounts[1]
 
-address3='0x5c6a178D57454536D269fc81DCF31d274E75E060'
-address4='0x3f4BC017C2aC1766F98073F50B4fA9423a3e916f'
-address5='0xe60C7Cf65C7c3Ba677659745e1337b650CD7e994'
+address4=Web3.toChecksumAddress('0x51325acb7c6878706c36635251f3c355d6de4f5a')
+address3=Web3.toChecksumAddress('0x813047c6d1ffb32e740d2e92755ca1631edd3f23')
+address5=Web3.toChecksumAddress('0x330a0e70f48dedd136961c0b7c59a29ad772e91b')
 address6=address4
 
 amount=10000000000000000000

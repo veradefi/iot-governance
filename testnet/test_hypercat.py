@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract, HTTPProvider
+from web3 import Web3,  IPCProvider, contract, HTTPProvider
 
 import sys
 import json
@@ -19,16 +19,20 @@ def getContract(item, network, address=None, prefix=""):
     
     if address is None:
         address=data['networks'][network]['address']
+    print(address)
+    address=web3.toChecksumAddress(address)
+    print(address)
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
     conf=conf_c(address)
     return conf
 
 network='5'
 port='8545'
-web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
-#web3 = Web3(HTTPProvider('https://iotblock.io/rpc'))
-address2=web3.eth.coinbase
-address=web3.eth.accounts[0]
+#web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
+#web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
+address2=web3.toChecksumAddress(web3.eth.coinbase)
+address=web3.toChecksumAddress(web3.eth.accounts[0])
 
 print (address, address2)
 gc=getContract('SmartKey',network)
@@ -37,16 +41,17 @@ root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 amount=1000000000000000000 #1 ETH
 
-price=amount/100
-amount=amount/100
+price=int(amount/100)
+amount=int(amount/100)
 
 auth={ 'auth':address }
 
 # get smart key
-key=gc.call({ 'from': address}).smartKeys(address);
+key=web3.toChecksumAddress(gc.call({ 'from': address}).smartKeys(address));
 print (key)
 if key == '0x0000000000000000000000000000000000000000':
-    print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, "Deposit"))
+    print (key, address, "Deposit")
+    print (gc.functions.loadSmartKey(key, address, bytes("Deposit",'utf-8')).transact({ 'from': address, 'value': amount}))
     key=gc.call({ 'from': address}).smartKeys(address);
     print(key)
     kc=getContract('Key',network, key, prefix="pki_")
@@ -54,7 +59,7 @@ else:
     kc=getContract('Key',network, key, prefix="pki_")
 
 print (key, address, "Deposit")
-print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, "Deposit"))
+print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(key, address, bytes("Deposit",'utf-8')))
 #print (gc.transact({ 'from': address, 'value': amount}).loadSmartKey(address))
 kc=getContract('Key',network, key, prefix="pki_")
 print ('Key Activated', kc.call({ 'from': address}).activated(address))

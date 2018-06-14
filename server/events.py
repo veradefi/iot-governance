@@ -69,6 +69,9 @@ def getContract(item, network, address=None, prefix=""):
     
     if address is None:
         address=data['networks'][network]['address']
+    print(address)
+    address=web3.toChecksumAddress(address)
+    print(address)
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
     conf=conf_c(address)
     return conf
@@ -76,8 +79,8 @@ def getContract(item, network, address=None, prefix=""):
 
 network='4'
 port='8666'
-web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
-#web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
+#web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 
 address2=web3.eth.coinbase

@@ -9,6 +9,7 @@ contract MetaData is Administered {
   string public rel;
   string public val;
  
+  string[] public val_history;
   function MetaData(SmartKey _smartKey, address[] adminAddress, string _rel, string _val) 
   public
   Administered(adminAddress)
@@ -24,6 +25,7 @@ contract MetaData is Administered {
   returns (bool)
   {
   
+      val_history.push(_val);
       val=_val;
       
       return true;

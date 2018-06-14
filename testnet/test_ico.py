@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from web3 import Web3, KeepAliveRPCProvider, IPCProvider, contract
+from web3 import Web3, HTTPProvider, IPCProvider, contract
 
 import sys
 import json
@@ -22,7 +22,10 @@ def getContract(item, network, address=None, prefix=""):
 
 network='5'
 port='8545'
-web3 = Web3(KeepAliveRPCProvider(host='localhost', port=port))
+#web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
+#web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
+
 address=web3.eth.coinbase
 address2=web3.eth.accounts[1]
 
