@@ -362,16 +362,20 @@ def getNode(graphRoot):
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
         return metaJson
     
-    def getItem(items):
+    def getItem(items, getItems=False):
      
-        itemJson=[]
+        itemList=[]
         for item in items:
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
-        
-            itemJson.append({'href':item_c.call().href(),
-                             'item-metadata':meta})
-        return itemJson
+            itemJson={'href':item_c.call().href(),
+                             'item-metadata':meta}
+            if getItems:
+                itemListJson=getItem(item_c.call({'from':address}).selectItems(), False)
+                itemJson['items']=itemListJson;
+                
+            itemList.append(itemJson)
+        return itemList
 
     metaJson=[]
     itemJson=[]
@@ -379,7 +383,7 @@ def getNode(graphRoot):
     try:
         
         metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
-        itemJson=getItem(graphRoot.call({'from':address}).selectItems())
+        itemJson=getItem(graphRoot.call({'from':address}).selectItems(), True)
         
     except Exception as e:
         print (e)
