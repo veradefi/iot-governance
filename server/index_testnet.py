@@ -40,6 +40,7 @@ network='5'
 port='8545'
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
 web3 = Web3(HTTPProvider('http://localhost:' + port ))
+#web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
 address=web3.toChecksumAddress(web3.eth.accounts[0])
@@ -305,7 +306,16 @@ def getNodeKeyTx(href, offset=0, limit=10):
 
     tx=[]
     try:
+        myAddress=key.address;
         txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(key.address))
+        if txCount < 1:
+            txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(address))
+            myaddress=address;
+        
+        if txCount < 1:
+            txCount=key.call({'from':address}).getTransactionCount(web3.toChecksumAddress(smartKey.address))
+            myaddress=smartKey.address;
+
         if offset:
             offset=int(offset)
         else:
@@ -317,7 +327,7 @@ def getNodeKeyTx(href, offset=0, limit=10):
             idx -= offset;
             count=0
             while hasHistory and count < limit and idx >= 0:
-                transactions=key.call({'from':address}).transactions(key.address,idx)
+                transactions=key.call({'from':address}).transactions(myAddress,idx)
                 account=transactions[0]
                 date=transactions[1]
                 amount=transactions[2]
@@ -353,16 +363,20 @@ def getNode(graphRoot):
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
         return metaJson
     
-    def getItem(items):
+    def getItem(items, getItems=False):
      
-        itemJson=[]
+        itemList=[]
         for item in items:
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
-        
-            itemJson.append({'href':item_c.call().href(),
-                             'item-metadata':meta})
-        return itemJson
+            itemJson={'href':item_c.call().href(),
+                             'item-metadata':meta}
+            if getItems:
+                itemListJson=getItem(item_c.call({'from':address}).selectItems(), False)
+                itemJson['items']=itemListJson;
+                
+            itemList.append(itemJson)
+        return itemList
 
     metaJson=[]
     itemJson=[]
@@ -370,7 +384,7 @@ def getNode(graphRoot):
     try:
         
         metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
-        itemJson=getItem(graphRoot.call({'from':address}).selectItems())
+        itemJson=getItem(graphRoot.call({'from':address}).selectItems(), True)
         
     except Exception as e:
         print (e)
@@ -545,7 +559,7 @@ def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
         item_c=getContract('Catalogue',network, graphRoot.call({'from':address}).getItem(href))   
-        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val)
+        transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val);
         print ('upsertMetaData',transactionId)
         
     data={}
