@@ -21,6 +21,7 @@ import threading, logging, time
 import multiprocessing
 from kafka import KafkaConsumer, KafkaProducer
 
+rootNode="https://iotblock.io/"
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
     bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
@@ -39,8 +40,8 @@ def getContract(item, network, address=None, prefix=""):
 network='5'
 port='8545'
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
-web3 = Web3(HTTPProvider('http://localhost:' + port ))
 #web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
 address=web3.toChecksumAddress(web3.eth.accounts[0])
@@ -382,9 +383,9 @@ def getNode(graphRoot):
     itemJson=[]
     
     try:
-        
-        metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
-        itemJson=getItem(graphRoot.call({'from':address}).selectItems(), True)
+        if graphRoot.address != '0x0000000000000000000000000000000000000000':
+            metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
+            itemJson=getItem(graphRoot.call({'from':address}).selectItems(), True)
         
     except Exception as e:
         print (e)
@@ -464,6 +465,8 @@ def upsertNode(graphAddr, href, auth, contrib):
          sleep(10)
 
     graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
+    print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
     #print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':2 }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:lexrange"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:Xhypercat:rels:supportsSearch", "urn:X-hypercat:search:simple"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-space:rels:launchDate", datetime.now().strftime("%Y-%m-%d")))
@@ -473,10 +476,8 @@ def upsertNode(graphAddr, href, auth, contrib):
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:isContentType", "application/vnd.hypercat.catalogue+json"))
     print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':contrib }).upsertMetaData("urn:X-hypercat:rels:hasDescription:en", ""))
     
-    print ('Owner', graphRoot.transact({'from':address}).addOwner(auth['auth']));
-    print ('Admin', graphRoot.transact({'from':address}).addAdmin(auth['auth']));
 
-def addNode(parent_href, href, auth, eth_contrib):
+def addNode(parent_href, href, auth, eth_contrib, wait=False):
     data={ 'healthStatus':'Provisioning' }
     
     if href:
@@ -506,6 +507,8 @@ def addNode(parent_href, href, auth, eth_contrib):
 
         for x in threads:
             x.start()
+            if wait:
+                x.join()
 
     
     return data
@@ -514,7 +517,7 @@ def addNode(parent_href, href, auth, eth_contrib):
 
 
 
-def addNodeMetaData(node_href,rel, val,auth, eth_contrib):
+def addNodeMetaData(node_href,rel, val,auth, eth_contrib, parent_href=rootNode + '/cat'):
     eth_contrib=int(eth_contrib);
     print('addNodeMetaData',node_href);
     if node_href: 
@@ -524,6 +527,12 @@ def addNodeMetaData(node_href,rel, val,auth, eth_contrib):
                 graphRoot=root
             else:
                 graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(node_href))
+                if graphRoot.address == '0x0000000000000000000000000000000000000000':
+                    data=addNode(parent_href, node_href, auth, int(auth['eth_contrib']), True)
+                    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(node_href))
+                else:
+                    print(node_href,parent_href,graphRoot.address)
+
         except Exception as e:
             print (e)
             traceback.print_exc()
@@ -788,6 +797,9 @@ def doAuth(readOnly=False):
         auth_b64=request.headers.get('Authorization')
         #print(auth_b64)
         #print (base64.b64decode(auth_b64))
+        if auth_b64.startswith('Basic '):
+            auth_b64=auth_b64[5:]
+            auth_b64 = base64.b64decode(auth_b64).decode("utf-8", "ignore").split(':')[0]
         auth_key=base64.b64decode(auth_b64).decode("utf-8", "ignore").split(':')[0]
         auth_key=base64.b64decode(auth_key).decode("utf-8", "ignore")
 
@@ -1196,9 +1208,62 @@ def subscribe():
     return Response(consumeKafka(), mimetype="text/event-stream")
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route('/', defaults={'path': ''},  methods = ['GET', 'POST', 'DELETE'])
+@app.route('/<path:path>',  methods = ['GET', 'POST', 'DELETE'])
 def catch_all(path):
+    appendData=''
+    try:
+        if request.method == 'POST':
+            print(request.method)
+            if request.data:
+                print (request.data)
+                print (path)
+                data=json.loads(request.data)
+                if type(data).__name__ == 'str':
+                    data=json.loads(data);                
+                status, auth=doAuth()
+                print(data)
+
+                if data and status: 
+                    path=re.sub('\/$','',path);
+                    href  =  rootNode + path
+                    rootHref=href;
+                    for key, value in data.items():
+                        print (key)
+
+                        if key == 'catalogue-metadata':
+                            for item in value:
+                                print(item);
+                                if 'rel' in item and 'val' in item:
+                                    data=addNodeMetaData(href, item['rel'], item['val'], auth, auth['eth_contrib'], rootNode + 'cat')
+                        if key == 'items':
+                            for item in value:
+                                print(item);
+                                href=item['href']
+                                if 'item-metadata' in item:
+                                    metadata=item['item-metadata']
+                                    for meta in metadata:
+                                        if 'rel' in meta and 'val' in meta:
+                                            data=addNodeMetaData(href, meta['rel'], meta['val'], auth, auth['eth_contrib'], rootHref)
+                                if 'items' in item:
+                                    subitems=item['items']
+                                    for subitem in subitems:
+                                        subhref=subitem['href']
+                                        submetadata=subitem['item-metadata']
+                                        for submeta in submetadata:
+                                            if 'rel' in submeta and 'val' in submeta:
+                                                data=addNodeMetaData(subhref, submeta['rel'], submeta['val'], auth, auth['eth_contrib'], href)
+                    response = app.response_class(
+            
+                        response='Created',
+                        status=200,
+                        #mimetype='application/vnd.hypercat.catalogue+json'
+                        
+                    )
+                    return response
+    except Exception as e:
+        print (e)
+        traceback.print_exc()
     '''
     {
     "catalogue-metadata":[
@@ -1216,11 +1281,13 @@ def catch_all(path):
     '''
     path=re.sub('\/$','',path);
     if path   == 'cat':
+        href = rootNode + 'cat';
         data  =  getNode(root)
     else:
-        href  =  "https://iotblock.io/" + path
+        href  =  rootNode + path
         node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
         data  =  getNode(node)
+    
     
     '''
     ?rel=urn:X­hypercat:rels:1
