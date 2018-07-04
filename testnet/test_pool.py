@@ -27,42 +27,42 @@ def getContract(item, network, address=None, prefix=""):
 network='5'
 port='8545'
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
-web3 = Web3(HTTPProvider('http://localhost:' + port ))
+web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
-address2=web3.eth.coinbase
-address=web3.eth.accounts[1]
+address=web3.eth.coinbase
+address2=web3.eth.accounts[1]
 
+address3=Web3.toChecksumAddress('0x7c0c1707d365c1fe1f8432c8d854badb222c9d1f')
 address4=Web3.toChecksumAddress('0x51325acb7c6878706c36635251f3c355d6de4f5a')
-address3=Web3.toChecksumAddress('0x813047c6d1ffb32e740d2e92755ca1631edd3f23')
-address5=Web3.toChecksumAddress('0x330a0e70f48dedd136961c0b7c59a29ad772e91b')
-address6=address4
+address5=Web3.toChecksumAddress('0x813047c6d1ffb32e740d2e92755ca1631edd3f23')
+#address6=address4
 
-amount=10000000000000000000
-#web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})
-#web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
+amount         =1000000000000000000
+max_contrib    =100000000000000000000
+max_per_contrib=100000000000000000000
+web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})
+web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
 
 
 spk=getContract('SmartPoolKey',network);
 
-max_contrib=100000000000000000000000
-max_per_contrib=100000000000000000000000
 min_per_contrib=1
-admins=[ address, address2, address3, address4, address5, address6 ]
+admins=[ address, address2, address3, address4, address5 ]
 whitelist=admins
 fee=int(round(1/0.05))
 #address, uint256, uint256, uint256, address[], address[], uint256
 print (address3, max_contrib, max_per_contrib, min_per_contrib, admins, whitelist, fee)
 has_whitelist=False
 autoDistribute=True
-print(spk.transact({ 'from': address}).addSmartPoolKey(address3, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute))
-poolkey=spk.call({ 'from': address}).getSmartPoolKey(address3)
+print(spk.transact({ 'from': address}).addSmartPoolKey(address, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute))
+poolkey=spk.call({ 'from': address}).getSmartPoolKey(address)
 print(poolkey)
 pk=getContract('PoolKey', network, address=poolkey, prefix='pki_')
 members=pk.call({ 'from': address}).getMembers()
 print ('Members:',members)
-bal1=web3.eth.getBalance(address2)
+bal1=web3.eth.getBalance(address)
 print ('getBalance (eth) for address1',bal1)
-web3.eth.sendTransaction({ 'from' :address, 'to':poolkey, 'value': amount})
+web3.eth.sendTransaction({ 'from' :address, 'to':poolkey, 'gas': 4000000, 'gasPrice':1000000000, 'value': amount})
 bal2=web3.eth.getBalance(address2)
 print ('getBalance (eth) for address1',bal2)
 share=bal2-bal1
