@@ -45,10 +45,10 @@ def getContract(item, network, address=None, prefix=""):
     json_data=open('build/contracts/' + item + '.json').read()
     data = json.loads(json_data)
     
-    if address is None:
-        address=data['networks'][network]['address']
+    #if address is None:
+    #    address=data['networks'][network]['address']
     conf_c = web3.eth.contract(abi=abi, bytecode=bin)
-
+    address=conf_c.address;
     conf=conf_c(web3.toChecksumAddress(address))
     return conf
 
@@ -81,9 +81,6 @@ print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
 print ('getBalance (eth) for key',web3.eth.getBalance(key))
-
-
-
 
 eth1=1000000000000000000;
 eth_contrib=int(eth1/100000);
