@@ -62,6 +62,14 @@ function get_nav() {
         href: 'map.html',
         name: 'Map',
         selected: false,
+      },
+
+      
+      {
+        href: 'http://iotblock.readthedocs.io/en/latest/',
+        name: 'Documentation',
+        selected: false,
+        target: '_newwindow'
       }
        /*{
         href: 'crawler.html',
@@ -190,6 +198,8 @@ app.get('/map.html', (req, res) => {
   config:config,
   bodyOnly: req.query.bodyOnly  })
 })
+
+
 
 app.configure(function () {
     app.set('port', config.port);

@@ -38,10 +38,10 @@ def getContract(item, network, address=None, prefix=""):
     return conf
 
 network='5'
-port='8545'
+port='9545'
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
 #web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
-web3 = Web3(HTTPProvider('http://localhost:' + port ))
+web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
 address=web3.toChecksumAddress(web3.eth.accounts[0])
