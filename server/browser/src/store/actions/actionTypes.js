@@ -3,6 +3,7 @@ export const LOADED = "LOADED";
 export const ERROR = "ERROR";
 
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
+export const AUTH_ETH_CONTRIB = "AUTH_ETH_CONTRIB";
 
 export const INITIALIZE_POSTS = "INITIALIZE_POSTS";
 export const SET_POSTS = "SET_POSTS";

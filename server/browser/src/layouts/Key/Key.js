@@ -14,7 +14,10 @@ var $ = require ('jquery');
 
 const stateToProps = state => {
     return {
-      
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated
     };
   };
   
@@ -33,14 +36,26 @@ const dispatchToProps = dispatch => {
         closeDialog: () => {
             dispatch(actions.closeDialog());
         },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
     };
 };
+
+
 
 @connect(stateToProps, dispatchToProps)
 export default class Key extends Component {
     static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
+        api_auth: PropTypes.string.isRequired,
+        api_key: PropTypes.string.isRequired,
+        eth_contrib: PropTypes.number.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
     };
   
   /**
@@ -68,13 +83,17 @@ export default class Key extends Component {
     this._isMounted = false;
   }
 
+
   add_auth = (xhr) => {
+    var self=this;
+    var api_auth=self.props.api_auth;
+    var api_key=self.props.api_key;
     var eth1=1000000000000000000;
     var eth_contrib=1;
-    if ($('#eth_contrib') && $('#eth_contrib').val()) {
-        eth_contrib=parseFloat($('#eth_contrib').val()) * eth1
+    if (self.props.eth_contrib) {
+        eth_contrib=parseFloat(self.props.eth_contrib) * eth1;
     }
-    var data="Token api_key=\"" + this.state.api_key + "\" auth=\"" + this.state.api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
+    var data="Token api_key=\"" + api_key + "\" auth=\"" + api_auth + "\" eth_contrib=\"" + eth_contrib + "\"";
     data=btoa(data);
     data=btoa(data + ':' + '');
     xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
@@ -138,6 +157,7 @@ page2_api = (auth, auth_info, key_address)  => {
         //self.hidePage1();
         //$('#page2').hide();
         //self.hidePage2_api();
+        this.props.authSuccess( auth, auth_info, key_address);
         this.setState({
             api_key:auth_info,
             api_auth:auth   

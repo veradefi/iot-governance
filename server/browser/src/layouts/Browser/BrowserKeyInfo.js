@@ -169,29 +169,6 @@ export default class BrowserKeyInfo extends Component {
     
     }    
     
-    
-get_smart_key_info = (href) => {
-
-    var self=this;
-    $.ajax({
-            beforeSend: function(xhr){
-                self.add_auth(xhr);
-                //setHeaders(xhr);
-            
-            },
-            type: 'GET',
-            url: '/cat/getNodeSmartKey?href=' + encodeURIComponent(href),
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                self.fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["isOwner"]);
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-}
 
 
 get_transfer_node_eth = (href, beneficiary, amount) => {

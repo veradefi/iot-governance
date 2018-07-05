@@ -10,9 +10,13 @@ var $ = require ('jquery');
 
 
 
+
 const stateToProps = state => {
     return {
-      
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated
     };
   };
   
@@ -31,14 +35,26 @@ const dispatchToProps = dispatch => {
         closeDialog: () => {
             dispatch(actions.closeDialog());
         },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
     };
 };
+
+
 
 @connect(stateToProps, dispatchToProps)
 export default class KeyInfo extends Component {
     static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
+        api_auth: PropTypes.string.isRequired,
+        api_key: PropTypes.string.isRequired,
+        eth_contrib: PropTypes.number.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
     };
   
   /**
@@ -155,6 +171,8 @@ fill_api_info = (auth, auth_info) => {
         api_key:auth_info,
         api_auth:auth   
     });
+    
+
 
 }
 
