@@ -5,23 +5,23 @@ export default class Nav extends Component {
     get_nav = ()=> {
             var nav_menu = [
             {
-                href: 'key.html',
+                href: 'key',
                 name: 'Smart Key',
                 selected: true
             },
             {
-                href: 'browser.html',
+                href: 'browser',
                 name: 'Browser & Editor',
                 selected: false,
             },
             {
-                href: 'explorer.html',
+                href: 'explorer',
                 name: 'Explorer',
                 selected: false,
             },
             
             {
-                href: 'map.html',
+                href: 'map',
                 name: 'Map',
                 selected: false,
             },
@@ -34,7 +34,7 @@ export default class Nav extends Component {
                 target: '_newwindow'
             },
             {
-                href: 'pool.html',
+                href: 'pool',
                 name: 'Smart Pool Key',
                 selected: false,
             },
@@ -45,6 +45,13 @@ export default class Nav extends Component {
             },
             */
             ];    
+            nav_menu.map(link => {
+                 if (window.location.pathname.match(link.href)) {
+                     link.selected=true;
+                 } else {
+                     link.selected=false;
+                }
+            });
             return nav_menu;
     }
 

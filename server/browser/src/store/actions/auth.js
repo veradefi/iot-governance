@@ -4,19 +4,10 @@ const AUTH_EXPIRY_TIME = 2 * 3600;
 
 
 
+export const authSuccess = (api_auth, api_key, user_key_address) => {
+  return { type: actionTypes.AUTH_SUCCESS, api_auth, api_key, user_key_address };
+};
 
-export const authSuccess = (user, token) => {
-  /*
-  localStorage.setItem("token", token);
-  localStorage.setItem("user", JSON.stringify(user));
-  localStorage.setItem(
-    "loginTime",
-    localStorage.getItem("loginTime") || Date.now()
-  );
-  axios.defaults.headers = {
-    ...axios.defaults.headers,
-    sessiontoken: localStorage.getItem("token")
-  };
-  */
-  return { type: actionTypes.AUTH_SUCCESS, user, token };
+export const authEthContrib = (eth_contrib) => {
+  return { type: actionTypes.AUTH_ETH_CONTRIB, eth_contrib };
 };

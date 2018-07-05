@@ -2,7 +2,7 @@ from iotblock_sdk.pathfinder import Catalogue
 import iotblock_sdk.hypercat as hypercat
 import json
 import logging
-TEST_PATHFINDER_URL_ROOT = "http://127.0.0.1:8888/cat/test2222222"
+TEST_PATHFINDER_URL_ROOT = "http://127.0.0.1:8888/cat"
 
 def unittest():
     
@@ -40,7 +40,7 @@ def unittest():
     logging.getLogger().setLevel(logging.DEBUG)
 
     print("Create a catalogue on Pathfinder")
-    p = Catalogue(TEST_PATHFINDER_URL_ROOT, "Vkc5clpXNGdZWEJwWDJ0bGVUMGlPR1EzT0dKaE0yWTRaV1l3TWpCak5XUTROamsxWXpKak56ZGlObVk1Tkdaall6RTFaR1U0TnpOaFlUVmpOVGd6WmpaaE5XUm1NMk5qTWpJd09UVmtNeUlnWVhWMGFEMGlNSGhHWWpNek5EZzVZak5DUmpkRU1ERmtOMk5FTmtNNFEwSkZRMEk1TkRSbE5EZEJPRFprT0dKa0lpQmxkR2hmWTI5dWRISnBZajBpTVRBd01EQXdNREF3TURBd01EQWk6")
+    p = Catalogue(TEST_PATHFINDER_URL_ROOT, "Vkc5clpXNGdZWEJwWDJ0bGVUMGlZelZrTWpRMk1ERTRObVkzTWpNell6a3lOMlUzWkdJeVpHTmpOekF6WXpCbE5UQXdZalkxTTJOaE9ESXlOek5pTjJKbVlXUTRNRFExWkRnMVlUUTNNQ0lnWVhWMGFEMGlNSGcxTVRNeU5XRmpZamRqTmpnM09EY3dObU16TmpZek5USTFNV1l6WXpNMU5XUTJaR1UwWmpWaElpQmxkR2hmWTI5dWRISnBZajBpTVRBd01EQXdNREF3TURBd01EQXdJZz09Og==")
     h1 = hypercat.Hypercat("Dummy test catalogue", meta)
     h1_item=hypercat.Hypercat("Item Node", meta)
     h1_item2 = hypercat.Hypercat("Item's Item Node", meta)

@@ -55,7 +55,7 @@ export default class App extends Component {
           <div style={{ width:"100%", padding:"22px",  }}>
             <table style={{width:"100%", height:"100%",margin:"0px",padding:"0px"}}>
               <tbody>
-              <tr><td style={{width:"20%", height:"100%", background:'white',
+              <tr><td style={{minWidth:"150px", width:"150px", height:"100%", background:'white',
                boxShadow: "0 2px 7px 0 rgba(160, 160, 160, 0.5)",
                border: "solid 1px #e7e7e7"
             
