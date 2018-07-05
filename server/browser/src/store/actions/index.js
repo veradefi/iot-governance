@@ -1,5 +1,6 @@
 export {
     authSuccess,
+    authEthContrib
   } from "./auth";
 
   export {

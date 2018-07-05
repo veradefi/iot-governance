@@ -5,14 +5,20 @@ import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import BrowserKeyInfo from "./BrowserKeyInfo";
 import BrowserMapInfo from "./BrowserMapInfo";
+import MetaData from "./MetaData";
+import Item from "./Item";
+import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
 var $ = require ('jquery');
 
 
-
 const stateToProps = state => {
     return {
-      
+        user_key_address:state.auth.user_key_address,
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated
     };
   };
   
@@ -31,15 +37,28 @@ const dispatchToProps = dispatch => {
         closeDialog: () => {
             dispatch(actions.closeDialog());
         },
+        authSuccess: (api_auth, api_key, key_address) => {
+            dispatch(actions.authSuccess(api_auth, api_key, key_address));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
     };
 };
 
-@connect(stateToProps, dispatchToProps)
+
+
+@connect(stateToProps, dispatchToProps)   
 export default class Browser extends Component {
-    static propTypes = {
+   static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
-    };
+        user_key_address: PropTypes.string.isRequired,
+        api_auth: PropTypes.string.isRequired,
+        api_key: PropTypes.string.isRequired,
+        eth_contrib: PropTypes.number.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
+  };
   
   /**
    * Creates an instance of OrderDialog.
@@ -89,34 +108,27 @@ export default class Browser extends Component {
   }
 
   
-fill_api_info = (auth, auth_info) => {
+fill_api_info = (auth, auth_info, user_key_address) => {
 
     if (auth_info.length < 1)    {
         auth="Please Generate API Key <a href='key.html'>Here</a>";
         window.location.href='key.html';
     }
         
-    $('.auth').html(auth);
+    //$('.auth').html(auth);
     this.setState({
         loading:false,
         api_key:auth_info,
         api_auth:auth
     });
+
+    this.props.authSuccess(auth, auth_info, user_key_address);
+    this.props.authEthContrib(parseFloat($('#eth_contrib').val()));
         
 }
 
 
-add_item= (id) => {
-    var url = $('#browse_url').val() + '/<catalogue_name>';
-                
-    var html='<div className={"input-group"}>';
-    html+='<span><h3>URL:</h3></span><input className={"form-control"} type=text id={"new_url"} value="' + url + '">';
-    //html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + val + '">';
-    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
-    html+=' onClick="JavaScript:save_item(\'' + id + '\')">Save</button></div>';
-    html+='</div>';
-    $('#' + id).html(html);
-}
+
 
 add_auth = (xhr) => {
         var eth1=1000000000000000000;
@@ -159,70 +171,6 @@ save_item = (id) => {
                 console.log(xhr.status + ' ' + xhr.statusText);
             }
         });
-}
-
-add_meta = (id, node_href, item_href) => {
-    var rel='urn:X-hypercat:rels:hasDescription:en';
-    var val='';
-    var html='<div className={"input-group"}>';
-    html+='<input className={"form-control"} type=text id="' + id + '_rel" value="' + rel + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
-    html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + val + '">';
-    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
-    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
-    html+='</div>';
-    $('#' + id).html(html);
-
-}
-
-edit_meta = (id, idx, data, node_href, item_href) => {
-    var html='<div className={"input-group"}>';
-    html+='<input className={"form-control"} type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
-    html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
-    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
-    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
-    html+='</div>';
-    $('#' + id).html(html);
-
-}
-
-save_meta = (id, node_href, item_href) =>  {
-        var self=this;
-        var key='';
-        var rel = $('#' + id + '_rel').val();
-        var val = $('#' + id + '_val').val();
-        
-        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
-        
-        if (item_href) {
-            post_url='/cat/postNodeItemMetaData?parent_href=' + encodeURIComponent(node_href) + '&href=' + encodeURIComponent(item_href);
-        }
-        
-        //console.log(post_url, rel, val);
-        post_url+='&rel=' + encodeURIComponent(rel);
-        post_url+='&val=' + encodeURIComponent(val);
-        post_url+='&key=' + encodeURIComponent(key);
-        //alert(post_url);
-        $.ajax({
-            beforeSend: function(xhr){
-                self.add_auth(xhr);
-                    //setHeaders(xhr);
-            },
-            type: 'GET',
-            url: post_url,
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                self.browse($('#browse_url').val(), function() {
-                    console.log('browse complete');
-                });
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-
-    //alert(id);  
 }
 
 
@@ -319,9 +267,46 @@ browseCatalogue = () => {
     });
 }
 
+add_item= (id) => {
+    var url = $('#browse_url').val() + '/<catalogue_name>';
+                
+    var html='<div className={"input-group"}>';
+    html+='<span><h3>URL:</h3></span><input className={"form-control"} type=text id={"new_url"} value="' + url + '">';
+    //html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + val + '">';
+    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
+    html+=' onClick="JavaScript:save_item(\'' + id + '\')">Save</button></div>';
+    html+='</div>';
+    $('#' + id).html(html);
+}
+
+add_meta = (id, node_href, item_href) => {
+    var rel='urn:X-hypercat:rels:hasDescription:en';
+    var val='';
+    var html='<div className={"input-group"}>';
+    html+='<input className={"form-control"} type=text id="' + id + '_rel" value="' + rel + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
+    html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + val + '">';
+    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
+    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
+    html+='</div>';
+    $('#' + id).html(html);
+
+}
+
+edit_meta = (id, idx, data, node_href, item_href) => {
+    var html='<div className={"input-group"}>';
+    html+='<input className={"form-control"} type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
+    html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
+    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
+    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
+    html+='</div>';
+    $('#' + id).html(html);
+
+}
+
+
 parseCatalogue = (url, doc) => {
     var self=this;
-    var catMetadataListHTML = '<ul>';
+    
     var catalogue_meta_data=[]
     var map_json={};
     var catalogue_item_meta_data=[];
@@ -332,109 +317,64 @@ parseCatalogue = (url, doc) => {
     console.log('Received Document')
     console.log(doc);
     var eth1_amount=1000000000000000000;
-    for (var i=0;i<doc['catalogue-metadata'].length;i++) {
-        var bal=parseFloat(doc['catalogue-metadata'][i].bal)/eth1_amount;
-        //alert(doc['catalogue-metadata'][i]);
-        catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
-        catMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'catalogue_meta_' + count + '\', ' + count + ', catalogue_meta_data, \'' + url + '\',\'\')"> Edit </a> ] ';
-        catMetadataListHTML += doc['catalogue-metadata'][i].rel + ' = "' + doc['catalogue-metadata'][i].val + '"'
-        catMetadataListHTML += '<br/><b>Donation Received: ' + bal + ' ETH ' + '</b> ' + '<br/><br/></li>';
-        
-        catalogue_meta_data.push({ 'rel':doc['catalogue-metadata'][i].rel, 'val':doc['catalogue-metadata'][i].val});
-        if (doc['catalogue-metadata'][i].rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
-            map_json["Latitude"]=doc['catalogue-metadata'][i].val;
-        }
-        if (doc['catalogue-metadata'][i].rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
-            map_json["Longitude"]=doc['catalogue-metadata'][i].val;
-        }
-        count+=1;
-    }
-    var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data\',\'' + url + '\',\'\')">Add Meta Data</a>] <br/><br/>';
+    doc.id="catalogue";
+    doc.href=url;
+    var catMetadataListHTML = (
+        <ul>
 
-    var maplink='[ <a href="JavaScript:getMap();">Edit Location</a> ]<br/><br/>';
+        <Catalogue key={doc.id} catalogueType={'catalogue-metadata'} idata={doc} mode={'view'} />
+        
+        </ul>    
+    );
+        
     
-    catMetadataListHTML += '<li id=catalogue_create_meta_data>' + addItemMetaData + '</li>';
-
-    catMetadataListHTML += '<li id=catalogue_get_location>' + maplink + '</li>';
-        
-    //} catch(e) {
-    //    log(e);
-    //}
-    catMetadataListHTML += '</ul>';
 
     var urls=[url];
-    var itemListHTML = '<ul>';
-
     count=0;
-    //try {
-        for (var i=0;i<doc.items.length;i++) {
-            var item = doc.items[i];
-            item.href = item.href.toString(); //URI(item.href).absoluteTo(url).toString();    // fixup relative URL
+    var i=0;
+    var itemListHTML = (
+        <ul>
+        
+        {doc.items.map(item => {
             urls.push(item.href);
-            var isCat = false;
-            var isGenericResource = false;
-            var itemMetadataListHTML = '<ul>';
-            var supportsQueryOpenIoT = false;
-            for (var j=0;j<item['item-metadata'].length;j++) {
-                var mdata = item['item-metadata'][j];
-                var bal=parseFloat(mdata.bal)/eth1_amount;
-                if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
-                    supportsQueryOpenIoT = true;
-                itemMetadataListHTML += '<li id=item_meta_' + count + '>' 
-                itemMetadataListHTML += '[ <a href="JavaScript:edit_meta(\'item_meta_' + count + '\', ' + count + ', catalogue_item_meta_data, \'' + url + '\',\'' + item.href + '\')"> Edit </a> ] ' + mdata.rel + ' = "' + mdata.val + '"'
-                itemMetadataListHTML += '<br/><b>Donation Received: ' + bal + ' ETH ' + '</b> ' + '<br/><br/></li>';
-                if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
-                    isCat = true;
-                if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
-                    isGenericResource = true;
-                catalogue_item_meta_data.push({ 'rel':mdata.rel, 'val':mdata.val, 'bal':bal});
-            
-                count+=1;
-            }
-             var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data_' + i + '\',\'' + url + '\',\'' + item.href  + '\')">Add Meta Data</a>] <br/><br/>';
+            item.id='item_' + i;
+            item.node_href=url;
+            i+=1;
+            return <Catalogue key={item.id} catalogueType={'item-metadata'} idata={item} mode={'view'} />
 
-            itemMetadataListHTML += '<li id="catalogue_create_meta_data_' + i + '">' + addItemMetaData + '</li>';
-            itemMetadataListHTML += '</ul>';
-
-            var link;
-            isCat=true;
-
-            if (isCat)
-                link = ' <a href="javascript:browse(\''+item.href+'\', function(){})">'+item.href+'</a>';
-            else
-            if (isGenericResource)
-                link = '<a href="resourceviewer.html?key='+encodeURIComponent($('#key').val())+'&url='+encodeURIComponent(item.href)+'" target="_blank">'+item.href+'</a>';
-            else
-                link = '<a href="'+item.href+'">'+item.href+'</a>';
-
-            var editlink = '<a href="itemcreator.html?key='+encodeURIComponent($('#key').val())+'&cat_url='+encodeURIComponent(url)+'&href='+encodeURIComponent(item.href)+'" target="_blank"><strong>[edit item]</strong></a>';
-            var deletelink = '<a href="javascript:deleteItem(\''+url+'\',\''+item.href+'\');"><strong>[delete item]</strong></a>';
-
-            
-            itemListHTML += '<li>' + link + '<br/><br/></li>';
-            itemListHTML += itemMetadataListHTML;
-        }
-        var addItemLink = '[<a href="JavaScript:add_item(\'add_catalogue_item\')"> Add Item </a>] ';
-        itemListHTML += '<li id={"add_catalogue_item"}>' + addItemLink + '</li>';
+        })}
+        <Catalogue 
+            catalogueType={'item-metadata'}
+            idata={{
+            id:'add_catalogue_item',
+            node_href:url,
+            href:'',
+            items:[],            
+        }} mode={'add'} />
+        </ul>
+    );
         
-        itemListHTML += '</ul>';
-
-        var deletecatlink = '<a href="javascript:deleteCat(\''+url+'\');"><strong>[delete catalogue]</strong></a>';
+  
+    
+        var listHTML = (
+        <ul><li> Catalogue Metadata
+                 <br/><br/> 
+            </li>
+            {catMetadataListHTML}
+            <li id={"showMap"} style={{display:"none"}}></li>
+            <li> Items 
+                 <br/><br/> 
+            </li>
+            {itemListHTML}
+        </ul>);
         
-        var listHTML = '<ul>';
-        listHTML += '<li> Catalogue Metadata<br/><br/> </li>';
-        listHTML += catMetadataListHTML;
-        listHTML += '<li id={"showMap"} style="display:none"></li>'
-        listHTML += '<li> Items <br/><br/> </li>'
-        listHTML += itemListHTML;
-        listHTML += '</ul>';
-
         self.populateUrls(urls);
-        $('#browser').html(listHTML);
+        // $('#browser').html(listHTML);
         this.setState({
-            catalogue_meta_data,
+            catalogue_html:listHTML,
+            catalogue_meta_data:doc,
             map_json,
-            catalogue_item_meta_data});
+            catalogue_item_meta_data:doc['item-metadata']});
             
     //} catch(e) {
     //    log(e);
@@ -460,12 +400,13 @@ browse(url, cb) {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
-                    var history=this.state.history;
+                    var history=self.state.history;
                     history.push(url);
                     self.setState({history});
                     $('#browse_url').val(url);
                     self.parseCatalogue(url, doc);    // parse doc
                     self.get_smart_key_info(url);
+
                     cb(null); // done
                 
             },
@@ -477,6 +418,31 @@ browse(url, cb) {
 }
 
 
+    
+get_smart_key_info = (href) => {
+
+    var self=this;
+    $.ajax({
+            beforeSend: function(xhr){
+                self.add_auth(xhr);
+                //setHeaders(xhr);
+            
+            },
+            type: 'GET',
+            url: '/cat/getNodeSmartKey?href=' + encodeURIComponent(href),
+            //data: JSON.stringify(user_item),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(body, textStatus, xhr) {
+                body.href=href;
+                self.setState({keyInfo:body});
+                //self.fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["isOwner"]);
+            },
+            error: function(xhr, textStatus, err) {
+                console.log(xhr.status + ' ' + xhr.statusText);
+            }
+        });
+}
 
 
 
@@ -537,7 +503,7 @@ populateUrls = (urls) => {
     for (var i=0; i < urls.length; i++) {
         $("#urls").append(new Option(urls[i], urls[i]));
     }
-    $("#urls").append(new Option(window.location.hostname + '/cat', window.location.hostname + '/cat'));
+    $("#urls").append(new Option('https://iotblock.io' + '/cat', 'https://iotblock.io' + '/cat'));
 
 }
   componentDidMount() {
@@ -554,15 +520,7 @@ populateUrls = (urls) => {
             $('#browse_url').val(param_url);
         }
         */
-
-       var eth_salt = web3Utils.getCookie('iotcookie');
-       if (eth_salt == null) {
-            web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
-            eth_salt = web3Utils.getCookie('iotcookie');
-       }
-       
-   
-       var check_key=function(address) {
+        var check_key=function(address) {
            var url='https://iotblock.io/cat';
            var path='/cat';
            url=url.replace(/\/$/, "");
@@ -579,33 +537,30 @@ populateUrls = (urls) => {
            $('.address_val').val(address);
            
            web3Utils.get_keyAuth(address, self.fill_api_info) 
-       }
-       web3Utils.init_wallet(eth_salt, check_key);
 
-    
-        self.populateUrls([]);
-    
-        self.populateMetaData();
-        $('#add_metadata').click(function() {
-            var user_item=self.state.user_item;
-            user_item['item-metadata'].push({rel:"", val:""});
-            self.setState({user_item, user_item});
-            self.populateMetaData();
-        });
-    
-        $('#urls').on('change', function (e) {
-            var optionSelected = $("option:selected", this);
-            var valueSelected = this.value;
-            $('#browse_url').val(this.value);
+            $('#browse_url').val('https://iotblock.io/cat');
             
-            self.browse($('#browse_url').val(), function() {
-                console.log('browse complete');
+            self.browse('https://iotblock.io/cat', function() {
+
+                    console.log('browse complete');
+                
+            
+
             });
             
+        }
+        var eth_salt = web3Utils.getCookie('iotcookie');
+        if (eth_salt == null) {
+                web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
+                eth_salt = web3Utils.getCookie('iotcookie');
+        }
         
-        });
+        web3Utils.init_wallet(eth_salt, check_key);
+
+      
+
+       
     
-        $('#urls').trigger('change');
     }    
     
   render() {
@@ -634,12 +589,23 @@ populateUrls = (urls) => {
                         <hr/>
                         </center>
                         <form className={"form-group"}>
-                            <div className={"row"}>
+                            <div className={"row"}  style={{padding:"15px"}}>
                                 <div className={"col-md-6"}>
                                     
                                     <label className={"title3"}>Select Catalogue:
                                     </label>
-                                    <select id={"urls"} className={"form-control m-input m-input--air"} style={{height:"45px"}} ></select>
+                                    <select id={"urls"} onChange={() => {
+                                                
+                                                $('#browse_url').val($('#urls').val());
+                                                
+                                                self.browse($('#browse_url').val(), function() {
+                                                    console.log('browse complete');
+                                                });
+                                                
+                                        
+
+                                    }}
+                                    className={"form-control m-input m-input--air"} style={{height:"45px"}} ></select>
                                     
                                 </div>
                                 <div className={"col-md-6"}>
@@ -649,20 +615,27 @@ populateUrls = (urls) => {
                                     <div className={"input-group"}>
                                     <input className={"form-control m-input m-input--air"} style={{height:"45px"}} type={"text"} id={"browse_url"} 
                                         size={80} 
-                                        value={window.location.hostname + "/cat"} />
+                                        defaultValue={'https://iotblock.io' + "/cat"} />
                                         <div className={"input-group-append"}>
-                                            <button className={"button3 btn btn-primary"} type="button" onClick="JavaScript:browseCatalogue();"><span className={"buttonText"}>Browse</span></button>
+                                            <button className={"button3 btn btn-primary"} type="button" 
+                                            onClick={() => {
+                                                self.browseCatalogue();
+
+                                            }
+                                            } ><span className={"buttonText"}>Browse</span></button>
                                         </div>
                                     </div>
                                 
                                 </div>
                             </div>
-                            <div className={"row"}>
+                            <div className={"row"} style={{padding:"15px"}}>
                                 <div className={"col-md-6"} style={{textAlign:"left"}}>
                                     <br/>
                                     <label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
                                     </label>
-                                    <span className={"auth"}></span>
+                                    <span className={"auth"}>
+                                    <a href='/key'><b>{self.props.user_key_address}</b></a>
+                                    </span>
                                     
                                 </div>
                                 <div className={"col-md-6"}>
@@ -671,7 +644,10 @@ populateUrls = (urls) => {
                                     <label className={"title3"}>ETH Donation Per Transaction:
                                     </label>
                                     <div className={"input-group"}>
-                                    <select id={"eth_contrib"} className={"form-control m-input m-input--air"} style={{height:"45px"}}>
+                                    <select id={"eth_contrib"} onChange={() => {
+                                                self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
+                                    }}
+                                    className={"form-control m-input m-input--air"} style={{height:"45px"}}>
                                         <option value='0.0001'>0.0001 ETH</option>
                                         <option value='0.001'>0.001 ETH</option>
                                         <option value='0.01'>0.01 ETH</option>
@@ -680,7 +656,13 @@ populateUrls = (urls) => {
                                         
                                     </select>
                                         <div className={"input-group-append"}>
-                                            <button className={"button3 btn btn-primary"} type="button" ><span className={"buttonText"}>Set Payment Terms</span></button>
+                                            <button className={"button3 btn btn-primary"} 
+                                            type={"button"}
+                                            onClick={() => {
+                                                self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
+
+
+                                            }} ><span className={"buttonText"}>Set Payment Terms</span></button>
                                         </div>
                                     </div>
                                     (Data update will reflect in catalogue after 1-2 minutes)
@@ -692,6 +674,9 @@ populateUrls = (urls) => {
                                         <br/>
                                 
                                         <br/>
+                                        {self.state.catalogue_html ? 
+                                            self.state.catalogue_html
+                                            : null}
                                         <div id={"browser"}></div>
                 
                                     </div>
@@ -700,12 +685,10 @@ populateUrls = (urls) => {
                 
                         </div>
                     </div>
-                
-                <BrowserKeyInfo />
-                <p>
+                <div>
                     <div id={"log"}></div>
                     <div className={"catalogue"}></div>
-                </p>
+                </div>
                 </div>   
             );
         }
