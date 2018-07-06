@@ -50,6 +50,7 @@ export default class MetaData extends Component {
         api_key: PropTypes.string.isRequired,
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
+        refreshCatalogue:PropTypes.func,
   };
   
   constructor(props) {
@@ -58,6 +59,7 @@ export default class MetaData extends Component {
         loading:false,
         mode:props.mode,
         mdata:props.mdata,
+        dataLoading:false,
     }
   }
 
@@ -91,10 +93,10 @@ export default class MetaData extends Component {
   save_meta = (rel, val, node_href, item_href) =>  {
         var self=this;
         var key='';
+        this.setState({dataLoading:true})
+        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(item_href);
         
-        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
-        
-        if (item_href && item_href != node_href) {
+        if (node_href && item_href != node_href) {
             post_url='/cat/postNodeItemMetaData?parent_href=' + encodeURIComponent(node_href) + '&href=' + encodeURIComponent(item_href);
         }
         
@@ -116,6 +118,23 @@ export default class MetaData extends Component {
             success: function(body, textStatus, xhr) {
                 console.log("Meta Data Save Completed");
                 console.log(body);
+                self.setState({dataLoading:false})
+                
+                if (self.props.refreshCatalogue !== undefined) {
+                    self.props.refreshCatalogue(body);
+                } else {
+                    var data=body['catalogue-metadata'];
+                    data.map(meta => {
+                        if (meta.rel == rel) {
+                            var mdata=self.state.mdata;
+                            mdata.rel=meta.rel;
+                            mdata.val=meta.val;
+                            mdata.bal=meta.bal;
+                            self.setState({mdata, mdata});
+                        }
+
+                    })
+                }
                 //self.browse($('#browse_url').val(), function() {
                 //    console.log('browse complete');
                 //});
@@ -189,7 +208,10 @@ export default class MetaData extends Component {
                         ] &nbsp; 
                         {mdata.rel} = {mdata.val}
                         <br/>
-                        {mdata.bal ? (
+                        {self.state.dataLoading ? (
+                            <b>Processing Contribution... <br/></b>
+                        ) : 
+                        mdata.bal ? (
                         <b>Donation Received: {parseFloat(mdata.bal)/eth1_amount} ETH 
                         <br/>
                         </b> 

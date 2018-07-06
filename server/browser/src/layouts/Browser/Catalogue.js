@@ -51,6 +51,8 @@ export default class Catalogue extends Component {
         api_key: PropTypes.string.isRequired,
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
+        browse:PropTypes.func,
+        showAddItem:PropTypes.bool
   };
   
   constructor(props) {
@@ -59,6 +61,7 @@ export default class Catalogue extends Component {
         loading:false,
         mode:props.mode,
         idata:props.idata,
+        dataLoading:false
     }
   }
 
@@ -94,7 +97,7 @@ save_item = (parent_href, new_href, user_item=null) => {
         var self=this;
         //var html='<img src="images/wait.gif"  width=100>';
         //$('#' + id).html(html);
-   
+        self.setState({dataLoading:true});
         
         $.ajax({
             beforeSend: function(xhr){
@@ -108,9 +111,20 @@ save_item = (parent_href, new_href, user_item=null) => {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(body, textStatus, xhr) {
+                self.setState({dataLoading:false});
                 console.log("New Item Added")
                 console.log(body);
-
+                var item=self.state.idata;
+                item.node_href=parent_href;
+                item.item_href=body.href;
+                item.href=body.href;
+                if ('items' in body)
+                    item.items=body.items;
+                else
+                    item['items']=[];
+                item['catalogue-metadata']=body['catalogue-metadata']
+                item[self.props.catalogueType]=body['catalogue-metadata']
+                self.setState({idata:item, mode:'view'})
             },
             error: function(xhr, textStatus, err) {
                 console.log(xhr.status + ' ' + xhr.statusText);
@@ -118,46 +132,11 @@ save_item = (parent_href, new_href, user_item=null) => {
         });
 }
 
-
-
-  save_meta = (rel, val, node_href, item_href) =>  {
-        var self=this;
-        var key='';
-        
-        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
-        
-        if (item_href && item_href != node_href) {
-            post_url='/cat/postNodeItemMetaData?parent_href=' + encodeURIComponent(node_href) + '&href=' + encodeURIComponent(item_href);
-        }
-        
-        //console.log(post_url, rel, val);
-        post_url+='&rel=' + encodeURIComponent(rel);
-        post_url+='&val=' + encodeURIComponent(val);
-        post_url+='&key=' + encodeURIComponent(key);
-        //alert(post_url);
-        $.ajax({
-            beforeSend: function(xhr){
-                self.add_auth(xhr);
-                    //setHeaders(xhr);
-            },
-            type: 'GET',
-            url: post_url,
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                console.log("Meta Data Save Completed");
-                console.log(body);
-                //self.browse($('#browse_url').val(), function() {
-                //    console.log('browse complete');
-                //});
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-
-    //alert(id);  
+refreshCatalogue = (data) => {
+    var idata=this.state.idata;
+    idata[this.props.catalogueType]=data['catalogue-metadata'];
+    idata['items']=data['items']
+    this.setState({idata, idata});
 }
 
 
@@ -184,7 +163,12 @@ save_item = (parent_href, new_href, user_item=null) => {
                     <div className={"input-group-append"}>
                         <button className={"btn btn-primary"} type={"button"} 
                                 onClick={() => {
-                                    self.save_item(item.node_href,$('#' + item.id + "_new_url").val());
+                                    var item=self.state.idata;
+                                    var href=$('#' + item.id + "_new_url").val();
+                                    item.href=href;
+                                    item.item_href=href;
+                                    self.setState({idata:item, mode:"view"});
+                                    self.save_item(item.node_href,href);
                                 }}>Save</button>
                     </div>
                 </div>
@@ -201,44 +185,54 @@ save_item = (parent_href, new_href, user_item=null) => {
             var count=0;
         
             var map_json={};
-            item[this.props.catalogueType].map(mdata  => {
-                if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
-                    supportsQueryOpenIoT = true;
-                mdata.node_href=item.node_href;
-                mdata.item_href=item.href;
-                mdata.id=item.id + "_item_metadata_" + count;
-                var ires=<MetaData key={mdata.id} mdata={mdata} mode={'view'}  />;
-                //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
-                //    isCat = true;
-                //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
-                //    isGenericResource = true;
-               if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
-                    map_json["Latitude"]=mdata.val;
-                }
-                if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
-                    map_json["Longitude"]=mdata.val;
-                }        
-                count+=1;
-                items.push(ires);
-            });
+            if (this.props.catalogueType in item) {
+                item[this.props.catalogueType].map(mdata  => {
+                    if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
+                        supportsQueryOpenIoT = true;
+                    mdata.node_href=item.node_href;
+                    mdata.item_href=item.href;
+                    mdata.id=item.id + "_item_metadata_" + count;
+                    var ires=<MetaData key={mdata.id} mdata={mdata} mode={'view'} refreshCatalogue={self.refreshCatalogue} />;
+                    //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
+                    //    isCat = true;
+                    //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
+                    //    isGenericResource = true;
+                if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
+                        map_json["Latitude"]=mdata.val;
+                    }
+                    if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
+                        map_json["Longitude"]=mdata.val;
+                    }        
+                    count+=1;
+                    items.push(ires);
+                });
+            }
             var cmdata={ 
-                id: "catalogue_create_meta_data_" + item.id,
+                id: "catalogue_create_meta_data_" + Math.round(Math.random() * 10000),
+                href: item.href,
+                item_href: item.href,
                 rel: '',
                 val: ''}
-            items.push(<MetaData key={cmdata.id} mdata={cmdata} mode={'add'}  />);
+            items.push(<MetaData key={cmdata.id} mdata={cmdata} mode={'add'} refreshCatalogue={self.refreshCatalogue}  />);
             
             return (
                 <div key={item.id}> 
                     <li><a href={"#top"}
                        onClick={()=>{
-                           self.browse(item.href, () => {
+                           self.props.browse(item.href, () => {
 
                            });
                        }}
                        >
                        {item.href}
                     </a>
-                    <br/><br/>
+                    <br/>
+                    {self.state.dataLoading ? (
+                        <b>Processing Contribution...
+                            <br/>
+                        </b>
+                    ) : null}
+                    <br/>
                     </li>
                     <ul>
                     {items}
@@ -250,7 +244,21 @@ save_item = (parent_href, new_href, user_item=null) => {
                     </li>
 
                     </ul>
+
+                    {self.props.showAddItem ? (
+
+                    <Catalogue 
+                            {...self.props}
+                            catalogueType={'item-metadata'}
+                            idata={{
+                            id:'add_catalogue_item_' + Math.round(Math.random() * 100000),
+                            node_href:self.state.idata.node_href,
+                            href:'',
+                            items:[],            
+                        }} mode={'add'} browse={self.props.browse} />
+                    ) : null}
                 </div>
+                
             );
         }  else if (this.state.mode && this.state.mode=='add') {
             return (
