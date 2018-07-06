@@ -427,9 +427,10 @@ def getNodeBalance(graphRoot):
 
     metaJson=[]
     itemJson=[]
+    href=""
     
     try:
-        
+        href=graphRoot.call({'from':address}).href();
         metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
         itemJson=getItem(graphRoot.call({'from':address}).selectItems())
         
@@ -438,6 +439,7 @@ def getNodeBalance(graphRoot):
         traceback.print_exc()
         
     cat = { 
+            "href":href,
             "catalogue-metadata":metaJson,
             "items":itemJson
           }
@@ -509,8 +511,9 @@ def addNode(parent_href, href, auth, eth_contrib, wait=False):
             x.start()
             if wait:
                 x.join()
+    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    data= getNodeBalance(graphRoot)
 
-    
     return data
 
 
@@ -542,7 +545,7 @@ def addNodeMetaData(node_href,rel, val,auth, eth_contrib, parent_href=rootNode +
     print ('upsertMetaData',transactionId)
     
     data={}
-    data= getNode(graphRoot)
+    data= getNodeBalance(graphRoot)
     
     return data
 
@@ -567,12 +570,13 @@ def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
         else:
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
-        item_c=getContract('Catalogue',network, graphRoot.call({'from':address}).getItem(href))   
+        item_c=getContract('GraphNode',network, graphRoot.call({'from':address}).getItem(href))   
         transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val);
         print ('upsertMetaData',transactionId)
+        graphRoot=item_c
         
     data={}
-    data= getNode(graphRoot)
+    data= getNodeBalance(graphRoot)
     
     return data
 
@@ -941,7 +945,7 @@ def create_node():
     
     status, auth=doAuth()
     if status:    
-            data=addNode(parent_href, href, auth, int(auth['eth_contrib']))
+            data=addNode(parent_href, href, auth, int(auth['eth_contrib']), True)
     
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
