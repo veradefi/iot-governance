@@ -6,7 +6,6 @@ import { connect, Provider } from "react-redux";
 import BrowserKeyInfo from "./BrowserKeyInfo";
 import BrowserMapInfo from "./BrowserMapInfo";
 import MetaData from "./MetaData";
-import Item from "./Item";
 import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
 var $ = require ('jquery');
@@ -141,39 +140,6 @@ add_auth = (xhr) => {
 
 }
 
-save_item = (id) => {
-        var self=this;
-        var user_item=this.state.user_item;
-        var parent_address = $('#browse_url').val();
-        var url = $('#new_url').val();
-        var html='<img src="images/wait.gif"  width=100>';
-        $('#' + id).html(html);
-   
-        
-        $.ajax({
-            beforeSend: function(xhr){
-                self.add_auth(xhr);
-                //setHeaders(xhr);
-            
-            },
-            type: 'GET',
-            url: '/cat/post?parent_href=' + encodeURIComponent(parent_address) + '&href=' + encodeURIComponent(url),
-            data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                self.browse($('#browse_url').val(), function() {
-                    console.log('browse complete');
-                });
-
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-}
-
-
 
 save_location=(node_href, lat, lng) => {
        var self=this;
@@ -267,42 +233,6 @@ browseCatalogue = () => {
     });
 }
 
-add_item= (id) => {
-    var url = $('#browse_url').val() + '/<catalogue_name>';
-                
-    var html='<div className={"input-group"}>';
-    html+='<span><h3>URL:</h3></span><input className={"form-control"} type=text id={"new_url"} value="' + url + '">';
-    //html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + val + '">';
-    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
-    html+=' onClick="JavaScript:save_item(\'' + id + '\')">Save</button></div>';
-    html+='</div>';
-    $('#' + id).html(html);
-}
-
-add_meta = (id, node_href, item_href) => {
-    var rel='urn:X-hypercat:rels:hasDescription:en';
-    var val='';
-    var html='<div className={"input-group"}>';
-    html+='<input className={"form-control"} type=text id="' + id + '_rel" value="' + rel + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
-    html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + val + '">';
-    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
-    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
-    html+='</div>';
-    $('#' + id).html(html);
-
-}
-
-edit_meta = (id, idx, data, node_href, item_href) => {
-    var html='<div className={"input-group"}>';
-    html+='<input className={"form-control"} type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
-    html+='<input className={"form-control"} type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
-    html+='<div className={"input-group-append"}><button className={"btn btn-primary"} type="button" ';
-    html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
-    html+='</div>';
-    $('#' + id).html(html);
-
-}
-
 
 parseCatalogue = (url, doc) => {
     var self=this;
@@ -322,7 +252,7 @@ parseCatalogue = (url, doc) => {
     var catMetadataListHTML = (
         <ul>
 
-        <Catalogue key={doc.id} catalogueType={'catalogue-metadata'} idata={doc} mode={'view'} />
+        <Catalogue key={doc.id} catalogueType={'catalogue-metadata'} idata={doc} mode={'view'} browse={self.browse} />
         
         </ul>    
     );
@@ -340,17 +270,19 @@ parseCatalogue = (url, doc) => {
             item.id='item_' + i;
             item.node_href=url;
             i+=1;
-            return <Catalogue key={item.id} catalogueType={'item-metadata'} idata={item} mode={'view'} />
+            return <Catalogue key={item.id} catalogueType={'item-metadata'} idata={item} mode={'view'} browse={self.browse} />
 
         })}
         <Catalogue 
             catalogueType={'item-metadata'}
+            showAddItem={true}
             idata={{
             id:'add_catalogue_item',
             node_href:url,
             href:'',
             items:[],            
-        }} mode={'add'} />
+            
+        }} mode={'add'} browse={self.browse} />
         </ul>
     );
         
@@ -381,7 +313,7 @@ parseCatalogue = (url, doc) => {
     //}
 }
 
-browse(url, cb) {
+browse = (url, cb) => {
     var self=this;
     var history=[];
         
@@ -446,47 +378,7 @@ get_smart_key_info = (href) => {
 
 
 
-refreshRaw = ()=> {
-    $('#raw').val(JSON.stringify(this.state.user_item, undefined, 4));
-}
 
-populateMetaData =() => {
-    var self=this;
-    var user_item=this.state.user_item;
-    var metadataHTML = '<ul>';
-    for (var i=0;i<user_item['item-metadata'].length;i++) {
-        var metadataItem = user_item['item-metadata'][i];
-        var relHTML = '<input type="text" id="rel_'+i+'" size={40} value="'+metadataItem.rel+'"/>';
-        var valHTML = '<input type="text" id="val_'+i+'" size={40} value="'+metadataItem.val+'"/>';
-        var metadataItemHTML = relHTML + ' = ' + valHTML;
-        var removeButtonHTML = '<input type="button" id="remove_'+i+'" value="X" />'
-        metadataItemHTML += removeButtonHTML;
-        var divHTML = '<div id="'+'div_'+i+'">' + metadataItemHTML + '</div>';
-        metadataHTML += '<li>' + divHTML + '</li>';
-    }
-    metadataHTML += '</ul>';
-
-    $('#metadata').html(metadataHTML);
-
-    for (var i=0;i<user_item['item-metadata'].length;i++) {
-        $('#remove_'+i).click(function() {
-            var index = ($(this).attr('id').split('remove_'))[1];
-            user_item['item-metadata'].splice(index, 1);
-            self.refreshRaw();
-            self.populateMetaData();
-        });
-        $('#rel_'+i).on('keyup', function (e) {
-            var index = ($(this).attr('id').split('rel_'))[1];
-            user_item['item-metadata'][index].rel = $(this).val();
-            self.refreshRaw();
-        });
-        $('#val_'+i).on('keyup', function (e) {
-            var index = ($(this).attr('id').split('val_'))[1];
-            user_item['item-metadata'][index].val = $(this).val();
-            self.refreshRaw();
-        });
-    }
-}
 
 
  log = (msg) => {

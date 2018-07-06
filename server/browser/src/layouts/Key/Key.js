@@ -279,7 +279,7 @@ createApiKey = () => {
         
         setTimeout(() => { 
             self.page2(myAddress) 
-        }, 1000)
+        }, 3000)
     }
     this.setState({loading:true});
     self.hidePage1();
