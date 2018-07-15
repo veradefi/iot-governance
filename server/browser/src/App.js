@@ -11,9 +11,11 @@ import Header from './layouts/Header/Header'
 // UI Components
 import Home from './layouts/home/Home'
 import Key from './layouts/Key/Key'
+import Map from './layouts/Map/Map'
 import Browser from './layouts/Browser/Browser'
 import Dashboard from './layouts/dashboard/Dashboard'
 import Dialog from './layouts/Dialog/Dialog'
+import Explorer from './layouts/Explorer/Explorer'
 
 // Styles
 
@@ -75,6 +77,10 @@ export default class App extends Component {
                   <Route exact path="/browser.html" component={Browser} />
                   <Route exact path="/editor" component={Browser} />
                   <Route exact path="/editor.html" component={Browser} />
+                  <Route exact path="/explorer" component={Explorer} />
+                  <Route exact path="/explorer.html" component={Explorer} />
+                  <Route exact path="/map" component={Map} />
+                  <Route exact path="/map.html" component={Map} />
                   <Route exact path="dashboard" component={Dashboard} />
                   <Redirect from="*" to="/" />
               </Switch>

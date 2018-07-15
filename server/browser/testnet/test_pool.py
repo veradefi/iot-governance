@@ -40,12 +40,14 @@ address5=Web3.toChecksumAddress('0x813047c6d1ffb32e740d2e92755ca1631edd3f23')
 amount         =1005000000000000000
 max_contrib    =100000000000000000000
 max_per_contrib=100000000000000000000
+
 web3.eth.sendTransaction({ 'from' :address2, 'to':address5, 'value': amount})
-web3.eth.sendTransaction({ 'from' :address, 'to':address4, 'value': amount})
-web3.eth.sendTransaction({ 'from' :address, 'to':address3, 'value': amount})
+web3.eth.sendTransaction({ 'from' :address,  'to':address4, 'value': amount})
+web3.eth.sendTransaction({ 'from' :address,  'to':address3, 'value': amount})
 
 web3.eth.sendTransaction({ 'from' :web3.eth.coinbase, 'to':'0x51325ACb7c6878706c36635251f3C355D6De4F5a', 'value': 1005000000000000000})
-spk=getContract('SmartPoolKey',network);
+
+spk=getContract('SmartPoolKey',network)
 
 min_per_contrib=1
 admins=[ address, address2, address3, address4, address5 ]
@@ -68,10 +70,10 @@ bal2=web3.eth.getBalance(address2)
 print ('getBalance (eth) for address1',bal2)
 share=bal2-bal1
 print ('Shared Contribution',share, round(float(share)/amount*100),'% PurePL',float(1)/len(members) * 100,'%')
-print ('Fee',float(1)/pk.call({ 'from': address}).fee() * 100,'%') 
+print ('Fee',float(1)/pk.call({ 'from': address}).fee() * 100,'%')
 print ('Member Contribution',pk.call({ 'from': address}).isMember(address))
 print ('Total Contribution',pk.call({ 'from': address}).contrib_amount())
-print ('Sent',amount);
+print ('Sent',amount)
 print ('Received',pk.call({ 'from': address}).received(address))
 print ('Transactions',pk.call({ 'from': address}).transactions(address, 0))
 
