@@ -54,8 +54,6 @@ smartNode=getContract('SmartNode',network)
 smartKey=getContract('SmartKey',network)
 subscriptions = []
 
-
-
 def authKey(user, auth):
     user=web3.toChecksumAddress(user)
     keyAddress=smartKey.call({ 'from': address }).getSmartKey(user)
@@ -84,8 +82,6 @@ def authKey(user, auth):
                 
         #status=True
     return status, key
-
-
 
 def getSmartKey(address, auth=None):
     keyAddress = '0x0000000000000000000000000000000000000000'
@@ -242,8 +238,6 @@ def setUserHealth(health, userAddress, key=None,auth=None):
         
     return key
 
-
-
 def getNodeKey(href, auth=None):
     try:
         href=re.sub('\/$','',href)
@@ -257,9 +251,7 @@ def getNodeKey(href, auth=None):
 
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
-    
     try:
-        
         #eth_sent=key.call({'from':address}).activated(graphRoot.address)
         balance=web3.eth.getBalance(graphRoot.address)
         amount=key.call({'from':address}).contrib_amount()

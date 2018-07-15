@@ -252,7 +252,11 @@ parseCatalogue = (url, doc) => {
     var catMetadataListHTML = (
         <ul>
 
-        <Catalogue key={doc.id} catalogueType={'catalogue-metadata'} idata={doc} mode={'view'} browse={self.browse} />
+            <Catalogue  key={doc.id} 
+                        catalogueType={'catalogue-metadata'} 
+                        idata={doc} 
+                        mode={'view'} 
+                        browse={self.browse} />
         
         </ul>    
     );
@@ -265,41 +269,49 @@ parseCatalogue = (url, doc) => {
     var itemListHTML = (
         <ul>
         
-        {doc.items.map(item => {
-            urls.push(item.href);
-            item.id='item_' + i;
-            item.node_href=url;
-            i+=1;
-            return <Catalogue key={item.id} catalogueType={'item-metadata'} idata={item} mode={'view'} browse={self.browse} />
+            {doc.items.map(item => {
+                urls.push(item.href);
+                item.id='item_' + i;
+                item.node_href=url;
+                i+=1;
+                return <Catalogue 
+                        key={item.id}
+                        catalogueType={'item-metadata'}
+                        idata={item}
+                        mode={'view'}
+                        browse={self.browse}
+                        />
 
-        })}
-        <Catalogue 
-            catalogueType={'item-metadata'}
-            showAddItem={true}
-            idata={{
-            id:'add_catalogue_item',
-            node_href:url,
-            href:'',
-            items:[],            
-            
-        }} mode={'add'} browse={self.browse} />
+            })}
+            <Catalogue 
+                catalogueType={'item-metadata'}
+                showAddItem={true}
+                idata={{
+                    
+                    id:'add_catalogue_item',
+                    node_href:url,
+                    href:'',
+                    items:[],            
+                    
+                }}
+                mode={'add'} 
+                browse={self.browse} />
         </ul>
     );
         
-  
-    
-        var listHTML = (
+    var listHTML = (
         <ul><li> Catalogue Metadata
-                 <br/><br/> 
+                <br/><br/> 
             </li>
             {catMetadataListHTML}
             <li id={"showMap"} style={{display:"none"}}></li>
             <li> Items 
-                 <br/><br/> 
+                <br/><br/> 
             </li>
             {itemListHTML}
-        </ul>);
-        
+        </ul>
+        );
+    
         self.populateUrls(urls);
         // $('#browser').html(listHTML);
         this.setState({
@@ -318,7 +330,7 @@ browse = (url, cb) => {
     var history=[];
         
     //alert(url);
-    var fetch_location='/cat/getBalance?href=' + url; 
+    var fetch_location='/cat/getBalance?href=' + url;
 
     $.ajax({
             beforeSend: function(xhr){
@@ -336,14 +348,14 @@ browse = (url, cb) => {
                     history.push(url);
                     self.setState({history});
                     $('#browse_url').val(url);
-                    self.parseCatalogue(url, doc);    // parse doc
+                    self.parseCatalogue(url, doc);
                     self.get_smart_key_info(url);
 
                     cb(null); // done
                 
             },
             error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
+                console.log(xhr.status + ' ' + xhr.statusText)
             }
         });
 
