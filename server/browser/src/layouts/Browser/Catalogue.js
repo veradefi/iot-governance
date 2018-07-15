@@ -197,7 +197,7 @@ refreshCatalogue = (data) => {
                     //    isCat = true;
                     //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
                     //    isGenericResource = true;
-                if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
+                    if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
                         map_json["Latitude"]=mdata.val;
                     }
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
@@ -213,7 +213,12 @@ refreshCatalogue = (data) => {
                 item_href: item.href,
                 rel: '',
                 val: ''}
-            items.push(<MetaData key={cmdata.id} mdata={cmdata} mode={'add'} refreshCatalogue={self.refreshCatalogue}  />);
+            items.push(<MetaData 
+                key={cmdata.id} 
+                mdata={cmdata} 
+                mode={'add'} 
+                refreshCatalogue={self.refreshCatalogue}  
+                />);
             
             return (
                 <div key={item.id}> 
@@ -236,26 +241,39 @@ refreshCatalogue = (data) => {
                     </li>
                     <ul>
                     {items}
-                    <li id={"catalogue_get_location"}> [ 
-                        <a href={"#catalogue_get_location"} 
+                    <li id={"catalogue_get_location"}> [
+                        <a href={"#catalogue_get_location"}
                         onClick={() => {
-                            self.getMap();
-                            }}> Edit Location </a> ]<br/><br/>
+                            
+                            //self.getMap()
+                            self.setState({ 
+
+
+
+                             })
+                            
+                            }}> Edit Location </a> ]
+                            <br />
+                            <br />
                     </li>
 
                     </ul>
 
                     {self.props.showAddItem ? (
 
-                    <Catalogue 
-                            {...self.props}
-                            catalogueType={'item-metadata'}
-                            idata={{
-                            id:'add_catalogue_item_' + Math.round(Math.random() * 100000),
-                            node_href:self.state.idata.node_href,
-                            href:'',
-                            items:[],            
-                        }} mode={'add'} browse={self.props.browse} />
+                          <Catalogue 
+                                {...self.props}
+                                catalogueType={'item-metadata'}
+                                idata={{
+                                    id:'add_catalogue_item_' + Math.round(Math.random() * 100000),
+                                    node_href:self.state.idata.node_href,
+                                    href:'',
+                                    items:[],            
+                                }} 
+                                mode={'add'} 
+                                browse={self.props.browse} 
+                        />
+
                     ) : null}
                 </div>
                 

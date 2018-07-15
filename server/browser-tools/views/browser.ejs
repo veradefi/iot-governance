@@ -119,17 +119,19 @@ function add_meta(id, node_href, item_href) {
 }
 
 function edit_meta(id, idx, data, node_href, item_href) {
+
     var html='<div class="input-group">';
     html+='<input class="form-control" type=text id="' + id + '_rel" value="' + data[idx]['rel'] + '"><span style="vertical-align:middle;"><h1> = </h1></span>';
     html+='<input class="form-control" type=text id="' + id + '_val" value="' + data[idx]['val'] + '">';
     html+='<div class="input-group-append"><button class="btn btn-primary" type="button" ';
     html+=' onClick="JavaScript:save_meta(\'' + id + '\',\'' + node_href + '\',\'' + item_href + '\')">Save</button></div>';
     html+='</div>';
-    $('#' + id).html(html);
+    $('#' + id).html(html)
 
 }
 
 function save_meta(id, node_href, item_href) {
+
         var key='';
         var rel = $('#' + id + '_rel').val();
         var val = $('#' + id + '_val').val();
@@ -164,7 +166,6 @@ function save_meta(id, node_href, item_href) {
                 log(xhr.status + ' ' + xhr.statusText);
             }
         });
-
     //alert(id);  
 }
 
@@ -341,9 +342,11 @@ function getMap() {
      $('#ShowMapTemplate').tmpl(map_json).appendTo('#showMap');
     var lng=-0.116993;
     var lat=51.508775;
+
     if ("Latitude" in map_json) {
         lat=map_json["Latitude"];
     }
+
     if ("Longitude" in map_json) {
         lng=map_json["Longitude"];
     }
@@ -492,7 +495,9 @@ function parseCatalogue(url, doc) {
     console.log('Received Document')
     console.log(doc);
     var eth1_amount=1000000000000000000;
+    
     for (var i=0;i<doc['catalogue-metadata'].length;i++) {
+        
         var bal=parseFloat(doc['catalogue-metadata'][i].bal)/eth1_amount;
         //alert(doc['catalogue-metadata'][i]);
         catMetadataListHTML += '<li id=catalogue_meta_' + count + '>';
@@ -508,7 +513,9 @@ function parseCatalogue(url, doc) {
             map_json["Longitude"]=doc['catalogue-metadata'][i].val;
         }
         count+=1;
+
     }
+
     var addItemMetaData = ' [<a href="JavaScript:add_meta(\'catalogue_create_meta_data\',\'' + url + '\',\'\')">Add Meta Data</a>] <br><br>';
 
     var maplink='[ <a href="JavaScript:getMap();">Edit Location</a> ]<br><br>';
@@ -619,7 +626,7 @@ function browse(url, cb) {
                     $('#browse_url').val(url);
                     parseCatalogue(url, doc);    // parse doc
                     cb(null); // done
-                get_smart_key_info(url);
+                    get_smart_key_info(url)
                 
             },
             error: function(xhr, textStatus, err) {
@@ -628,10 +635,6 @@ function browse(url, cb) {
         });
 
 }
-
-
-
-
 
 function refreshRaw() {
     $('#raw').val(JSON.stringify(user_item, undefined, 4));
@@ -1030,9 +1033,9 @@ function fill_page2_transactions_load_more(href, offset, limit, count) {
                 </div>
               </div>
              </div>
-             <div class="col-md-6">    
+             <div class="col-md-6">
                     <div class="m-portlet m-portlet--tab">
-                           <div class="m-portlet__head">     
+                           <div class="m-portlet__head">
                                                 <label class="title3">Vault</label>
                                                 <br>
                                                 <label class="label2">

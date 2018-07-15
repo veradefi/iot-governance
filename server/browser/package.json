@@ -64,7 +64,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "dependencies": {
-    "@google/maps": "^0.5.3",
+    "@google/maps": "^0.5.4",
     "drizzle": "^1.2.1",
     "drizzle-react": "^1.1.1",
     "jquery": "^3.3.1",
@@ -75,6 +75,8 @@
     "react-dnd-html5-backend": "^2.5.4",
     "react-dnd-touch-backend": "^0.4.0",
     "react-dom": "^16.1.1",
+    "react-google-maps": "^9.4.5",
+    "react-google-maps-loader": "^4.2.3",
     "react-moment": "^0.7.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
@@ -93,6 +95,7 @@
     "redux": "^3.7.2",
     "redux-auth-wrapper": "^1.0.0",
     "redux-thunk": "^2.2.0",
+    "springy": "^2.8.0",
     "web3": "^1.0.0-beta.34"
   },
   "scripts": {
