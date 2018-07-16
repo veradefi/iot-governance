@@ -219,7 +219,23 @@ refreshCatalogue = (data) => {
                 mode={'add'} 
                 refreshCatalogue={self.refreshCatalogue}  
                 />);
-            
+
+            if ("Latitude" in map_json) {
+                cmdata.lat=map_json["Latitude"];
+            } else {
+                cmdata.lat=0;
+            }
+            if ("Longitude" in map_json) {
+                cmdata.lng=map_json["Longitude"];
+            } else {
+                cmdata.lng=0;
+            }
+            items.push(<MetaData 
+                key={cmdata.id + '_location'} 
+                mdata={cmdata} 
+                mode={'editLoc'} 
+                refreshCatalogue={self.refreshCatalogue}  
+                />)
             return (
                 <div key={item.id}> 
                     <li><a href={"#top"}
@@ -241,21 +257,7 @@ refreshCatalogue = (data) => {
                     </li>
                     <ul>
                     {items}
-                    <li id={"catalogue_get_location"}> [
-                        <a href={"#catalogue_get_location"}
-                        onClick={() => {
-                            
-                            //self.getMap()
-                            self.setState({ 
-
-
-
-                             })
-                            
-                            }}> Edit Location </a> ]
-                            <br />
-                            <br />
-                    </li>
+                    
 
                     </ul>
 

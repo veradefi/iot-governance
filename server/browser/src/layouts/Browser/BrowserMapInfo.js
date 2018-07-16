@@ -1,4 +1,13 @@
 import React, { Component } from 'react'
+const _ = require("lodash");
+const { compose, withProps, lifecycle } = require("recompose");
+const {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+} = require("react-google-maps");
+const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 var $ = require ('jquery');
 
 
@@ -6,17 +15,22 @@ export default class BrowserMapInfo extends Component {
   constructor(props) {
     super(props)
     this.state={
-        loading:false
+        loading:false,
+        lat:props.lat,
+        lng:props.lng,
     }
+    var self=this;
+
+    
   }
 
-  
+
 getMap = () => {
     $('#showMap').html('');
    var google=window.google;
    var map_json=this.props.map_json;
-   var lng=-0.116993;
-   var lat=51.508775;
+   var lng=this.props.lng;
+   var lat=this.props.lat;
    if ("Latitude" in map_json) {
        lat=map_json["Latitude"];
    }
@@ -156,6 +170,115 @@ getMap = () => {
 }
 
   render() {
+    var self=this;
+     
+    const MapWithASearchBox = compose(
+        withProps({
+          googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCUU90mGUU8I7wHFPfteUJmZHdy-CSOApM&v=3.exp&libraries=geometry,drawing,places",
+          loadingElement: <div style={{ height: `100%` }} />,
+          containerElement: <div style={{ height: `400px` }} />,
+          mapElement: <div style={{ height: `100%` }} />,
+          marker: { lat: parseFloat(self.props.lat), 
+            lng: parseFloat(self.props.lng)
+          },
+        }),
+        lifecycle({
+          componentWillMount() {
+            const refs = {}
+            this.setState({
+              bounds: null,
+              center: { lat: parseFloat(self.state.lat), 
+                lng: parseFloat(self.state.lng)
+              },
+              marker:  { lat: parseFloat(self.state.lat), 
+                lng: parseFloat(self.state.lng)
+              },
+              onClick: ref => {
+                console.log(ref);
+                var clickedLocation =ref.latLng;
+                var lat=clickedLocation.lat();
+                var lng=clickedLocation.lng();
+                self.setState({'lat':lat, 'lng':lng})
+                console.log(clickedLocation);
+              },
+              /*
+              onMapMounted: ref => {
+                refs.map = ref;
+              },
+
+              onBoundsChanged: () => {
+                this.setState({
+                  bounds: refs.map.getBounds(),
+                  center: refs.map.getCenter(),
+                })
+              },
+              onSearchBoxMounted: ref => {
+                refs.searchBox = ref;
+              },
+              onPlacesChanged: () => {
+                const places = refs.searchBox.getPlaces();
+                const bounds = new window.google.maps.LatLngBounds();
+                places.forEach(place => {
+                  if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport)
+                  } else {
+                    bounds.extend(place.geometry.location)
+                  }
+                });
+                const nextMarkers = places.map(place => ({
+                  position: place.geometry.location,
+                }));
+                const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
+                this.setState({
+                  center: nextCenter,
+                  markers: nextMarkers,
+                });
+                // refs.map.fitBounds(bounds);
+              },
+              */
+            })
+          },
+        }),
+        withScriptjs,
+        withGoogleMap
+      )(props =>
+        <GoogleMap
+          ref={props.onMapMounted}
+          defaultZoom={17}
+          onClick={props.onClick}
+          center={props.center}
+          mapTypeId = {window.google.maps.MapTypeId.HYBRID}
+          onBoundsChanged={props.onBoundsChanged}
+          
+        >
+          <SearchBox
+            ref={props.onSearchBoxMounted}
+            bounds={props.bounds}
+            controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
+            onPlacesChanged={props.onPlacesChanged}
+          >
+            <input
+              type="text"
+              placeholder="Search Location..."
+              style={{
+                boxSizing: `border-box`,
+                border: `1px solid transparent`,
+                width: `240px`,
+                height: `32px`,
+                marginTop: `8px`,
+                padding: `0 12px`,
+                borderRadius: `3px`,
+                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                fontSize: `14px`,
+                outline: `none`,
+                textOverflow: `ellipses`,
+              }}
+            />
+          </SearchBox>
+           <Marker key={"map_marker"} position={{'lat':parseFloat(self.state.lat), 'lng':parseFloat(self.state.lng)}} />
+        </GoogleMap>
+      );
+    
     if (this.state.loading) {
         return (
             <div id={"location_save_loading"}>
@@ -166,47 +289,51 @@ getMap = () => {
         )
     } else {
         return(
-        <div className={"row"} id={"location_map"}>
+            <div className={"row"} id={"location_map"}>
             <div className={"col-md-12"}>
-                <div id={"map"} style={{width:"100%",height:"300px"}}></div>
+                    <MapWithASearchBox />
 
-                    <input id={"pac-input"} 
-                    type={"text"} 
-                    placeholder={"Search Box"} 
-                    autocomplete={"off"} 
-                    style={{height:"30px",width:"300px"}} 
-                    className={"m-input m-input--air"} />
-                
                 <div className={"input-group"}>
                     <input  className={"form-control"} 
                             type={"text"} 
-                            id={"lat_name"} 
-                            value={"http://www.w3.org/2003/01/geo/wgs84_pos#lat"} />
-                    <span style="vertical-align:middle;"><h1> = </h1></span>
+                            id={"lat"} 
+                            value={"http://www.w3.org/2003/01/geo/wgs84_pos#lat"}
+                            readOnly={true} />
+                    <span style={{verticalAlign:"middle"}}><h1> = </h1></span>
         
                     <input  className={"form-control"} 
                             type={"text"} 
                             id={"lat"} 
-                            value={this.props.latitude} />   
+                            value={self.state.lat}
+                            onChange={(e) => {
+                                var val=e.target.value;
+                                self.setState({lat:val});
+                            }}
+                            />   
                 </div>                  
                 <div className={"input-group"}>
                     <input  className={"form-control"} 
                             type={"text"}
-                            id={"long_name"} 
+                            id={"long_name"}
+                            readOnly={true} 
                             value={"http://www.w3.org/2003/01/geo/wgs84_pos#long"} />
 
-                    <span style="vertical-align:middle;"><h1> = </h1></span>
+                    <span style={{verticalAlign:"middle"}}><h1> = </h1></span>
                     <input  className={"form-control"} 
                             type={"text"} 
                             id={"lng"} 
-                            value={this.props.longitude} />   
+                            onChange={(e) => {
+                                var val=e.target.value;
+                                self.setState({lng:val});
+                            }}
+                            value={self.state.lng} />   
                 </div>
                 <center>
                     <br/>
                     <button className={"btn btn-primary"} 
                             type={"button"} 
                             onClick={() =>{
-                                this.props.save_location($('#browse_url').val(),$('#lat').val(),$('#lng').val());
+                                self.props.saveLocation(self.state.lat, self.state.lng);
                             }}>
                             Save Location
                     </button>
