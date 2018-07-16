@@ -404,6 +404,8 @@ searchForLocations = () => {
                         <input type={"button"} className={"btn m-btn--pill m-btn--air         btn-outline-info"}  id={"crawl"} defaultValue={"Crawl"} />
                     </div>
                     <MapWithAMarker
+                         lat={parseFloat(excursion.lat)}
+                        lng={parseFloat(excursion.lng)}
                         containerElement={<div style={{ height: `400px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
                     />

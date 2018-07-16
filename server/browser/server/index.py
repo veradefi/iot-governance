@@ -25,7 +25,7 @@ rootNode="https://iotblock.io/"
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
     bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
-    json_data=open('build/contracts/' + item + '.json').read()
+    json_data=open('src/solc/contracts/' + item + '.json').read()
     data = json.loads(json_data)
     
     if address is None:
@@ -40,8 +40,8 @@ def getContract(item, network, address=None, prefix=""):
 network='4'
 port='8666'
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
-web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
-#web3 = Web3(HTTPProvider('http://localhost:' + port ))
+#web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
+web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
 address=web3.toChecksumAddress(web3.eth.accounts[0])
@@ -53,8 +53,6 @@ root=getContract('GraphRoot',network)
 smartNode=getContract('SmartNode',network)
 smartKey=getContract('SmartKey',network)
 subscriptions = []
-
-
 
 def authKey(user, auth):
     user=web3.toChecksumAddress(user)
@@ -84,8 +82,6 @@ def authKey(user, auth):
                 
         #status=True
     return status, key
-
-
 
 def getSmartKey(address, auth=None):
     keyAddress = '0x0000000000000000000000000000000000000000'
@@ -242,8 +238,6 @@ def setUserHealth(health, userAddress, key=None,auth=None):
         
     return key
 
-
-
 def getNodeKey(href, auth=None):
     try:
         href=re.sub('\/$','',href)
@@ -257,9 +251,7 @@ def getNodeKey(href, auth=None):
 
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
 
-    
     try:
-        
         #eth_sent=key.call({'from':address}).activated(graphRoot.address)
         balance=web3.eth.getBalance(graphRoot.address)
         amount=key.call({'from':address}).contrib_amount()
@@ -427,9 +419,10 @@ def getNodeBalance(graphRoot):
 
     metaJson=[]
     itemJson=[]
+    href=""
     
     try:
-        
+        href=graphRoot.call({'from':address}).href();
         metaJson=getMeta(graphRoot.call({'from':address}).selectMetaData()) 
         itemJson=getItem(graphRoot.call({'from':address}).selectItems())
         
@@ -438,6 +431,7 @@ def getNodeBalance(graphRoot):
         traceback.print_exc()
         
     cat = { 
+            "href":href,
             "catalogue-metadata":metaJson,
             "items":itemJson
           }
@@ -509,8 +503,9 @@ def addNode(parent_href, href, auth, eth_contrib, wait=False):
             x.start()
             if wait:
                 x.join()
+    graphRoot=getContract('GraphNode', network, root.call({'from':address}).getItem(href))
+    data= getNodeBalance(graphRoot)
 
-    
     return data
 
 
@@ -542,7 +537,7 @@ def addNodeMetaData(node_href,rel, val,auth, eth_contrib, parent_href=rootNode +
     print ('upsertMetaData',transactionId)
     
     data={}
-    data= getNode(graphRoot)
+    data= getNodeBalance(graphRoot)
     
     return data
 
@@ -567,12 +562,13 @@ def addNodeItemMetaData(node_href, href, rel, val, auth, eth_contrib):
         else:
             graphRoot=root
         print(node_href, href, graphRoot.call({'from':address}).getItem(href))
-        item_c=getContract('Catalogue',network, graphRoot.call({'from':address}).getItem(href))   
+        item_c=getContract('GraphNode',network, graphRoot.call({'from':address}).getItem(href))   
         transactionId=item_c.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel,val);
         print ('upsertMetaData',transactionId)
+        graphRoot=item_c
         
     data={}
-    data= getNode(graphRoot)
+    data= getNodeBalance(graphRoot)
     
     return data
 
@@ -797,7 +793,9 @@ def doAuth(readOnly=False):
         auth_b64=request.headers.get('Authorization')
         #print(auth_b64)
         #print (base64.b64decode(auth_b64))
-        if auth_b64.startswith('Basic '):
+        if not auth_b64:
+            return False, auth
+        if auth_b64 and auth_b64.startswith('Basic '):
             auth_b64=auth_b64[5:]
             auth_b64 = base64.b64decode(auth_b64).decode("utf-8", "ignore").split(':')[0]
         auth_key=base64.b64decode(auth_b64).decode("utf-8", "ignore").split(':')[0]
@@ -839,6 +837,8 @@ def doAuth(readOnly=False):
 @app.route('/cat/getSmartKey')
 def getUserSmartKey():
     address = request.args.get('address')
+    if address:
+        address=web3.toChecksumAddress(address);
     status, auth=doAuth(True)
     data = getSmartKey(address, auth)
     response = app.response_class(
@@ -856,6 +856,8 @@ def getUserSmartKeyTx():
     limit = request.args.get('limit')
     data={}
     try:
+        if address:
+            address=web3.toChecksumAddress(address);
         if offset:
             offset=int(offset)
         else:
@@ -881,11 +883,16 @@ def transferUserEth():
     address = request.args.get('address')
     beneficiary = request.args.get('beneficiary')
     amount = request.args.get('amount')
+    if address:
+        address=web3.toChecksumAddress(address);
+    if beneficiary:
+        beneficiary=web3.toChecksumAddress(beneficiary);
     api_key=''
     auth=''
     data={}
     status, auth=doAuth()
     if status: 
+        
         key = userEthTransfer(amount, beneficiary, address, api_key, auth)
         data = getKeyInfo(key, auth)
     response = app.response_class(
@@ -930,7 +937,7 @@ def create_node():
     
     status, auth=doAuth()
     if status:    
-            data=addNode(parent_href, href, auth, int(auth['eth_contrib']))
+            data=addNode(parent_href, href, auth, int(auth['eth_contrib']), True)
     
     response = app.response_class(
         response=json.dumps(data, sort_keys=True, indent=4),
