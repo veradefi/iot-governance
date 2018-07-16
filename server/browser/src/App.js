@@ -31,15 +31,17 @@ import Explorer from './layouts/Explorer/Explorer'
 export default class App extends Component {
 
   componentDidMount() {
+    /*
     fetch('/cat')
       .then(response => {
         console.log(response);
         response.json();
       })
       .then((proposals) => { 
-        console.log(proposals);
+        //console.log(proposals);
         this.setState({ proposals }); 
       });
+      */
   }
 
   render() {

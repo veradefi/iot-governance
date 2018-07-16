@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 var $ = require ('jquery');
 
-export default class KeyCreate extends Component {
+export default class KeyHealth extends Component {
   render() {
     var self=this;
     return(

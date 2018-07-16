@@ -8,6 +8,7 @@ import BrowserMapInfo from "./BrowserMapInfo";
 import MetaData from "./MetaData";
 import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
+import Key from "../Key/Key"
 var $ = require ('jquery');
 
 
@@ -321,7 +322,8 @@ get_smart_key_info = (href) => {
             dataType: 'json',
             success: function(body, textStatus, xhr) {
                 body.href=href;
-                self.setState({keyInfo:body});
+                self.setState({keyInfo:body, key_address:body.address});
+                
                 //self.fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["isOwner"]);
             },
             error: function(xhr, textStatus, err) {
@@ -382,6 +384,8 @@ populateUrls = (urls) => {
            $('.address').html(address);
            $('.address_val').val(address);
            
+
+
            web3Utils.get_keyAuth(address, self.fill_api_info) 
 
             $('#browse_url').val('https://iotblock.io/cat');
@@ -531,6 +535,10 @@ populateUrls = (urls) => {
                 
                         </div>
                     </div>
+                    {}
+                    {self.state.key_address ? 
+                <Key init_address={self.state.key_address} />
+                    : null}
                 <div>
                     <div id={"log"}></div>
                     <div className={"catalogue"}></div>
