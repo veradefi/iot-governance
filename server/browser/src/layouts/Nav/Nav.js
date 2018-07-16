@@ -11,20 +11,26 @@ export default class Nav extends Component {
             },
             {
                 href: 'browser',
-                name: 'Browser & Editor',
+                name: 'IoTPedia',
                 selected: false,
             },
             {
                 href: 'explorer',
-                name: 'Explorer',
+                name: 'IoT Explorer',
                 selected: false,
             },
             
             {
                 href: 'map',
-                name: 'Map',
+                name: 'IoT Map',
                 selected: false,
             },
+            {
+                href: 'editor',
+                name: 'IoT Metadata Editor',
+                selected: false,
+            },
+
 
             
             {
