@@ -508,6 +508,8 @@ render() {
                                     <center><img src="images/wait.gif" width={100} /></center>
                                 </div>
 
+                                { isOwner ? (
+                                    <div>
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
                                         <hr/>
@@ -571,8 +573,9 @@ render() {
                                                 
 
                                             
+                                        </div>
                                 </div>
-
+                                 ) : null}
                                 <div id={"view_api_loading"} style={{display:"none"}}>
                                     <center><img src="images/wait.gif" width={100} /></center>
                                 </div>
