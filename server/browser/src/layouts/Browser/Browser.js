@@ -141,64 +141,6 @@ add_auth = (xhr) => {
 }
 
 
-save_location=(node_href, lat, lng) => {
-       var self=this;
-       $('#location_save_loading').show();
-       $('#location_map').hide();
-        var key='';
-                
-        var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
-        
-        var lat_rel="http://www.w3.org/2003/01/geo/wgs84_pos#lat"
-        var lng_rel="http://www.w3.org/2003/01/geo/wgs84_pos#long"
-        
-        var lat_url= post_url + '&rel=' + encodeURIComponent(lat_rel);
-        lat_url+='&val=' + encodeURIComponent(lat);
-        lat_url+='&key=' + encodeURIComponent(key);
-        
-        var lng_url= post_url + '&rel=' + encodeURIComponent(lng_rel);
-        lng_url+='&val=' + encodeURIComponent(lng);
-        lng_url+='&key=' + encodeURIComponent(key);
-        //alert(post_url);
-        $.ajax({
-            beforeSend: function(xhr){
-                    self.add_auth(xhr);
-                    //setHeaders(xhr);
-            },   
-            type: 'GET',
-            url: lat_url,
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                $.ajax({
-                    beforeSend: function(xhr){
-                        self.add_auth(xhr);
-                                        //setHeaders(xhr);
-                                },                    
-                    type: 'GET',
-                    url: lng_url,
-                    //data: JSON.stringify(user_item),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function(body, textStatus, xhr) {
-                        self.browse($('#browse_url').val(), function() {
-                            console.log('browse complete');
-                        });
-                    },
-                    error: function(xhr, textStatus, err) {
-                        console.log(xhr.status + ' ' + xhr.statusText);
-                    }
-                });
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-
-    //alert(id);  
-}
-
 /*
 deleteCat = (cat_url) => {
     del(cat_url, $('#key').val(), function(err) {
