@@ -56,6 +56,7 @@ export default class Key extends Component {
         api_key: PropTypes.string.isRequired,
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
+        init_address:PropTypes.string
     };
   
   /**
@@ -142,6 +143,7 @@ page2_api = (auth, auth_info, key_address)  => {
     this.setState({
         keyAddress:key_address
     });
+
    if (key_address.length == 0) {
         this.setState({loading:false});
         self.showPage1(auth) ;
@@ -239,6 +241,7 @@ fill_page2 = (userAddress, address, balance, eth_recv, vault, state, health, tok
 
 
 page2 = (address) => {
+
    this.setState({myAddress: address});
    web3Utils.get_keyAuth(address, this.page2_api) 
 
@@ -307,8 +310,14 @@ createApiKey = () => {
     
   }
   componentDidMount() {
-    this.getKeyStatus();
+      var self=this;
+      if (!this.props.init_address) {
+            this.getKeyStatus();
+      } else {
+            self.get_smart_key_info(this.props.init_address);
 
+
+      }
 
   }
   render() {
@@ -332,7 +341,7 @@ createApiKey = () => {
                             <KeyInfo keyInfo={this.state.keyInfo} 
                             myAddress={this.state.myAddress} 
                             add_auth={this.add_auth} 
-                            showPage2_api={this.showPage2_api} 
+                            showPage2_api={this.showPage2_api}
                             fill_page2={this.fill_page2} />
                         </div>
                 ) : null
