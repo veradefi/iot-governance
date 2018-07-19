@@ -177,7 +177,7 @@ browseCatalogue = () => {
 }
 
 
-parseCatalogue = (url, doc) => {
+parseCatalogue = (doc) => {
     var self=this;
     
     var catalogue_meta_data=[]
@@ -190,7 +190,8 @@ parseCatalogue = (url, doc) => {
     console.log('Received Document')
     console.log(doc);
     var eth1_amount=1000000000000000000;
-    doc.id="catalogue";
+    doc.id="res";
+    var url='/cat';
     doc.href=url;
     var catMetadataListHTML = (
         <ul>
@@ -226,19 +227,7 @@ parseCatalogue = (url, doc) => {
                         />
 
             })}
-            <Catalogue 
-                catalogueType={'item-metadata'}
-                showAddItem={true}
-                idata={{
-                    
-                    id:'add_catalogue_item',
-                    node_href:url,
-                    href:'',
-                    items:[],            
-                    
-                }}
-                mode={'add'} 
-                browse={self.browse} />
+           
         </ul>
     );
         
@@ -268,18 +257,19 @@ parseCatalogue = (url, doc) => {
     //}
 }
 
-browse = (url, cb) => {
+search = () => {
     var self=this;
+    if (!self.state.search)
+        return;
     var history=[];
         
     //alert(url);
-    var fetch_location='/cat/getBalance?href=' + url;
+    var fetch_location='/cat/?q=' + self.state.search;
 
     $.ajax({
             beforeSend: function(xhr){
-                self.add_auth(xhr);
-                //setHeaders(xhr);
-            
+                //self.add_auth(xhr);
+                
             },
             type: 'GET',
             url: fetch_location,
@@ -287,14 +277,14 @@ browse = (url, cb) => {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
-                    var history=self.state.history;
-                    history.push(url);
-                    self.setState({history});
-                    $('#browse_url').val(url);
-                    self.parseCatalogue(url, doc);
-                    self.get_smart_key_info(url);
+                    //var history=self.state.history;
+                    //history.push(url);
+                    //self.setState({history});
+                    //$('#browse_url').val(url);
+                    self.parseCatalogue(doc);
+                    //self.get_smart_key_info(url);
 
-                    cb(null); // done
+                    //cb(null); // done
                 
             },
             error: function(xhr, textStatus, err) {
@@ -354,64 +344,11 @@ populateUrls = (urls) => {
     $("#urls").append(new Option('https://iotblock.io' + '/cat', 'https://iotblock.io' + '/cat'));
 
 }
-  componentDidMount() {
-        var self=this;
-        console.log("Loading Editor...")
-        /*
-        var param_url = getQueryVariable('url');
-        var param_key = getQueryVariable('key');
-        if (param_key === undefined)
-            param_key = "";
-    
-        $('#key').val(param_key);
-        if (param_url !== undefined) {
-            $('#browse_url').val(param_url);
-        }
-        */
-        var check_key=function(address) {
-           var url='https://iotblock.io/cat';
-           var path='/cat';
-           url=url.replace(/\/$/, "");
-           url=url.replace(/icat/, "cat");
-           url="https://iotblock.io" + path
-           path=path.replace(/\/$/, "");
-           path=path.replace(/icat/, "cat");
-           
-           console.log(url); 
-           console.log(path)
-           
-           console.log('address' + address);
-           $('.address').html(address);
-           $('.address_val').val(address);
-           
 
-
-           web3Utils.get_keyAuth(address, self.fill_api_info) 
-
-            $('#browse_url').val('https://iotblock.io/cat');
-            
-            self.browse('https://iotblock.io/cat', function() {
-
-                    console.log('browse complete');
-                
-            
-
-            });
-            
-        }
-        var eth_salt = web3Utils.getCookie('iotcookie');
-        if (eth_salt == null) {
-                web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
-                eth_salt = web3Utils.getCookie('iotcookie');
-        }
-        
-        web3Utils.init_wallet(eth_salt, check_key);
-
-      
-
-       
-    
-    }    
+componentDidMount() {
+        var self=this;        
+        self.setState({loading:false});
+}    
     
   render() {
     var self=this;
@@ -435,90 +372,42 @@ populateUrls = (urls) => {
                 <div className={"col-md-12"}>
                         <br/>
                         <center>
-                        <label className={"title2"} style={{paddingTop:"5px"}}>Catalogue Browser & Editor</label>
+                        <label className={"title2"} style={{paddingTop:"5px"}}>IoTPedia </label>
                         <hr/>
                         </center>
                         <form className={"form-group"}>
                             <div className={"row"}  style={{padding:"15px"}}>
-                                <div className={"col-md-6"}>
+                                <div className={"col-md-12"}>
                                     
-                                    <label className={"title3"}>Select Catalogue:
-                                    </label>
-                                    <select id={"urls"} onChange={() => {
-                                                
-                                                $('#browse_url').val($('#urls').val());
-                                                
-                                                self.browse($('#browse_url').val(), function() {
-                                                    console.log('browse complete');
-                                                });
-                                                
-                                        
-
-                                    }}
-                                    className={"form-control m-input m-input--air"} style={{height:"45px"}} ></select>
-                                    
-                                </div>
-                                <div className={"col-md-6"}>
-                                    
-                                    <label className={"title3"}>Catalogue URL:
-                                    </label>
+                                    <center>
                                     <div className={"input-group"}>
-                                    <input className={"form-control m-input m-input--air"} style={{height:"45px"}} type={"text"} id={"browse_url"} 
-                                        size={80} 
-                                        defaultValue={'https://iotblock.io' + "/cat"} />
-                                        <div className={"input-group-append"}>
-                                            <button className={"button3 btn btn-primary"} type="button" 
-                                            onClick={() => {
-                                                self.browseCatalogue();
-
-                                            }
-                                            } ><span className={"buttonText"}>Browse</span></button>
-                                        </div>
-                                    </div>
-                                
-                                </div>
-                            </div>
-                            <div className={"row"} style={{padding:"15px"}}>
-                                <div className={"col-md-6"} style={{textAlign:"left"}}>
-                                    <br/>
-                                    <label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
-                                    </label>
-                                    <span className={"auth"}>
-                                    <a href='/key'><b>{self.props.user_key_address}</b></a>
-                                    </span>
-                                    
-                                </div>
-                                <div className={"col-md-6"}>
-                                    <br/>
-                                    
-                                    <label className={"title3"}>ETH Donation Per Transaction:
-                                    </label>
-                                    <div className={"input-group"}>
-                                    <select id={"eth_contrib"} onChange={() => {
-                                                self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
-                                    }}
-                                    className={"form-control m-input m-input--air"} style={{height:"45px"}}>
-                                        <option value='0.0001'>0.0001 ETH</option>
-                                        <option value='0.001'>0.001 ETH</option>
-                                        <option value='0.01'>0.01 ETH</option>
-                                        <option value='0.1'>0.1 ETH</option>
-                                        <option value='1'>1 ETH</option>
-                                        
-                                    </select>
-                                        <div className={"input-group-append"}>
+                                        <input  className={"form-control m-input m-input--air"} 
+                                                style={{height:"45px"}} 
+                                                type={"text"} 
+                                                id={"search"} 
+                                                size={80} 
+                                                defaultValue={''}
+                                                placeholder={'Search Catalogue...'} 
+                                                onChange={(e) => {
+                                                    console.log(e.target.value);
+                                                    self.setState({search:e.target.value})
+                                                }}
+                                            />
                                             <button className={"button3 btn btn-primary"} 
                                             type={"button"}
                                             onClick={() => {
-                                                self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
+                                                self.search();
 
 
-                                            }} ><span className={"buttonText"}>Set Payment Terms</span></button>
-                                        </div>
+                                            }} ><span className={"buttonText"}>Search</span></button>
                                     </div>
-                                    (Data update will reflect in catalogue after 1-2 minutes)
-                                
+                                    <div className={"input-group-append"}>
+                                    </div>
+
+                                    </center> 
                                 </div>
                             </div>
+                            
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
                                         <br/>
@@ -535,14 +424,6 @@ populateUrls = (urls) => {
                 
                         </div>
                     </div>
-                    {}
-                    {self.state.key_address ? 
-                <Key init_address={self.state.key_address} />
-                    : null}
-                <div>
-                    <div id={"log"}></div>
-                    <div className={"catalogue"}></div>
-                </div>
                 </div>   
             );
         }
