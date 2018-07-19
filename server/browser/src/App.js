@@ -13,6 +13,7 @@ import Home from './layouts/home/Home'
 import Key from './layouts/Key/Key'
 import Map from './layouts/Map/Map'
 import Browser from './layouts/Browser/Browser'
+import Editor from './layouts/Editor/Editor'
 import Dashboard from './layouts/dashboard/Dashboard'
 import Dialog from './layouts/Dialog/Dialog'
 import Explorer from './layouts/Explorer/Explorer'
@@ -77,8 +78,8 @@ export default class App extends Component {
                   <Route exact path="/key.html" component={Key} />
                   <Route exact path="/browser" component={Browser} />
                   <Route exact path="/browser.html" component={Browser} />
-                  <Route exact path="/editor" component={Browser} />
-                  <Route exact path="/editor.html" component={Browser} />
+                  <Route exact path="/editor" component={Editor} />
+                  <Route exact path="/editor.html" component={Editor} />
                   <Route exact path="/explorer" component={Explorer} />
                   <Route exact path="/explorer.html" component={Explorer} />
                   <Route exact path="/map" component={Map} />
