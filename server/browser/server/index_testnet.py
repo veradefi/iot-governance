@@ -668,6 +668,8 @@ def metaSearch(request, data):
                 for item in items:
                     try:
                         found=False
+                        if (item['href'] and re.search(q, item['href'])):
+                            found=True
                         metas=item['item-metadata']
                         for meta in metas:
                             if (meta['rel'] and re.search(q, meta['rel'])) or \
