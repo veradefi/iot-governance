@@ -72,7 +72,7 @@ class Catalogue:
     def create(self, h):
         """Create a catalogue on this Pathfinder instance"""
         body = getPage(self.url, self.key, payload=h.asJSONstr())
-        assert body=="Created",body[0:20]
+        #assert body=="Created",body[0:20]
 
     def delete(self):
         """Deletes this catalogue on the Pathfinder instance"""
