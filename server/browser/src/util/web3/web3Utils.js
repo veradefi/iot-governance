@@ -18,8 +18,8 @@ Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.pr
   
   
   //var providerUrl = "https://iotblock.io/rpc";
-  var providerUrl = "http://localhost:9545";
-  //var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
+  //var providerUrl = "http://localhost:9545";
+  var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
   var host=providerUrl;
       
   
