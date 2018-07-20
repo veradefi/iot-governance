@@ -24,7 +24,7 @@ getWeb3
 
 ReactDOM.render((
     <Provider store={store}>
-      <BrowserRouter basename="/">
+      <BrowserRouter basename="/iotpedia">
         <App />
       </BrowserRouter>
     </Provider>
