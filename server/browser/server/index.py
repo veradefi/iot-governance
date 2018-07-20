@@ -661,6 +661,31 @@ def metaSearch(request, data):
     
     try:
         try:
+            q = request.args.get('q')
+            if q:
+                filtered_items=[]
+                items=data['items']
+                for item in items:
+                    try:
+                        found=False
+                        if (item['href'] and re.search(q, item['href'])):
+                            found=True
+                        metas=item['item-metadata']
+                        for meta in metas:
+                            if (meta['rel'] and re.search(q, meta['rel'])) or \
+                               (meta['val'] and re.search(q, meta['val'])):
+                                found=True
+                        if found:
+                            filtered_items.append(item)
+                    except Exception as e:
+                        print (e)
+                        traceback.print_exc()
+                data['items']=filtered_items
+        except Exception as e:
+            print (e)
+            traceback.print_exc()
+
+        try:
             rel = request.args.get('rel')
             val = request.args.get('val')
             if rel or val:
