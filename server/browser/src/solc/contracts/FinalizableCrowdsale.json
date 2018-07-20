@@ -427,8 +427,8 @@
           }
         ],
         "contractDependencies": [
-          1392,
-          1858
+          1858,
+          1392
         ],
         "contractKind": "contract",
         "documentation": "@title FinalizableCrowdsale\n@dev Extension of Crowsdale where an owner can do extra work\nafter finishing. ",
@@ -957,8 +957,8 @@
           }
         ],
         "contractDependencies": [
-          1392,
-          1858
+          1858,
+          1392
         ],
         "contractKind": "contract",
         "documentation": "@title FinalizableCrowdsale\n@dev Extension of Crowsdale where an owner can do extra work\nafter finishing. ",
@@ -1417,5 +1417,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-20T07:11:09.047Z"
+  "updatedAt": "2018-07-20T13:39:37.348Z"
 }
