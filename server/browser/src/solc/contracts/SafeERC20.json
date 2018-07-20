@@ -1,14 +1,14 @@
 {
   "contractName": "SafeERC20",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a7230582091dd0a9fcfd455b32bc0f055577b31de6b1d703ede5a18c059099f63ad8757be0029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a7230582091dd0a9fcfd455b32bc0f055577b31de6b1d703ede5a18c059099f63ad8757be0029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820b1697710c8e348601badf506e79ff555bc4ad56016d8cb747b03db36e2e1ac250029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820b1697710c8e348601badf506e79ff555bc4ad56016d8cb747b03db36e2e1ac250029",
   "sourceMap": "346:418:25:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "346:418:25:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\nimport \"./ERC20Basic.sol\";\nimport \"./ERC20.sol\";\n\n\n/**\n * @title SafeERC20\n * @dev Wrappers around ERC20 operations that throw on failure.\n * To use this library you can add a `using SafeERC20 for ERC20;` statement to your contract,\n * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.\n */\nlibrary SafeERC20 {\n  function safeTransfer(ERC20Basic token, address to, uint256 value) internal {\n    assert(token.transfer(to, value));\n  }\n\n  function safeTransferFrom(ERC20 token, address from, address to, uint256 value) internal {\n    assert(token.transferFrom(from, to, value));\n  }\n\n  function safeApprove(ERC20 token, address spender, uint256 value) internal {\n    assert(token.approve(spender, value));\n  }\n}\n",
-  "sourcePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/SafeERC20.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/SafeERC20.sol",
   "ast": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/SafeERC20.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/SafeERC20.sol",
     "exportedSymbols": {
       "SafeERC20": [
         3286
@@ -29,7 +29,7 @@
         "src": "0:24:25"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/ERC20Basic.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/ERC20Basic.sol",
         "file": "./ERC20Basic.sol",
         "id": 3227,
         "nodeType": "ImportDirective",
@@ -40,7 +40,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/ERC20.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/ERC20.sol",
         "file": "./ERC20.sol",
         "id": 3228,
         "nodeType": "ImportDirective",
@@ -828,7 +828,7 @@
     "src": "0:765:25"
   },
   "legacyAST": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/SafeERC20.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/SafeERC20.sol",
     "exportedSymbols": {
       "SafeERC20": [
         3286
@@ -849,7 +849,7 @@
         "src": "0:24:25"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/ERC20Basic.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/ERC20Basic.sol",
         "file": "./ERC20Basic.sol",
         "id": 3227,
         "nodeType": "ImportDirective",
@@ -860,7 +860,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/ERC20.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/server/browser/contracts/token/ERC20/ERC20.sol",
         "file": "./ERC20.sol",
         "id": 3228,
         "nodeType": "ImportDirective",
@@ -1653,5 +1653,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-20T07:11:09.061Z"
+  "updatedAt": "2018-07-20T13:11:24.952Z"
 }
