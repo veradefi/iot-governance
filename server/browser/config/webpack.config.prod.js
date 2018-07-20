@@ -148,7 +148,8 @@ module.exports = {
             options: {
               compact: true,
               plugins: [
-                require("babel-plugin-transform-decorators-legacy").default
+                require("babel-plugin-transform-decorators-legacy").default,
+                require("babel-plugin-transform-flow-strip-types")
               ]
             }
           },
@@ -264,6 +265,7 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
     // Minify the code.
+    /*
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
@@ -284,6 +286,7 @@ module.exports = {
       },
       sourceMap: shouldUseSourceMap
     }),
+    */
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({
       filename: cssFilename
