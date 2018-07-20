@@ -893,10 +893,10 @@
           }
         ],
         "contractDependencies": [
-          1392,
-          1546,
           2144,
-          2586
+          1546,
+          2586,
+          1392
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -5854,10 +5854,10 @@
           }
         ],
         "contractDependencies": [
-          1392,
-          1546,
           2144,
-          2586
+          1546,
+          2586,
+          1392
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -10738,5 +10738,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-20T07:11:09.124Z"
+  "updatedAt": "2018-07-20T13:39:37.512Z"
 }

@@ -451,9 +451,9 @@
         "contractDependencies": [
           3060,
           3192,
-          3224,
+          4194,
           3532,
-          4194
+          3224
         ],
         "contractKind": "contract",
         "documentation": "@title ERC827, an extension of ERC20 token standard\nImplementation the ERC827, following the ERC20 standard with extra\nmethods to transfer value and data and execute calls in transfers and\napprovals.\nUses OpenZeppelin StandardToken.",
@@ -3010,9 +3010,9 @@
         "contractDependencies": [
           3060,
           3192,
-          3224,
+          4194,
           3532,
-          4194
+          3224
         ],
         "contractKind": "contract",
         "documentation": "@title ERC827, an extension of ERC20 token standard\nImplementation the ERC827, following the ERC20 standard with extra\nmethods to transfer value and data and execute calls in transfers and\napprovals.\nUses OpenZeppelin StandardToken.",
@@ -5490,5 +5490,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-20T07:11:09.110Z"
+  "updatedAt": "2018-07-20T13:39:37.500Z"
 }
