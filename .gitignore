@@ -3,6 +3,7 @@ server/browser-tools/htdocs/js/contracts/
 server/browser-tools/htdocs/js/
 server/browser/src/solc/contracts/
 server/browser/build/js/contracts/
+server/browser/migrations/src/solc/contracts/
 bin/
 build/
 *.swp
