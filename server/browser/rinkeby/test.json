@@ -1,0 +1,16 @@
+{
+  "catalogue-metadata": [
+    {
+      "rel": "urn:X-hypercat:rels:jws:signature",
+      "val": "c++wHOC/cA43QBj1vCNTQsdO7Pm50OIdkOofnx/N1yKVw3y40zAa1NBrZy8qEJl0skEFLMrgQiO1hq42Zs8plw=="
+    },
+    {
+      "rel": "urn:X-hypercat:rels:jws:alg",
+      "val": "RS256"
+    },
+    {
+      "rel": "urn:X-hypercat:rels:jws:key",
+      "val": "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALIDVzmnqRGfu5K3hi2KqCiPpwzda3rh\ne3nn/LaFpOpnn4+Qt7zlR9wBWg/AJHEYqqKHpO0f2BWQ0AOVLR6h/nsCAwEAAQ==\n-----END PUBLIC KEY-----"
+    }
+  ]
+}
