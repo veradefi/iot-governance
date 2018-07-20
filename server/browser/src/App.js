@@ -17,32 +17,14 @@ import Editor from './layouts/Editor/Editor'
 import Dashboard from './layouts/dashboard/Dashboard'
 import Dialog from './layouts/Dialog/Dialog'
 import Explorer from './layouts/Explorer/Explorer'
+import View from './layouts/Browser/View'
 
-// Styles
-
-//import './css/oswald.css'
-//import './css/open-sans.css'
-//import './css/pure-min.css'
-
-//import './css/style.bundle.css'
-//import './css/vendors.bundle.css'
-//import './App.css'
 
 @withRouter
 export default class App extends Component {
 
   componentDidMount() {
-    /*
-    fetch('/cat')
-      .then(response => {
-        console.log(response);
-        response.json();
-      })
-      .then((proposals) => { 
-        //console.log(proposals);
-        this.setState({ proposals }); 
-      });
-      */
+    
   }
 
   render() {
@@ -84,6 +66,7 @@ export default class App extends Component {
                   <Route exact path="/explorer.html" component={Explorer} />
                   <Route exact path="/map" component={Map} />
                   <Route exact path="/map.html" component={Map} />
+                  <Route exact path="/view" component={View} />
                   <Route exact path="dashboard" component={Dashboard} />
                   <Redirect from="*" to="/" />
               </Switch>

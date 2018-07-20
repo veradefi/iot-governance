@@ -128,8 +128,6 @@ fill_api_info = (auth, auth_info, user_key_address) => {
 }
 
 
-
-
 add_auth = (xhr) => {
         var eth1=1000000000000000000;
         var eth_contrib=parseFloat($('#eth_contrib').val()) * eth1;
@@ -141,34 +139,6 @@ add_auth = (xhr) => {
 
 }
 
-
-/*
-deleteCat = (cat_url) => {
-    del(cat_url, $('#key').val(), function(err) {
-        if (!err) {
-            // go back
-            if (history.length > 1) {
-                history.pop();  // throw away top
-                url = history.pop();
-                browse(url, function() {
-                    log('browse complete');
-                });
-            }
-        }
-    });
-}
-
-deleteItem = (cat_url, item_url)  => {
-    var url = cat_url + "?href=" + encodeURIComponent(item_url);
-    del(url, $('#key').val(), function(err) {
-        if (!err) {
-            browse($('#url').val(), function() {
-                log('browse complete');
-            });
-        }
-    });
-}
-*/
 
 browseCatalogue = () => {
     var self=this;
@@ -196,11 +166,13 @@ parseCatalogue = (doc) => {
     var catMetadataListHTML = (
         <ul>
 
-            <Catalogue  key={doc.id} 
-                        catalogueType={'catalogue-metadata'} 
-                        idata={doc} 
-                        mode={'view'} 
-                        browse={self.browse} />
+            <Catalogue  
+                key={doc.id} 
+                catalogueType={'catalogue-metadata'} 
+                idata={doc} 
+                mode={'browse'} 
+                browse={self.browse} 
+            />
         
         </ul>    
     );
@@ -222,7 +194,7 @@ parseCatalogue = (doc) => {
                         key={item.id}
                         catalogueType={'item-metadata'}
                         idata={item}
-                        mode={'view'}
+                        mode={'browse'}
                         browse={self.browse}
                         />
 
@@ -232,12 +204,8 @@ parseCatalogue = (doc) => {
     );
         
     var listHTML = (
-        <ul><li> Catalogue Metadata
-                <br/><br/> 
-            </li>
-            {catMetadataListHTML}
-            <li id={"showMap"} style={{display:"none"}}></li>
-            <li> Items 
+        <ul>
+            <li> Search Result: 
                 <br/><br/> 
             </li>
             {itemListHTML}
@@ -283,9 +251,7 @@ search = () => {
                     //$('#browse_url').val(url);
                     self.parseCatalogue(doc);
                     //self.get_smart_key_info(url);
-
-                    //cb(null); // done
-                
+                    //cb(null); // done                
             },
             error: function(xhr, textStatus, err) {
                 console.log(xhr.status + ' ' + xhr.statusText)
@@ -320,6 +286,7 @@ get_smart_key_info = (href) => {
                 console.log(xhr.status + ' ' + xhr.statusText);
             }
         });
+
 }
 
 
@@ -350,7 +317,7 @@ componentDidMount() {
         self.setState({loading:false});
 }    
     
-  render() {
+render() {
     var self=this;
     if (this.state.loading) {
         return(

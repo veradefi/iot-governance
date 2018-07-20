@@ -354,7 +354,24 @@ save_location=(node_href, lat, lng) => {
             
             </li>
             )
-        }
+        } else if (this.state.mode && this.state.mode=='browse') {
+            return (
+                <li id={mdata.id} key={mdata.id}> 
+                        &nbsp; 
+                        {mdata.rel} = {mdata.val}
+                        <br/>
+                        {self.state.dataLoading ? (
+                            <b>Processing Contribution... <br/></b>
+                        ) : 
+                        mdata.bal ? (
+                        <b>Donation Received: {parseFloat(mdata.bal)/eth1_amount} ETH 
+                        <br/>
+                        </b> 
+                        ) : null }
+                        <br/>
+                </li>
+            )
+        } 
     }
   }
 }

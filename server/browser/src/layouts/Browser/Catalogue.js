@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import MetaData from "./MetaData"
+import { Link } from "react-router-dom";
 var $ = require ('jquery');
 
 
@@ -192,7 +193,12 @@ refreshCatalogue = (data) => {
                     mdata.node_href=item.node_href;
                     mdata.item_href=item.href;
                     mdata.id=item.id + "_item_metadata_" + count;
-                    var ires=<MetaData key={mdata.id} mdata={mdata} mode={'view'} refreshCatalogue={self.refreshCatalogue} />;
+                    var ires=<MetaData 
+                            key={mdata.id} 
+                            mdata={mdata} 
+                            mode={'view'} 
+                            refreshCatalogue={self.refreshCatalogue} 
+                            />;
                     //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     //    isCat = true;
                     //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
@@ -238,8 +244,10 @@ refreshCatalogue = (data) => {
                 />)
             return (
                 <div key={item.id}> 
-                    <li><a href={"#top"}
+                    <li>
+                    <a href={"#top"}
                        onClick={()=>{
+
                            self.props.browse(item.href, () => {
 
                            });
@@ -307,20 +315,25 @@ refreshCatalogue = (data) => {
                 item[this.props.catalogueType].map(mdata  => {
                     if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                         supportsQueryOpenIoT = true;
+
                     mdata.node_href=item.node_href;
                     mdata.item_href=item.href;
                     mdata.id=item.id + "_item_metadata_" + count;
-                    var ires=<MetaData key={mdata.id} mdata={mdata} mode={'view'} refreshCatalogue={self.refreshCatalogue} />;
-                    //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
-                    //    isCat = true;
-                    //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
-                    //    isGenericResource = true;
+                    var ires=<MetaData 
+                            key={mdata.id} 
+                            mdata={mdata}
+                            mode={'browse'}
+                            refreshCatalogue={self.refreshCatalogue}
+                            />;
+
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
                         map_json["Latitude"]=mdata.val;
                     }
+                    
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
                         map_json["Longitude"]=mdata.val;
-                    }        
+                    }
+                    
                     count+=1;
                     items.push(ires);
                 });
@@ -331,12 +344,15 @@ refreshCatalogue = (data) => {
                 item_href: item.href,
                 rel: '',
                 val: ''}
+            
+            /*
             items.push(<MetaData 
                 key={cmdata.id} 
                 mdata={cmdata} 
                 mode={'add'} 
                 refreshCatalogue={self.refreshCatalogue}  
                 />);
+            */
 
             if ("Latitude" in map_json) {
                 cmdata.lat=map_json["Latitude"];
@@ -348,23 +364,24 @@ refreshCatalogue = (data) => {
             } else {
                 cmdata.lng=0;
             }
+            /*
             items.push(<MetaData 
                 key={cmdata.id + '_location'} 
                 mdata={cmdata} 
                 mode={'editLoc'} 
                 refreshCatalogue={self.refreshCatalogue}  
                 />)
+            */
             return (
                 <div key={item.id}> 
-                    <li><a href={"#top"}
-                       onClick={()=>{
-                           self.props.browse(item.href, () => {
-
-                           });
-                       }}
+                    <li>
+                    <Link to={{ 
+                        pathname: '/view',
+                        url:item.href
+                    }}
                        >
                        {item.href}
-                    </a>
+                    </Link>
                     <br/>
                     {self.state.dataLoading ? (
                         <b>Processing Contribution...
@@ -379,22 +396,6 @@ refreshCatalogue = (data) => {
 
                     </ul>
 
-                    {self.props.showAddItem ? (
-
-                          <Catalogue 
-                                {...self.props}
-                                catalogueType={'item-metadata'}
-                                idata={{
-                                    id:'add_catalogue_item_' + Math.round(Math.random() * 100000),
-                                    node_href:self.state.idata.node_href,
-                                    href:'',
-                                    items:[],            
-                                }} 
-                                mode={'add'} 
-                                browse={self.props.browse} 
-                        />
-
-                    ) : null}
                 </div>
                 
             );
