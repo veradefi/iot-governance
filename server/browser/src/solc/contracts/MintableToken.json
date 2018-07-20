@@ -653,13 +653,13 @@
           }
         ],
         "contractDependencies": [
-          1392,
+          4386,
           3060,
           3192,
-          3224,
-          3532,
+          1392,
           4194,
-          4386
+          3532,
+          3224
         ],
         "contractKind": "contract",
         "documentation": "@title Mintable token\n@dev Simple ERC20 Token example, with mintable token creation\n@dev Issue: * https://github.com/OpenZeppelin/zeppelin-solidity/issues/120\nBased on code by TokenMarketNet: https://github.com/TokenMarketNet/ico/blob/master/contracts/MintableToken.sol",
@@ -2103,13 +2103,13 @@
           }
         ],
         "contractDependencies": [
-          1392,
+          4386,
           3060,
           3192,
-          3224,
-          3532,
+          1392,
           4194,
-          4386
+          3532,
+          3224
         ],
         "contractKind": "contract",
         "documentation": "@title Mintable token\n@dev Simple ERC20 Token example, with mintable token creation\n@dev Issue: * https://github.com/OpenZeppelin/zeppelin-solidity/issues/120\nBased on code by TokenMarketNet: https://github.com/TokenMarketNet/ico/blob/master/contracts/MintableToken.sol",
@@ -3476,5 +3476,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-20T07:11:09.113Z"
+  "updatedAt": "2018-07-20T13:39:37.503Z"
 }

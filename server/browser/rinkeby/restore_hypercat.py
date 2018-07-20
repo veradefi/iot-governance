@@ -2,7 +2,9 @@ from iotblock_sdk.pathfinder import Catalogue
 import iotblock_sdk.hypercat as hypercat
 import json
 import logging
-TEST_PATHFINDER_URL_ROOT = "http://127.0.0.1:8888/cat"
+TEST_PATHFINDER_URL_ROOT =  "https://iotblock.io/cat"
+API_KEY=""
+
 
 def unittest():
     
@@ -11,7 +13,7 @@ def unittest():
     logging.getLogger().setLevel(logging.DEBUG)
 
     print("Create a catalogue on Pathfinder")
-    p = Catalogue(TEST_PATHFINDER_URL_ROOT, "Vkc5clpXNGdZWEJwWDJ0bGVUMGlOakZtTVRobVpHTmhaRGt3T0RBNFpqZGtZMlV4WXpNM05UUmhOalV6WWprMU5UTXlaakZrTnpBM1ptUTFaamhoTnpjeU9EUmhZMlEwWVRCaU1HRTRPQ0lnWVhWMGFEMGlNSGcyUXpRd05UWTNNVEUwUkRObU5UUTVSV1V3TTBJeFlUTTBOakptTVRGa056SXhNMkkzTkRjNElpQmxkR2hmWTI5dWRISnBZajBpTVRBd01EQXdNREF3TURBd01EQWk6")
+    p = Catalogue(TEST_PATHFINDER_URL_ROOT, API_KEY)
     h1 = hypercat.Hypercat("Dummy test catalogue")
     print(h1);
     with open('backups/1.json') as json_data:
