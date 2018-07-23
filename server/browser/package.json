@@ -57,6 +57,8 @@
     "style-loader": "^0.13.1",
     "sw-precache-webpack-plugin": "0.11.4",
     "truffle-contract": "^1.1.8",
+    "uglify-js": "^3.4.5",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "^1.0.1",
     "webpack": "^3.8.1",
     "webpack-dev-server": "2.9.4",
@@ -96,8 +98,11 @@
     "redux-auth-wrapper": "^1.0.0",
     "redux-thunk": "^2.2.0",
     "springy": "^2.8.0",
+<<<<<<< HEAD
     "uglifyjs-webpack-plugin": "^1.2.7",
     "upath": "^1.1.0",
+=======
+>>>>>>> 3af9bad27b3e28a7bbedcb73667c1690ad7f63bf
     "web3": "^1.0.0-beta.34"
   },
   "scripts": {
@@ -145,6 +150,10 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+<<<<<<< HEAD
   "proxy": "https://iotblock.io/",
+=======
+  "proxy": "http://localhost:8888/",
+>>>>>>> 3af9bad27b3e28a7bbedcb73667c1690ad7f63bf
   "homepage": "https://iotblock.io/iotpedia"
 }

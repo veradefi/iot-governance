@@ -9,12 +9,10 @@ import * as actions from "./store/actions";
 import Nav from './layouts/Nav/Nav'
 import Header from './layouts/Header/Header'
 // UI Components
-import Home from './layouts/home/Home'
 import Key from './layouts/Key/Key'
 import Map from './layouts/Map/Map'
 import Browser from './layouts/Browser/Browser'
 import Editor from './layouts/Editor/Editor'
-import Dashboard from './layouts/dashboard/Dashboard'
 import Dialog from './layouts/Dialog/Dialog'
 import Explorer from './layouts/Explorer/Explorer'
 import View from './layouts/Browser/View'
@@ -67,7 +65,6 @@ export default class App extends Component {
                   <Route exact path="/map" component={Map} />
                   <Route exact path="/map.html" component={Map} />
                   <Route exact path="/view" component={View} />
-                  <Route exact path="dashboard" component={Dashboard} />
                   <Redirect from="*" to="/" />
               </Switch>
             </td></tr>
