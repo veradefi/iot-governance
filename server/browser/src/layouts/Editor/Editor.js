@@ -9,6 +9,7 @@ import MetaData from "./MetaData";
 import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
+import { Link } from "react-router-dom";
 var $ = require ('jquery');
 
 
@@ -456,7 +457,9 @@ populateUrls = (urls) => {
                                     <label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
                                     </label>
                                     <span className={"auth"}>
-                                    <a href='/key'><b>{self.props.user_key_address}</b></a>
+                                    <Link to={{ 
+                        pathname: '/key',
+                    }}><b>{self.props.user_key_address}</b></Link>
                                     </span>
                                     
                                 </div>
