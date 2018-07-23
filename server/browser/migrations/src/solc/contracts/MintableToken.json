@@ -569,9 +569,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\n\nimport './ERC827/ERC827Token.sol';\nimport '../admin/Administered.sol';\n\n\n\n/**\n * @title Mintable token\n * @dev Simple ERC20 Token example, with mintable token creation\n * @dev Issue: * https://github.com/OpenZeppelin/zeppelin-solidity/issues/120\n * Based on code by TokenMarketNet: https://github.com/TokenMarketNet/ico/blob/master/contracts/MintableToken.sol\n */\n\ncontract MintableToken is ERC827Token, Administered {\n  event Mint(address indexed to, uint256 amount);\n  event MintFinished();\n  event MintReopened();\n  uint256 public tokenMinted;\n  bool public mintingFinished = false;\n\n  uint256 public rate; // Price per token\n  \n  function MintableToken(uint256 _rate) \n  public\n  {\n        rate=_rate;\n        tokenMinted=0;\n  }\n  \n  function setRate(uint256 _rate) \n  public\n  onlyAdmin \n  returns (uint256){\n        rate=_rate;\n        return rate;                \n  }\n    \n  modifier canMint() {\n    require(!mintingFinished);\n    _;\n  }  \n  \n  /**\n   * @dev Function to mint tokens\n   * @param _to The address that will receive the minted tokens.\n   * @param _amount The amount of tokens to mint.\n   * @return A boolean that indicates if the operation was successful.\n   */\n  function mint(address _to, uint256 _amount) \n  public\n  onlyAdmin \n  canMint \n  returns (bool) \n  {\n\n    require(_amount > 0);\n    tokenMinted = tokenMinted.add(_amount);\n\n    balances[_to] = balances[_to].add(_amount);\n    Mint(_to, _amount);\n    Transfer(address(0), _to, _amount);\n    return true;\n\n  }\n\n  /**\n   * @dev Function to stop minting new tokens.\n   * @return True if the operation was successful.\n   */\n\n  /*\n  function finishMinting() \n  public\n  onlyAdmin \n  returns (bool) {\n    mintingFinished = true;\n    MintFinished();\n    return true;\n  }\n  \n  function reopenMinting() \n  public\n  onlyAdmin \n  returns (bool) {\n    mintingFinished = false;\n    MintReopened();\n    return true;\n  }\n  */    \n}\n",
-  "sourcePath": "/mnt/d/iotblock/server/browser/contracts/token/MintableToken.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/token/MintableToken.sol",
   "ast": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/MintableToken.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/token/MintableToken.sol",
     "exportedSymbols": {
       "MintableToken": [
         4504
@@ -592,7 +592,7 @@
         "src": "0:24:32"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC827/ERC827Token.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC827/ERC827Token.sol",
         "file": "./ERC827/ERC827Token.sol",
         "id": 4389,
         "nodeType": "ImportDirective",
@@ -603,7 +603,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 4390,
         "nodeType": "ImportDirective",
@@ -653,13 +653,13 @@
           }
         ],
         "contractDependencies": [
+          1392,
           3060,
-          4194,
-          4386,
           3192,
           3224,
-          1392,
-          3532
+          3532,
+          4194,
+          4386
         ],
         "contractKind": "contract",
         "documentation": "@title Mintable token\n@dev Simple ERC20 Token example, with mintable token creation\n@dev Issue: * https://github.com/OpenZeppelin/zeppelin-solidity/issues/120\nBased on code by TokenMarketNet: https://github.com/TokenMarketNet/ico/blob/master/contracts/MintableToken.sol",
@@ -2021,7 +2021,7 @@
     "src": "0:1995:32"
   },
   "legacyAST": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/MintableToken.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/token/MintableToken.sol",
     "exportedSymbols": {
       "MintableToken": [
         4504
@@ -2042,7 +2042,7 @@
         "src": "0:24:32"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC827/ERC827Token.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC827/ERC827Token.sol",
         "file": "./ERC827/ERC827Token.sol",
         "id": 4389,
         "nodeType": "ImportDirective",
@@ -2053,7 +2053,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 4390,
         "nodeType": "ImportDirective",
@@ -2103,13 +2103,13 @@
           }
         ],
         "contractDependencies": [
+          1392,
           3060,
-          4194,
-          4386,
           3192,
           3224,
-          1392,
-          3532
+          3532,
+          4194,
+          4386
         ],
         "contractKind": "contract",
         "documentation": "@title Mintable token\n@dev Simple ERC20 Token example, with mintable token creation\n@dev Issue: * https://github.com/OpenZeppelin/zeppelin-solidity/issues/120\nBased on code by TokenMarketNet: https://github.com/TokenMarketNet/ico/blob/master/contracts/MintableToken.sol",
@@ -3476,5 +3476,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-03T16:12:08.351Z"
+  "updatedAt": "2018-06-14T06:33:00.083Z"
 }
