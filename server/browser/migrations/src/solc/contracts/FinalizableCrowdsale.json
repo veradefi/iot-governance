@@ -350,9 +350,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\nimport '../math/SafeMath.sol';\nimport '../admin/Administered.sol';\nimport './Crowdsale.sol';\n\n/**\n * @title FinalizableCrowdsale\n * @dev Extension of Crowsdale where an owner can do extra work\n * after finishing. \n */\n \ncontract FinalizableCrowdsale is Crowdsale {\n  using SafeMath for uint256;\n\n  bool public isFinalized = false;\n\n  event Finalized();\n\n  /**\n   * @dev Must be called after crowdsale ends, to do some extra finalization\n   * work. Calls the contract's finalization function.\n   */\n  function finalize() \n  public\n  onlyAdmin \n  {\n    require(!isFinalized);\n    require(hasEnded());\n\n    finalization();\n    Finalized();\n    \n    isFinalized = true;\n  }\n\n  /**\n   * @dev Can be overriden to add finalization logic. The overriding function\n   * should call super.finalization() to ensure the chain of finalization is\n   * executed entirely.\n   */\n  function finalization()\n  pure\n  internal {\n  }\n  \n}\n",
-  "sourcePath": "/mnt/d/iotblock/server/browser/contracts/crowdsale/FinalizableCrowdsale.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
   "ast": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/crowdsale/FinalizableCrowdsale.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
     "exportedSymbols": {
       "FinalizableCrowdsale": [
         1904
@@ -373,7 +373,7 @@
         "src": "0:24:14"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1861,
         "nodeType": "ImportDirective",
@@ -384,7 +384,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1862,
         "nodeType": "ImportDirective",
@@ -395,7 +395,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1863,
         "nodeType": "ImportDirective",
@@ -427,8 +427,8 @@
           }
         ],
         "contractDependencies": [
-          1858,
-          1392
+          1392,
+          1858
         ],
         "contractKind": "contract",
         "documentation": "@title FinalizableCrowdsale\n@dev Extension of Crowsdale where an owner can do extra work\nafter finishing. ",
@@ -882,7 +882,7 @@
     "src": "0:1013:14"
   },
   "legacyAST": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/crowdsale/FinalizableCrowdsale.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
     "exportedSymbols": {
       "FinalizableCrowdsale": [
         1904
@@ -903,7 +903,7 @@
         "src": "0:24:14"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1861,
         "nodeType": "ImportDirective",
@@ -914,7 +914,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/admin/Administered.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1862,
         "nodeType": "ImportDirective",
@@ -925,7 +925,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1863,
         "nodeType": "ImportDirective",
@@ -957,8 +957,8 @@
           }
         ],
         "contractDependencies": [
-          1858,
-          1392
+          1392,
+          1858
         ],
         "contractKind": "contract",
         "documentation": "@title FinalizableCrowdsale\n@dev Extension of Crowsdale where an owner can do extra work\nafter finishing. ",
@@ -1417,5 +1417,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-03T16:12:08.339Z"
+  "updatedAt": "2018-06-14T06:33:00.070Z"
 }
