@@ -10,7 +10,7 @@ module.exports = {
     rinkeby: {
       host: "35.165.47.77",
       port: 8666,
-      network_id: '*' // Match any network id
+      network_id: '4' // Match any network id
     }
   }
   // See <http://truffleframework.com/docs/advanced/configuration>
