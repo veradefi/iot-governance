@@ -265,9 +265,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.13;\n\n\nimport \"../ERC20/ERC20.sol\";\n\n\n/**\n   @title ERC827 interface, an extension of ERC20 token standard\n\n   Interface of a ERC827 token, following the ERC20 standard with extra\n   methods to transfer value and data and execute calls in transfers and\n   approvals.\n */\ncontract ERC827 is ERC20 {\n\n  function approve( address _spender, uint256 _value, bytes _data ) public returns (bool);\n  function transfer( address _to, uint256 _value, bytes _data ) public returns (bool);\n  function transferFrom( address _from, address _to, uint256 _value, bytes _data ) public returns (bool);\n\n}\n",
-  "sourcePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC827/ERC827.sol",
+  "sourcePath": "/home/forge/solidity/iotblock/contracts/token/ERC827/ERC827.sol",
   "ast": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC827/ERC827.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC827/ERC827.sol",
     "exportedSymbols": {
       "ERC827": [
         4194
@@ -288,7 +288,7 @@
         "src": "0:24:30"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/ERC20.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC20/ERC20.sol",
         "file": "../ERC20/ERC20.sol",
         "id": 4156,
         "nodeType": "ImportDirective",
@@ -771,7 +771,7 @@
     "src": "0:606:30"
   },
   "legacyAST": {
-    "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC827/ERC827.sol",
+    "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC827/ERC827.sol",
     "exportedSymbols": {
       "ERC827": [
         4194
@@ -792,7 +792,7 @@
         "src": "0:24:30"
       },
       {
-        "absolutePath": "/mnt/d/iotblock/server/browser/contracts/token/ERC20/ERC20.sol",
+        "absolutePath": "/home/forge/solidity/iotblock/contracts/token/ERC20/ERC20.sol",
         "file": "../ERC20/ERC20.sol",
         "id": 4156,
         "nodeType": "ImportDirective",
@@ -1280,5 +1280,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-03T16:12:08.350Z"
+  "updatedAt": "2018-06-14T06:33:00.082Z"
 }

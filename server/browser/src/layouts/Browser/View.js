@@ -199,19 +199,7 @@ parseCatalogue = (url, doc) => {
                         />
 
             })}
-            <Catalogue 
-                catalogueType={'item-metadata'}
-                showAddItem={true}
-                idata={{
-                    
-                    id:'add_catalogue_item',
-                    node_href:url,
-                    href:'',
-                    items:[],            
-                    
-                }}
-                mode={'add'} 
-                browse={self.browse} />
+           
         </ul>
     );
         
@@ -357,7 +345,31 @@ populateUrls = (urls) => {
         */
     
     }    
-    
+  componentWillReceiveProps(newProps) {
+    var self=this;
+    if (newProps.location) {
+        var check_key = () => {
+            
+            var url=newProps.location.url;
+            if (!url) {
+                url='https://iotblock.io/cat'
+            }
+
+            console.log(url); 
+                                        
+            self.browse(url, function() {
+                console.log('browse complete');
+                self.setState({
+                    loading:false,
+                    url:url,
+                });
+            });
+            
+        }
+        check_key();
+    }
+
+  }
   render() {
     var self=this;
     if (this.state.loading) {
