@@ -98,11 +98,8 @@
     "redux-auth-wrapper": "^1.0.0",
     "redux-thunk": "^2.2.0",
     "springy": "^2.8.0",
-<<<<<<< HEAD
     "uglifyjs-webpack-plugin": "^1.2.7",
     "upath": "^1.1.0",
-=======
->>>>>>> 3af9bad27b3e28a7bbedcb73667c1690ad7f63bf
     "web3": "^1.0.0-beta.34"
   },
   "scripts": {
