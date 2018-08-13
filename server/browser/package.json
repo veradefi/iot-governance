@@ -67,8 +67,9 @@
   },
   "dependencies": {
     "@google/maps": "^0.5.4",
-    "drizzle": "^1.2.1",
+    "drizzle": "^1.2.2",
     "drizzle-react": "^1.1.1",
+    "drizzle-react-components": "^1.2.0",
     "jquery": "^3.3.1",
     "react": "^16.4.0",
     "react-awesome-popover": "^2.0.5",
@@ -147,6 +148,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:8888/",
+  "proxy": "https://iotblock.io/",
   "homepage": "https://iotblock.io/iotpedia"
 }
