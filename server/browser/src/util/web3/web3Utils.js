@@ -494,8 +494,7 @@ export const get_graphnode_smartkey = (href, callback)  =>
   
   
   
-  window.add_pool = function(beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, callback) 
-  {
+export const add_pool = (beneficiary, max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, callback) => {
   
   
          max_contrib= new BigNumber(max_contrib);

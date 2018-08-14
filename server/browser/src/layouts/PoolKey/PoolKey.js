@@ -44,7 +44,12 @@ export default class Explorer extends Component {
         isBrowse:false,
         isWeb:false,
         isPool:true,
-        
+        max_contrib:10000,
+        max_per_contrib:100000,
+        min_per_contrib:1,
+        fee:5,
+        auto:"0",
+        send_amt:1        
     }
     self.graph={}; 
     self.cursor=""
@@ -75,15 +80,19 @@ export default class Explorer extends Component {
            $('.received').html(received);
            $('.progress-bar').val(eth_sent/max_per_contrib * 100);
            $('#poolkey').html('<pre>' + address + '</pre>');
-           /*
-           Morris.Donut({
+           if ( contrib_total) {
+           window.Morris.Donut({
               element: 'contrib-stat',
               data: [
                 {label: "Member Donated ETH", value: contrib_total},
                 {label: "ETH Received", value:  received},
               ]
             });
-            */
+            $('#contrib-stat').show();
+
+        } else {
+            $('#contrib-stat').hide();
+        }
             
             
            $('#send_ether').on('click', function(e) {
@@ -152,7 +161,7 @@ export default class Explorer extends Component {
        //$('#page1').hide();
        //$('#loading').show();
        //$('#page2').hide();
-         
+      console.log("Page2 " + address);
        web3Utils.get_pool(address, self.fill_page2);
     }
     
@@ -173,10 +182,7 @@ export default class Explorer extends Component {
             
         });
         
-        $('#find_poolkey_btn').on('click',function(e) {
-             var poolkey=$('#find_poolkey').val();
-             self.page2(poolkey);
-        });
+       
     
         $('#pool').on('click', function (e) {
             var fee=Math.round(1 / parseFloat($('#fee').val() / 100));
@@ -224,7 +230,7 @@ export default class Explorer extends Component {
             // $('#loading').show();
             // $('#page2').hide();
              
-            self.add_pool(beneficiary, 
+            web3Utils.add_pool(beneficiary, 
                 max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, self.page2);
        
         });
@@ -250,7 +256,7 @@ export default class Explorer extends Component {
 
     render() {
         var self=this;
-    var page1=<div id={"page1"}>
+    var page1=<div style={{padding:"10px"}} id={"page1"}>
 
                           <br/>
                           <center><label className={"title2"}>Find Smart Pool Key</label></center>
@@ -260,22 +266,34 @@ export default class Explorer extends Component {
                                          <center>
                                              <div className={"input-group"}>
 
-                                                 <input name={"find_poolkey"}
+                                                 <input 
+                                                 name={"find_poolkey"}
                                                  className={"inputbox2 form-control m-input m-input--air"}  
-                                                 placeholder="Enter Smart Pool Key Address" 
-                                                 style={{height:"45px",width:"50%"}} 
+                                                 placeholder={"Enter Smart Pool Key Address"}
+                                                 style={{
+                                                     height:"45px",
+                                                     width:"50%"
+                                                 }} 
                                                  type="text" 
                                                  id={"find_poolkey"} 
                                                  placeholder="" 
                                                  aria-invalid={"false"} 
                                                  aria-required={"false"} />
-                                                    <div className={"input-group-append"}>
-                                                        <button type={"button"} 
-                                                        id={"find_poolkey_btn"} 
-                                                        className={"btn btn-accent button3"}>
-                                                        <span className={"buttonText"}>Find</span>
-                                                        </button>
-                                                    </div>
+
+                                                <div className={"input-group-append"}>
+                                                    <button type={"button"} 
+                                                            id={"find_poolkey_btn"} 
+                                                            onClick={() => {
+
+                                                                    var poolkey=$('#find_poolkey').val();
+                                                                    self.page2(poolkey);
+                                                            }}
+                                                            className={"btn btn-accent button3"}>
+                                                        <span className={"buttonText"}>
+                                                        Find
+                                                        </span>
+                                                    </button>
+                                                </div>
                                              </div>
                                           </center>
                                           <br/>
@@ -321,7 +339,11 @@ export default class Explorer extends Component {
                                 matinput="" 
                                 type="text" 
                                 id={"max_contrib"} 
-                                value={100000} 
+                                value={self.state.max_contrib}
+                                onChange={(e) => {
+                                    console.log(e.target.value);
+                                    self.setState({max_contrib:parseInt(e.target.value)})
+                                }} 
                                 placeholder={""} 
                                 aria-invalid={"false"} 
                                 aria-required="false" />
@@ -332,12 +354,16 @@ export default class Explorer extends Component {
                             <label className={"label2"}>Maximum Per Donor (ETH)</label>
                         </div>
                          <div className={"col-md-6"} align={"left"}>
-                            <input name={"max_per_contribr"} 
+                            <input name={"max_per_contrib"} 
                             className={"form-control m-input m-input--air m-input--pill"}  
                             matinput="" 
                             type="text" 
                             id={"max_per_contrib"}  
-                            value={100000} 
+                            value={self.state.max_per_contrib} 
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                self.setState({max_per_contrib:parseInt(e.target.value)})
+                            }}
                             placeholder="" 
                             aria-invalid={"false"} 
                             aria-required="false" />
@@ -353,7 +379,11 @@ export default class Explorer extends Component {
                             matinput="" 
                             type="text" 
                             id={"min_per_contrib"} 
-                            value={'1'} 
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                self.setState({min_per_contrib:parseInt(e.target.value)})
+                            }}
+                            value={self.state.min_per_contrib} 
                             placeholder={""} 
                             aria-invalid={"false"} 
                             aria-required="false" />
@@ -381,6 +411,12 @@ export default class Explorer extends Component {
                           className={"address_val form-control m-input m-input--air m-input--pill"}  
                           type="text" 
                           id={"admin1"} 
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            self.setState({admin1:e.target.value})
+                          }}
+                          value={self.state.admin1}
+
                           placeholder="" 
                           aria-invalid={"false"} 
                           aria-required="false" />
@@ -398,6 +434,11 @@ export default class Explorer extends Component {
                             matinput="" 
                             type="text" 
                             id={"admin2"} 
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                self.setState({admin2:e.target.value})
+                              }}
+                            value={self.state.admin2}
                             placeholder="" 
                             aria-invalid={"false"} 
                             aria-required="false" />
@@ -415,6 +456,11 @@ export default class Explorer extends Component {
                             matinput="" 
                             type="text" 
                             id={"admin3"} 
+                            onChange={(e) => {
+                                console.log(e.target.value)
+                                self.setState({admin3:e.target.value})
+                            }}
+                            value={self.state.admin3}
                             placeholder="" 
                             aria-invalid={"false"} 
                             aria-required="false" />
@@ -438,9 +484,11 @@ export default class Explorer extends Component {
                         <div className={"col-md-6"} align={"left"} valign={"middle"}>
                             <span className={"m-switch m-switch--info"}>
 												<label>
-                                                <input type="checkbox" 
-                                                id={"has_whitelist"} 
-                                                value={"Yes"} />
+                                                <input 
+                                                type={"checkbox"} 
+                                                id={"has_whitelist"}
+                                                value={"Yes"} 
+                                                />
 						                        <span></span>
 						                        </label>
 						                    </span>
@@ -468,10 +516,16 @@ export default class Explorer extends Component {
                             size="6" 
                             type="number" 
                             id={"fee"} 
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                self.setState({fee:parseInt(e.target.value)})
+                            }}
+                            value={self.state.fee}
+    
                             placeholder="" 
                             aria-invalid={"false"} 
-                            aria-required="false" 
-                            value='5' />
+                            aria-required={"false"}
+                            />
                         </div>
                     </div>
                     <br/>
@@ -507,9 +561,18 @@ export default class Explorer extends Component {
                             </label>
                         </div>
                         <div className={"col-md-6"} align={"left"}>    
-                            <select name={"auto"} id={"auto"}>
-                            <option value={"0"}>Automatically</option>
-                            <option value={"1"}>Manually</option>
+                            <select 
+                            name={"auto"} 
+                            id={"auto"}
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                self.setState({auto:e.target.value})
+                            }}
+                            value={self.state.auto}
+    
+                            >
+                                <option value={"0"}>Automatically</option>
+                                <option value={"1"}>Manually</option>
                             </select>
                         </div>
                     </div>
@@ -528,11 +591,11 @@ export default class Explorer extends Component {
 
         </div>
 
-        var loading=(<div id={"loading"} style={{display:"none"}}>
-        <img src="images/wait.gif" />
+        var loading=(<div id={"loading"}>
+        <img src="/images/wait.gif" />
         </div>)
 
-        var page2=<div id={"page2"} style={{display:"none"}}>
+        var page2=<div  id={"page2"} style={{padding:"10px"}}>
                     <div className={"row"}>
                         <div className={"col-md-12"}>    
                             <br/>
@@ -569,12 +632,14 @@ export default class Explorer extends Component {
                                                 
                                                 <div className={"row"}>
                                                     <div className={"col-md-12"}>
+                                                        <center>
                                                         <label className={"label4"}>SMART POOL KEY ETH BALANCE</label>
                                                         <br/>
                                                         <h1><span className={"eth_balance"}></span></h1>
                                                         <font size={2}>ETH</font>
                                                     
                                                         <br/>
+                                                        </center>
                                                     </div>
                                                 </div>    
                                                 <br/>                        
@@ -592,9 +657,11 @@ export default class Explorer extends Component {
                                                 
                                                 <div className={"row"}>
                                                     <div className={"col-md-12"}>
+                                                        <center>
                                                         <label className={"label4"}>ETH RECEIVED FROM POOL</label>
                                                         <h1><span className={"received"}></span></h1> 
                                                         <font size={2}>ETH</font>
+                                                        </center>
                                                     </div>
                                                 </div>                            
                                                 
@@ -624,25 +691,29 @@ export default class Explorer extends Component {
                                         
                                         <div className={"row"}>
                                             <div className={"col-md-4"}>    
-                                                <label className={"label4"}>MIN PER DONOR</label>
-                                                <h1><span className={"min_per_contrib"}></span></h1> 
-                                                <font size={2}>ETH</font>
-                                                <br/>
+                                                <center>
+                                                    <label className={"label4"}>MIN PER DONOR</label>
+                                                    <h1><span className={"min_per_contrib"}></span></h1> 
+                                                    <font size={2}>ETH</font>
+                                                    <br/>
+                                                </center>
                                                 
                                             </div>
                                             <div className={"col-md-4"}>    
-                                                <label className={"label4"}>MAX PER DONOR</label>
-                                                <h1><span className={"max_per_contrib"}></span></h1> 
-                                                <font size={2}> ETH</font>
-                                                <br/>
+                                                <center>
+                                                    <label className={"label4"}>MAX PER DONOR</label>
+                                                    <h1><span className={"max_per_contrib"}></span></h1> 
+                                                    <font size={2}> ETH</font>
+                                                    <br/>
+                                                </center>
                                                 
                                             </div>
                                             <div className={"col-md-4"}>    
-                                                <label className={"label4"}>MAX DONATION</label>
-                                                <h1><span className={"max_contrib"}></span></h1> 
-                                                <font size={2}> ETH</font>
-
-                                                
+                                                <center>
+                                                    <label className={"label4"}>MAX DONATION</label>
+                                                    <h1><span className={"max_contrib"}></span></h1> 
+                                                    <font size={2}> ETH</font>
+                                                </center>                                                
                                             </div>
                                         </div>
                                         <div className={"row"}>
@@ -655,8 +726,8 @@ export default class Explorer extends Component {
                                 </div>
                                 <div className={"col-md-6"}>    
                                         <div className={"m-portlet m-portlet--tab"}>
-                                            <div className={"m-portlet__head"}>     
-                                                <br/><br/>
+                                            <div className={"m-portlet__head"} style={{padding:"10px"}}>     
+                                                <br/>
                                                 <div className={"row"}>
                                                     <div className={"col-md-12"}>
                                                         <center>
@@ -664,6 +735,7 @@ export default class Explorer extends Component {
                                                             Status: Open
                                                         </label>
                                                         <br/>
+                                                        
                                                         <div id={"contrib-stat"} style={{height: "250px"}}></div>
                                                         <br/>
                                                         </center>
@@ -689,7 +761,11 @@ export default class Explorer extends Component {
                                                                 <input id={"send_amt"} 
                                                                 style={{height:"40px"}} 
                                                                 className={"form-control m-input m-input--air m-input--pill"} 
-                                                                value={1} />
+                                                                value={self.state.send_amt} 
+                                                                onChange={(e) => {
+                                                                    self.setState({send_amt:parseInt(e.target.value)})
+                                                                }}
+                                                                />
                                                                 <a href='#' 
                                                                 className={"btn btn-primary"} 
                                                                 id={"send_ether"}>Send Ether
@@ -722,7 +798,7 @@ export default class Explorer extends Component {
                         </div>
         if (!self.state.page || self.state.page == 'page1')
             return page1;
-        else if (self.state.page=='loading')
+        else if (self.state.page == 'loading')
             return loading;
         else if (self.state.page == 'page2')
             return page2;
