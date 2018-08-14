@@ -16,6 +16,7 @@ import Editor from './layouts/Editor/Editor'
 import Dialog from './layouts/Dialog/Dialog'
 import Explorer from './layouts/Explorer/Explorer'
 import View from './layouts/Browser/View'
+import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
 
 
 @withRouter
@@ -64,6 +65,8 @@ export default class App extends Component {
                   <Route exact path="/explorer.html" component={Explorer} />
                   <Route exact path="/map" component={Map} />
                   <Route exact path="/map.html" component={Map} />
+                  <Route exact path="/pool" component={SmartPoolKey} />
+                  <Route exact path="/pool.html" component={SmartPoolKey} />
                   <Route exact path="/view" component={View} />
                   <Redirect from="*" to="/" />
               </Switch>
