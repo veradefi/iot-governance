@@ -1,4 +1,5 @@
 import SmartPoolKey from './solc/contracts/SmartPoolKey.json'
+import PoolKey from './solc/contracts/PoolKey.json'
 
 const drizzleOptions = {
   web3: {
@@ -10,7 +11,8 @@ const drizzleOptions = {
     }
   },
   contracts: [
-    SmartPoolKey
+    SmartPoolKey,
+    //PoolKey
   ],
   //events: {
   //  SimpleStorage: ['StorageSet']

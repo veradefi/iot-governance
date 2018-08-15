@@ -24,7 +24,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 //const routingMiddleware = routerMiddleware(browserHistory)
 const sagaMiddleware = createSagaMiddleware()
 
-console.log(generateContractsInitialState);
+//console.log(generateContractsInitialState);
 
 const initialState = {
   contracts: generateContractsInitialState(drizzleOptions)
@@ -34,7 +34,7 @@ const initialState = {
 
 const store = createStore(
   reducer,
-  //initialState,
+  initialState,
   composeEnhancers(
     applyMiddleware(
       thunkMiddleware,

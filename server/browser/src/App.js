@@ -22,6 +22,9 @@ import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
 @withRouter
 export default class App extends Component {
 
+  constructor(props, context) {
+    super(props)
+  }
   componentDidMount() {
     
   }
