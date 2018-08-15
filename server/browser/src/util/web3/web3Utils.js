@@ -326,7 +326,7 @@ export const get_keyAuth = (beneficiary, cb) =>
          var Key = contract(key_artifacts);                
          Key.setProvider(window.web3.currentProvider);
          return SmartKey.deployed().then(function(contractInstance) {
-            console.log("web3Utils:get_KeyAuth")
+                  console.log("web3Utils:get_KeyAuth")
           
                   var eth1=1000000000000000000;
                   return contractInstance.getSmartKey.call(beneficiary.toLowerCase(), {from: window.address}).then(function(keyAddress) {
@@ -528,8 +528,23 @@ export const add_pool = (beneficiary, max_contrib, max_per_contrib, min_per_cont
   }
   
   
-  
-  
+
+export const get_web3 = () => {
+    return window.web3;
+}
+
+export const get_pool_contract_cfg = (poolkey) => {
+    console.log(poolkey_artifacts)
+      var jsonInterface=poolkey_artifacts.abi.slice(0);
+      console.log(jsonInterface)
+      var poolkey_contract=new window.web3.eth.Contract(jsonInterface, poolkey);
+      var contractConfig = {
+        contractName: poolkey,
+        web3Contract: poolkey_contract
+      }
+      return contractConfig;
+}
+
 export const get_pool = (poolkey, callback) =>
   {
       if (poolkey != '' && poolkey != '0x0') {

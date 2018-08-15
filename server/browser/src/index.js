@@ -26,13 +26,13 @@ getWeb3
 
 var basename="/iotpedia"
 ReactDOM.render((
-  <DrizzleProvider options={drizzleOptions}>
+  <DrizzleProvider options={drizzleOptions} >
     <Provider store={store}>
       <LoadingContainer>
 
-      <BrowserRouter basename="/">
-        <App />
-      </BrowserRouter>
+        <BrowserRouter basename="/">
+          <App />
+        </BrowserRouter>
       </LoadingContainer>
       </Provider>
     </DrizzleProvider>

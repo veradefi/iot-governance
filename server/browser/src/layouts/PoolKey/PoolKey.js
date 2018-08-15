@@ -4,12 +4,17 @@ import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import * as web3Utils from "../../util/web3/web3Utils";
 import {Springy, Graph, Node} from "springy";
+import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
+import { drizzleConnect } from 'drizzle-react'
+import PoolKeyContract from '../../solc/contracts/PoolKey.json'
+
 var $ = require ('jquery');
 
 
 
 const stateToProps = state => {
     return {
+        drizzleStatus: state.drizzleStatus
       
     };
   };
@@ -29,33 +34,39 @@ const dispatchToProps = dispatch => {
         closeDialog: () => {
             dispatch(actions.closeDialog());
         },
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+
     };
 };
 
-@connect(stateToProps, dispatchToProps)
-export default class Explorer extends Component {
-  constructor(props) {
-    super(props)
-    var self=this;
 
-    this.state={
-        transferAmt:1,
-        isSmartKey:false,
-        isBrowse:false,
-        isWeb:false,
-        isPool:true,
-        max_contrib:10000,
-        max_per_contrib:100000,
-        min_per_contrib:1,
-        fee:5,
-        auto:"0",
-        send_amt:1        
-    }
-    self.graph={}; 
-    self.cursor=""
-    self.cursor_subURL = "";
-    self.facts=[];
-    
+class PoolKey extends Component {
+  
+    constructor(props, context) {
+        super(props)
+        var self=this;
+        console.log(props.drizzleStatus)
+        console.log(context.drizzle)
+        this.state={
+            transferAmt:1,
+            isSmartKey:false,
+            isBrowse:false,
+            isWeb:false,
+            isPool:true,
+            max_contrib:10000,
+            max_per_contrib:100000,
+            min_per_contrib:1,
+            fee:5,
+            auto:"0",
+            send_amt:1        
+        }
+        self.graph={}; 
+        self.cursor=""
+        self.cursor_subURL = "";
+        self.facts=[];
+        
   }
 
   
@@ -161,7 +172,15 @@ export default class Explorer extends Component {
        //$('#page1').hide();
        //$('#loading').show();
        //$('#page2').hide();
-      console.log("Page2 " + address);
+       console.log("Page2 " + address);
+       var poolcfg=Object.assign({}, web3Utils.get_pool_contract_cfg(address));
+       var events=[];
+       var web3=web3Utils.get_web3();
+       var drizzle=this.context.drizzle;
+       //this.context.drizzle.addContract({poolcfg, events})
+       
+       this.props.addContract(drizzle, poolcfg, events, web3) 
+       self.setState({poolkey_addr:address});
        web3Utils.get_pool(address, self.fill_page2);
     }
     
@@ -169,8 +188,9 @@ export default class Explorer extends Component {
     componentDidMount() {
         var self=this;
         $('#fee').on('change', function(e) {
+
+
             $('#fee_struct').show();
-            
             var fee=parseFloat($('#fee').val());
             var you=fee - 0.5;
             var you_msg = you + '%';
@@ -256,7 +276,7 @@ export default class Explorer extends Component {
 
     render() {
         var self=this;
-    var page1=<div style={{padding:"10px"}} id={"page1"}>
+        var page1=<div style={{padding:"10px"}} id={"page1"}>
 
                           <br/>
                           <center><label className={"title2"}>Find Smart Pool Key</label></center>
@@ -635,7 +655,8 @@ export default class Explorer extends Component {
                                                         <center>
                                                         <label className={"label4"}>SMART POOL KEY ETH BALANCE</label>
                                                         <br/>
-                                                        <h1><span className={"eth_balance"}></span></h1>
+                                                        <h1><span className={"eth_balance"}>
+                                                        </span></h1>
                                                         <font size={2}>ETH</font>
                                                     
                                                         <br/>
@@ -660,6 +681,8 @@ export default class Explorer extends Component {
                                                         <center>
                                                         <label className={"label4"}>ETH RECEIVED FROM POOL</label>
                                                         <h1><span className={"received"}></span></h1> 
+                                                        <AccountData accountIndex="0" units="ether" precision="3" />
+                                                        <ContractData contract={self.state.poolkey_addr} method="max_per_contrib" units="ether" precision="3" />
                                                         <font size={2}>ETH</font>
                                                         </center>
                                                     </div>
@@ -804,3 +827,10 @@ export default class Explorer extends Component {
             return page2;
     }
 }
+
+PoolKey.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+
+export default drizzleConnect(PoolKey, stateToProps, dispatchToProps)

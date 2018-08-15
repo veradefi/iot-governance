@@ -13,4 +13,5 @@ export {
     viewMap,
     showDialog,
     closeDialog,
+    addContract,
   } from "./items";
