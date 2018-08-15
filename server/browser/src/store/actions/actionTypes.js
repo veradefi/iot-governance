@@ -15,3 +15,5 @@ export const VIEW_NODE = "VIEW_NODE";
 
 export const SHOW_DIALOG = "SHOW_DIALOG";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
+
+export const ADD_CONTRACT = "ADD_CONTRACT";

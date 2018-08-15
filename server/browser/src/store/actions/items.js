@@ -47,3 +47,7 @@ export const showDialog = (show, content, dialogType='large') => {
 export const closeDialog = () => {
     return { type: actionTypes.CLOSE_DIALOG,  };
 };
+
+export const addContract = ( drizzle, contractConfig, events, web3) => {
+    return { type: actionTypes.ADD_CONTRACT,  drizzle, contractConfig, events, web3 };
+};
