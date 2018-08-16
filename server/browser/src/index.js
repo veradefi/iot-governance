@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import getWeb3 from './util/web3/getWeb3'
 import { DrizzleProvider } from 'drizzle-react'
 import drizzleOptions from './drizzleOptions'
-import { LoadingContainer } from 'drizzle-react-components'
+import LoadingContainer from './LoadingContainer'
 // Layouts
 import App from './App'
 
