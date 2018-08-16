@@ -128,7 +128,7 @@ class ContractDAO extends Component {
         );
         */
         return <div id={this.props.morris} style={{height: "230px"}} >
-        <img src={"/images/wait.gif"} width={10} onLoad={() => {
+        <img src={"images/wait.gif"} width={10} onLoad={() => {
             window.Morris.Donut({
                 element: this.props.morris,
                 data: [
