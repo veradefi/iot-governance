@@ -1,11 +1,11 @@
 accounts/
-server/browser-tools/htdocs/js/contracts/
-server/browser-tools/htdocs/js/
-server/browser/src/solc/contracts/
-server/browser/build/js/contracts/
-server/browser/migrations/src/solc/contracts/
-bin/
-build/
+browser_tools/web_app/htdocs/js/contracts/
+browser_tools/web_app/htdocs/js/
+src/solc/contracts/
+build/js/contracts/
+migrations/src/solc/contracts/
+browser_tools/bin/
+browser_tools/build/
 *.swp
 *.pyc
 
