@@ -110,7 +110,7 @@ The Universal IoT Blockchain Event Listener to access The Universal IoT Blockcha
 
 ::
 	
-    python server/evets.py
+    python server/events.py
     
 IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
