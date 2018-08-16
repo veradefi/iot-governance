@@ -30,7 +30,7 @@ ReactDOM.render((
     <Provider store={store}>
       <LoadingContainer>
 
-        <BrowserRouter basename="/">
+        <BrowserRouter basename={basename}>
           <App />
         </BrowserRouter>
       </LoadingContainer>
