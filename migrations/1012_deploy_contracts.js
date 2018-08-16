@@ -14,7 +14,7 @@ var admins=[
             
 module.exports = async (deployer) => {
 
-    SmartKey.deployed().then(function(contractInstance) {
+    await SmartKey.deployed().then(function(contractInstance) {
         
         contractInstance.addAdmin(PublicOffering.address, {from:web3.eth.accounts[0]});
         contractInstance.addAdmin(SmartKey.address, {from:web3.eth.accounts[0]});
