@@ -5,6 +5,6 @@ export PATH
 rm -fr bin/*
 rm -fr build/*
 truffle compile
-truffle migrate --reset --network testrpc
+truffle migrate --reset --network development
 sh build_solcjs.sh
 
