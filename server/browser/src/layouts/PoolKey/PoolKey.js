@@ -5,6 +5,8 @@ import { connect, Provider } from "react-redux";
 import * as web3Utils from "../../util/web3/web3Utils";
 import {Springy, Graph, Node} from "springy";
 import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
+import ContractDAO from './ContractDAO'
+import AccountDAO from './AccountDAO'
 import { drizzleConnect } from 'drizzle-react'
 import PoolKeyContract from '../../solc/contracts/PoolKey.json'
 
@@ -14,8 +16,10 @@ var $ = require ('jquery');
 
 const stateToProps = state => {
     return {
-        drizzleStatus: state.drizzleStatus
-      
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+
     };
   };
   
@@ -41,6 +45,16 @@ const dispatchToProps = dispatch => {
     };
 };
 
+const getParameterByName = (name, url) => {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+  
 
 class PoolKey extends Component {
   
@@ -55,7 +69,7 @@ class PoolKey extends Component {
             isBrowse:false,
             isWeb:false,
             isPool:true,
-            max_contrib:10000,
+            max_contrib:1000000,
             max_per_contrib:100000,
             min_per_contrib:1,
             fee:5,
@@ -77,33 +91,30 @@ class PoolKey extends Component {
            //$('#page1').hide();
            //$('#loading').hide();
            //$('#page2').show();
-           if (!autoDistribute) {
-               $('.distribute').show();
-           }
-            console.log(eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee);
-           $('.eth_balance').html('' + eth_balance);
-           $('#distribute_ether').html('Distribute Balance to ' + members.length + ' Members');
-           $('.eth_sent').html(eth_sent);
-           $('.max_contrib').html( max_contrib);
-           $('.max_per_contrib').html(max_per_contrib);
-           $('.min_per_contrib').html(min_per_contrib);
-           $('.fee').html(fee);
-           $('.received').html(received);
-           $('.progress-bar').val(eth_sent/max_per_contrib * 100);
-           $('#poolkey').html('<pre>' + address + '</pre>');
-           if ( contrib_total) {
+          
+           //console.log(eth_sent, contrib_total, max_contrib, max_per_contrib, min_per_contrib, fee);
+           //$('.eth_balance').html('' + eth_balance);
+           //$('.eth_sent').html(eth_sent);
+           //$('.max_contrib').html( max_contrib);
+           //$('.max_per_contrib').html(max_per_contrib);
+           //$('.min_per_contrib').html(min_per_contrib);
+           //$('.fee').html(fee);
+           //$('.received').html(received);
+           //$('.progress-bar').val(eth_sent/max_per_contrib * 100);
+           //$('#poolkey').html('<pre>' + address + '</pre>');
+           /*if ( contrib_total || max_contrib) {
            window.Morris.Donut({
               element: 'contrib-stat',
               data: [
                 {label: "Member Donated ETH", value: contrib_total},
-                {label: "ETH Received", value:  received},
+                {label: "Max Contribution", value:  max_contrib},
               ]
             });
             $('#contrib-stat').show();
 
-        } else {
-            $('#contrib-stat').hide();
-        }
+            } else {
+                $('#contrib-stat').hide();
+            }
             
             
            $('#send_ether').on('click', function(e) {
@@ -112,6 +123,11 @@ class PoolKey extends Component {
                    web3Utils.send_ether(address, amt);
            });       
            
+           if (!autoDistribute) {
+               $('.distribute').show();
+           }
+            
+           $('#distribute_ether').html('Distribute Balance to ' + members.length + ' Members');
            function done_sending(res) {
              //$('#page1').hide();
              //$('#loading').hide();
@@ -131,10 +147,10 @@ class PoolKey extends Component {
                      web3Utils.distribute_pool_ether(address, done_sending);
            });       
            
-           
            $('#transactions').html('');
            web3Utils.get_pool_transactions(address, self.fill_page2_transactions);
-         } else {
+            */
+        } else {
              //$('#page1').show();
              //$('#loading').hide();
              //$('#page2').hide();
@@ -181,7 +197,11 @@ class PoolKey extends Component {
        
        this.props.addContract(drizzle, poolcfg, events, web3) 
        self.setState({poolkey_addr:address});
-       web3Utils.get_pool(address, self.fill_page2);
+
+       //web3Utils.get_pool(address, self.fill_page2);
+       //$('#transactions').html('');
+       //web3Utils.get_pool_transactions(address, self.fill_page2_transactions);
+       self.setState({page:'page2'})
     }
     
     
@@ -271,6 +291,11 @@ class PoolKey extends Component {
         }
         
         web3Utils.init_wallet(eth_salt, callback);
+
+        var find_key=getParameterByName('key'); 
+        if (find_key) {
+            self.page2(find_key);
+        }
       }
     
 
@@ -629,7 +654,7 @@ class PoolKey extends Component {
                     <div className={"row"}>
                         <div className={"col-md-12"}>    
 
-                            <center><h3><span id={"poolkey"}></span></h3></center>
+                            <center><h3><span id={"poolkey"}><pre>{self.state.poolkey_addr}</pre></span></h3></center>
 
                         </div>
                     </div>
@@ -656,7 +681,13 @@ class PoolKey extends Component {
                                                         <label className={"label4"}>SMART POOL KEY ETH BALANCE</label>
                                                         <br/>
                                                         <h1><span className={"eth_balance"}>
-                                                        </span></h1>
+
+                                                        </span>
+                                                        <AccountDAO contract={self.state.poolkey_addr} 
+                                                        getBalance={self.state.poolkey_addr}
+                                                        units="ether" precision="3" />
+                                                        
+                                                        </h1>
                                                         <font size={2}>ETH</font>
                                                     
                                                         <br/>
@@ -664,11 +695,41 @@ class PoolKey extends Component {
                                                     </div>
                                                 </div>    
                                                 <br/>                        
-                                                <div className={"row distribute"} style={{display:"none"}}>
+                                                <div className={"row distribute"}>
                                                     <div className={"col-md-12"}>
-                                                        <a href='#' className={"btn btn-primary"} id={"distribute_ether"}>
-                                                            Distribute Ether to Members
-                                                        </a>
+                                                        <center>
+                                                        <ContractDAO contract={self.state.poolkey_addr} 
+                                                        button={"distribute_ether"}
+                                                        button_label={
+                                                            <div> Distribute Ether to &nbsp;
+                                                                <ContractDAO contract={self.state.poolkey_addr} 
+                                                                    method="getMembers"
+                                                                    length={true} 
+                                                                    methodArgs={[]} />
+                                                                    &nbsp; Members 
+                                                            </div> }
+                                                        button_action={
+                                                            () => {
+                                                            var eth1=1000000000000000000;
+                                                            //$('#page1').hide();
+                                                            //$('#loading').show();
+                                                            //$('#page2').hide();
+                                                            self.setState({page:'loading'})
+                                                  
+                                                       
+                                                            const done_sending= (res) => {
+                                                                //$('#page1').hide();
+                                                                //$('#loading').hide();
+                                                                //$('#page2').show();
+                                                                self.setState({page:'page2'})
+                                                              
+                                                            }
+                                                            web3Utils.distribute_pool_ether(self.state.poolkey_addr, done_sending);
+                                                        }}
+                                                        method={"autoDistribute"}
+                                                        hideOnTrue={true}
+                                                        />
+                                                        </center>
                                                     </div>
                                                 </div>
                                                 
@@ -680,9 +741,15 @@ class PoolKey extends Component {
                                                     <div className={"col-md-12"}>
                                                         <center>
                                                         <label className={"label4"}>ETH RECEIVED FROM POOL</label>
-                                                        <h1><span className={"received"}></span></h1> 
-                                                        <AccountData accountIndex="0" units="ether" precision="3" />
-                                                        <ContractData contract={self.state.poolkey_addr} method="max_per_contrib" units="ether" precision="3" />
+                                                        <h1><span className={"received"}>
+                                                        </span>
+                                                        <ContractDAO contract={self.state.poolkey_addr} 
+                                                        method="received" 
+                                                        methodArgs={[self.props.accounts[0]]} 
+                                                        units="ether" precision="3" />
+                                                        
+                                                        </h1> 
+                                                        
                                                         <font size={2}>ETH</font>
                                                         </center>
                                                     </div>
@@ -693,22 +760,7 @@ class PoolKey extends Component {
                                         
                                         <div className={"row"}>
                                             <div className={"col-md-12"}>
-                                                    <br/><br/>
-                                                    <h4>
-                                                        
-                                                        <div className={"progress m-progress--sm"}>
-                                                            <div className={"progress-bar m--bg-accent"} 
-                                                                role="progressbar" 
-                                                                style={{height:"35px"}} 
-                                                                aria-valuenow="0" 
-                                                                aria-valuemin="0" 
-                                                                aria-valuemax="100" >
-                                                            <b><span className={"eth_sent"}></span></b>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </h4>
-                                                    <br/><br/>
+                                                    <hr/>
                                             </div>
                                         </div>
                                         
@@ -716,7 +768,12 @@ class PoolKey extends Component {
                                             <div className={"col-md-4"}>    
                                                 <center>
                                                     <label className={"label4"}>MIN PER DONOR</label>
-                                                    <h1><span className={"min_per_contrib"}></span></h1> 
+                                                    <h1><span className={"min_per_contrib"}></span>
+                                                    <ContractDAO contract={self.state.poolkey_addr} 
+                                                        method="min_per_contrib" 
+                                                        methodArgs={[]} 
+                                                        units="ether" precision="3" />
+                                                    </h1> 
                                                     <font size={2}>ETH</font>
                                                     <br/>
                                                 </center>
@@ -725,7 +782,13 @@ class PoolKey extends Component {
                                             <div className={"col-md-4"}>    
                                                 <center>
                                                     <label className={"label4"}>MAX PER DONOR</label>
-                                                    <h1><span className={"max_per_contrib"}></span></h1> 
+                                                    <h1><span className={"max_per_contrib"}></span>
+                                                    <ContractDAO contract={self.state.poolkey_addr} 
+                                                        method="max_per_contrib" 
+                                                        methodArgs={[]} 
+                                                        units="ether" precision="3" />
+
+                                                    </h1> 
                                                     <font size={2}> ETH</font>
                                                     <br/>
                                                 </center>
@@ -734,16 +797,52 @@ class PoolKey extends Component {
                                             <div className={"col-md-4"}>    
                                                 <center>
                                                     <label className={"label4"}>MAX DONATION</label>
-                                                    <h1><span className={"max_contrib"}></span></h1> 
+                                                    <h1><span className={"max_contrib"}></span>
+                                                    <ContractDAO contract={self.state.poolkey_addr} 
+                                                        method="max_contrib" 
+                                                        methodArgs={[]} 
+                                                        units="ether" precision="3" />
+
+                                                    </h1> 
                                                     <font size={2}> ETH</font>
                                                 </center>                                                
                                             </div>
+                                            
                                         </div>
                                         <div className={"row"}>
-                                            <div className={"col-md-12"}>
-                                                <br/><br/><br/>    
-                                            </div>
-                                        </div> 
+                                                        <div className={"col-md-12"}>
+                                                            <hr/>
+                                                        </div>
+                                        </div>
+                                        <div className={"row"}>
+                                                        <div className={"col-md-12"}>
+                                                            <br/>
+                                                            <div style={{padding:"10px"}}>
+                                                                <div className={"input-group"}>
+                                                                    <input id={"send_amt"} 
+                                                                    style={{height:"40px"}} 
+                                                                    className={"form-control m-input m-input--air m-input--pill"} 
+                                                                    value={self.state.send_amt} 
+                                                                    onChange={(e) => {
+                                                                        self.setState({send_amt:parseInt(e.target.value)})
+                                                                    }}
+                                                                    />
+                                                                    <a href='#' 
+                                                                    onClick={() => {
+                                                                        var eth1=1000000000000000000;
+                                                                        var amt=self.state.send_amt * eth1;
+                                                                        web3Utils.send_ether(self.state.poolkey_addr, amt);
+                                                                    }}
+                                                                    className={"btn btn-primary"} 
+                                                                    id={"send_ether"}>Send Ether
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+                                                            <br/>
+
+                                                        </div>
+                                                    </div>
                                     </div>
                                 </div>
                                 </div>
@@ -758,8 +857,15 @@ class PoolKey extends Component {
                                                             Status: Open
                                                         </label>
                                                         <br/>
-                                                        
-                                                        <div id={"contrib-stat"} style={{height: "250px"}}></div>
+                                                        <ContractDAO contract={self.state.poolkey_addr} 
+                                                        morris={"contrib_stat"}
+                                                        morris_label={"Members Donated"}
+                                                        method={"contrib_amount"}
+                                                        morris_label2={"Max Donation"}
+                                                        method2={"max_contrib"}
+                                                        methodArgs={[]} 
+                                                        methodArgs2={[]} 
+                                                        units="ether" precision="3" />
                                                         <br/>
                                                         </center>
                                                         </div>
@@ -768,34 +874,30 @@ class PoolKey extends Component {
                                                     <div className={"row"}>
                                                         <div className={"col-md-6"}>
                                                             <label className={"label4"}>TRANSACTION FEE</label>
-                                                            <h1><span className={"fee"}></span></h1>
+                                                            <h1><span className={"fee"}></span>
+                                                            <ContractDAO contract={self.state.poolkey_addr} 
+                                                        method="fee" 
+                                                        //methodArgs={[]} 
+                                                        value_post_process={(val) => {
+                                                            return 1/parseFloat(val.toString()) * 100
+                                                        }} />
+                                                            </h1>
                                                             <font size={2}>% Fee </font><br/>
                                                         </div>
                                                         <div className={"col-md-6"}>
                                                             <label className={"label4"}>ETH SENT TO POOL</label>
-                                                            <h1><span className={"eth_sent"}></span></h1>
+                                                            <h1><span className={"eth_sent"}></span>
+                                                            <ContractDAO contract={self.state.poolkey_addr} 
+                                                        method="isMember" 
+                                                        methodArgs={[self.props.accounts[0]]} 
+                                                        units="ether" precision="3" />
+
+                                                            </h1>
                                                             <font size={2}>ETH</font><br/>
                                                             <br/>
                                                         </div>
                                                     </div>                            
-                                                    <div className={"row"}>
-                                                        <div className={"col-md-12"}>
-                                                            <div className={"input-group"}>
-                                                                <input id={"send_amt"} 
-                                                                style={{height:"40px"}} 
-                                                                className={"form-control m-input m-input--air m-input--pill"} 
-                                                                value={self.state.send_amt} 
-                                                                onChange={(e) => {
-                                                                    self.setState({send_amt:parseInt(e.target.value)})
-                                                                }}
-                                                                />
-                                                                <a href='#' 
-                                                                className={"btn btn-primary"} 
-                                                                id={"send_ether"}>Send Ether
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                   
                                                     <br/>
 
                                                     </center> 
@@ -814,6 +916,49 @@ class PoolKey extends Component {
                                                     <hr/>
                                                 <div id={"transactions"}>
                                                 </div>
+                                                <ContractDAO contract={self.state.poolkey_addr} 
+                                                    method="getTransactionCount"
+                                                    methodArgs={[self.props.accounts[0]]}
+                                                    value_post_process={(val)=> {
+                                                        var items=[];
+                                                        for (var i=val -1; i>= 0; i--) {
+                                                            var idx=i;
+                                                            items.push(<ContractDAO key={idx} contract={self.state.poolkey_addr} 
+                                                            method="transactions" 
+                                                            methodArgs={[self.props.accounts[0], idx]}
+                                                            object_values={['date','account','transaction_type','amount']} 
+                                                            object_labels={['Date','Address','Type','Amount']} 
+                                                            object_classes={['col-md-3','col-md-5','col-md-2','col-md-2']}
+                                                            object_values_post_process={[
+                                                                (date) => {
+                                                                    var dateTime = new Date(parseInt(date) * 1000);
+                                                                    date=dateTime.toISOString(); 
+                                                                    return date;
+                                                                },
+                                                                (address) => {
+                                                                    return address
+                                                                },
+                                                                (tx_type) => {
+                                                                    var tx='Incoming';
+                                                                    if (tx_type > 0) {
+                                                                        tx='Outgoing';
+                                                                    }
+                                                                    return tx;
+                                                                },
+                                                                (amount) => {
+
+                                                                    var eth1=1000000000000000000;
+                                                                    return (amount / eth1) + " ETH"
+                                                                }]} 
+                                                                object_add_hr={true}
+                                                            />);
+                                                        }
+                                                        return items;
+                                                    }
+                                                }
+                                                    />
+                                              
+                                                        
                                             </div>
                                     </div>
                                 </div>
@@ -823,8 +968,16 @@ class PoolKey extends Component {
             return page1;
         else if (self.state.page == 'loading')
             return loading;
-        else if (self.state.page == 'page2')
-            return page2;
+        else if (self.state.page == 'page2') {
+            //console.log(self.props.drizzleStatus)
+            if (self.props.drizzleStatus.initialized && 
+                self.state.poolkey_addr &&
+                this.props.contracts[self.state.poolkey_addr] && 
+                this.props.contracts[self.state.poolkey_addr].synced)
+                return page2;
+            else
+                return loading;
+        }
     }
 }
 
