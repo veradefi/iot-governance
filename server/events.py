@@ -64,7 +64,7 @@ def getNode(graphRoot):
 def getContract(item, network, address=None, prefix=""):
     abi = json.loads(open('bin/' + prefix +  item + '_sol_' + item + '.abi').read())
     bin = open('bin/' + prefix + item + '_sol_' +  item + '.bin').read()
-    json_data=open('build/contracts/' + item + '.json').read()
+    json_data=open('src/solc/contracts/' + item + '.json').read()
     data = json.loads(json_data)
     
     if address is None:
