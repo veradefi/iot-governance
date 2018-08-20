@@ -292,15 +292,16 @@ log = (msg) => {
         var check_key = () => {
            
            var url=self.props.location.url;
-           if (!url) {
-               url='https://iotblock.io/cat'
-               window.location='/iotpedia/browser';
-           }
            var param= getParameterByName("url");
            if (param) {
                url=param;
            }
-       
+           if (!url) {
+                url='https://iotblock.io/cat'
+                window.location='/iotpedia/browser';
+            }
+
+           
 
            console.log(url); 
                                           
