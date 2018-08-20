@@ -552,53 +552,12 @@ render() {
                                 </div>
 
                                 { isOwner ? (
-                                    <div>
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
                                         <hr/>
                                     </div>
                                 </div>    
 
-                                <div className={"row"}>
-                                    <div className={"col-md-12"}>
-                                        <center>
-                                        <label className={"title2"}>API Key</label>                          
-                                        </center>  
-                                        <br/>
-                                    </div>
-                                </div>
-                                <div className={"row"}>
-                                    <div className={"col-md-6"} style={{ textAlign: "right" }}>    
-                                                        <label className={"label6"}>ETH Donation per Transaction:</label>
-                                    </div>
-
-                                    <div className={"col-md-6"} style={{ textAlign: "left" }}>
-                                                <div id={"view_api"}>
-                                                        <div className={"input-group"}>
-                                                            <select id={"eth_contrib"} 
-                                                                    style={{width:"90%",
-                                                                            height:"45px",
-                                                                            borderRadius:"5px",
-                                                                            border: "solid 1px #d8d8d8"}} 
-                                                                    className={"div-control m-input m-input--air"}
-                                                            >
-                                                                <option value={"0.0001"}>0.0001 ETH</option>
-                                                                <option value={"0.001"}>0.001 ETH</option>
-                                                                <option value={"0.01"}>0.01 ETH</option>
-                                                                <option value={"0.1"}>0.1 ETH</option>
-                                                                <option value={"1"}>1 ETH</option>
-                                                                
-                                                            </select>
-                                                        </div>
-                                                           
-                                                        </div>
-                                                        <br/>
-                                                </div>
-                                                
-
-                                            
-                                        </div>
-                                </div>
                                  ) : null}
                                 <div id={"view_api_loading"} style={{display:"none"}}>
                                     <center><img src="images/wait.gif" width={100} /></center>
