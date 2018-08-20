@@ -439,6 +439,20 @@ def getNodeBalance(graphRoot):
     return cat
 
 
+def wait_tx(tx):
+    tx_log=web3.eth.getTransaction(tx)
+    tx_receipt=web3.eth.getTransactionReceipt(tx)
+
+    while addr == '0x0000000000000000000000000000000000000000' and (tx_receipt is None or tx_log['blockNumber'] is None):
+         tx_log=web3.eth.getTransaction(tx)
+         #print('getTransaction',tx_log)
+         tx_receipt=web3.eth.getTransactionReceipt(tx)
+         #print('getTransactionReceipt',tx_receipt)
+         #addr=root.call({'from':address}).getItem(href)
+         #print(href, 'Node Address',addr)
+         print("Waiting for Transaction Completion")
+         sleep(10)
+
 def upsertNode(graphAddr, href, auth, contrib):
     graphAddr=web3.toChecksumAddress(graphAddr)
     tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
@@ -644,9 +658,10 @@ def setHealth(health, href, eth_contrib):
 
 
     try:     
-        print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
-        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
+
+        print('transferEth',wait_tx(graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health)))
+        print ('upsertMetaData',wait_tx(graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health))))
+        print ('upsertMetaData',wait_tx(graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health])))
     except Exception as e:
         print (e)
         traceback.print_exc()
