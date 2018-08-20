@@ -336,7 +336,14 @@ populateUrls = (urls) => {
     var self=this;
     var new_urls=urls.slice(0)
     new_urls.push(self.state.catalogue);
-    self.setState({catalogue_selection:new_urls});
+    var filter={};
+    var final_urls=[];
+    new_urls.map(item => {
+        if (!filter[item])
+            final_urls.push(item);
+        filter[item]=true;
+    })
+    self.setState({catalogue_selection:final_urls});
     
 
 }
