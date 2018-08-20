@@ -226,7 +226,7 @@ parseCatalogue = (url, doc) => {
         </ul>
         );
     
-        self.populateUrls(urls);
+        //elf.populateUrls(urls);
         // $('#browser').html(listHTML);
         this.setState({
             catalogue_html:listHTML,
@@ -285,16 +285,6 @@ log = (msg) => {
 }
 
 
-populateUrls = (urls) => {
-
-    $("#urls").find('option').remove().end();
-    
-    for (var i=0; i < urls.length; i++) {
-        $("#urls").append(new Option(urls[i], urls[i]));
-    }
-    $("#urls").append(new Option('https://iotblock.io' + '/cat', 'https://iotblock.io' + '/cat'));
-
-}
   componentDidMount() {
         var self=this;
         console.log("Loading Browser...")
@@ -304,6 +294,7 @@ populateUrls = (urls) => {
            var url=self.props.location.url;
            if (!url) {
                url='https://iotblock.io/cat'
+               window.location='/iotpedia/browser';
            }
            var param= getParameterByName("url");
            if (param) {
