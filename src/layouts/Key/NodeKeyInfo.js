@@ -47,7 +47,7 @@ const dispatchToProps = dispatch => {
 
 
 @connect(stateToProps, dispatchToProps)
-export default class KeyInfo extends Component {
+export default class NodeKeyInfo extends Component {
     static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
@@ -186,36 +186,60 @@ fill_new_api_info = (auth, auth_info) => {
     self.fill_api_info(auth, auth_info);        
 }
 
-get_smartkey_transactions = (href, offset, limit) => {
-    var self=this;
-   $('.loadmore').hide();
-   $.ajax({
-            beforeSend: function(xhr){
-                self.props.add_auth(xhr);
-            },
-            type: 'GET',
-            url: '/cat/getSmartKeyTx?address=' + encodeURI(self.props.myAddress) + '&offset=' + encodeURI(offset) + '&limit=' + encodeURI(limit),
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                if (parseInt(offset) == 0) {
-                    $('#transactions').html('');
-                }
-                var transactions=body["transactions"];
-                if (self.state.transactions && offset > 0) {
-                    transactions=[...self.state.transactions, ...transactions];
-                }
-                var count=parseInt(body["count"]);
-                var txParams={href, offset, limit}
-                self.setState({transactions:transactions, transactionCount:count, transactionParams:txParams});
+
+
+ 
+ 
+
+ get_smartkey_transactions = (href, offset, limit) => {
+        var self=this;
+        $('.loadmore').hide();
+        //if (parseInt(offset) == 0) {
+        //    $('#transactions').html('');
+        //}
+        $.ajax({
+                beforeSend: function(xhr){
+                    self.props.add_auth(xhr);
+                    //setHeaders(xhr);
                 
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-}
+                },
+                type: 'GET',
+                url: '/cat/getNodeSmartKeyTx?href=' + encodeURIComponent(href) + '&offset=' + encodeURIComponent(offset) + '&limit=' + encodeURIComponent(limit),
+                //data: JSON.stringify(user_item),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(body, textStatus, xhr) {
+                    var transactions=body["transactions"];
+                    if (self.state.transactions && offset > 0) {
+                        transactions=[...self.state.transactions, ...transactions];
+                    }
+                    var count=parseInt(body["count"]);
+                    var txParams={href, offset, limit}
+                    self.setState({transactions:transactions, transactionCount:count, transactionParams:txParams});
+
+                    /*
+                    if (parseInt(offset) == 0) {
+                        $('#transactions').html('');
+                    }
+                    var transactions=body["transactions"];
+                    for (var i=0; i < transactions.length; i++) {
+                        var account=transactions[i]["account"];
+                        var date=transactions[i]["date"];
+                        var amount=transactions[i]["amount"];
+                        var tx_type=transactions[i]["tx_type"];
+                        self.fill_page2_transactions(account, date, amount, tx_type)
+                    }
+                    var count=parseInt(body["count"]);
+                    self.fill_page2_transactions_load_more(href, offset, limit, count);
+                    */
+                    
+                },
+                error: function(xhr, textStatus, err) {
+                    console.log(xhr.status + ' ' + xhr.statusText);
+                }
+            });
+    }
+
 
 fill_page2_transactions = (sender, date, amount, tx_type) => {
         console.log(sender, date, amount);
@@ -283,67 +307,74 @@ fill_page2_transactions_load_more = ()  => {
 }    
 
 
-get_transfer_user_eth = (beneficiary, amount)  =>  {
-   var self=this;
-   var eth1=1000000000000000000;
-   var amt=parseFloat(amount) * eth1;
-   $('#eth_transfer').hide();
-   $('#eth_transfer_loading').show();
-   $.ajax({
-            beforeSend: function(xhr){
-                self.props.add_auth(xhr);
-            },
-            type: 'GET',
-            url: '/cat/transferUserEth?address=' + encodeURI(self.props.myAddress) + '&beneficiary=' + encodeURI(beneficiary) + '&amount=' + encodeURI(amt),
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-               $('#eth_transfer').show();
-               $('#eth_transfer_loading').hide();
-               self.props.fill_page2(self.props.myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["props"], body["health"], body["tokens"], body["isOwner"]);
-            },
-            error: function(xhr, textStatus, err) {
-               $('#eth_transfer').show();
-               $('#eth_transfer_loading').hide();
-               console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-}
-
+get_transfer_node_eth = (beneficiary, amount) => {
+    var self=this;
+    var href=this.state.keyInfo.url;
+    var eth1=1000000000000000000;
+    var amt=parseFloat(amount) * eth1;
+    $('#eth_transfer').hide();
+    $('#eth_transfer_loading').show();
+    $.ajax({
+             beforeSend: function(xhr){
+                 self.props.add_auth(xhr);
+                 //setHeaders(xhr);
+             
+             },
+             type: 'GET',
+             url: '/cat/transferNodeEth?href=' + encodeURIComponent(href) + '&beneficiary=' + encodeURIComponent(beneficiary) + '&amount=' + encodeURIComponent(amt),
+             //data: JSON.stringify(user_item),
+             contentType: "application/json; charset=utf-8",
+             dataType: 'json',
+             success: function(body, textStatus, xhr) {
+                $('#eth_transfer').show();
+                $('#eth_transfer_loading').hide();
+                self.props.get_smart_key_info();
+             },
+             error: function(xhr, textStatus, err) {
+                $('#eth_transfer').show();
+                $('#eth_transfer_loading').hide();
+                console.log(xhr.status + ' ' + xhr.statusText);
+             }
+         });
+ }
+ 
 
 setHealth = (health) => {
-   var self=this;
-   var health=parseInt(health)
-   self.hideHealthDialog();
-   $.ajax({
-            beforeSend: function(xhr){
-                self.props.add_auth(xhr);
-            },
-            type: 'GET',
-            url: '/cat/setUserHealth?address=' + encodeURI(self.props.myAddress) + '&health=' + encodeURI(health),
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-               $('#health').show();
-               $('#health_loading').hide();
-                self.props.fill_page2(self.props.myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["tokens"],  body["isOwner"]);
-            },
-            error: function(xhr, textStatus, err) {
-               $('#health').show();
-               $('#health_loading').hide();
-               console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-}
+    var self=this;
+    var href=this.state.keyInfo.url;
+    var health=parseInt(health)
+    $('#health').hide();
+    $('#health_loading').show();
+    $.ajax({
+             beforeSend: function(xhr){
+                 self.props.add_auth(xhr);
+                     //setHeaders(xhr);
+             },
+             type: 'GET',
+             url: '/cat/setHealth?href=' + encodeURIComponent(href) + '&health=' + encodeURIComponent(health),
+             //data: JSON.stringify(user_item),
+             contentType: "application/json; charset=utf-8",
+             dataType: 'json',
+             success: function(body, textStatus, xhr) {
+                //$('#health').show();
+                $('#health_loading').hide();
+                self.props.get_smart_key_info()
+                self.hideHealthDialog();
+             },
+             error: function(xhr, textStatus, err) {
+                $('#health').show();
+                $('#health_loading').hide();
+                console.log(xhr.status + ' ' + xhr.statusText);
+             }
+         });
+ }
 
 
 componentDidMount() {
     var self=this;
-    var {userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.props.keyInfo;
+    var {address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates, url}=this.props.keyInfo;
 
-    self.get_smartkey_transactions(userAddress,0,10);
+    self.get_smartkey_transactions(url,0,10);
     
     
     
@@ -352,15 +383,15 @@ componentDidMount() {
 componentWillReceiveProps(newProps) {
     var self=this;
     if (newProps.keyInfo && !(JSON.stringify(newProps.keyInfo) === JSON.stringify(this.props.keyInfo))) {
+        self.get_smartkey_transactions(newProps.keyInfo.url,0,10);
         this.setState({keyInfo:newProps.keyInfo})
-        self.get_smartkey_transactions(this.state.keyInfo.address,0,10);
     }
 
 }
 
 render() {
     var self=this;
-    var {userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.state.keyInfo;
+    var {address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.state.keyInfo;
     
    
 
@@ -497,7 +528,7 @@ render() {
                                         <div className={"col-md-6"} style={{ textAlign: "left" }}>                                                
                                         
                                             <input id={"beneficiary"} className={"form-control address_val m-input m-input--air m-input--pill"} 
-                                            placeholder={"Beneficiary Address"} defaultValue={userAddress} />
+                                            placeholder={"Beneficiary Address"} defaultValue={self.props.api_auth} />
                                             <br/>
                                         </div>
                                     </div>
@@ -507,7 +538,7 @@ render() {
                                         <div className={"col-md-6"}>
                                             <a href='#eth_transfer' 
                                                 onClick={() => {
-                                                    self.get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val());
+                                                    self.get_transfer_node_eth($('#beneficiary').val(), $('#send_amt').val());
                                                  }} 
                                                  className={"button3 form-control  btn btn-primary"} 
                                                  id={"wd_ether"}><span className={"buttonText"}>Withdraw Ether</span></a>
@@ -559,26 +590,7 @@ render() {
                                                                 
                                                             </select>
                                                         </div>
-                                                            <div className={"input-group-append"}>
-                                                                <button   
-                                                                  onClick={() => {
-                                                                    self.get_api_key();
-                                                                  }}  
-                                                                  style={{ width: "45%" }}
-                                                                className={"div-control button3 btn btn-primary"} 
-                                                                type={"button"} 
-                                                                >
-                                                                <span className={"buttonText"}>View API Key</span>
-                                                                </button>
-                                                                <a href="#auth" onClick={() => {
-                                                                    self.props.showPage2_api();
-                                                                    //self.generate_api_key();
-                                                                }}
-                                                                style={{ width: "45%" }}
-                                                                className={"div-control button3 btn btn-primary"} >
-                                                                <span className={"buttonText"}>Regenerate API Key</span></a>
-
-                                                            </div>
+                                                           
                                                         </div>
                                                         <br/>
                                                 </div>
