@@ -247,12 +247,9 @@ save_location=(node_href, lat, lng) => {
                     <span style={{verticalAlign:"middle"}}>
                         <h1> = </h1>
                     </span>
-                    <input className={"form-control"} 
-                            type={"text"} 
-                            id={mdata.id + '_val'}
-                            defaultValue={mdata.val} />
-                            
-                        <div className={"input-group-append"}>
+                    <textarea className={"form-control"} rows={60}
+                            id={mdata.id + '_val'} defaultValue={mdata.val} />
+                        <br/>
                             <button className={"btn btn-primary"} type="button"
                             onClick={() => {
                                 mdata.rel= $('#' + mdata.id + "_rel").val();
@@ -269,7 +266,6 @@ save_location=(node_href, lat, lng) => {
                                 });
 
                             }}> Save </button>
-                        </div>
                  </div>
             );
         } else if (this.state.mode && this.state.mode=='view') {
@@ -282,7 +278,7 @@ save_location=(node_href, lat, lng) => {
                              Edit 
                            </a> 
                         ] &nbsp; 
-                        {mdata.rel} = {mdata.val}
+                        {mdata.rel} <pre style={{width:"80%"}}>{mdata.val}</pre>
                         <br/>
                         {self.state.dataLoading ? (
                             <b>Processing Contribution... <br/></b>
