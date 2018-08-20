@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
-import BrowserKeyInfo from "./BrowserKeyInfo";
 import BrowserMapInfo from "./BrowserMapInfo";
 import MetaData from "./MetaData";
 import Catalogue from "./Catalogue";
@@ -11,6 +10,17 @@ import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
 var $ = require ('jquery');
 
+const getParameterByName = (name, url) => {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+  
 
 const stateToProps = state => {
     return {
@@ -235,6 +245,11 @@ initCatalogue = () => {
     //alert(url);
     var fetch_location=this.state.catalogue;
                     
+    var param= getParameterByName("url");
+    if (param) {
+        fetch_location=param;
+    }
+
     $.ajax({
             //beforeSend: function(xhr){
             //self.add_auth(xhr);

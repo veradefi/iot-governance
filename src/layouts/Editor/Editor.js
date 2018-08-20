@@ -3,16 +3,26 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
-import EditorKeyInfo from "./EditorKeyInfo";
 import EditorMapInfo from "./EditorMapInfo";
 import MetaData from "./MetaData";
 import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
+import NodeKey from "../Key/NodeKey"
 import { Link } from "react-router-dom";
 var $ = require ('jquery');
 
+const getParameterByName = (name, url) => {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
 
+  
 const stateToProps = state => {
     return {
         user_key_address:state.auth.user_key_address,
@@ -71,6 +81,7 @@ export default class Editor extends Component {
   constructor(props) {
     super(props);
 
+   
     this.state = {
         loading:true,
         isSmartKey:false,
@@ -101,7 +112,9 @@ export default class Editor extends Component {
         api_key:'',
         api_auth:'',
         transferAmt: 1,
-        catalogue:'https://iotblock.io/cat/StandardIndustrialClassification'
+        catalogue: 'https://iotblock.io/cat/StandardIndustrialClassification',
+        catalogue_url: 'https://iotblock.io/cat/StandardIndustrialClassification',
+        catalogue_selection: []
             
 
     };
@@ -145,14 +158,14 @@ add_auth = (xhr) => {
 
 browseCatalogue = () => {
     var self=this;
-    self.browse($('#browse_url').val(), function() {
+    self.browse(self.state.catalogue_url, function() {
     });
 }
 
 
 parseCatalogue = (url, doc) => {
     var self=this;
-    
+    var orig_url;
     var catalogue_meta_data=[]
     var map_json={};
     var catalogue_item_meta_data=[];
@@ -233,6 +246,7 @@ parseCatalogue = (url, doc) => {
         this.setState({
             catalogue_html:listHTML,
             catalogue_meta_data:doc,
+            //catalogue_url: orig_url,
             map_json,
             catalogue_item_meta_data:doc['item-metadata']});
             
@@ -244,7 +258,8 @@ parseCatalogue = (url, doc) => {
 browse = (url, cb) => {
     var self=this;
     var history=[];
-        
+    this.setState({catalogue_url:url});
+                    
     //alert(url);
     var fetch_location='/cat/getBalance?href=' + url;
 
@@ -263,9 +278,8 @@ browse = (url, cb) => {
                     var history=self.state.history;
                     history.push(url);
                     self.setState({history});
-                    $('#browse_url').val(url);
                     self.parseCatalogue(url, doc);
-                    self.get_smart_key_info(url);
+                    //self.get_smart_key_info(url);
 
                     cb(null); // done
                 
@@ -320,12 +334,10 @@ get_smart_key_info = (href) => {
 populateUrls = (urls) => {
 
     var self=this;
-    $("#urls").find('option').remove().end();
+    var new_urls=urls.slice(0)
+    new_urls.push(self.state.catalogue);
+    self.setState({catalogue_selection:new_urls});
     
-    for (var i=0; i < urls.length; i++) {
-        $("#urls").append(new Option(urls[i], urls[i]));
-    }
-    $("#urls").append(new Option(self.state.catalogue, self.state.catalogue));
 
 }
   componentDidMount() {
@@ -345,10 +357,15 @@ populateUrls = (urls) => {
            
         var check_key=(address) => {
            var url=self.state.catalogue;
-           //url=url.replace(/\/$/, "");
+            //url=url.replace(/\/$/, "");
            //url=url.replace(/icat/, "cat");
            //url="https://iotblock.io" + path
            
+           var param= getParameterByName("url");
+           if (param) {
+               url=param;
+               self.setState({catalogue_url:url})
+           }
            console.log(url); 
            
            console.log('address' + address);
@@ -359,11 +376,12 @@ populateUrls = (urls) => {
 
            web3Utils.get_keyAuth(address, self.fill_api_info) 
 
-            $('#browse_url').val(self.state.catalogue);
             
-            self.browse(self.state.catalogue, function() {
+           self.browse(url, function() {
 
-                    console.log('browse complete');
+                console.log('browse complete');
+                //self.setState({catalogue_url:url});
+                self.populateUrls([url]);
                 
             
 
@@ -377,7 +395,6 @@ populateUrls = (urls) => {
         }
         
         web3Utils.init_wallet(eth_salt, check_key);
-        self.populateUrls([]);
 
       
 
@@ -416,19 +433,24 @@ populateUrls = (urls) => {
                                     
                                     <label className={"title3"}>Select Catalogue:
                                     </label>
-                                    <select id={"urls"} onChange={() => {
+                                    <select id={"urls"} onChange={(e) => {
+                                                //self.setState({ catalogue_url:e.target.value});
+
                                                 
-                                                $('#browse_url').val($('#urls').val());
-                                                
-                                                self.browse($('#browse_url').val(), function() {
+                                                self.browse(e.target.value, function() {
                                                     console.log('browse complete');
                                                 });
                                                 
                                         
 
                                     }}
+                                    value={self.state.catalogue_url}
                                     className={"form-control m-input m-input--air"} style={{height:"45px"}} >
-                                    <option value={self.state.catalogue}>{self.state.catalogue}</option>
+                                    {self.state.catalogue_selection.map(item => {
+                                        
+                                        return <option key={"item" + item} 
+                                        value={item}>{item}</option>
+                                    })}
                                     </select>
                                     
                                 </div>
@@ -439,7 +461,11 @@ populateUrls = (urls) => {
                                     <div className={"input-group"}>
                                     <input className={"form-control m-input m-input--air"} style={{height:"45px"}} type={"text"} id={"browse_url"} 
                                         size={80} 
-                                        defaultValue={this.state.catalogue} />
+                                        value={self.state.catalogue_url} 
+                                        onChange={(e) => {
+                                            self.setState({catalogue_url:e.target.value});
+                                        }}
+                                        />
                                         <div className={"input-group-append"}>
                                             <button className={"button3 btn btn-primary"} type="button" 
                                             onClick={() => {
@@ -512,8 +538,8 @@ populateUrls = (urls) => {
                         </div>
                     </div>
                     {}
-                    {self.state.key_address ? 
-                <Key init_address={self.state.key_address} />
+                    {self.state.catalogue_url ? 
+                <NodeKey isNode={true} url={this.state.catalogue_url} />
                     : null}
                 <div>
                     <div id={"log"}></div>
