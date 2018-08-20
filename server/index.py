@@ -453,7 +453,7 @@ def wait_tx(tx):
          print("Waiting for Transaction",tx," Completion")
          if tx_receipt and tx_log['blockNumber']:
              return
-         sleep(10)
+         sleep(3)
 
 def upsertNode(graphAddr, href, auth, contrib):
     graphAddr=web3.toChecksumAddress(graphAddr)
