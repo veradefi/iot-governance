@@ -380,7 +380,7 @@ refreshCatalogue = (data) => {
                         url:item.href
                     }}
                        >
-                       {item.href}
+                       {item.href.replace("https://iotblock.io/cat/","")}
                     </Link>
                     <br/>
                     {self.state.dataLoading ? (

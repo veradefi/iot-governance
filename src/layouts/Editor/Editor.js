@@ -101,7 +101,7 @@ export default class Editor extends Component {
         api_key:'',
         api_auth:'',
         transferAmt: 1,
-
+        catalogue:'https://iotblock.io/cat/StandardIndustrialClassification'
             
 
     };
@@ -319,12 +319,13 @@ get_smart_key_info = (href) => {
 
 populateUrls = (urls) => {
 
+    var self=this;
     $("#urls").find('option').remove().end();
     
     for (var i=0; i < urls.length; i++) {
         $("#urls").append(new Option(urls[i], urls[i]));
     }
-    $("#urls").append(new Option('https://iotblock.io' + '/cat', 'https://iotblock.io' + '/cat'));
+    $("#urls").append(new Option(self.state.catalogue, self.state.catalogue));
 
 }
   componentDidMount() {
@@ -341,17 +342,14 @@ populateUrls = (urls) => {
             $('#browse_url').val(param_url);
         }
         */
-        var check_key=function(address) {
-           var url='https://iotblock.io/cat';
-           var path='/cat';
-           url=url.replace(/\/$/, "");
-           url=url.replace(/icat/, "cat");
-           url="https://iotblock.io" + path
-           path=path.replace(/\/$/, "");
-           path=path.replace(/icat/, "cat");
+           
+        var check_key=(address) => {
+           var url=self.state.catalogue;
+           //url=url.replace(/\/$/, "");
+           //url=url.replace(/icat/, "cat");
+           //url="https://iotblock.io" + path
            
            console.log(url); 
-           console.log(path)
            
            console.log('address' + address);
            $('.address').html(address);
@@ -361,9 +359,9 @@ populateUrls = (urls) => {
 
            web3Utils.get_keyAuth(address, self.fill_api_info) 
 
-            $('#browse_url').val('https://iotblock.io/cat');
+            $('#browse_url').val(self.state.catalogue);
             
-            self.browse('https://iotblock.io/cat', function() {
+            self.browse(self.state.catalogue, function() {
 
                     console.log('browse complete');
                 
@@ -379,10 +377,11 @@ populateUrls = (urls) => {
         }
         
         web3Utils.init_wallet(eth_salt, check_key);
+        self.populateUrls([]);
 
       
 
-       
+
     
     }    
     
@@ -408,7 +407,7 @@ populateUrls = (urls) => {
                 <div className={"col-md-12"}>
                         <br/>
                         <center>
-                        <label className={"title2"} style={{paddingTop:"5px"}}>Catalogue Editor & Editor</label>
+                        <label className={"title2"} style={{paddingTop:"5px"}}>Update Catalogue</label>
                         <hr/>
                         </center>
                         <form className={"form-group"}>
@@ -428,7 +427,9 @@ populateUrls = (urls) => {
                                         
 
                                     }}
-                                    className={"form-control m-input m-input--air"} style={{height:"45px"}} ></select>
+                                    className={"form-control m-input m-input--air"} style={{height:"45px"}} >
+                                    <option value={self.state.catalogue}>{self.state.catalogue}</option>
+                                    </select>
                                     
                                 </div>
                                 <div className={"col-md-6"}>
@@ -438,7 +439,7 @@ populateUrls = (urls) => {
                                     <div className={"input-group"}>
                                     <input className={"form-control m-input m-input--air"} style={{height:"45px"}} type={"text"} id={"browse_url"} 
                                         size={80} 
-                                        defaultValue={'https://iotblock.io' + "/cat"} />
+                                        defaultValue={this.state.catalogue} />
                                         <div className={"input-group-append"}>
                                             <button className={"button3 btn btn-primary"} type="button" 
                                             onClick={() => {

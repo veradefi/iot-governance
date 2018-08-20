@@ -364,11 +364,12 @@ componentDidMount() {
     return(
     <div id={"explorerkeyinfo"} >
         <center>
-        <label className={"title2"} style={{paddingTop:"5px"}}>Catalogue Explorer</label>
+        <label className={"title2"} style={{paddingTop:"5px"}}>VR Catalogue Explorer</label>
         <hr/>
         </center>
         <iframe width={"100%"} height={600} border={0} style={{padding:"0px", margin:"0px", border:"0px"}} src={"https://iotblock.io/vr/nodemap.html"} />
 
+         
         
     </div>
 

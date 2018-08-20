@@ -11,40 +11,39 @@ export default class Nav extends Component {
             },
             {
                 href: 'browser',
-                name: 'IoTPedia',
-                selected: false,
-            },
-            {
-                href: 'explorer',
-                name: 'IoT Explorer',
+                name: 'Browse Catalogue',
                 selected: false,
             },
             
-            {
-                href: 'map',
-                name: 'IoT Map',
-                selected: false,
-            },
             {
                 href: 'editor',
-                name: 'IoT Metadata Editor',
+                name: 'Update Catalogue',
                 selected: false,
-            },
-
-
-            
+            },            
             {
                 href: 'http://iotblock.readthedocs.io/en/latest/',
                 name: 'Documentation',
                 selected: false,
                 target: '_newwindow'
             },
+           
+            {
+                href: 'explorer',
+                name: 'VR Catalogue Explorer',
+                selected: false,
+            },
+            {
+                href: 'map',
+                name: 'VR Earth Explorer',
+                selected: false,
+            },
             {
                 href: 'pool',
                 name: 'Smart Pool Key',
                 selected: false,
             },
-            /*{
+            /*
+            {
                 href: 'crawler.html',
                 name: 'Crawler',
                 selected: false,
@@ -82,7 +81,7 @@ export default class Nav extends Component {
                         padding: "0px",
                         textAlign:"left",
                         height: "100%",
-                        
+                        minWidth:"200px"
                     }}
                     id={"nav_left"}>
 
