@@ -394,7 +394,7 @@ populateUrls = (urls) => {
                         <br/>
                         <center>
                         <label className={"title2"} style={{paddingTop:"5px"}}>
-                         {self.state.url}
+                         {self.state.url.replace("https://iotblock.io/cat/","")}
                         </label>
                         <hr/>
                         </center>

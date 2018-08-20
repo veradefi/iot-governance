@@ -100,6 +100,7 @@ export default class Browser extends Component {
         api_key:'',
         api_auth:'',
         transferAmt: 1,
+        catalogue:'https://iotblock.io/cat/StandardIndustrialClassification'
 
             
 
@@ -205,7 +206,7 @@ parseCatalogue = (doc) => {
         
     var listHTML = (
         <ul>
-            <li> Search Result: 
+            <li> {self.state.isCatalogue && !self.state.isSearch ? "Catalogue Index (UK SIC):" : "Search Result:"} 
                 <br/><br/> 
             </li>
             {itemListHTML}
@@ -225,6 +226,42 @@ parseCatalogue = (doc) => {
     //}
 }
 
+initCatalogue = () => {
+    var self=this;
+    //if (!self.state.search)
+    //    return;
+    var history=[];
+        
+    //alert(url);
+    var fetch_location=this.state.catalogue;
+                    
+    $.ajax({
+            //beforeSend: function(xhr){
+            //self.add_auth(xhr);
+                
+            //},
+            type: 'GET',
+            url: fetch_location,
+            //data: JSON.stringify(user_item),
+            //contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function(doc, textStatus, xhr) {
+                    //var history=self.state.history;
+                    self.setState({loading:false, isCatalogue:true, isSearch:false});
+                    //history.push(url);
+                    //self.setState({history});
+                    //$('#browse_url').val(url);
+                    self.parseCatalogue(doc);
+                    
+                    //self.get_smart_key_info(url);
+                    //cb(null); // done                
+            },
+            error: function(xhr, textStatus, err) {
+                console.log(xhr.status + ' ' + xhr.statusText)
+            }
+        });
+
+}
 search = () => {
     var self=this;
     if (!self.state.search)
@@ -247,7 +284,7 @@ search = () => {
             success: function(doc, textStatus, xhr) {
                     //var history=self.state.history;
                     //history.push(url);
-                    //self.setState({history});
+                    self.setState({isCatalogue:false, isSearch:true});
                     //$('#browse_url').val(url);
                     self.parseCatalogue(doc);
                     //self.get_smart_key_info(url);
@@ -308,13 +345,14 @@ populateUrls = (urls) => {
     for (var i=0; i < urls.length; i++) {
         $("#urls").append(new Option(urls[i], urls[i]));
     }
-    $("#urls").append(new Option('https://iotblock.io' + '/cat', 'https://iotblock.io' + '/cat'));
+    $("#urls").append(new Option(this.state.catalogue, this.state.catalogue));
 
 }
 
 componentDidMount() {
         var self=this;        
-        self.setState({loading:false});
+        self.initCatalogue();
+
 }    
     
 render() {
@@ -336,23 +374,22 @@ render() {
         return (
             <div id={"page1"}>
                 <div className={"row"}>
-                <div className={"col-md-12"}>
+                    <div className={"col-md-12"}>
                         <br/>
                         <center>
-                        <label className={"title2"} style={{paddingTop:"5px"}}>IoTPedia </label>
+                        <label className={"title2"} style={{paddingTop:"5px"}}>Browse Catalogue <br/> </label>
                         <hr/>
-                        </center>
                         <form className={"form-group"}>
                             <div className={"row"}  style={{padding:"15px"}}>
                                 <div className={"col-md-12"}>
                                     
                                     <center>
-                                    <div className={"input-group"}>
+                                    <div className={"input-group"} style={{maxWidth:"100%"}}>
                                         <input  className={"form-control m-input m-input--air"} 
-                                                style={{height:"45px"}} 
+                                                style={{height:"45px", maxWidth:"90%"}} 
                                                 type={"text"} 
                                                 id={"search"} 
-                                                size={80} 
+                                                size={"90%"} 
                                                 defaultValue={''}
                                                 placeholder={'Search Catalogue...'} 
                                                 onChange={(e) => {
@@ -362,6 +399,7 @@ render() {
                                             />
                                             <button className={"button3 btn btn-primary"} 
                                             type={"button"}
+                                            style={{ maxWidth:"10%"}}
                                             onClick={() => {
                                                 self.search();
 
@@ -374,6 +412,8 @@ render() {
                                     </center> 
                                 </div>
                             </div>
+                            </form>
+                            </center>
                             
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
@@ -387,8 +427,7 @@ render() {
                 
                                     </div>
                                 </div>
-                            </form>
-                
+
                         </div>
                     </div>
                 </div>   
