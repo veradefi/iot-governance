@@ -662,8 +662,8 @@ def setHealth(health, href, eth_contrib):
     try:     
 
         print('transferEth',wait_tx(graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health)))
-        print ('upsertMetaData',wait_tx(graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health))))
-        print ('upsertMetaData',wait_tx(graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health])))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
+        print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
     except Exception as e:
         print (e)
         traceback.print_exc()
