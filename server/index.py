@@ -451,6 +451,8 @@ def wait_tx(tx):
          print('getTransaction',tx_log)
          print('getTransactionReceipt',tx_receipt)
          print("Waiting for Transaction",tx," Completion")
+         if tx_receipt and tx_log['blockNumber']:
+             return
          sleep(10)
 
 def upsertNode(graphAddr, href, auth, contrib):
