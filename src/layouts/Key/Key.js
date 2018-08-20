@@ -7,6 +7,7 @@ import KeyApiCreate from "./KeyApiCreate";
 import KeyCreate from "./KeyCreate";
 import KeyHealth from "./KeyHealth";
 import KeyInfo from "./KeyInfo";
+import NodeKeyInfo from "./NodeKeyInfo";
 import * as web3Utils from "../../util/web3/web3Utils";
 var $ = require ('jquery');
 
@@ -56,7 +57,8 @@ export default class Key extends Component {
         api_key: PropTypes.string.isRequired,
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
-        init_address:PropTypes.string
+        init_address:PropTypes.string,
+        isNode:PropTypes.bool,
     };
   
   /**
@@ -71,8 +73,8 @@ export default class Key extends Component {
 
     this.state = {
         isSmartKey:true,
-        myAddress:'0x0',
-        keyAddress:'0x0',
+        myAddress:props.isNode && props.init_address ? props.init_address : '0x0',
+        keyAddress:props.isNode && props.init_address ? props.init_address : '0x0',
         api_key:'',
         api_auth:'',            
         page1_init:false,
@@ -317,8 +319,16 @@ createApiKey = () => {
             self.get_smart_key_info(this.props.init_address);
 
 
+
       }
 
+  }
+  componentWillReceiveProps(newProps) {
+      var self=this;
+      if (newProps.init_address && newProps.init_address != this.init_address) {
+        self.get_smart_key_info(this.props.init_address);
+
+      }
   }
   render() {
     return(
@@ -335,7 +345,15 @@ createApiKey = () => {
                                 </div>
                             </div>
                         </div>
-                ) : this.state.showKeyInfo ? 
+                ) : this.state.showKeyInfo ? this.props.isNode ? (
+                    <div>
+                    <NodeKeyInfo keyInfo={this.state.keyInfo} 
+                    myAddress={this.state.myAddress} 
+                    add_auth={this.add_auth} 
+                    showPage2_api={this.showPage2_api}
+                    fill_page2={this.fill_page2} />
+                </div>
+                ) :
                 (
                         <div>
                             <KeyInfo keyInfo={this.state.keyInfo} 

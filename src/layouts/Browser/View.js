@@ -3,16 +3,26 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
-import BrowserKeyInfo from "./BrowserKeyInfo";
 import BrowserMapInfo from "./BrowserMapInfo";
 import MetaData from "./MetaData";
 import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
+import NodeKey from "../Key/NodeKey"
 import { Link } from "react-router-dom";
 var $ = require ('jquery');
 
+const getParameterByName = (name, url) => {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
 
+  
 const stateToProps = state => {
     return {
         user_key_address:state.auth.user_key_address,
@@ -234,6 +244,7 @@ browse = (url, cb) => {
     var history=[];
     
     //alert(url);
+
     var fetch_location='/cat/getBalance?href=' + url;
 
     $.ajax({
@@ -253,7 +264,7 @@ browse = (url, cb) => {
                     self.setState({history});
                     $('#browse_url').val(url);
                     self.parseCatalogue(url, doc);
-                    self.get_smart_key_info(url);
+                    self.setState({url:url})
 
                     cb(null); // done
                 
@@ -267,32 +278,6 @@ browse = (url, cb) => {
 
 
     
-get_smart_key_info = (href) => {
-
-    var self=this;
-    $.ajax({
-            beforeSend: function(xhr){
-                //self.add_auth(xhr);
-                //setHeaders(xhr);
-            
-            },
-            type: 'GET',
-            url: '/cat/getNodeSmartKey?href=' + encodeURIComponent(href),
-            //data: JSON.stringify(user_item),
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            success: function(body, textStatus, xhr) {
-                body.href=href;
-                self.setState({keyInfo:body, key_address:body.address});
-                
-                //self.fill_page2(href, body["address"], body["balance"], body["eth_recv"], body["vault"], body["state"], body["health"], body["isOwner"]);
-            },
-            error: function(xhr, textStatus, err) {
-                console.log(xhr.status + ' ' + xhr.statusText);
-            }
-        });
-}
-
 log = (msg) => {
     var log = $('#log');
     log.append(msg + "<br/>\n");
@@ -320,6 +305,11 @@ populateUrls = (urls) => {
            if (!url) {
                url='https://iotblock.io/cat'
            }
+           var param= getParameterByName("url");
+           if (param) {
+               url=param;
+           }
+       
 
            console.log(url); 
                                           
@@ -347,7 +337,8 @@ populateUrls = (urls) => {
     }    
   componentWillReceiveProps(newProps) {
     var self=this;
-    if (newProps.location) {
+    if (newProps.location && newProps.location.url && newProps.location.url != this.props.location.url) {
+        //alert("received prop")
         var check_key = () => {
             
             var url=newProps.location.url;
@@ -413,8 +404,8 @@ populateUrls = (urls) => {
                 </div>
             </div>
 
-        {self.state.key_address ? 
-                <Key init_address={self.state.key_address} />
+        {this.state.url ? 
+                <NodeKey isNode={true} url={this.state.url} />
                     : null}
                 <div>
                     <div id={"log"}></div>
