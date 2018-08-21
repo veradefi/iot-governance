@@ -245,6 +245,13 @@ refreshCatalogue = (data) => {
             return (
                 <div key={item.id}> 
                     <li>
+                    <pre
+                      style={{
+
+                        maxWidth:"81%"
+
+                    }}
+                    >
                     <a href={"#top"}
                        onClick={()=>{
 
@@ -255,6 +262,7 @@ refreshCatalogue = (data) => {
                        >
                        {item.href}
                     </a>
+                    </pre>
                     <br/>
                     {self.state.dataLoading ? (
                         <b>Processing Contribution...
@@ -375,6 +383,13 @@ refreshCatalogue = (data) => {
             return (
                 <div key={item.id}> 
                     <li>
+                    <pre
+                      style={{
+
+                        maxWidth:"81%"
+
+                    }}
+                    >
                     <Link to={{ 
                         pathname: '/view',
                         url:item.href
@@ -382,6 +397,7 @@ refreshCatalogue = (data) => {
                        >
                        {item.href.replace("https://iotblock.io/cat/","")}
                     </Link>
+                    </pre>
                     <br/>
                     {self.state.dataLoading ? (
                         <b>Processing Contribution...

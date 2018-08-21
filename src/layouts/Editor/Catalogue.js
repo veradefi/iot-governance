@@ -244,7 +244,17 @@ refreshCatalogue = (data) => {
                 />)
             return (
                 <div key={item.id}> 
-                    <li>
+                    <li
+                      
+                    
+                    >
+                    <pre
+                      style={{
+
+                        maxWidth:"81%"
+
+                    }}
+                    >
                     <a href={"#top"}
                        onClick={()=>{
 
@@ -255,6 +265,8 @@ refreshCatalogue = (data) => {
                        >
                        {item.href}
                     </a>
+                    </pre>
+                    
                     <br/>
                     {self.state.dataLoading ? (
                         <b>Processing Contribution...

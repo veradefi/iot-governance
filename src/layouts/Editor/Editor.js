@@ -453,7 +453,11 @@ populateUrls = (urls) => {
 
                                         }}
                                         value={self.state.catalogue_url}
-                                        className={"form-control m-input m-input--air"} style={{height:"45px"}} >
+                                        className={"form-control m-input m-input--air"} 
+                                        style={{
+                                            height:"45px",
+                                            maxWidth:"88%"
+                                            }} >
                                         {self.state.catalogue_selection.map(item => {
                                             
                                             return <option key={"item" + item} 
@@ -467,8 +471,17 @@ populateUrls = (urls) => {
                                 <tr><td  style={{textAlign:"right"}}><label className={"title3"}>Catalogue URL:
                                     </label>
                                     </td>
-                                    <td> <div className={"input-group"}>
-                                    <input className={"form-control m-input m-input--air"} style={{height:"45px"}} type={"text"} id={"browse_url"} 
+                                    <td> <div className={"input-group"}
+                                    style={{
+
+                                        maxWidth:"88%"
+
+                                    }}
+                                    >
+                                    <input className={"form-control m-input m-input--air"} 
+                                    style={{
+                                        height:"45px",
+                                    }} type={"text"} id={"browse_url"} 
                                         size={80} 
                                         value={self.state.catalogue_url} 
                                         onChange={(e) => {
@@ -489,7 +502,12 @@ populateUrls = (urls) => {
                                 <tr><td  style={{textAlign:"right"}}><label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
                                     </label>
                                     </td>
-                                    <td> <pre className={"auth"} style={{height:"40px",marginBottom:"0px"}}>
+                                    <td> <pre className={"auth"} 
+                                    style={{
+                                        
+                                        height:"40px",
+                                        maxWidth:"88%",
+                                        marginBottom:"0px"}}>
                                     <Link to={{ 
                         pathname: '/key',
                     }}><b>{self.props.user_key_address}</b></Link>
@@ -499,7 +517,14 @@ populateUrls = (urls) => {
                                 <tr><td  style={{textAlign:"right"}}><label className={"title3"}>ETH Donation Per Transaction:
                                     </label>
                                     </td>
-                                    <td> <div className={"input-group"}>
+                                    <td> <div className={"input-group"}
+                                    style={{
+
+                                        maxWidth:"88%"
+
+                                    }}
+                                    
+                                    >
                                     <select id={"eth_contrib"} onChange={() => {
                                                 self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
                                     }}
