@@ -428,44 +428,46 @@ populateUrls = (urls) => {
         return (
             <div id={"page1"}>
                 <div className={"row"}>
-                <div className={"col-md-12"}>
+                <div className={"col-md-12"} >
+                <form className={"form-group"}>
+                   
                         <br/>
                         <center>
                         <label className={"title2"} style={{paddingTop:"5px"}}>Update Catalogue</label>
                         <hr/>
-                        </center>
-                        <form className={"form-group"}>
-                            <div className={"row"}  style={{padding:"15px"}}>
-                                <div className={"col-md-6"}>
-                                    
-                                    <label className={"title3"}>Select Catalogue:
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style={{textAlign:"right"}}><label className={"title3"}>Select Catalogue:
                                     </label>
-                                    <select id={"urls"} onChange={(e) => {
+                                    </td>
+                                    <td> <select id={"urls"} onChange={(e) => {
                                                 //self.setState({ catalogue_url:e.target.value});
 
-                                                
-                                                self.browse(e.target.value, function() {
-                                                    console.log('browse complete');
-                                                });
-                                                
-                                        
+                                                    
+                                                    self.browse(e.target.value, function() {
+                                                        console.log('browse complete');
+                                                    });
+                                                    
+                                            
 
-                                    }}
-                                    value={self.state.catalogue_url}
-                                    className={"form-control m-input m-input--air"} style={{height:"45px"}} >
-                                    {self.state.catalogue_selection.map(item => {
-                                        
-                                        return <option key={"item" + item} 
-                                        value={item}>{item}</option>
-                                    })}
-                                    </select>
+                                        }}
+                                        value={self.state.catalogue_url}
+                                        className={"form-control m-input m-input--air"} style={{height:"45px"}} >
+                                        {self.state.catalogue_selection.map(item => {
+                                            
+                                            return <option key={"item" + item} 
+                                            value={item}>{item}</option>
+                                        })}
+                                       </select>
                                     
-                                </div>
-                                <div className={"col-md-6"}>
-                                    
-                                    <label className={"title3"}>Catalogue URL:
+                                    </td>
+                                </tr>
+                               
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>Catalogue URL:
                                     </label>
-                                    <div className={"input-group"}>
+                                    </td>
+                                    <td> <div className={"input-group"}>
                                     <input className={"form-control m-input m-input--air"} style={{height:"45px"}} type={"text"} id={"browse_url"} 
                                         size={80} 
                                         value={self.state.catalogue_url} 
@@ -482,27 +484,22 @@ populateUrls = (urls) => {
                                             } ><span className={"buttonText"}>Browse</span></button>
                                         </div>
                                     </div>
-                                
-                                </div>
-                            </div>
-                            <div className={"row"} style={{padding:"15px"}}>
-                                <div className={"col-md-6"} style={{textAlign:"left"}}>
-                                    <br/>
-                                    <label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
+                                    </td>
+                                </tr>
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
                                     </label>
-                                    <span className={"auth"}>
+                                    </td>
+                                    <td> <pre className={"auth"} style={{height:"40px",marginBottom:"0px"}}>
                                     <Link to={{ 
                         pathname: '/key',
                     }}><b>{self.props.user_key_address}</b></Link>
-                                    </span>
-                                    
-                                </div>
-                                <div className={"col-md-6"}>
-                                    <br/>
-                                    
-                                    <label className={"title3"}>ETH Donation Per Transaction:
+                                    </pre>
+                                    </td>
+                                </tr>
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>ETH Donation Per Transaction:
                                     </label>
-                                    <div className={"input-group"}>
+                                    </td>
+                                    <td> <div className={"input-group"}>
                                     <select id={"eth_contrib"} onChange={() => {
                                                 self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
                                     }}
@@ -521,13 +518,17 @@ populateUrls = (urls) => {
                                                 self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
 
 
-                                            }} ><span className={"buttonText"}>Set Payment Terms</span></button>
+                                            }} ><span className={"buttonText"}>Set Donation Terms</span></button>
                                         </div>
                                     </div>
                                     (Data update will reflect in catalogue after 1-2 minutes)
-                                
-                                </div>
-                            </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </center>
+                        <hr/>
+
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
                                         <br/>
