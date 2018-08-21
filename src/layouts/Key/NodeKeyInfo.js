@@ -414,9 +414,10 @@ render() {
                                         <center>
                                         <label className={"title2"} style={{paddingTop:"5px"}}>Smart Key Contract Address (Rinkeby Ethereum Network)</label>
                                         <br/><br/>
-                                        <span className={"inputbox4"}><span className={"label5"} style={{ }} id={"poolkey"}>
+                                        <span className={"inputbox4"}>
+                                        <span className={"label5"} style={{ }} id={"poolkey"}>
                                         <center>
-                                        <pre style={{ width:"90%" }}>{address}</pre>
+                                        <pre style={{ maxWidth:"50%" }}>{address}</pre>
                                         </center>
                                         </span></span>
                                         <hr/>
