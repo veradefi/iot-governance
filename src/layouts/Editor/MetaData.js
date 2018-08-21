@@ -242,12 +242,15 @@ save_location=(node_href, lat, lng) => {
                  <div className={"input-group"} key={mdata.id}>
                     <input className={"form-control"} 
                             type={"text"} 
+                            style={{maxWidth:"30%"}}
                             id={mdata.id + '_rel'}
                             defaultValue={mdata.rel} />
                     <span style={{verticalAlign:"middle"}}>
                         <h1> = </h1>
                     </span>
                     <textarea className={"form-control"} rows={60}
+                                                style={{maxWidth:"40%"}}
+
                             id={mdata.id + '_val'} defaultValue={mdata.val} />
                         <br/>
                             <button className={"btn btn-primary"} type="button"
