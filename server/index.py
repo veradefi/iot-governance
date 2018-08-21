@@ -39,8 +39,11 @@ def getContract(item, network, address=None, prefix=""):
 
 network='4'
 port='8666'
+
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
 web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
+#network='4447'
+#port='9545'
 #web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
@@ -551,6 +554,7 @@ def addNodeMetaData(node_href,rel, val,auth, eth_contrib, parent_href=rootNode +
     transactionId=graphRoot.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel, val);
     print("addNodeMetaData",rel,val);
     print ('upsertMetaData',transactionId)
+    wait_tx(transactionId)
     
     data={}
     data= getNodeBalance(graphRoot)
