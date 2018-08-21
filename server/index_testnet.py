@@ -37,10 +37,13 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-network='4447'
-port='9545'
+#network='4'
+#port='8666'
+
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
 #web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
+network='4447'
+port='9545'
 web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
@@ -439,6 +442,22 @@ def getNodeBalance(graphRoot):
     return cat
 
 
+def wait_tx(tx):
+    tx_log=web3.eth.getTransaction(tx)
+    tx_receipt=web3.eth.getTransactionReceipt(tx)
+
+    while (tx_receipt is None or tx_log['blockNumber'] is None):
+         tx_log=web3.eth.getTransaction(tx)
+         tx_receipt=web3.eth.getTransactionReceipt(tx)
+         #addr=root.call({'from':address}).getItem(href)
+         #print(href, 'Node Address',addr)
+         print('getTransaction',tx_log)
+         print('getTransactionReceipt',tx_receipt)
+         print("Waiting for Transaction",tx," Completion")
+         if tx_receipt and tx_log['blockNumber']:
+             return
+         sleep(3)
+
 def upsertNode(graphAddr, href, auth, contrib):
     graphAddr=web3.toChecksumAddress(graphAddr)
     tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
@@ -644,7 +663,8 @@ def setHealth(health, href, eth_contrib):
 
 
     try:     
-        print('transferEth',graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health))
+
+        print('transferEth',wait_tx(graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health)))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
     except Exception as e:
