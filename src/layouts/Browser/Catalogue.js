@@ -263,7 +263,7 @@ refreshCatalogue = (data) => {
                        {item.href}
                     </a>
                     </pre>
-                    <br/>
+                        <br/>
                     {self.state.dataLoading ? (
                         <b>Processing Contribution...
                             <br/>
