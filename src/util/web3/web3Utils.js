@@ -273,7 +273,7 @@ export const get_graph = (url, path) =>
                               
                           }).catch(function(error) {
                               console.log(error);
-                              alert(error);
+                              alert(error.message);
                               cb('0x0000000000000000000000000000000000000000');
                           });
                       }                            
@@ -308,7 +308,7 @@ export const add_keyAuth = function(beneficiary, auth, auth_key, cb)
                                   
                            }).catch(function(error) {
                             console.log(error);
-                            alert(error);
+                            alert(error.message);
                             cb( auth, '', keyAddress );
                             });
                        });

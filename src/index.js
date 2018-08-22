@@ -28,12 +28,10 @@ var basename="/iotpedia"
 ReactDOM.render((
   <DrizzleProvider options={drizzleOptions} >
     <Provider store={store}>
-      <LoadingContainer>
 
         <BrowserRouter basename={basename}>
           <App />
         </BrowserRouter>
-      </LoadingContainer>
       </Provider>
     </DrizzleProvider>
 
