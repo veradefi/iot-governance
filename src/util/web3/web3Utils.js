@@ -29,34 +29,35 @@ export const create_wallet = (eth_salt, call_back) => {
           if (window.eth_salt) {
               salt=window.eth_salt;
           }
-          var user="0x" + shajs('sha224').update(salt).digest('hex');    
-          var bip39 = require("bip39");
-          var hdkey = require('ethereumjs-wallet/hdkey');
-          var ProviderEngine = require("web3-provider-engine");
-          var WalletSubprovider = require('web3-provider-engine/subproviders/wallet.js');
-          //var Web3Subprovider = require("web3-provider-engine/subproviders/web3.js");
-          var RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js')
-          var hdwallet = hdkey.fromMasterSeed(user); //bip39.mnemonicToSeed(mnemonic + user));
-          
-          // Get the first account using the standard hd path.
-          var wallet_hdpath = "m/44'/60'/0'/0/";
-          var wallet = hdwallet.derivePath(wallet_hdpath + "0").getWallet();
-          var engine = new ProviderEngine();
-          
-          var address = "0x" + wallet.getAddress().toString("hex");
-          var account = address;
-          
-          window.address=address;
-          window.account=address;
-  
-          engine.addProvider(new WalletSubprovider(wallet, {}));
-          engine.addProvider(new RpcSubprovider({
-            rpcUrl: providerUrl,
-          }))
-      
-          window.web3 = new Web3(engine);
-          engine.start(); // Required by the provider engine.
-          
+          if (!window.address) {
+            var user="0x" + shajs('sha224').update(salt).digest('hex');    
+            var bip39 = require("bip39");
+            var hdkey = require('ethereumjs-wallet/hdkey');
+            var ProviderEngine = require("web3-provider-engine");
+            var WalletSubprovider = require('web3-provider-engine/subproviders/wallet.js');
+            //var Web3Subprovider = require("web3-provider-engine/subproviders/web3.js");
+            var RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js')
+            var hdwallet = hdkey.fromMasterSeed(user); //bip39.mnemonicToSeed(mnemonic + user));
+            
+            // Get the first account using the standard hd path.
+            var wallet_hdpath = "m/44'/60'/0'/0/";
+            var wallet = hdwallet.derivePath(wallet_hdpath + "0").getWallet();
+            var engine = new ProviderEngine();
+            
+            var address = "0x" + wallet.getAddress().toString("hex");
+            var account = address;
+            
+            window.address=address;
+            window.account=address;
+    
+            engine.addProvider(new WalletSubprovider(wallet, {}));
+            engine.addProvider(new RpcSubprovider({
+                rpcUrl: providerUrl,
+            }))
+        
+            window.web3 = new Web3(engine);
+            engine.start(); // Required by the provider engine.
+          }
           console.log(window.address);
              call_back(window.address);
   }
@@ -74,6 +75,9 @@ export const init_wallet = (eth_salt, call_back)  =>
        
           if (typeof web3 !== 'undefined') {
 
+                if (window.address) {
+                    return call_back(window.address);
+                }
                 var web3 = window.web3
 
                 Web3.web3Provider = web3.currentProvider;
