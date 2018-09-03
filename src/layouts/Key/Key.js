@@ -313,10 +313,14 @@ createApiKey = () => {
   }
   componentDidMount() {
       var self=this;
-      if (!this.props.init_address) {
+      var address=this.props.init_address;
+      if (window.address) {
+          address=window.address;
+      }
+      if (!address) {
             this.getKeyStatus();
       } else {
-            self.get_smart_key_info(this.props.init_address);
+            self.get_smart_key_info(address);
 
 
 
