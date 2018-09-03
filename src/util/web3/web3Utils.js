@@ -25,7 +25,11 @@ Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.pr
   
 export const create_wallet = (eth_salt, call_back) => {        
   
-          var user="0x" + shajs('sha224').update(eth_salt).digest('hex');    
+          var salt=eth_salt;
+          if (window.eth_salt) {
+              salt=window.eth_salt;
+          }
+          var user="0x" + shajs('sha224').update(salt).digest('hex');    
           var bip39 = require("bip39");
           var hdkey = require('ethereumjs-wallet/hdkey');
           var ProviderEngine = require("web3-provider-engine");
@@ -59,7 +63,12 @@ export const create_wallet = (eth_salt, call_back) => {
   
 export const init_wallet = (eth_salt, call_back)  =>
   {
-      if (typeof eth_salt !== 'undefined') {
+      var salt=eth_salt;
+      if (window.eth_salt) {
+        salt=window.eth_salt;
+      }
+
+      if (typeof salt !== 'undefined') {
           var web3 = window.web3;  
           var hasAccount=false;
        
@@ -83,16 +92,16 @@ export const init_wallet = (eth_salt, call_back)  =>
                                 //console.log(window.address);
                                 call_back(window.address);
                             } else {
-                                create_wallet(eth_salt, call_back); 
+                                create_wallet(salt, call_back); 
                             }
                     });
                 } else {
-                    create_wallet(eth_salt, call_back); 
+                    create_wallet(salt, call_back); 
 
                 }
         
           } else {
-              create_wallet(eth_salt, call_back);
+              create_wallet(salt, call_back);
           }    
       }
   }

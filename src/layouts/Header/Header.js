@@ -11,12 +11,12 @@ export default class Header extends Component {
                         <div className={"col-md-12"} style={{height:"73px"}}>
                             <br/>
                             <div style={{float:"left"}}>
-                             <a href={'/icatOS/'}>
+                             <a href={'/iotpedia/'}>
                              <img style={{marginLeft:"16px", height:"40px"}} alt={'Logo'} src={"images/logo.svg"} className={"Logo"} />
                              </a>
                             </div>
                             <div style={{float:"right"}}>
-                             <a href={'/icatOS/'}>
+                             <a href={'/iotpedia/'}>
                                 <img src={"images/home.svg"} className={"Home"} alt={'Home'} style={{marginRight:"16px"}} />
                             </a>
                             
