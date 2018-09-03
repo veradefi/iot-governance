@@ -297,6 +297,9 @@ createApiKey = () => {
     var self=this;
       
     var eth_salt = web3Utils.getCookie('iotcookie');
+    if (window.eth_salt) {
+        eth_salt=window.eth_salt;
+    }
     if (eth_salt == null) {
         web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
         eth_salt = web3Utils.getCookie('iotcookie');
@@ -314,9 +317,6 @@ createApiKey = () => {
   componentDidMount() {
       var self=this;
       var address=this.props.init_address;
-      if (window.address) {
-          address=window.address;
-      }
       if (!address) {
             this.getKeyStatus();
       } else {
