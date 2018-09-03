@@ -28,9 +28,13 @@ export const create_wallet = (eth_salt, call_back) => {
           var salt=eth_salt;
           if (window.eth_salt) {
               alert(window.eth_salt);
-              alert(global.eth_salt);
               salt=window.eth_salt;
           }
+          if (global.eth_salt) {
+            alert(global.eth_salt);
+            salt=global.eth_salt;
+          }
+
           if (!window.address) {
             var user="0x" + shajs('sha224').update(salt).digest('hex');    
             var bip39 = require("bip39");
