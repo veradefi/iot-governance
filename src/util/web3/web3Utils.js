@@ -27,6 +27,8 @@ export const create_wallet = (eth_salt, call_back) => {
   
           var salt=eth_salt;
           if (window.eth_salt) {
+              alert(window.eth_salt);
+              alert(global.eth_salt);
               salt=window.eth_salt;
           }
           if (!window.address) {
