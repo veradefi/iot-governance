@@ -282,7 +282,7 @@ save_location=(node_href, lat, lng) => {
                              Edit 
                            </a> 
                         ] &nbsp; 
-                        {mdata.rel} <pre style={{width:"80%"}}>{mdata.val}</pre>
+                        {mdata.rel} <pre style={{width:"50%"}}>{mdata.val}</pre>
 
                         <br/>
                         {self.state.dataLoading ? (
@@ -359,7 +359,7 @@ save_location=(node_href, lat, lng) => {
             return (
                 <li id={mdata.id} key={mdata.id}> 
                         &nbsp; 
-                        {mdata.rel} <pre style={{width:"80%"}}>{mdata.val}</pre>
+                        {mdata.rel} <pre style={{width:"50%"}}>{mdata.val}</pre>
 
                         <br/>
                         {self.state.dataLoading ? (
