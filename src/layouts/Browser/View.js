@@ -359,7 +359,7 @@ log = (msg) => {
         return(
         
                             <div>
-                                <div className={"row"}>
+                                <div style={{width:"100%"}}>
                                     <div className={"col-md-12 col-sm-12 col-xs-12"}>
                                         <span className={"middle"}>
                                         <center><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
@@ -372,8 +372,8 @@ log = (msg) => {
         return (
             <div id={"page1"}>
 
-            <div className={"row"}>
-                <div className={"col-md-12"}>
+            <div style={{width:"100%"}}>
+                <div style={{width:"100%"}}>
                         <br/>
                         <center>
                         <label className={"title2"} style={{paddingTop:"5px"}}>
@@ -383,8 +383,8 @@ log = (msg) => {
                         </center>
                 </div>
             </div>
-            <div className={"row"}>
-                <div className={"col-md-12"}>
+            <div style={{width:"100%"}}>
+                <div style={{width:"100%"}}>
                     <br/>
             
                     <br/>

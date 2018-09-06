@@ -246,9 +246,16 @@ initCatalogue = () => {
     var fetch_location=this.state.catalogue;
                     
     var param= getParameterByName("url");
+    var q = getParameterByName("q");
     if (param) {
         fetch_location=param;
     }
+
+
+    if (q) {
+        this.setState({search:q, isCatalogue:false, isSearch:true});
+        this.search(q);
+    } else {
 
     $.ajax({
             //beforeSend: function(xhr){
@@ -275,17 +282,24 @@ initCatalogue = () => {
                 console.log(xhr.status + ' ' + xhr.statusText)
             }
         });
+    }
 
 }
-search = () => {
+search = (q) => {
     var self=this;
-    if (!self.state.search)
+    var search='';
+    if (self.state.search)
+        search=self.state.search;
+    if (q) 
+        search=q;
+    if (!search)
         return;
     var history=[];
         
     //alert(url);
-    var fetch_location='/cat/?q=' + self.state.search;
+    var fetch_location='/cat/?q=' + search;
 
+    this.setState({loading:true})
     $.ajax({
             beforeSend: function(xhr){
                 //self.add_auth(xhr);
@@ -299,7 +313,7 @@ search = () => {
             success: function(doc, textStatus, xhr) {
                     //var history=self.state.history;
                     //history.push(url);
-                    self.setState({isCatalogue:false, isSearch:true});
+                    self.setState({loading:false, isCatalogue:false, isSearch:true});
                     //$('#browse_url').val(url);
                     self.parseCatalogue(doc);
                     //self.get_smart_key_info(url);
@@ -376,7 +390,7 @@ render() {
         return(
         
                             <div>
-                                <div className={"row"}>
+                                <div style={{width:"100%"}}>
                                     <div className={"col-md-12 col-sm-12 col-xs-12"}>
                                         <span className={"middle"}>
                                         <center><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
@@ -388,23 +402,21 @@ render() {
     } else {
         return (
             <div id={"page1"}>
-                <div className={"row"}>
-                    <div className={"col-md-12"}>
-                        <br/>
-                        <center>
-                        <label className={"title2"} style={{paddingTop:"5px"}}>Browse Catalogue <br/> </label>
+                <div style={{width:"100%"}}>
+                    <br/>
+                            <label className={"title2"} style={{paddingTop:"5px", marginLeft:"10px"}}>Browse Catalogue <br/> </label>
                         <hr/>
+                    <div style={{width:"100%"}}>
                         <form className={"form-group"}>
-                            <div className={"row"}  style={{padding:"15px"}}>
-                                <div className={"col-md-12"}>
+                            <div style={{width:"100%"}}  style={{padding:"15px"}}>
+                                <div style={{width:"100%"}}>
                                     
-                                    <center>
-                                    <div className={"input-group"} style={{maxWidth:"100%"}}>
+                                    <div className={"input-group"} style={{maxWidth:"50%"}}>
                                         <input  className={"form-control m-input m-input--air"} 
                                                 style={{height:"45px", maxWidth:"90%"}} 
                                                 type={"text"} 
                                                 id={"search"} 
-                                                size={"90%"} 
+                                                size={"50%"} 
                                                 defaultValue={''}
                                                 placeholder={'Search Catalogue...'} 
                                                 onChange={(e) => {
@@ -414,7 +426,7 @@ render() {
                                             />
                                             <button className={"button3 btn btn-primary"} 
                                             type={"button"}
-                                            style={{ maxWidth:"10%"}}
+                                            style={{ maxWidth:"100px"}}
                                             onClick={() => {
                                                 self.search();
 
@@ -424,14 +436,12 @@ render() {
                                     <div className={"input-group-append"}>
                                     </div>
 
-                                    </center> 
                                 </div>
                             </div>
                             </form>
-                            </center>
                             
-                                <div className={"row"}>
-                                    <div className={"col-md-12"}>
+                                <div style={{width:"100%"}}>
+                                    <div style={{width:"100%"}}>
                                         <br/>
                                 
                                         <br/>
