@@ -18,6 +18,7 @@ import Explorer from './layouts/Explorer/Explorer'
 import View from './layouts/Browser/View'
 import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Hidden from '@material-ui/core/Hidden';
 
 @withRouter
 export default class App extends Component {
@@ -31,7 +32,26 @@ export default class App extends Component {
 
   render() {
  
-
+    const nav=(              <Nav>
+      <Switch>
+         <Route exact path="/" component={Key} />
+         <Route exact path="/key" component={Key} />
+         <Route exact path="/key.html" component={Key} />
+         <Route exact path="/browser" component={Browser} />
+         <Route exact path="/browser.html" component={Browser} />
+         <Route exact path="/editor" component={Editor} />
+         <Route exact path="/editor.html" component={Editor} />
+         <Route exact path="/explorer" component={Explorer} />
+         <Route exact path="/explorer.html" component={Explorer} />
+         <Route exact path="/map" component={Map} />
+         <Route exact path="/map.html" component={Map} />
+         <Route exact path="/pool" component={SmartPoolKey} />
+         <Route exact path="/pool.html" component={SmartPoolKey} />
+         <Route exact path="/view" component={View} />
+         <Redirect from="*" to="/" />
+     </Switch>
+     </Nav> 
+     )
     return (
       <React.Fragment>
       <CssBaseline />
@@ -45,11 +65,8 @@ export default class App extends Component {
         
         <Header />
 
-          
-          <div style={{ padding:"22px"
-          
-      
-        
+        <Hidden mdUp>
+        <div style={{ padding:"22px"
         }}>
         {/*
             <table style={{width:"100%", height:"100%",margin:"0px",padding:"0px"}}>
@@ -67,33 +84,20 @@ export default class App extends Component {
           border: "solid 1px #e7e7e7"
         }}  valign={"top"}>
       */}
-              <Nav>
-               <Switch>
-                  <Route exact path="/" component={Key} />
-                  <Route exact path="/key" component={Key} />
-                  <Route exact path="/key.html" component={Key} />
-                  <Route exact path="/browser" component={Browser} />
-                  <Route exact path="/browser.html" component={Browser} />
-                  <Route exact path="/editor" component={Editor} />
-                  <Route exact path="/editor.html" component={Editor} />
-                  <Route exact path="/explorer" component={Explorer} />
-                  <Route exact path="/explorer.html" component={Explorer} />
-                  <Route exact path="/map" component={Map} />
-                  <Route exact path="/map.html" component={Map} />
-                  <Route exact path="/pool" component={SmartPoolKey} />
-                  <Route exact path="/pool.html" component={SmartPoolKey} />
-                  <Route exact path="/view" component={View} />
-                  <Redirect from="*" to="/" />
-              </Switch>
-              </Nav> 
+        {nav}
           {/*
             </td></tr>
               </tbody>
             </table>
           </div>
           */}
-          <Dialog />
       </div>
+        </Hidden>
+
+        <Hidden smDown>  
+        {nav}
+      </Hidden>
+      <Dialog />
       </React.Fragment>
     );
   }
