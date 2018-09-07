@@ -6,17 +6,17 @@ export default class KeyApiCreate extends Component {
       
         <div id={"page2_api"} >
             <div className={"row"}>
-               <div className={"col-md-12"}>    
+               <div className={"col-xs-12"}>    
                       <center>
                             <div className={"row"}>
-                                <div className={"col-md-12"}>
+                                <div className={"col-xs-12"}>
                                           <br/>
                                           <center><label className={"title1"}>Create Smart Key API Access Token<br/>(Rinkeby Ethereum Network)</label></center>
                                           <br/>                                                                                  
                                  </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-md-12"}>
+                                <div className={"col-xs-12"}>
                     
                                   <label className={"title3"}>
                                     Wallet
@@ -25,13 +25,15 @@ export default class KeyApiCreate extends Component {
                                 </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-md-4"} style={{textAlign:"right"}}>
+                                <div className={"col-xs-4"} style={{textAlign:"center"}}>
                         
                                   <label className={"label2"}>Your wallet address:</label>
                                   
                                 </div>
-                                <div className={"col-md-8"} style={{textAlign:"left"}}>
-                                    <div  style={{width: "400px",height: "30px"}} className={"border2"}>
+                            </div>
+                            <div className={"row"}>
+                                <div className={"col-xs-12"} style={{textAlign:"center"}}>
+                                    <div  style={{maxWidth: "80%",height: "30px"}} className={"border2"}>
                                              <center>
                                              <span className={"address label2"}>{this.props.address}</span>
                                              </center>
@@ -39,7 +41,7 @@ export default class KeyApiCreate extends Component {
                                  </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-md-12"}>
+                                <div className={"col-xs-12"}>
                                   <br/>
                                   <label className={"title3"}>
                                     API Key
@@ -48,12 +50,12 @@ export default class KeyApiCreate extends Component {
                                 </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-md-4"} style={{textAlign:"right"}}>
+                                <div className={"col-xs-4"} style={{textAlign:"right"}}>
                         
                                   <label className={"label2"}>Email</label>
                                   
                                 </div>
-                                <div className={"col-md-8"} style={{textAlign:"left"}}>
+                                <div className={"col-xs-8"} style={{textAlign:"left"}}>
                                   
                                   <input name="username" className={"form-control m-input m-input--air m-input--pill"}  
                                   type={"text"} id={"username"} 
@@ -63,12 +65,12 @@ export default class KeyApiCreate extends Component {
                                  </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-md-4"} style={{textAlign:"right"}}>
+                                <div className={"col-xs-4"} style={{textAlign:"right"}}>
                         
                                   <label className={"label2"}>Select Password</label>
                                   
                                 </div>
-                                <div className={"col-md-8"} style={{textAlign:"left"}}>
+                                <div className={"col-xs-8"} style={{textAlign:"left"}}>
                                   
                                   <input name="password" className={"form-control m-input m-input--air m-input--pill"}  
                                   type={"password"} id={"password"} 
@@ -80,7 +82,7 @@ export default class KeyApiCreate extends Component {
                             
                     
                             <div className={"row"}>
-                                <div className={"col-md-12"}>    
+                                <div className={"col-xs-12"}>    
                                     <button type={"button"} id={'create_api_key'} className={"button3 btn btn-accent"}>
                                     <span className={"buttonText"}
                                     onClick={
