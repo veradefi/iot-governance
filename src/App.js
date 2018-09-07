@@ -66,6 +66,10 @@ export default class App extends Component {
         <Header />
 
         <Hidden mdUp>
+        {nav}       
+        </Hidden>
+
+        <Hidden smDown>  
         <div style={{ padding:"22px"
         }}>
         {/*
@@ -92,10 +96,6 @@ export default class App extends Component {
           </div>
           */}
       </div>
-        </Hidden>
-
-        <Hidden smDown>  
-        {nav}
       </Hidden>
       <Dialog />
       </React.Fragment>
