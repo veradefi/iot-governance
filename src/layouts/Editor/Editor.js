@@ -431,10 +431,7 @@ populateUrls = (urls) => {
                 <div className={"col-md-12"} >
                 <form className={"form-group"}>
                    
-                        <br/>
                         <center>
-                        <label className={"title2"} style={{paddingTop:"5px"}}>Update Catalogue</label>
-                        <hr/>
                         <table>
                             <tbody>
                                 <tr>
@@ -499,7 +496,7 @@ populateUrls = (urls) => {
                                     </div>
                                     </td>
                                 </tr>
-                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>User SmartKey (Rinkeby Ethereum Network):
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>User SmartKey <br/>(Rinkeby Network):
                                     </label>
                                     </td>
                                     <td> <pre className={"auth"} 

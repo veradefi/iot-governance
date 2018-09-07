@@ -404,19 +404,16 @@ render() {
             <div id={"page1"}>
                 <div style={{width:"100%"}}>
                     <br/>
-                            <label className={"title2"} style={{paddingTop:"5px", marginLeft:"10px"}}>Browse Catalogue <br/> </label>
-                        <hr/>
                     <div style={{width:"100%"}}>
                         <form className={"form-group"}>
                             <div style={{width:"100%"}}  style={{padding:"15px"}}>
                                 <div style={{width:"100%"}}>
                                     
-                                    <div className={"input-group"} style={{maxWidth:"50%"}}>
+                                    <div className={"input-group"}>
                                         <input  className={"form-control m-input m-input--air"} 
                                                 style={{height:"45px", maxWidth:"90%"}} 
                                                 type={"text"} 
                                                 id={"search"} 
-                                                size={"50%"} 
                                                 defaultValue={''}
                                                 placeholder={'Search Catalogue...'} 
                                                 onChange={(e) => {

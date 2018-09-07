@@ -248,7 +248,7 @@ refreshCatalogue = (data) => {
                     <pre
                       style={{
 
-                        maxWidth:"50%"
+                        maxWidth:"88%"
 
                     }}
                     >
@@ -386,7 +386,7 @@ refreshCatalogue = (data) => {
                     <pre
                       style={{
 
-                        maxWidth:"50%"
+                        maxWidth:"88%"
 
                     }}
                     >
