@@ -25,7 +25,7 @@ export default class KeyApiCreate extends Component {
                                 </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-xs-4"} style={{textAlign:"center"}}>
+                                <div className={"col-xs-12"} style={{textAlign:"center"}}>
                         
                                   <label className={"label2"}>Your wallet address:</label>
                                   
@@ -35,7 +35,9 @@ export default class KeyApiCreate extends Component {
                                 <div className={"col-xs-12"} style={{textAlign:"center"}}>
                                     <div  style={{maxWidth: "80%",height: "30px"}} className={"border2"}>
                                              <center>
-                                             <span className={"address label2"}>{this.props.address}</span>
+                                             <span  
+                                              style={{maxWidth: "80%",height: "30px"}}
+                                              className={"address label2"}>{this.props.address}</span>
                                              </center>
                                     </div>
                                  </div>
