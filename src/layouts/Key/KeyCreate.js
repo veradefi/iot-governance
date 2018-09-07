@@ -23,14 +23,15 @@ export default class KeyCreate extends Component {
                                     <div className={"col-xs-12"}>
                         
                                         <div className={"row"}>
-                                            <div className={"col-xs-1"}>
-                                    
                                             
-                                            </div>
-                                            <div className={"col-xs-3"}>
+                                            <div className={"col-xs-12"}>
+                                                <center>
                                                         <label className={"label2"}>Your wallet address:</label>
+                                                </center>
                                             </div>
-                                            <div className={"col-xs-7"}>
+                                        </div>
+                                        <div className={"row"}>
+                                            <div className={"col-xs-12"}>
                                                         <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
                                                         style={{width:"100%"}} 
                                                         type={"text"} 
