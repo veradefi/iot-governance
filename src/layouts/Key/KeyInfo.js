@@ -79,8 +79,9 @@ export default class KeyInfo extends Component {
     
 showHealthDialog = () => {
     this.setState({health_init:true});
-    $('.donate_amt').html($('#eth_contrib').val());
-    this.props.showDialog(true, <KeyHealth account={this.props.myAddress} setHealth={this.setHealth} />);
+    var amt=$('#eth_contrib').val();
+    $('.donate_amt').html(amt);
+    this.props.showDialog(true, <KeyHealth account={this.props.myAddress} donate_amt={amt} setHealth={this.setHealth} />);
     
 }
 
