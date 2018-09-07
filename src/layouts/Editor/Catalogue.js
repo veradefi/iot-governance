@@ -301,6 +301,7 @@ refreshCatalogue = (data) => {
                 
             );
         }  else if (this.state.mode && this.state.mode=='add') {
+            
             return (
                  <li id={"add_catalogue_item"}>
                     [<a href={"#add_catalogue_item"}
