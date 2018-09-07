@@ -8,7 +8,7 @@ export default class Header extends Component {
             border: "solid 1px #e7e7e7"
             }}>
                     <div style={{width:"100%"}}>
-                        <div style={{width:"100%"}} style={{height:"73px"}}>
+                        <div style={{width:"100%"}} style={{height:"40px"}}>
                             <br/>
                             <div style={{float:"left"}}>
                              <a href={'/iotpedia/'}>
