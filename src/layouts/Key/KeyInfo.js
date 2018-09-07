@@ -227,7 +227,8 @@ fill_page2_transactions = (sender, date, amount, tx_type) => {
         if (tx_type > 0) {
             tx='Outgoing';
         }
-        var html =(
+        var html=[];
+        html.push(
         <div key={Math.random()} className={'row label8'}>
             <div className={'col-md-3'}>
                  <b>Date:</b><br/>
@@ -244,10 +245,14 @@ fill_page2_transactions = (sender, date, amount, tx_type) => {
                    <b>Amount:</b><br/> 
                    { amount/eth1 } ETH 
             </div>
-                   
-                    <hr/>
+        </div>);
+    
+        html.push(<div className={'row'}>
+                <div className={'col-xs-12'}>
+                    <hr />
+                    </div>
             </div>
-        )
+        );
         
         return html;
         
@@ -403,10 +408,10 @@ render() {
                                 </div>
                                         
                                 <div className={"row"}>
-                                    <div className={"col-md-6"} style={{ textAlign: "right" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>
                                         <label className={"label6"}>Balance</label>
                                     </div>
-                                    <div className={"col-md-6"} style={{ textAlign: "left" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_balance"}>
                                         {balance}
                                         </span>
@@ -415,11 +420,11 @@ render() {
                                 </div>                            
                                                             
                                 <div className={"row"}>
-                                    <div className={"col-md-6"} style={{ textAlign: "right" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>
                                 
                                         <label className={"label6"}>Received</label>
                                     </div>
-                                    <div className={"col-md-6"} style={{ textAlign: "left" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_received"}>
                                         {eth_recv}</span>
                                         <font size={2}> ETH</font>
@@ -428,10 +433,10 @@ render() {
 
                                 
                                 <div className={"row"}>
-                                    <div className={"col-md-6"} style={{ textAlign: "right" }}>    
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>    
                                         <label className={"label6"}>Device Integrity Status</label>
                                     </div>
-                                    <div className={"col-md-2"} style={{ textAlign: "left" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                             <label className={"label7"}>
                                                 <span className={"health"}>
                                                 
@@ -439,11 +444,14 @@ render() {
                                                 </span>
                                             </label>
                                     </div>
-                                    <div className={"col-md-4"} style={{ textAlign: "left" }}>
+                                </div>
+                                <div className={"row"}>
+                                
+                                    <div className={"col-xs-12"} style={{ textAlign: "center" }}>
                                                 <button onClick={() => {
                                                     self.showHealthDialog();
                                                 }} 
-                                                className={"div-control button3 btn btn-primary"} 
+                                                className={"form-control button3 btn btn-primary"} 
                                                 type={"button"}>
                                                     <span className={"buttonText"}>Update Integrity Status</span>
                                                 </button>
@@ -451,10 +459,10 @@ render() {
                                     </div>
                                 </div>
                                 <div className={"row"}>
-                                    <div className={"col-md-6"} style={{ textAlign: "right" }}>    
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>    
                                         <label className={"label6"}>Key State</label>
                                     </div>
-                                    <div className={"col-md-6"} style={{ textAlign: "left" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <label className={"label7 title3"}><span className={"state"}>
                                         { states[state] }
                                         </span></label> 
@@ -476,12 +484,12 @@ render() {
                                         <br/>
                                     </div>
                                 </div>
-                                <div id={"eth_transfer"} style={{width:"95%"}}> 
+                                <div id={"eth_transfer"} style={{width:"100%"}}> 
                                     <div className={"row"}>
-                                        <div className={"col-md-6"} style={{ textAlign: "right" }}>
+                                        <div className={"col-xs-6"} style={{ textAlign: "right" }}>
                                             <label className={"label6"}>ETH Amount:</label>
                                         </div>
-                                        <div className={"col-md-6"} style={{ textAlign: "left" }}>                                                
+                                        <div className={"col-xs-6"} style={{ textAlign: "left" }}>                                                
                                             <input id={"send_amt"} className={"form-control m-input m-input--air m-input--pill"} 
                                             onChange={(val) => {
                                                 this.setState({transferAmt:$('#send_amt').val()});
@@ -491,10 +499,10 @@ render() {
                                         </div>
                                     </div>
                                     <div className={"row"}>
-                                        <div className={"col-md-6"} style={{ textAlign: "right" }}>
+                                        <div className={"col-xs-6"} style={{ textAlign: "right" }}>
                                             <label className={"label6"}>Beneficiary Address:</label>
                                         </div>
-                                        <div className={"col-md-6"} style={{ textAlign: "left" }}>                                                
+                                        <div className={"col-xs-6"} style={{ textAlign: "left" }}>                                                
                                         
                                             <input id={"beneficiary"} className={"form-control address_val m-input m-input--air m-input--pill"} 
                                             placeholder={"Beneficiary Address"} defaultValue={userAddress} />
@@ -502,15 +510,14 @@ render() {
                                         </div>
                                     </div>
                                     <div className={"row"}>
-                                        <div className={"col-md-6"} style={{ textAlign: "right" }}>
-                                        </div>
-                                        <div className={"col-md-6"}>
-                                            <a href='#eth_transfer' 
+                                        <div className={"col-xs-12"}>
+                                            <button 
                                                 onClick={() => {
                                                     self.get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val());
                                                  }} 
-                                                 className={"button3 form-control  btn btn-primary"} 
-                                                 id={"wd_ether"}><span className={"buttonText"}>Withdraw Ether</span></a>
+                                                 className={"form-control  button3  btn btn-primary"} 
+                                                 id={"wd_ether"}><span className={"buttonText"}>Withdraw Ether</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -537,11 +544,11 @@ render() {
                                     </div>
                                 </div>
                                 <div className={"row"}>
-                                    <div className={"col-md-6"} style={{ textAlign: "right" }}>    
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>    
                                                         <label className={"label6"}>ETH Donation per Transaction:</label>
                                     </div>
 
-                                    <div className={"col-md-6"} style={{ textAlign: "left" }}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                                 <div id={"view_api"}>
                                                         <div className={"input-group"}>
                                                             <select id={"eth_contrib"} 
@@ -559,13 +566,18 @@ render() {
                                                                 
                                                             </select>
                                                         </div>
-                                                            <div className={"input-group-append"}>
+                                                </div>
+                                    </div>
+                                </div>
+                                <div className={"row"}>
+                                    <div className="col-xs-12">
+                                                            <div className={"input-group-"}>
                                                                 <button   
                                                                   onClick={() => {
                                                                     self.get_api_key();
                                                                   }}  
-                                                                  style={{ width: "45%" }}
-                                                                className={"div-control button3 btn btn-primary"} 
+                                                                  style={{ width: "50%" }}
+                                                                className={"form-control button3 btn btn-primary"} 
                                                                 type={"button"} 
                                                                 >
                                                                 <span className={"buttonText"}>View API Key</span>
@@ -574,14 +586,13 @@ render() {
                                                                     self.props.showPage2_api();
                                                                     //self.generate_api_key();
                                                                 }}
-                                                                style={{ width: "45%" }}
-                                                                className={"div-control button3 btn btn-primary"} >
-                                                                <span className={"buttonText"}>Regenerate API Key</span></a>
+                                                                style={{ width: "50%" }}
+                                                                className={"form-control button3 btn btn-primary"} >
+                                                                <span className={"buttonText"}>Regenerate Key</span></a>
 
                                                             </div>
                                                         </div>
                                                         <br/>
-                                                </div>
                                                 
 
                                             

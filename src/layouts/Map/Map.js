@@ -364,10 +364,6 @@ searchForLocations = () => {
       
     return(
     <div id={"mapinfo"} >
-        <center>
-        <label className={"title2"} style={{paddingTop:"5px"}}>VR Earth Explorer</label>
-        <hr/>
-        </center>
 
         <iframe 
             width={"100%"} 
