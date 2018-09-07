@@ -8,10 +8,10 @@ export default class KeyCreate extends Component {
       
         <div id={"page1"}>
             <div className={"row"}>
-                <div className={"col-md-12"}>    
+                <div className={"col-xs-12"}>    
                             <center>
                                 <div className={"row"}>
-                                    <div className={"col-md-12"}>
+                                    <div className={"col-xs-12"}>
                                             <br/><br/>
                                             <center><label className={"title1"}>Create Smart Key<br/>(Rinkeby Ethereum Network)</label></center>
                                             <br/>
@@ -20,17 +20,17 @@ export default class KeyCreate extends Component {
                                     </div>
                                 </div>
                                 <div className={"row"}>
-                                    <div className={"col-md-12"}>
+                                    <div className={"col-xs-12"}>
                         
                                         <div className={"row"}>
-                                            <div className={"col-md-1"}>
+                                            <div className={"col-xs-1"}>
                                     
                                             
                                             </div>
-                                            <div className={"col-md-3"}>
+                                            <div className={"col-xs-3"}>
                                                         <label className={"label2"}>Your wallet address:</label>
                                             </div>
-                                            <div className={"col-md-7"}>
+                                            <div className={"col-xs-7"}>
                                                         <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
                                                         style={{width:"100%"}} 
                                                         type={"text"} 
@@ -47,7 +47,7 @@ export default class KeyCreate extends Component {
                                 </div>
                                             
                                 <div className={"row"}>
-                                    <div className={"col-md-12"} style={{textAlign:'center'}}>    
+                                    <div className={"col-xs-12"} style={{textAlign:'center'}}>    
                                         <br/>
                                             <label className={"label3"}>1 ETH is the minimum ETH needed to create Smart Key.</label>
                                     </div>
@@ -56,7 +56,7 @@ export default class KeyCreate extends Component {
                                 
                         
                                 <div className={"row"}>
-                                    <div className={"col-md-12"}>    
+                                    <div className={"col-xs-12"}>    
                                         <button type={"button"} 
                                         id={'pool'} 
                                         onClick={

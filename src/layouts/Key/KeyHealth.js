@@ -9,7 +9,7 @@ export default class KeyHealth extends Component {
         <div id={"health_dialog"}>
               <div id={"health"}>
                     <div className={"row"}>
-                        <div className={"col-md-12"}>
+                        <div className={"col-xs-12"}>
                             <br/>
                             <br/>
                             <br/>
@@ -21,14 +21,14 @@ export default class KeyHealth extends Component {
                         </div>
                     </div>
                     <div className={"row"}>
-                        <div className={"col-md-5"} style={{textAlign:"right"}}>
+                        <div className={"col-xs-5"} style={{textAlign:"right"}}>
                             <label className={"label2"}>Status</label>
                         </div>
-                        <div className={"col-md-7"} style={{textAlign:"left"}}>
+                        <div className={"col-xs-7"} style={{textAlign:"left"}}>
                             
                             <select id={"health_select"} 
                             style={{
-                                width:"253px",
+                                maxWidth:"253px",
                                 borderRadius:"5px",
                                 border: "solid 1px #d8d8d8"
                             }} 
@@ -48,8 +48,8 @@ export default class KeyHealth extends Component {
                         </div>
                     </div> 
                     <div className={"row"}>
-                        <div className={"col-md-12"} style={{textAlign:"center"}}>    
-                          <span className={"label3"}>The fee for this transaction is <span className={"donate_amt"}></span> ETH.
+                        <div className={"col-xs-12"} style={{textAlign:"center"}}>    
+                          <span className={"label3"}>The donation set for this transaction is <span className={"donate_amt"}>{this.props.donate_amt}</span> ETH.
                           </span>
                           <br/>
                           <br/>
@@ -58,14 +58,14 @@ export default class KeyHealth extends Component {
                     </div>
 
                     <div className={"row"}>
-                        <div className={"col-md-12"}>
+                        <div className={"col-xs-12"}>
                             <center>
                             <button   
-                            style={{width: "384px",height:"56px"}}  
+                            //style={{width: "384px",height:"56px"}}  
                             onClick={() => {
                                 self.props.setHealth(parseInt($('#health_select').val()));
                             }}  
-                            className={"button3 btn btn-primary"} 
+                            className={"form-control button3 btn btn-primary"} 
                             type={"button"}>
                             <span className={"buttonText"}>Update</span></button>
                             </center>
