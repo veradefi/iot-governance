@@ -11,7 +11,10 @@ export default class KeyApiCreate extends Component {
                             <div className={"row"}>
                                 <div className={"col-xs-12"}>
                                           <br/>
-                                          <center><label className={"title1"}>Create Smart Key API Access Token<br/>(Rinkeby Ethereum Network)</label></center>
+                                          <center><label className={"title1"} style={{ fontSize: "16px" }}>
+                                          Create Smart Key API Access Token<br/>
+                                          (Rinkeby Ethereum Network)
+                                          </label></center>
                                           <br/>                                                                                  
                                  </div>
                             </div>
@@ -33,13 +36,15 @@ export default class KeyApiCreate extends Component {
                             </div>
                             <div className={"row"}>
                                 <div className={"col-xs-12"} style={{textAlign:"center"}}>
-                                    <div  style={{maxWidth: "80%",height: "30px"}} className={"border2"}>
-                                             <center>
-                                             <span  
-                                              style={{maxWidth: "80%",height: "30px"}}
-                                              className={"address label2"}>{this.props.address}</span>
-                                             </center>
-                                    </div>
+                                    <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
+                                                        style={{width:"100%"}} 
+                                                        type={"text"} 
+                                                        id={"address"} 
+                                                        placeholder={""} 
+                                                        value={this.props.address}
+                                                        onChange={() => {
+                                                        }}
+                                                     />
                                  </div>
                             </div>
                             <div className={"row"}>
