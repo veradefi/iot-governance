@@ -213,6 +213,30 @@ parseCatalogue = (doc) => {
            
         </ul>
     );
+    if (doc.items.length < 1) {
+        itemListHTML=<div>
+            <center>
+            <b>No Results Returned</b><br/><br/>
+            <Catalogue 
+                catalogueType={'item-metadata'}
+                showAddItem={true}
+                showButton={true}
+                itemName={this.state.search}
+                idata={{
+                    
+                    id:'add_catalogue_item',
+                    node_href:url,
+                    href: 'https://iotblock.io/cat/Products/' + this.state.search,
+                    items:[],            
+                    
+                }}
+                mode={'add'} 
+                browse={self.browse} />
+                
+               
+            </center>
+        </div>
+    }
         
     var listHTML = (
         <ul>

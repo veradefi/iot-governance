@@ -332,7 +332,7 @@ save_location=(node_href, lat, lng) => {
                 <li 
                         id={mdata.id} 
                         key={mdata.id}>
-                    <EditorMapInfo lat={mdata.lat} lng={mdata.lng} id={mdata.id} mdata={mdata} 
+                    <EditorMapInfo lat={mdata.lat ? mdata.lat : 78.47} lng={mdata.lng ? mdata.lng : -39.99}  id={mdata.id} mdata={mdata} 
                     saveLocation={(lat,lng) => {
                         self.setState({mode:'saveMap'})
                         self.save_location(mdata.href, lat, lng);

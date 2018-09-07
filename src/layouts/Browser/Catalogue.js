@@ -53,7 +53,9 @@ export default class Catalogue extends Component {
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
         browse:PropTypes.func,
-        showAddItem:PropTypes.bool
+        showAddItem:PropTypes.bool,
+        showButton:PropTypes.bool,
+        itemName:PropTypes.itemName
   };
   
   constructor(props) {
@@ -147,7 +149,7 @@ refreshCatalogue = (data) => {
     var eth1_amount=1000000000000000000;
     if (this.state.loading) {
         return (
-            <div id={"location_save_loading"} key={item.id}>
+            <div id={"location_save_loading"} style={{ height: "100%"}} key={item.id}>
                 <center>
                 <img src="images/wait.gif"  width={100} />
                 </center>
@@ -155,11 +157,11 @@ refreshCatalogue = (data) => {
         )
     } else {
         if (this.state.mode && this.state.mode=='edit') {
-                var url = item.node_href + '/<catalogue_name>';
+                var url = item.href ? item.href : item.node_href + '/<catalogue_name>';
             return (
                 
                 <div key={item.id + "_add"} className={"input-group"}>
-                    <span><h3>URL:</h3></span>
+                    <span><h3>Add Catalogue:</h3></span>
                     <input className={"form-control"} type={"text"} id={item.id + "_new_url"} defaultValue={url} />
                     <div className={"input-group-append"}>
                         <button className={"btn btn-primary"} type={"button"} 
@@ -285,7 +287,7 @@ refreshCatalogue = (data) => {
                                 idata={{
                                     id:'add_catalogue_item_' + Math.round(Math.random() * 100000),
                                     node_href:self.state.idata.node_href,
-                                    href:'',
+                                    href:self.state.idata.href ? self.state.idata.href : '',
                                     items:[],            
                                 }} 
                                 mode={'add'} 
@@ -297,16 +299,30 @@ refreshCatalogue = (data) => {
                 
             );
         }  else if (this.state.mode && this.state.mode=='add') {
-            return (
-                 <li id={"add_catalogue_item"}>
-                    [<a href={"#add_catalogue_item"}
-                        onClick={() => {
-                            self.setState({mode:'edit'});
-                        }}> 
-                        Add Item 
-                    </a>] 
-                 </li>
-            )
+            if (this.props.showButton) {
+                return <div><button className={"form-control button3 btn btn-primary"} 
+                type={"button"}
+                style={{height:"80px"}}
+                //style={{ maxWidth:"100px"}}
+                onClick={() => {
+                    self.setState({mode:'edit'});
+
+
+                }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
+                </div>
+
+            } else {
+                return (
+                    <li id={"add_catalogue_item"}>
+                        [<a href={"#add_catalogue_item"}
+                            onClick={() => {
+                                self.setState({mode:'edit'});
+                            }}> 
+                            Add Item 
+                        </a>] 
+                    </li>
+                )
+            }
         } else if (this.state.mode && this.state.mode=='browse') {
 
             item.href = item.href.toString(); 
