@@ -59,7 +59,11 @@ export default class KeyApiCreate extends Component {
                             <div className={"row"}>
                                 <div className={"col-xs-4"} style={{textAlign:"right"}}>
                         
-                                  <label className={"label2"}>Email</label>
+                                  <label 
+                                  className={"label2"}
+                                  style={{ fontSize:"12px" }}
+
+                                  >Email</label>
                                   
                                 </div>
                                 <div className={"col-xs-8"} style={{textAlign:"left"}}>
@@ -74,7 +78,10 @@ export default class KeyApiCreate extends Component {
                             <div className={"row"}>
                                 <div className={"col-xs-4"} style={{textAlign:"right"}}>
                         
-                                  <label className={"label2"}>Select Password</label>
+                                  <label 
+                                  className={"label2"} 
+                                  style={{ fontSize:"12px" }}
+                                  >Select Password</label>
                                   
                                 </div>
                                 <div className={"col-xs-8"} style={{textAlign:"left"}}>
