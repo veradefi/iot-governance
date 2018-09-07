@@ -258,7 +258,7 @@ parseCatalogue = (url, doc) => {
 browse = (url, cb) => {
     var self=this;
     var history=[];
-    this.setState({catalogue_url:url});
+    this.setState({catalogue_url:url, loading:true});
                     
     //alert(url);
     var fetch_location='/cat/getBalance?href=' + url;
@@ -277,7 +277,7 @@ browse = (url, cb) => {
             success: function(doc, textStatus, xhr) {
                     var history=self.state.history;
                     history.push(url);
-                    self.setState({history});
+                    self.setState({history, loading:false});
                     self.parseCatalogue(url, doc);
                     //self.get_smart_key_info(url);
 
@@ -435,7 +435,7 @@ populateUrls = (urls) => {
                         <table>
                             <tbody>
                                 <tr>
-                                    <td style={{textAlign:"right"}}><label className={"title3"}>Select Catalogue:
+                                    <td style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >Select Catalogue:
                                     </label>
                                     </td>
                                     <td> <select id={"urls"} onChange={(e) => {
@@ -465,7 +465,7 @@ populateUrls = (urls) => {
                                     </td>
                                 </tr>
                                
-                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>Catalogue URL:
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >Catalogue URL:
                                     </label>
                                     </td>
                                     <td> <div className={"input-group"}
@@ -496,7 +496,7 @@ populateUrls = (urls) => {
                                     </div>
                                     </td>
                                 </tr>
-                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>User SmartKey <br/>(Rinkeby Network):
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >User SmartKey <br/>(Rinkeby Network):
                                     </label>
                                     </td>
                                     <td> <pre className={"auth"} 
@@ -511,7 +511,7 @@ populateUrls = (urls) => {
                                     </pre>
                                     </td>
                                 </tr>
-                                <tr><td  style={{textAlign:"right"}}><label className={"title3"}>ETH Donation Per Transaction:
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >ETH Donation:
                                     </label>
                                     </td>
                                     <td> <div className={"input-group"}
@@ -526,11 +526,11 @@ populateUrls = (urls) => {
                                                 self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
                                     }}
                                     className={"form-control m-input m-input--air"} style={{height:"45px"}}>
-                                        <option value='0.0001'>0.0001 ETH</option>
-                                        <option value='0.001'>0.001 ETH</option>
-                                        <option value='0.01'>0.01 ETH</option>
-                                        <option value='0.1'>0.1 ETH</option>
-                                        <option value='1'>1 ETH</option>
+                                        <option value='0.0001'>0.0001 ETH Per Transaction</option>
+                                        <option value='0.001'>0.001 ETH Per Transaction</option>
+                                        <option value='0.01'>0.01 ETH Per Transaction</option>
+                                        <option value='0.1'>0.1 ETH Per Transaction</option>
+                                        <option value='1'>1 ETH Per Transaction</option>
                                         
                                     </select>
                                         <div className={"input-group-append"}>
