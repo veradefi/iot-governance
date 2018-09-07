@@ -7,8 +7,8 @@ export default class Header extends Component {
             boxShadow: "0 2px 7px 0 rgba(160, 160, 160, 0.5)",
             border: "solid 1px #e7e7e7"
             }}>
-                    <div className={"row"}>
-                        <div className={"col-md-12"} style={{height:"73px"}}>
+                    <div style={{width:"100%"}}>
+                        <div style={{width:"100%"}} style={{height:"73px"}}>
                             <br/>
                             <div style={{float:"left"}}>
                              <a href={'/iotpedia/'}>

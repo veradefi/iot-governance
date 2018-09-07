@@ -17,7 +17,7 @@ import Dialog from './layouts/Dialog/Dialog'
 import Explorer from './layouts/Explorer/Explorer'
 import View from './layouts/Browser/View'
 import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
-
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 @withRouter
 export default class App extends Component {
@@ -33,15 +33,25 @@ export default class App extends Component {
  
 
     return (
+      <React.Fragment>
+      <CssBaseline />
+      {/*
       <div className="App" style={{
         background: "#f5f5f5",
         overflowX: "hidden",
 
         }}>
+      */}
         
         <Header />
 
-          <div style={{ width:"100%", padding:"22px",  }}>
+          
+          <div style={{ padding:"22px"
+          
+      
+        
+        }}>
+        {/*
             <table style={{width:"100%", height:"100%",margin:"0px",padding:"0px"}}>
               <tbody>
               <tr><td style={{minWidth:"150px", width:"150px", height:"100%", background:'white',
@@ -49,13 +59,15 @@ export default class App extends Component {
                border: "solid 1px #e7e7e7"
             
             }} valign={"top"}>
-           
-
               <Nav />
+           
+          
             </td><td style={{width:"80%", height:"100%", background:'white',
           boxShadow: "0 2px 7px 0 rgba(160, 160, 160, 0.5)",
           border: "solid 1px #e7e7e7"
         }}  valign={"top"}>
+      */}
+              <Nav>
                <Switch>
                   <Route exact path="/" component={Key} />
                   <Route exact path="/key" component={Key} />
@@ -73,12 +85,16 @@ export default class App extends Component {
                   <Route exact path="/view" component={View} />
                   <Redirect from="*" to="/" />
               </Switch>
+              </Nav> 
+          {/*
             </td></tr>
               </tbody>
             </table>
           </div>
+          */}
           <Dialog />
       </div>
+      </React.Fragment>
     );
   }
 }
