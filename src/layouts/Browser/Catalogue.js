@@ -160,10 +160,10 @@ refreshCatalogue = (data) => {
                 var url = item.href ? item.href : item.node_href + '/<catalogue_name>';
             return (
                 
-                <div key={item.id + "_add"} className={"input-group"}>
-                    <span><h3>Add Catalogue:</h3></span><br/>
+                <div key={item.id + "_add"}>
+                    <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
+                    <div  className={"input-group"}>
                     <input className={"form-control"} type={"text"} id={item.id + "_new_url"} defaultValue={url} />
-                    <div className={"input-group-append"}>
                         <button className={"btn btn-primary"} type={"button"} 
                                 onClick={() => {
                                     var item=self.state.idata;
