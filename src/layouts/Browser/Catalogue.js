@@ -161,7 +161,7 @@ refreshCatalogue = (data) => {
             return (
                 
                 <div key={item.id + "_add"} className={"input-group"}>
-                    <span><h3>Add Catalogue:</h3></span>
+                    <span><h3>Add Catalogue:</h3></span><br/>
                     <input className={"form-control"} type={"text"} id={item.id + "_new_url"} defaultValue={url} />
                     <div className={"input-group-append"}>
                         <button className={"btn btn-primary"} type={"button"} 
