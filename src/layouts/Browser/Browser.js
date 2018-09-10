@@ -216,7 +216,7 @@ parseCatalogue = (doc) => {
     if (doc.items.length < 1) {
         itemListHTML=<div>
             <center>
-            <b>No Results Returned</b><br/><br/>
+            <b>No Results Returned</b><br/>
             <Catalogue 
                 catalogueType={'item-metadata'}
                 showAddItem={true}
@@ -454,9 +454,6 @@ render() {
 
                                             }} ><span className={"buttonText"}>Search</span></button>
                                     </div>
-                                    <div className={"input-group-append"}>
-                                    </div>
-
                                 </div>
                             </div>
                             </form>
@@ -465,7 +462,6 @@ render() {
                                     <div style={{width:"100%"}}>
                                         <br/>
                                 
-                                        <br/>
                                         {self.state.catalogue_html ? 
                                             self.state.catalogue_html
                                             : null}
