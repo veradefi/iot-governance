@@ -79,6 +79,7 @@ export default class Catalogue extends Component {
 
   
   add_auth = (xhr) => {
+      
     var self=this;
     var api_key=self.props.api_key;
     var api_auth=self.props.api_auth;
@@ -93,7 +94,7 @@ export default class Catalogue extends Component {
     xhr.setRequestHeader("Accept","application/vvv.website+json;version=1");
     xhr.setRequestHeader("Authorization", data); 
 
-  }
+}
   
   
 save_item = (parent_href, new_href, user_item=null) => {
@@ -143,39 +144,39 @@ refreshCatalogue = (data) => {
 }
 
 
-  render() {
+render() {
     var self=this;
     var item=this.state.idata;
     var eth1_amount=1000000000000000000;
     if (this.state.loading) {
-        return (
-            <div id={"location_save_loading"} style={{ height: "100%"}} key={item.id}>
-                <center>
-                <img src="images/wait.gif"  width={100} />
-                </center>
-            </div>
-        )
+            return (
+                <div id={"location_save_loading"} style={{ height: "100%"}} key={item.id}>
+                    <center>
+                    <img src="images/wait.gif"  width={100} />
+                    </center>
+                </div>
+            )
     } else {
         if (this.state.mode && this.state.mode=='edit') {
                 var url = item.href ? item.href : item.node_href + '/<catalogue_name>';
-            return (
-                
-                <div key={item.id + "_add"}>
-                    <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
-                    <div  className={"input-group"}>
-                    <input className={"form-control"} type={"text"} id={item.id + "_new_url"} defaultValue={url} />
-                        <button className={"btn btn-primary"} type={"button"} 
-                                onClick={() => {
-                                    var item=self.state.idata;
-                                    var href=$('#' + item.id + "_new_url").val();
-                                    item.href=href;
-                                    item.item_href=href;
-                                    self.setState({idata:item, mode:"view"});
-                                    self.save_item(item.node_href,href);
-                                }}>Save</button>
+                return (
+                    
+                    <div key={item.id + "_add"}>
+                        <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
+                        <div  className={"input-group"}>
+                        <input className={"form-control"} type={"text"} id={item.id + "_new_url"} defaultValue={url} />
+                            <button className={"btn btn-primary"} type={"button"} 
+                                    onClick={() => {
+                                        var item=self.state.idata;
+                                        var href=$('#' + item.id + "_new_url").val();
+                                        item.href=href;
+                                        item.item_href=href;
+                                        self.setState({idata:item, mode:"view"});
+                                        self.save_item(item.node_href,href);
+                                    }}>Save</button>
+                        </div>
                     </div>
-                </div>
-            );
+                );
         } else if (this.state.mode && this.state.mode=='view') {
 
             item.href = item.href.toString(); 
@@ -208,9 +209,11 @@ refreshCatalogue = (data) => {
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
                         map_json["Latitude"]=mdata.val;
                     }
+
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
                         map_json["Longitude"]=mdata.val;
-                    }        
+                    }
+
                     count+=1;
                     items.push(ires);
                 });
@@ -300,14 +303,12 @@ refreshCatalogue = (data) => {
             );
         }  else if (this.state.mode && this.state.mode=='add') {
             if (this.props.showButton) {
-                return <div><button className={"form-control button3 btn btn-primary"} 
+                return <div><button className={"form-control button3 btn btn-primary"}
                 type={"button"}
                 style={{height:"80px"}}
                 //style={{ maxWidth:"100px"}}
                 onClick={() => {
                     self.setState({mode:'edit'});
-
-
                 }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
                 </div>
 

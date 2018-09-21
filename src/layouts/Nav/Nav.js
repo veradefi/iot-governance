@@ -94,24 +94,25 @@ class Nav extends Component {
                 name: 'Update Catalogue',
                 selected: false,
             },            
-            {
-                href: 'http://iotblock.readthedocs.io/en/latest/',
-                name: 'Documentation',
-                selected: false,
-                target: '_newwindow'
-            },
-           
+           /*
             {
                 href: 'explorer',
                 name: 'VR Catalogue Explorer',
                 selected: false,
             },
+            */
             {
                 href: 'map',
                 name: 'VR Earth Explorer',
                 selected: false,
             },
             {
+              href: 'http://iotblock.readthedocs.io/en/latest/',
+              name: 'Documentation',
+              selected: false,
+              target: '_newwindow'
+            },
+          {
                 href: 'pool',
                 name: 'Smart Pool Key',
                 selected: false,
