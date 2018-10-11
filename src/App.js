@@ -19,6 +19,7 @@ import View from './layouts/Browser/View'
 import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
+import Map2D from './layouts/Map/Map2D.js';
 
 @withRouter
 export default class App extends Component {
@@ -43,8 +44,9 @@ export default class App extends Component {
          <Route exact path="/editor.html" component={Editor} />
          <Route exact path="/explorer" component={Explorer} />
          <Route exact path="/explorer.html" component={Explorer} />
-         <Route exact path="/map" component={Map} />
-         <Route exact path="/map.html" component={Map} />
+         <Route exact path="/map2D" component={Map2D} />
+         <Route exact path="/map" component={Map2D} />
+         <Route exact path="/map.html" component={Map2D} />
          <Route exact path="/pool" component={SmartPoolKey} />
          <Route exact path="/pool.html" component={SmartPoolKey} />
          <Route exact path="/view" component={View} />
