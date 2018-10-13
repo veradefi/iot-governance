@@ -226,7 +226,7 @@ parseCatalogue = (doc) => {
                     
                     id:'add_catalogue_item',
                     node_href:url,
-                    href: 'https://iotblock.io/cat/Products/' + this.state.search,
+                    href: 'https://iotblock.io/cat/BarCodes/' + this.state.search,
                     items:[],            
                     
                 }}

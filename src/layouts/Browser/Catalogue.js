@@ -120,8 +120,14 @@ save_item = (parent_href, new_href, user_item=null) => {
                 console.log(body);
                 var item=self.state.idata;
                 item.node_href=parent_href;
-                item.item_href=body.href;
-                item.href=body.href;
+                if (body.href) {
+                    item.item_href=body.href;
+                    item.href=body.href;
+                } else {
+                    item.item_href=new_href;
+                    item.href=new_href;
+
+                }
                 if ('items' in body)
                     item.items=body.items;
                 else
@@ -171,7 +177,7 @@ render() {
                                         var href=$('#' + item.id + "_new_url").val();
                                         item.href=href;
                                         item.item_href=href;
-                                        self.setState({idata:item, mode:"view"});
+                                        //self.setState({idata:item});
                                         self.save_item(item.node_href,href);
                                     }}>Save</button>
                         </div>
