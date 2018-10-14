@@ -132,9 +132,16 @@ save_item = (parent_href, new_href, user_item=null) => {
                     item.items=body.items;
                 else
                     item['items']=[];
-                item['catalogue-metadata']=body['catalogue-metadata']
-                item[self.props.catalogueType]=body['catalogue-metadata']
-                self.setState({idata:item, mode:'view'})
+                if (body['catalogue-metadata'] && body['catalogue-metadata'].length > 0) {
+                    item['catalogue-metadata']=body['catalogue-metadata']
+                    item[self.props.catalogueType]=body['catalogue-metadata']
+
+                } else {
+                    //body['catalogue-metadata']=[];
+                    //item[self.props.catalogueType]=[]
+
+                }
+                self.setState({loading:false, idata:item, mode:'view'})
             },
             error: function(xhr, textStatus, err) {
                 console.log(xhr.status + ' ' + xhr.statusText);
@@ -177,8 +184,8 @@ render() {
                                         var href=$('#' + item.id + "_new_url").val();
                                         item.href=href;
                                         item.item_href=href;
-                                        //self.setState({idata:item});
-                                        self.save_item(item.node_href,href);
+                                        self.setState({idata:item, mode:'view', hideAddItem:true});
+                                        self.save_item(item.node_href,href,  item[this.props.catalogueType]);
                                     }}>Save</button>
                         </div>
                     </div>
@@ -206,7 +213,8 @@ render() {
                             key={mdata.id} 
                             mdata={mdata} 
                             mode={'view'} 
-                            refreshCatalogue={self.refreshCatalogue} 
+                            refreshCatalogue={() => {
+                            }} 
                             />;
                     //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     //    isCat = true;
@@ -288,7 +296,7 @@ render() {
 
                     </ul>
 
-                    {self.props.showAddItem ? (
+                    {self.props.showAddItem && !self.state.hideAddItem ? (
 
                           <Catalogue 
                                 {...self.props}
@@ -314,6 +322,10 @@ render() {
                 style={{height:"80px"}}
                 //style={{ maxWidth:"100px"}}
                 onClick={() => {
+
+                   
+
+
                     self.setState({mode:'edit'});
                 }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
                 </div>
