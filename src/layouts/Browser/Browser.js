@@ -134,7 +134,7 @@ fill_api_info = (auth, auth_info, user_key_address) => {
     });
 
     this.props.authSuccess(auth, auth_info, user_key_address);
-    this.props.authEthContrib(parseFloat($('#eth_contrib').val()));
+    this.props.authEthContrib(parseFloat("0.0001"));
         
 }
 
@@ -216,23 +216,50 @@ parseCatalogue = (doc) => {
     if (doc.items.length < 1) {
         itemListHTML=<div>
             <center>
-            <b>No Results Returned</b><br/>
             <Catalogue 
-                catalogueType={'item-metadata'}
+                catalogueType={'catalogue-metadata'}
                 showAddItem={true}
                 showButton={true}
-                itemName={this.state.search}
+                itemName={this.state.search ? this.state.search : ''}
                 idata={{
                     
                     id:'add_catalogue_item',
-                    node_href:url,
-                    href: 'https://iotblock.io/cat/BarCodes/' + this.state.search,
-                    items:[],            
+                    node_href:'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes',
+                    href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search,
+                    items:[],          
+                    "catalogue-metadata": [
+                        {
+                            "rel": "urn:X-hypercat:rels:isContentType",
+                            "val": "application/vnd.hypercat.catalogue+json"
+                        },
+                        {
+                            "rel": "urn:X-hypercat:rels:hasDescription:en",
+                            "val": ""
+                        },
+                        {
+                            "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
+                            "val": "78.47609815628121"
+                        },
+                        {
+                            "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+                            "val": "-39.99203727636359"
+                        },
+                        {
+                            "rel": "urn:X-hypercat:rels:Media:1",
+                            "val": ""
+                        }
+                    ]
                     
                 }}
                 mode={'add'} 
-                browse={self.browse} />
-                
+                browse={() => {
+                    window.location='/iotpedia/editor?url=https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search
+                }} />
+            <br/>
+            <b>
+                        <font color={"orange"}>{self.props.eth_contrib} ETH / Transaction</font>
+                        </b>
+
                
             </center>
         </div>
@@ -307,6 +334,38 @@ initCatalogue = () => {
             }
         });
     }
+
+    var check_key=(address) => {
+        var url=self.state.catalogue;
+         //url=url.replace(/\/$/, "");
+        //url=url.replace(/icat/, "cat");
+        //url="https://iotblock.io" + path
+        
+        var param= getParameterByName("url");
+        if (param) {
+            url=param;
+            self.setState({catalogue_url:url})
+        }
+        console.log(url); 
+        
+        console.log('address' + address);
+        $('.address').html(address);
+        $('.address_val').val(address);
+        
+
+
+        web3Utils.get_keyAuth(address, self.fill_api_info) 
+
+         
+     }
+     var eth_salt = web3Utils.getCookie('iotcookie');
+     if (eth_salt == null) {
+             web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
+             eth_salt = web3Utils.getCookie('iotcookie');
+     }
+     
+     web3Utils.init_wallet(eth_salt, check_key);
+
 
 }
 search = (q) => {
