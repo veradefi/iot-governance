@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
  */
 
 class ContractDAO extends Component {
+
   constructor(props, context) {
     super(props)
 
@@ -20,6 +21,7 @@ class ContractDAO extends Component {
     var methodArgs2 = this.props.methodArgs2 ? this.props.methodArgs2 : []
     this.dataKey = this.contracts[this.props.contract].methods[this.props.method].cacheCall(...methodArgs)
     if (this.props.morris) {
+      
         this.dataKey2 = this.contracts[this.props.contract].methods[this.props.method2].cacheCall(...methodArgs2)
 
      }
@@ -28,6 +30,7 @@ class ContractDAO extends Component {
   componentDidMount() {
       
   }
+
   precisionRound(number, precision) {
     var factor = Math.pow(10, precision)
     return Math.round(number * factor) / factor

@@ -354,7 +354,10 @@ def getNode(graphRoot):
         for meta in metaData:
             meta_c=getContract('MetaData',network, meta)
             metaJson.append({'rel':meta_c.call().rel(),
-                             'val':meta_c.call().val()})
+                             'val':meta_c.call().val(),
+                            'address':web3.toChecksumAddress(meta)
+
+                             })
             #print (meta_c.call().rel(), meta_c.call().val())
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
         return metaJson
@@ -366,7 +369,10 @@ def getNode(graphRoot):
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
             itemJson={'href':item_c.call().href(),
-                             'item-metadata':meta}
+                             'item-metadata':meta
+                            'address':web3.toChecksumAddress(item)
+                             
+                             }
             if getItems:
                 itemListJson=getItem(item_c.call({'from':address}).selectItems(), False)
                 itemJson['items']=itemListJson;
@@ -404,7 +410,8 @@ def getNodeBalance(graphRoot):
             bal=smartKey.call().getBalance(web3.toChecksumAddress(meta))
             metaJson.append({'rel':meta_c.call().rel(),
                              'val':meta_c.call().val(),
-                             'bal':bal})
+                             'bal':bal,
+                             'address':web3.toChecksumAddress(meta)})
             #print (meta_c.call().rel(), meta_c.call().val())
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
         return metaJson
@@ -417,7 +424,8 @@ def getNodeBalance(graphRoot):
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
         
             itemJson.append({'href':item_c.call().href(),
-                             'item-metadata':meta})
+                             'item-metadata':meta,
+                             'address':web3.toChecksumAddress(item)})
         return itemJson
 
     metaJson=[]
