@@ -26,8 +26,10 @@ const drizzleOptions = {
   //  SimpleStorage: ['StorageSet']
   //},
   polls: {
-    accounts: 1500
-  }
+    accounts: 1500,
+    blocks: 1500
+  },
+  //syncAlways,
 }
 
 export default drizzleOptions
