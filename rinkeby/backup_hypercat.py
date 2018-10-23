@@ -14,7 +14,7 @@ def unittest():
     p = Catalogue(TEST_PATHFINDER_URL_ROOT, "ADMINSECRET")
     #h1 = hypercat.Hypercat("Dummy test catalogue")
     #p.create(h1)
-    p.backup('backups/1.json');
+    p.backup('backups/2.json');
     
     print("Read it")
     h2 = hypercat.loads(json.dumps(p.get()))
