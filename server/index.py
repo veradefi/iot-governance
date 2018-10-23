@@ -369,7 +369,7 @@ def getNode(graphRoot):
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
             itemJson={'href':item_c.call().href(),
-                             'item-metadata':meta
+                             'item-metadata':meta,
                             'address':web3.toChecksumAddress(item)
                              
                              }
