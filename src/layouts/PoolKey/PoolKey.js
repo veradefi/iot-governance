@@ -5,8 +5,8 @@ import { connect, Provider } from "react-redux";
 import * as web3Utils from "../../util/web3/web3Utils";
 import {Springy, Graph, Node} from "springy";
 import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
-import ContractDAO from './ContractDAO'
-import AccountDAO from './AccountDAO'
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
 import { drizzleConnect } from 'drizzle-react'
 import PoolKeyContract from '../../solc/contracts/PoolKey.json'
 
