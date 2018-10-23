@@ -394,7 +394,9 @@ def getNode(graphRoot):
         
     cat = { 
             "catalogue-metadata":metaJson,
-            "items":itemJson
+            "items":itemJson,
+            'address':web3.toChecksumAddress(graphRoot.address)
+
           }
     
     return cat
@@ -444,7 +446,8 @@ def getNodeBalance(graphRoot):
     cat = { 
             "href":href,
             "catalogue-metadata":metaJson,
-            "items":itemJson
+            "items":itemJson,
+            'address':web3.toChecksumAddress(graphRoot.address)
           }
     
     return cat
