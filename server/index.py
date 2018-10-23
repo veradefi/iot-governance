@@ -866,7 +866,7 @@ def doAuth(readOnly=False):
                     if balance > int(auth['eth_contrib']):
                         to=web3.toChecksumAddress(address)
                         sender=web3.toChecksumAddress(auth['auth'])
-                        userEthTransfer(auth['eth_contrib'], web3.toChecksumAddress(to), web3.toChecksumAddress(sender), '', auth)
+                        #userEthTransfer(auth['eth_contrib'], web3.toChecksumAddress(to), web3.toChecksumAddress(sender), '', auth)
             
                         return True, auth
                 else:
