@@ -407,14 +407,26 @@ render() {
                                         <br/>
                                     </div>
                                 </div>
-                                        
-                                <div className={"row"}>
+
+                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>
-                                        <label className={"label6"}>Balance</label>
+                                        <label className={"label6"}>IOTBLOCK Balance</label>
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_balance"}>
-                                        {balance}
+                                        {balance.toLocaleString()}
+                                        </span>
+                                        <font size={2}> IOTBLOCK</font><br/>
+                                    </div>
+                                </div>                 
+                                        
+                                <div className={"row"}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>
+                                        <label className={"label6"}>ETH Balance</label>
+                                    </div>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
+                                        <span className={"label7 eth_balance"}>
+                                        {eth_recv}
                                         </span>
                                         <font size={2}> ETH</font><br/>
                                     </div>

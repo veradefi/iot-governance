@@ -221,7 +221,6 @@ fill_page2 = (userAddress, address, balance, eth_recv, vault, state, health, tok
        var myAddress=userAddress;
        var keyAddress=address;
        var eth1_amount=1000000000000000000       
-       balance/=eth1_amount;
        eth_recv/=eth1_amount;
        tokens/=eth1_amount;
        var states=[ 'Issued', 'Active', 'Returned' ]
