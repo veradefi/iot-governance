@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import BrowserMapInfo from "./BrowserMapInfo";
-import MetaData from "./MetaDataDAO";
-import Catalogue from "./CatalogueDAO";
+import MetaData from "./MetaData";
+import Catalogue from "./Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
 var $ = require ('jquery');
