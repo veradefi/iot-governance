@@ -21,7 +21,7 @@ class ContractDAO extends Component {
     var methodArgs2 = this.props.methodArgs2 ? this.props.methodArgs2 : []
     this.dataKey = this.contracts[this.props.contract].methods[this.props.method].cacheCall(...methodArgs)
     if (this.props.morris) {
-      
+
         this.dataKey2 = this.contracts[this.props.contract].methods[this.props.method2].cacheCall(...methodArgs2)
 
      }
@@ -70,6 +70,13 @@ class ContractDAO extends Component {
 
     var displayData=this.props.contracts[this.props.contract][this.props.method][this.dataKey].value
 
+    if (this.props.isString) {
+      return(
+        <span>
+          {displayData}
+        </span>
+      )
+    }
   
 
     // Optionally convert to UTF8

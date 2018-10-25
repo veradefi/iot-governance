@@ -56,7 +56,6 @@ export default class Catalogue extends Component {
         showAddItem:PropTypes.bool,
         showButton:PropTypes.bool,
         itemName:PropTypes.itemName,
-        catalogueAddress:PropTypes.string.isRequired
   };
   
   constructor(props) {
@@ -65,9 +64,13 @@ export default class Catalogue extends Component {
         loading:false,
         mode:props.mode,
         idata:props.idata,
-        dataLoading:false
+        dataLoading:false,
+        addItems:{},
+        addMeta:{}
     }
-  }
+    //this.addItems={}
+    //this.addMeta={}
+}
 
   componentWillReceiveProps(newProps) {
       if (newProps.mode) {
@@ -213,6 +216,7 @@ render() {
                     var ires=<MetaData
                             key={mdata.id} 
                             mdata={mdata} 
+                            item={item}
                             mode={'view'} 
                             refreshCatalogue={() => {
                             }} 
@@ -239,12 +243,34 @@ render() {
                 item_href: item.href,
                 rel: '',
                 val: ''}
-            items.push(<MetaData 
-                key={cmdata.id} 
-                mdata={cmdata} 
-                mode={'add'} 
-                refreshCatalogue={self.refreshCatalogue}  
-                />);
+            const moreAddItem = (item, cmdata) => {
+                var addMeta = self.state.addMeta;
+                addMeta[item.address].push(<MetaData 
+                    key={Math.random()} 
+                    mdata={cmdata} 
+                    item={item}
+                    mode={'add'} 
+                    refreshCatalogue={() => {
+                        //alert('refresh')
+                        moreAddItem(item, cmdata);
+                    }}  
+                    />);    
+                // self.state.addMeta=addMeta;
+                //console.log(self.state.addMeta);
+                self.setState({addMeta : addMeta})
+                //self.forceUpdate();
+
+            }
+
+            if (!(item.address in this.state.addMeta)) {
+                var addMeta = this.state.addMeta;
+                addMeta[item.address]=[];
+
+                moreAddItem(item, cmdata);
+            } else {
+                //console.log(this.state.addMeta[item.address])
+                //moreAddItem(item, cmdata);
+            }
 
             if ("Latitude" in map_json) {
                 cmdata.lat=map_json["Latitude"];
@@ -259,6 +285,7 @@ render() {
             items.push(<MetaData 
                 key={cmdata.id + '_location'} 
                 mdata={cmdata} 
+                item={item}
                 mode={'editLoc'} 
                 refreshCatalogue={self.refreshCatalogue}  
                 />)
@@ -294,7 +321,9 @@ render() {
                     <ul>
                     {items}
                     
-
+                    {self.state.addMeta[item.address].map(item => {
+                        return item;
+                    })}
                     </ul>
 
                     {self.props.showAddItem && !self.state.hideAddItem ? (
@@ -365,6 +394,7 @@ render() {
                     mdata.id=item.id + "_item_metadata_" + count;
                     var ires=<MetaData 
                             key={mdata.id} 
+                            item={item}
                             mdata={mdata}
                             mode={'browse'}
                             refreshCatalogue={self.refreshCatalogue}
@@ -444,6 +474,7 @@ render() {
                     </li>
                     <ul>
                     {items}
+                    
                     
 
                     </ul>

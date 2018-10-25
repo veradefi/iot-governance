@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import BrowserMapInfo from "./BrowserMapInfo";
+import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import ContractDAO from '../../util/web3/ContractDAO'
 import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
+import * as web3Utils from "../../util/web3/web3Utils";
 
 var $ = require ('jquery');
 
@@ -15,7 +18,17 @@ const stateToProps = state => {
         api_auth: state.auth.api_auth,
         api_key: state.auth.api_key,
         eth_contrib: state.auth.eth_contrib,
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+
+    };
+  };
+
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+
     };
   };
   
@@ -40,13 +53,22 @@ const dispatchToProps = dispatch => {
         authEthContrib: (eth_contrib) => {
             dispatch(actions.authEthContrib(eth_contrib));
         },
+       
+    };
+};
+
+const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
     };
 };
 
 
 
-@connect(stateToProps, dispatchToProps)
-export default class MetaData extends Component {
+//@connect(stateToProps, dispatchToProps)
+class MetaData extends Component {
    static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
@@ -55,11 +77,25 @@ export default class MetaData extends Component {
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
         refreshCatalogue:PropTypes.func,
-        metaDataAddress:PropTypes.string.isRequired
+        metaDataAddress:PropTypes.string.isRequired,
+        mdata:PropTypes.object,
+        item:PropTypes.object
   };
   
-  constructor(props) {
+  constructor(props, context) {
     super(props)
+    /*
+    if (props.mdata && props.mdata.address) {
+        var cfg=Object.assign({}, web3Utils.get_meta_contract_cfg(props.mdata.address));
+        var events=[];
+        var web3=web3Utils.get_web3();
+        var drizzle=context.drizzle;
+        //this.setState({loading:false})
+        //context.drizzle.addContract({cfg, events})
+        
+        props.addContract(drizzle, cfg, events, web3) 
+    }
+    */
     this.state={
         loading:false,
         mode:props.mode,
@@ -68,6 +104,9 @@ export default class MetaData extends Component {
     }
   }
 
+  componentDidMount() {
+
+  }
   componentWillReceiveProps(newProps) {
       if (newProps.mode) {
           this.setState({mode:newProps.mode});
@@ -242,85 +281,33 @@ save_location=(node_href, lat, lng) => {
     } else {
         if (this.state.mode && this.state.mode=='edit') {
             return (
-                 <div className={"input-group"} key={mdata.id}>
-                    <input className={"form-control"} 
-                            type={"text"} 
-                            id={mdata.id + '_rel'}
-                            defaultValue={mdata.rel} />
-                    <span style={{verticalAlign:"middle"}}>
-                        <h1> = </h1>
-                    </span>
-                    <input className={"form-control"} 
-                            type={"text"} 
-                            id={mdata.id + '_val'}
-                            defaultValue={mdata.val} />
-                            
-                        <div className={"input-group-append"}>
-                            <button className={"btn btn-primary"} type="button"
-                            onClick={() => {
-                                mdata.rel= $('#' + mdata.id + "_rel").val();
-                                mdata.val= $('#' + mdata.id + "_val").val();
-                                
-                                self.save_meta(
-                                            mdata.rel,
-                                            mdata.val,
-                                            mdata.node_href, 
-                                            mdata.item_href);
-                                this.setState({
-                                    mode:'view',
-                                    mdata: mdata
-                                });
-
-                            }}> Save </button>
-                        </div>
-                 </div>
+                  <ContractFormDAO
+                        contract={mdata.address} 
+                        metaEdit={true} 
+                        mdata={mdata}
+                        />       
+                    
             );
         } else if (this.state.mode && this.state.mode=='view') {
             return (
               
-                                                        
-
-                <li id={mdata.id} key={mdata.id}>
-                          <ContractDAO contract={self.props.metaDataAddress} 
-                            method="val" 
-                            methodArgs={[]} 
-                            />
-                        [ <a href={"#" + mdata.id}
-                             onClick={() => {
-                                this.setState({mode:'edit'});
-                             }}> 
-                             Edit 
-                           </a> 
-                        ] &nbsp; 
-                        {mdata.rel} <pre style={{width:"88%"}}>{mdata.val}</pre>
-
-                        <br/>
-                        {self.state.dataLoading ? (
-                            <b>Processing Contribution... <br/></b>
-                        ) : 
-                        mdata.bal ? (
-                        <b>Donation Received: {parseFloat(mdata.bal)/eth1_amount} ETH 
-                        <br/>
-                        </b> 
-                        ) : null }
-                        <br/>
-                </li>
+                <ContractFormDAO
+                        contract={mdata.address} 
+                        metaView={true} 
+                        mdata={mdata}
+                        />  
             )
+               
         }  else if (this.state.mode && this.state.mode=='add') {
             return (
-                <li 
-                        id={mdata.id} 
-                        key={mdata.id}>
-                        [<span style={{'cursor':'pointer'}}
-                            onClick={() => {
-                                this.setState({mode:'edit'});
-                                //self.add_meta('catalogue_create_meta_data_' + i, url, item.href);
-                                }}> 
-                        Add Meta Data 
-                        </span>] 
-            <br/><br/>
-            
-            </li>
+                <ContractFormDAO
+                        contract={this.props.item.address} 
+                        metaAdd={true} 
+                        mdata={mdata}
+                        refreshCatalogue={() => {
+                            this.props.refreshCatalogue();
+                        }}
+                        />  
             )
         }  else if (this.state.mode && this.state.mode=='editLoc') {
             return (
@@ -368,7 +355,8 @@ save_location=(node_href, lat, lng) => {
         } else if (this.state.mode && this.state.mode=='browse') {
             return (
                 <li id={mdata.id} key={mdata.id}> 
-                        &nbsp; 
+                        &nbsp;
+                       
                         {mdata.rel} <pre style={{width:"81%"}}>{mdata.val}</pre>
 
                         <br/>
@@ -387,3 +375,11 @@ save_location=(node_href, lat, lng) => {
     }
   }
 }
+
+
+MetaData.contextTypes = {
+    drizzle: PropTypes.object
+  }
+
+//  drizzleConnect(MetaData,drizzleStateToProps, drizzleDispatchToProps),
+export default connect( stateToProps, dispatchToProps)( drizzleConnect(MetaData,drizzleStateToProps, drizzleDispatchToProps))
