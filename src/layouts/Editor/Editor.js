@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import EditorMapInfo from "./EditorMapInfo";
-import MetaData from "./MetaData";
-import Catalogue from "./Catalogue";
+import MetaData from "../Browser/MetaDataDAO";
+import Catalogue from "../Browser/CatalogueDAO";
 import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
 import NodeKey from "../Key/NodeKey"

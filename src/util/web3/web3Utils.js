@@ -12,6 +12,7 @@ import contract from 'truffle-contract';
 import BigNumber from 'bignumber.js';
 import createKeccak from 'keccak';
 import shajs from 'sha.js'
+
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 
    
@@ -564,6 +565,30 @@ export const get_pool_contract_cfg = (poolkey) => {
       var contractConfig = {
         contractName: poolkey,
         web3Contract: poolkey_contract
+      }
+      return contractConfig;
+}
+
+export const get_meta_contract_cfg = (meta) => {
+    console.log(meta_artifacts)
+      var jsonInterface=meta_artifacts.abi.slice(0);
+      console.log(jsonInterface)
+      var meta_contract=new window.web3.eth.Contract(jsonInterface, meta);
+      var contractConfig = {
+        contractName: meta,
+        web3Contract: meta_contract
+      }
+      return contractConfig;
+}
+
+export const get_item_contract_cfg = (item) => {
+    console.log(item_artifacts)
+      var jsonInterface=item_artifacts.abi.slice(0);
+      console.log(jsonInterface)
+      var item_contract=new window.web3.eth.Contract(jsonInterface, item);
+      var contractConfig = {
+        contractName: item,
+        web3Contract: item_contract
       }
       return contractConfig;
 }
