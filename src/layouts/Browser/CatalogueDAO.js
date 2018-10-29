@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import MetaData from "./MetaDataDAO"
+import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import { Link } from "react-router-dom";
 var $ = require ('jquery');
 
@@ -176,9 +177,22 @@ render() {
     } else {
         if (this.state.mode && this.state.mode=='edit') {
                 var url = item.href ? item.href : item.node_href + '/<catalogue_name>';
+                console.log(item);
                 return (
                     
+                    <ContractFormDAO
+                    contract={item.address} 
+                    catAdd={true} 
+                    idata={item}
+                    refreshCatalogue={(res) => {
+                        self.setState({idata:res, mode:'view'})
+                    }} 
+                    />  
+                    );
+
+                    /*
                     <div key={item.id + "_add"}>
+              
                         <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
                         <div  className={"input-group"}>
                         <input className={"form-control"} type={"text"} id={item.id + "_new_url"} defaultValue={url} />
@@ -193,7 +207,7 @@ render() {
                                     }}>Save</button>
                         </div>
                     </div>
-                );
+                    */
         } else if (this.state.mode && this.state.mode=='view') {
 
             item.href = item.href.toString(); 
@@ -327,8 +341,10 @@ render() {
                     {editLoc}
                     </ul>
 
+                    
                     {self.props.showAddItem && !self.state.hideAddItem ? (
 
+                        
                           <Catalogue 
                                 {...self.props}
                                 catalogueType={'item-metadata'}
@@ -354,11 +370,53 @@ render() {
                         style={{height:"80px"}}
                         //style={{ maxWidth:"100px"}}
                         onClick={() => {
+                            console.log(this.props.idata)
+                            this.props.showDialog(true, 
+                                <Catalogue 
+                                        catalogueType={'catalogue-metadata'}
+                                        showAddItem={true}
+                                        showButton={true}
+                                        itemName={this.props.itemName ? this.props.itemName : ''}
+                                        idata={{
+                                            address: self.props.idata.address,
+                                            id:'add_catalogue_item',
+                                            node_href:'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes',
+                                            href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.props.itemName,
+                                            items:[],          
+                                            "catalogue-metadata": [
+                                                {
+                                                    "rel": "urn:X-hypercat:rels:isContentType",
+                                                    "val": "application/vnd.hypercat.catalogue+json"
+                                                },
+                                                {
+                                                    "rel": "urn:X-hypercat:rels:hasDescription:en",
+                                                    "val": ""
+                                                },
+                                                {
+                                                    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
+                                                    "val": "78.47609815628121"
+                                                },
+                                                {
+                                                    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+                                                    "val": "-39.99203727636359"
+                                                },
+                                                {
+                                                    "rel": "urn:X-hypercat:rels:Media:1",
+                                                    "val": ""
+                                                }
+                                            ]
+                                            
+                                        }}
+                                        mode={'edit'} 
+                                        browse={() => {
+                                            window.location='/iotpedia/editor?url=https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.props.itemName
+                                        }} />
 
+                            );
                         
 
 
-                            self.setState({mode:'edit'});
+                            //self.setState({mode:'edit'});
                         }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
                         </div>
                 }
@@ -367,7 +425,23 @@ render() {
                     <li id={"add_catalogue_item"}>
                         [<a href={"#add_catalogue_item"}
                             onClick={() => {
-                                self.setState({mode:'edit'});
+                                this.props.showDialog(true, 
+                                    <Catalogue 
+                                                {...self.props}
+                                                catalogueType={'item-metadata'}
+                                                idata={{
+                                                    address: self.props.idata.address,
+                                                    id:'add_catalogue_item_' + Math.round(Math.random() * 100000),
+                                                    node_href:self.state.idata.node_href,
+                                                    href:self.state.idata.href ? self.state.idata.href : '',
+                                                    items:[],            
+                                                }} 
+                                                mode={'edit'} 
+                                                browse={self.props.browse} 
+                                        />
+
+                                );
+                                    //self.setState({mode:'edit'});
                             }}> 
                             Add Item 
                         </a>] 

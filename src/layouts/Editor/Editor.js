@@ -216,7 +216,7 @@ parseCatalogue = (url, doc) => {
                 catalogueType={'item-metadata'}
                 showAddItem={true}
                 idata={{
-                    
+                    address: doc.address,
                     id:'add_catalogue_item',
                     node_href:url,
                     href:'',
