@@ -37,6 +37,17 @@ class ContractForm extends Component {
         
         props.addContract(drizzle, cfg, events, web3) 
       }
+
+      if (props.catAdd) {
+        var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(this.props.contract));
+        var events=[];
+        var web3=web3Utils.get_web3();
+        var drizzle=context.drizzle;
+        //this.setState({loading:false})
+        //context.drizzle.addContract({cfg, events})
+        
+        props.addContract(drizzle, cfg, events, web3) 
+      }
     }
  
     var mode='metaView'
@@ -45,6 +56,9 @@ class ContractForm extends Component {
     }
     if (this.props.metaAdd) {
       mode='metaAdd'
+    }
+    if (this.props.catAdd) {
+      mode='catAdd'
     }
 
     this.state={
@@ -178,8 +192,8 @@ class ContractForm extends Component {
                             var method="upsertMetaData";
                             if (this.state.formVal && this.state.formRel) {
                                   var drizzleState=this.context.drizzle.store.getState()
-                                  alert(drizzleState.accounts[0]);
-                                  alert(this.props.eth_contrib)
+                                  //alert(drizzleState.accounts[0]);
+                                  //alert(this.props.eth_contrib)
                                   this.contracts[this.props.contract].methods[method].cacheSend(this.state.formRel, this.state.formVal, {
                                     from: drizzleState.accounts[0],  value: Math.round(parseFloat(this.props.eth_contrib)*eth1_amount), gas: 100000, gasPrice:23000000000
                                   });
@@ -210,6 +224,44 @@ class ContractForm extends Component {
           </li>
           </div>
   } 
+
+  if (this.state.mode == 'catAdd') { 
+        var item=this.props.idata;
+        var url = item.href ? item.href : item.node_href + '/<catalogue_name>';
+        console.log(item);
+        return (
+      
+            <div key={item.id + "_add"}>
+                <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
+                <div  className={"input-group"}>
+                <input className={"form-control"} type={"text"} id={item.id + "_new_url"} 
+                  onChange={(e) => {
+                    self.setState({url:e.target.value});
+                  }}
+                defaultValue={url} />
+                    <button className={"btn btn-primary"} type={"button"} 
+                            onClick={() => {
+                              var drizzleState=this.context.drizzle.store.getState()
+                              var smartNode="SmartNode";
+                              var method="upsertItem";
+                              this.contracts[smartNode].methods[method].cacheSend(this.props.idata.address, this.state.url, 
+                                {from: drizzleState.accounts[0],  value: Math.round(parseFloat(this.props.eth_contrib)*eth1_amount), gas: 100000, gasPrice:23000000000
+                                });
+                                //  graphAddr=web3.toChecksumAddress(graphAddr)
+                                //tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
+                                //var item=self.state.idata;
+                                //var href=$('#' + item.id + "_new_url").val();
+                                //item.href=href;
+                                //item.item_href=href;
+                                self.props.refreshCatalogue(item);
+                                //self.setState({idata:item, mode:'itemView', hideAddItem:true});
+                                //self.save_item(item.node_href,href,  item[this.props.catalogueType]);
+                            }}>Save</button>
+                </div>
+            </div>
+            );
+  } 
+
   if(!this.props.contracts[this.props.contract] 
     || !this.props.contracts[this.props.contract].initialized 
     || !this.props.contracts[this.props.contract].synced
