@@ -222,7 +222,7 @@ parseCatalogue = (doc) => {
                 showButton={true}
                 itemName={this.state.search ? this.state.search : ''}
                 idata={{
-                    
+                    address: doc.address,
                     id:'add_catalogue_item',
                     node_href:'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes',
                     href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search,
