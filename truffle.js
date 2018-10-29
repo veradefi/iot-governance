@@ -4,8 +4,8 @@ module.exports = {
   networks: {
     development: {
       host: "127.0.0.1",
-      port: 8666,
-      network_id: "*",
+      port: 8545,
+      network_id: "5",
     },
     rinkeby: {
       host: "35.165.47.77",

@@ -77,7 +77,7 @@ class MetaData extends Component {
         eth_contrib: PropTypes.number.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,
         refreshCatalogue:PropTypes.func,
-        metaDataAddress:PropTypes.string.isRequired,
+        metaDataAddress:PropTypes.string,
         mdata:PropTypes.object,
         item:PropTypes.object
   };
@@ -382,4 +382,4 @@ MetaData.contextTypes = {
   }
 
 //  drizzleConnect(MetaData,drizzleStateToProps, drizzleDispatchToProps),
-export default connect( stateToProps, dispatchToProps)( drizzleConnect(MetaData,drizzleStateToProps, drizzleDispatchToProps))
+export default connect( stateToProps, dispatchToProps)( MetaData )
