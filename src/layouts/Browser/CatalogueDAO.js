@@ -55,7 +55,7 @@ export default class Catalogue extends Component {
         browse:PropTypes.func,
         showAddItem:PropTypes.bool,
         showButton:PropTypes.bool,
-        itemName:PropTypes.itemName,
+        itemName:PropTypes.string,
   };
   
   constructor(props) {
@@ -282,13 +282,13 @@ render() {
             } else {
                 cmdata.lng=0;
             }
-            items.push(<MetaData 
+            var editLoc=<MetaData 
                 key={cmdata.id + '_location'} 
                 mdata={cmdata} 
                 item={item}
                 mode={'editLoc'} 
                 refreshCatalogue={self.refreshCatalogue}  
-                />)
+                />
             return (
                 <div key={item.id}> 
                     <li>
@@ -324,6 +324,7 @@ render() {
                     {self.state.addMeta[item.address].map(item => {
                         return item;
                     })}
+                    {editLoc}
                     </ul>
 
                     {self.props.showAddItem && !self.state.hideAddItem ? (
@@ -346,20 +347,21 @@ render() {
                 
             );
         }  else if (this.state.mode && this.state.mode=='add') {
-            if (this.props.showButton) {
-                return <div><button className={"form-control button3 btn btn-primary"}
-                type={"button"}
-                style={{height:"80px"}}
-                //style={{ maxWidth:"100px"}}
-                onClick={() => {
+            if ('showButton' in this.props && 'itemName' in this.props) {
+                if (this.props['showButton'] && this.props['itemName']){ 
+                        return <div><button className={"form-control button3 btn btn-primary"}
+                        type={"button"}
+                        style={{height:"80px"}}
+                        //style={{ maxWidth:"100px"}}
+                        onClick={() => {
 
-                   
+                        
 
 
-                    self.setState({mode:'edit'});
-                }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
-                </div>
-
+                            self.setState({mode:'edit'});
+                        }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
+                        </div>
+                }
             } else {
                 return (
                     <li id={"add_catalogue_item"}>

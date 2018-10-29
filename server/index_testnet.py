@@ -37,13 +37,13 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-#network='4'
-#port='8666'
+network='5'
+port='8545'
 
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
 #web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
-network='4447'
-port='9545'
+#network='4447'
+#port='9545'
 web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
@@ -354,7 +354,10 @@ def getNode(graphRoot):
         for meta in metaData:
             meta_c=getContract('MetaData',network, meta)
             metaJson.append({'rel':meta_c.call().rel(),
-                             'val':meta_c.call().val()})
+                             'val':meta_c.call().val(),
+                            'address':web3.toChecksumAddress(meta)
+
+                             })
             #print (meta_c.call().rel(), meta_c.call().val())
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
         return metaJson
@@ -366,7 +369,10 @@ def getNode(graphRoot):
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
             itemJson={'href':item_c.call().href(),
-                             'item-metadata':meta}
+                             'item-metadata':meta,
+                            'address':web3.toChecksumAddress(item)
+                             
+                             }
             if getItems:
                 itemListJson=getItem(item_c.call({'from':address}).selectItems(), False)
                 itemJson['items']=itemListJson;
@@ -388,7 +394,9 @@ def getNode(graphRoot):
         
     cat = { 
             "catalogue-metadata":metaJson,
-            "items":itemJson
+            "items":itemJson,
+            'address':web3.toChecksumAddress(graphRoot.address)
+
           }
     
     return cat
@@ -404,7 +412,8 @@ def getNodeBalance(graphRoot):
             bal=smartKey.call().getBalance(web3.toChecksumAddress(meta))
             metaJson.append({'rel':meta_c.call().rel(),
                              'val':meta_c.call().val(),
-                             'bal':bal})
+                             'bal':bal,
+                             'address':web3.toChecksumAddress(meta)})
             #print (meta_c.call().rel(), meta_c.call().val())
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
         return metaJson
@@ -417,7 +426,8 @@ def getNodeBalance(graphRoot):
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
         
             itemJson.append({'href':item_c.call().href(),
-                             'item-metadata':meta})
+                             'item-metadata':meta,
+                             'address':web3.toChecksumAddress(item)})
         return itemJson
 
     metaJson=[]
@@ -436,7 +446,8 @@ def getNodeBalance(graphRoot):
     cat = { 
             "href":href,
             "catalogue-metadata":metaJson,
-            "items":itemJson
+            "items":itemJson,
+            'address':web3.toChecksumAddress(graphRoot.address)
           }
     
     return cat
@@ -554,6 +565,7 @@ def addNodeMetaData(node_href,rel, val,auth, eth_contrib, parent_href=rootNode +
     transactionId=graphRoot.transact({ 'from': address, 'value':eth_contrib }).upsertMetaData(rel, val);
     print("addNodeMetaData",rel,val);
     print ('upsertMetaData',transactionId)
+    wait_tx(transactionId)
     
     data={}
     data= getNodeBalance(graphRoot)
@@ -865,7 +877,7 @@ def doAuth(readOnly=False):
                     if balance > int(auth['eth_contrib']):
                         to=web3.toChecksumAddress(address)
                         sender=web3.toChecksumAddress(auth['auth'])
-                        userEthTransfer(auth['eth_contrib'], web3.toChecksumAddress(to), web3.toChecksumAddress(sender), '', auth)
+                        #userEthTransfer(auth['eth_contrib'], web3.toChecksumAddress(to), web3.toChecksumAddress(sender), '', auth)
             
                         return True, auth
                 else:
