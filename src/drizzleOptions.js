@@ -16,8 +16,8 @@ const drizzleOptions = {
   },
   contracts: [
     SmartPoolKey,
-    GraphNode,
-    MetaData,
+    //GraphNode,
+    //MetaData,
     GraphRoot,
     SmartNode
     //PoolKey
@@ -26,8 +26,8 @@ const drizzleOptions = {
   //  SimpleStorage: ['StorageSet']
   //},
   polls: {
-    accounts: 1500,
-    blocks: 1500
+      accounts: 1500,
+      blocks: 1500
   },
   //syncAlways,
 }

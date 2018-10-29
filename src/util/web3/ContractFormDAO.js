@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as web3Utils from "../../util/web3/web3Utils";
 import * as actions from "../../store/actions";
-//import MetaData from "..//MetaDataDAO"
+import { connect, Provider } from "react-redux";
 /*
  * Create component.
  */
@@ -149,7 +149,11 @@ class ContractForm extends Component {
 
                      <textarea className={"form-control"} rows={10}
                                                 style={{maxWidth:"40%"}}
-
+                                                onChange={(e) => {
+                                                  self.setState({formRel:e.target.value});
+                                                  //alert(this.state.formVal);
+                                                
+                                                }}
                             defaultValue={mdata.rel} />
 
                     <span style={{verticalAlign:"middle"}}>
@@ -160,12 +164,35 @@ class ContractForm extends Component {
                     </span>
                     <textarea className={"form-control"} rows={10}
                                                 style={{maxWidth:"40%"}}
-
+                                                onChange={(e) => {
+                                                  self.setState({formVal:e.target.value});
+                                                  //alert(this.state.formVal);
+                                                
+                                                }}
                             defaultValue={mdata.val} />
 
                     <br/>
                           <button className={"btn btn-primary"} type="button"
                           onClick={() => {
+                              
+                            var method="upsertMetaData";
+                            if (this.state.formVal && this.state.formRel) {
+                                  var drizzleState=this.context.drizzle.store.getState()
+                                  alert(drizzleState.accounts[0]);
+                                  alert(this.props.eth_contrib)
+                                  this.contracts[this.props.contract].methods[method].cacheSend(this.state.formRel, this.state.formVal, {
+                                    from: drizzleState.accounts[0],  value: Math.round(parseFloat(this.props.eth_contrib)*eth1_amount), gas: 100000, gasPrice:23000000000
+                                  });
+                                  var mdata=this.state.mdata;
+                                  mdata.rel=this.state.formRel,
+                                  mdata.val=this.state.formVal;
+                                  this.setState({
+                                    mode:'metaView',
+                                    mdata: mdata
+                                  });
+
+                                }
+                                
                               /*
                               self.save_meta(
                                           mdata.rel,
@@ -259,22 +286,18 @@ class ContractForm extends Component {
       //}
 
       if (this.state.mode == 'metaEdit') {
-          return <div className={"input-group"}>
+          return <li>
+            
+                    {mdata.rel}:<br/>
+                    <div className={"input-group"}>
+                        <textarea className={"form-control"} rows={10}
+                                                style={{maxWidth:"80%"}}
 
-                    <textarea className={"form-control"} rows={10}
-                                                style={{maxWidth:"40%"}}
-
-                            defaultValue={mdata.rel} />
-
-                    <span style={{verticalAlign:"middle"}}>
-                        <br/><br/>
-                        <br/><br/>
-                        
-                        <h1> = </h1>
-                    </span>
-                    <textarea className={"form-control"} rows={10}
-                                                style={{maxWidth:"40%"}}
-
+                            onChange={(e) => {
+                              self.setState({formVal:e.target.value});
+                              //alert(this.state.formVal);
+                            
+                            }}
                             defaultValue={mdata.val} />
 
                       {/*
@@ -292,6 +315,23 @@ class ContractForm extends Component {
                       <br/>
                               <button className={"btn btn-primary"} type="button"
                               onClick={() => {
+                                var method="setVal";
+                                if (this.state.formVal) {
+                                  var drizzleState=this.context.drizzle.store.getState()
+                                  //alert(drizzleState.accounts[0]);
+                                  this.contracts[this.props.contract].methods[method].cacheSend(this.state.formVal, {
+                                    from: drizzleState.accounts[0]
+                                  });
+                                  var mdata=this.state.mdata;
+                                  mdata.val=this.state.formVal;
+                                  this.setState({
+                                    mode:'metaView',
+                                    mdata: mdata
+                                  });
+
+                                }
+
+                                
                                   /*
                                   self.save_meta(
                                               mdata.rel,
@@ -305,7 +345,8 @@ class ContractForm extends Component {
                                   */
 
                               }}> Save </button>
-                  </div>
+                          </div>
+                  </li>
       } 
       
     }
@@ -331,13 +372,51 @@ ContractForm.contextTypes = {
  * Export connected component.
  */
 
-const mapStateToProps = state => {
+
+
+const stateToProps = state => {
   return {
-    contracts: state.contracts
-  }
-}
+      api_auth: state.auth.api_auth,
+      api_key: state.auth.api_key,
+      eth_contrib: state.auth.eth_contrib,
+      isAuthenticated: state.auth.isAuthenticated,
 
+  };
+};
 
+const drizzleStateToProps = state => {
+  return {
+      drizzleStatus: state.drizzleStatus,
+      accounts: state.accounts,
+      contracts: state.contracts
+
+  };
+};
+
+/**
+ *
+ * @function dispatchToProps React-redux dispatch to props mapping function
+ * @param {any} dispatch
+ * @returns {Object} object with keys which would later become props to the `component`.
+ */
+
+const dispatchToProps = dispatch => {
+  return {
+      showDialog: (show, content) => {
+          dispatch(actions.showDialog(show, content));
+      },
+      closeDialog: () => {
+          dispatch(actions.closeDialog());
+      },
+      authSuccess: (api_auth, api_key) => {
+          dispatch(actions.authSuccess(api_auth, api_key));
+      },
+      authEthContrib: (eth_contrib) => {
+          dispatch(actions.authEthContrib(eth_contrib));
+      },
+     
+  };
+};
 
 const drizzleDispatchToProps = dispatch => {
   return {
@@ -349,4 +428,7 @@ const drizzleDispatchToProps = dispatch => {
 
 
 
-export default drizzleConnect(ContractForm, mapStateToProps,  drizzleDispatchToProps)
+
+export default connect( stateToProps, dispatchToProps)( drizzleConnect(ContractForm,drizzleStateToProps, drizzleDispatchToProps))
+
+//export default drizzleConnect(ContractForm, mapStateToProps,  drizzleDispatchToProps)
