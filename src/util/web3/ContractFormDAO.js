@@ -178,11 +178,9 @@ class ContractForm extends Component {
     var res=[];
     if (this.state.loading) {
       return (
-          <div>
-              <center>
+          <li>
               <b>Processing Contribution... Please Confirm ETH Contribution<br/></b>
-              </center>
-          </div>
+          </li>
       )
    }
 
@@ -279,6 +277,33 @@ class ContractForm extends Component {
                                   var drizzleState=this.context.drizzle.store.getState()
                                   //alert(drizzleState.accounts[0]);
                                   //alert(this.props.eth_contrib)
+                                  this.setState({loading:true})
+
+                                  var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                                  //alert(contrib);
+                                  this.contracts[this.props.contract].methods.upsertMetaData(this.state.formRel, this.state.formVal).send( 
+                                     {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                                     })
+                                     .then(function(val)  {
+                                       //alert(val);
+                                       var mdata=self.state.mdata;
+                                       mdata.rel=self.state.formRel,
+                                       mdata.val=self.state.formVal;
+                                       self.setState({
+                                         loading:false,
+                                         mode:'metaView',
+                                         mdata: mdata
+                                       });
+
+         
+                                     }).catch(function(error) {
+                                       alert("Could not complete transaction")
+                                       alert(error);
+                                       console.log(error);
+                                     });
+
+                                  /*
+
                                   this.contracts[this.props.contract].methods[method].cacheSend(this.state.formRel, this.state.formVal, {
                                     from: drizzleState.accounts[0],  value: Math.round(parseFloat(this.props.eth_contrib)*eth1_amount), gas: 100000, gasPrice:23000000000
                                   });
@@ -289,6 +314,7 @@ class ContractForm extends Component {
                                     mode:'metaView',
                                     mdata: mdata
                                   });
+                                  */
 
                                 }
                                 
@@ -476,9 +502,40 @@ class ContractForm extends Component {
                               <button className={"btn btn-primary"} type="button"
                               onClick={() => {
                                 var method="setVal";
-                                if (this.state.formVal) {
+                                //if (this.state.formVal) {
+
+                                  var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                                  var formVal=this.state.formVal;
+                                  if (!formVal)
+                                    formVal='';
                                   var drizzleState=this.context.drizzle.store.getState()
                                   //alert(drizzleState.accounts[0]);
+                                  
+                                  this.setState({loading:true})
+
+                                  this.contracts[this.props.contract].methods.setVal(formVal).send( 
+                                    {from: drizzleState.accounts[0], gasPrice:23000000000
+                                    })
+                                    .then(function(val)  {
+                                      //alert(val);
+                                      var mdata=self.state.mdata;
+                                      //mdata.rel=self.state.formRel,
+                                      mdata.val=self.state.formVal;
+                                      self.setState({
+                                        loading:false,
+                                        mode:'metaView',
+                                        mdata: mdata
+                                      });
+
+        
+                                    }).catch(function(error) {
+                                      alert("Could not complete transaction")
+                                      alert(error);
+                                      console.log(error);
+                                    });
+
+                                  
+                                  /*
                                   this.contracts[this.props.contract].methods[method].cacheSend(this.state.formVal, {
                                     from: drizzleState.accounts[0]
                                   });
@@ -488,8 +545,9 @@ class ContractForm extends Component {
                                     mode:'metaView',
                                     mdata: mdata
                                   });
+                                  */
 
-                                }
+                                //}
 
                                 
                                   /*
