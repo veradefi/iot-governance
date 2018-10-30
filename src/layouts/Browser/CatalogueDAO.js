@@ -391,10 +391,10 @@ render() {
                                                     "rel": "urn:X-hypercat:rels:isContentType",
                                                     "val": "application/vnd.hypercat.catalogue+json"
                                                 },
-                                                {
-                                                    "rel": "urn:X-hypercat:rels:hasDescription:en",
-                                                    "val": ""
-                                                },
+                                                //{
+                                                //    "rel": "urn:X-hypercat:rels:hasDescription:en",
+                                                //    "val": ""
+                                                //},
                                                 //{
                                                 //    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
                                                 //    "val": "78.47609815628121"

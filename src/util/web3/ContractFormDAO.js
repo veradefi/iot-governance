@@ -180,7 +180,7 @@ class ContractForm extends Component {
       return (
           <div>
               <center>
-              <b>Processing Contribution... <br/></b>
+              <b>Processing Contribution... Please Confirm ETH Contribution<br/></b>
               </center>
           </div>
       )
@@ -234,7 +234,7 @@ class ContractForm extends Component {
                     
               <Autocomplete
                   direction="down"
-                  label="Choose or Specify PAS212:2016 Relation"
+                  label="Click Here to Choose or Specify PAS212:2016 Relation"
                   //hint="Specify PAS212:2016 Relation"
                   multiple={false}
                   allowCreate={true}
