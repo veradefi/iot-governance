@@ -227,6 +227,7 @@ render() {
                     mdata.node_href=item.node_href;
                     mdata.item_href=item.href;
                     mdata.id=item.id + "_item_metadata_" + count;
+                    mdata.contract_address=item.address;
                     var ires=<MetaData
                             key={mdata.id} 
                             mdata={mdata} 
@@ -387,10 +388,10 @@ render() {
                                             href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.props.itemName,
                                             items:[],          
                                             "catalogue-metadata": [
-                                                {
-                                                    "rel": "urn:X-hypercat:rels:isContentType",
-                                                    "val": "application/vnd.hypercat.catalogue+json"
-                                                },
+                                                //{
+                                                //    "rel": "urn:X-hypercat:rels:isContentType",
+                                                //    "val": "application/vnd.hypercat.catalogue+json"
+                                                //},
                                                 //{
                                                 //    "rel": "urn:X-hypercat:rels:hasDescription:en",
                                                 //    "val": ""
@@ -403,10 +404,10 @@ render() {
                                                 //    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
                                                 //    "val": "-39.99203727636359"
                                                 //},
-                                                {
-                                                    "rel": "urn:X-hypercat:rels:Media:1",
-                                                    "val": ""
-                                                }
+                                                //{
+                                                 //   "rel": "urn:X-hypercat:rels:Media:1",
+                                                //    "val": ""
+                                                //}
                                             ]
                                             
                                         }}

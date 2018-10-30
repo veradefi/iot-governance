@@ -501,11 +501,12 @@ class ContractForm extends Component {
                       <br/>
                               <button className={"btn btn-primary"} type="button"
                               onClick={() => {
-                                var method="setVal";
                                 //if (this.state.formVal) {
-
+                                  //alert(self.state.mdata.contract_address);
+                                  var contract_address=self.state.mdata.contract_address;
                                   var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                                   var formVal=this.state.formVal;
+                                  var formRel=mdata.rel;
                                   if (!formVal)
                                     formVal='';
                                   var drizzleState=this.context.drizzle.store.getState()
@@ -513,6 +514,41 @@ class ContractForm extends Component {
                                   
                                   this.setState({loading:true})
 
+                                  this.contracts[contract_address].methods.upsertMetaData(formRel, formVal).send( 
+                                    {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                                    })
+                                    .then(function(val)  {
+                                      //alert(val);
+                                      var mdata=self.state.mdata;
+                                      mdata.rel=self.state.formRel,
+                                      mdata.val=self.state.formVal;
+
+                                      var web3=web3Utils.get_web3();
+                                      self.contracts["SmartKey"].methods.getBalance(self.props.contract).call({from: drizzleState.accounts[0]}).then(function (eth_amount) {
+                                        //alert(eth_amount);
+                                        var amt=parseFloat(eth_amount);
+                                        mdata.bal=amt;
+                                        self.setState({
+                                          loading:false,
+                                          mode:'metaView',
+                                          mdata: mdata
+                                        });
+  
+
+                                      });
+
+
+                                    
+        
+                                    }).catch(function(error) {
+                                      alert("Could not complete transaction")
+                                      alert(error);
+                                      console.log(error);
+                                    });
+
+                                    /*
+                                    var method="setVal";
+                                
                                   this.contracts[this.props.contract].methods.setVal(formVal).send( 
                                     {from: drizzleState.accounts[0], gasPrice:23000000000
                                     })
@@ -533,7 +569,7 @@ class ContractForm extends Component {
                                       alert(error);
                                       console.log(error);
                                     });
-
+                                    */
                                   
                                   /*
                                   this.contracts[this.props.contract].methods[method].cacheSend(this.state.formVal, {
