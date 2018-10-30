@@ -3,6 +3,7 @@ import GraphNode from './solc/contracts/GraphNode.json'
 import MetaData from './solc/contracts/MetaData.json'
 import GraphRoot from './solc/contracts/GraphRoot.json'
 import SmartNode from './solc/contracts/SmartNode.json'
+import SmartKey from './solc/contracts/SmartKey.json'
 import PoolKey from './solc/contracts/PoolKey.json'
 
 const drizzleOptions = {
@@ -16,6 +17,7 @@ const drizzleOptions = {
   },
   contracts: [
     SmartPoolKey,
+    SmartKey,
     //GraphNode,
     //MetaData,
     GraphRoot,
