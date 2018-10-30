@@ -229,7 +229,7 @@ class ContractForm extends Component {
     }
 
     if (this.state.mode == 'metaAdd2') {
-      return <div>
+      return <li>
         <div>
                     
               <Autocomplete
@@ -320,7 +320,7 @@ class ContractForm extends Component {
 
                           }}> Save </button>
               </div>
-          </div>
+          </li>
   } 
 
   if (this.state.mode == 'catAdd') { 
