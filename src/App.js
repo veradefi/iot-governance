@@ -33,7 +33,8 @@ export default class App extends Component {
 
   render() {
  
-    const nav=(              <Nav>
+    const nav=(              
+    <Nav>
       <Switch>
          <Route exact path="/" component={Key} />
          <Route exact path="/key" component={Key} />

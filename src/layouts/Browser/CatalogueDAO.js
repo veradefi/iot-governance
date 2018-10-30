@@ -185,7 +185,7 @@ render() {
                     catAdd={true} 
                     idata={item}
                     refreshCatalogue={(res) => {
-                        self.setState({idata:res, mode:'view'})
+                        self.setState({idata:res, mode:'view', hideAddItem:true, showClose:true})
                     }} 
                     />  
                     );
@@ -359,6 +359,9 @@ render() {
                         />
 
                     ) : null}
+                    {self.state.showClose ? <button onClick={() => {
+                        self.props.closeDialog();
+                    }}>Close</button> : null}
                 </div>
                 
             );
@@ -392,14 +395,14 @@ render() {
                                                     "rel": "urn:X-hypercat:rels:hasDescription:en",
                                                     "val": ""
                                                 },
-                                                {
-                                                    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
-                                                    "val": "78.47609815628121"
-                                                },
-                                                {
-                                                    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
-                                                    "val": "-39.99203727636359"
-                                                },
+                                                //{
+                                                //    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
+                                                //    "val": "78.47609815628121"
+                                                //},
+                                                //{
+                                                //    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+                                                //    "val": "-39.99203727636359"
+                                                //},
                                                 {
                                                     "rel": "urn:X-hypercat:rels:Media:1",
                                                     "val": ""

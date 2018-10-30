@@ -483,7 +483,7 @@ export const get_graphnode_smartkey = (href, callback)  =>
   
   }
   
-  window.add_node = function(parent_address, _href, callback) 
+  export const add_node = (parent_address, _href) =>
   {
   
          var GraphRoot = contract(db_artifacts);
@@ -504,8 +504,9 @@ export const get_graphnode_smartkey = (href, callback)  =>
                                   
                           return graphRoot.getItem.call(_href, {from: window.address}).then(function(node_address) {
                                                                 
+                              alert(node_address)
                               console.log(node_address);
-                              return callback(node_address);
+                              return node_address; //callback(node_address);
                               
                           });                            
                   });                
