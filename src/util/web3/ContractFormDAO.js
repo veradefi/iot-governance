@@ -4,6 +4,62 @@ import PropTypes from 'prop-types'
 import * as web3Utils from "../../util/web3/web3Utils";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
+import Autocomplete from 'react-toolbox/lib/autocomplete';
+
+
+const source = {
+  'urn:X-hypercat:rels:isContentType': 'urn:X-hypercat:rels:isContentType',
+  'urn:X-hypercat:rels:supportsSearch': 'urn:X-hypercat:rels:supportsSearch',
+  'urn:Xhypercat:rels:hasDescription': 'urn:Xhypercat:rels:hasDescription',
+  'urn:X-hypercat:rels:containsContentType':'urn:X-hypercat:rels:containsContentType',
+  'urn:X-hypercat:rels:hasHomepage': 'urn:X-hypercat:rels:hasHomepage',
+  'urn:X-hypercat:rels:lastUpdated':'urn:X-hypercat:rels:lastUpdated',
+  'urn:X-hypercat:rels:launchDate':'urn:X-hypercat:rels:launchDate',
+  'urn:X-hypercat:rels:jws:alg':'urn:X-hypercat:rels:jws:alg',
+  'urn:X-hypercat:rels:jws:signature':'urn:X-hypercat:rels:jws:signature',
+  'urn:X-hypercat:rels:accessHint':'urn:X-hypercat:rels:accessHint',
+  'urn:X-hypercat:rels:acquireCredential':'urn:X-hypercat:rels:acquireCredential',
+  'urn:X-hypercat:rels:eventsource':'urn:X-hypercat:rels:eventsource',
+  'urn:X-hypercat:rels:hasLicense':'urn:X-hypercat:rels:hasLicense',
+  'urn:X-hypercat:rels:hasRobotstxt':'urn:X-hypercat:rels:hasRobotstxt',
+  'http://www.w3.org/1999/02/22-rdf-syntax-ns#type':'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+  'http://www.w3.org/2003/01/geo/wgs84_pos#lat':'http://www.w3.org/2003/01/geo/wgs84_pos#lat',
+  'http://www.w3.org/2003/01/geo/wgs84_pos#long':'http://www.w3.org/2003/01/geo/wgs84_pos#long',
+  'urn:X-hypercat:rels:hasColour': 'urn:X-hypercat:rels:hasColour',
+  'urn:X-hypercat:rels:hasMedia': 'urn:X-hypercat:rels:hasMedia',
+  'urn:X-hypercat:rels:hasMedia2': 'urn:X-hypercat:rels:hasMedia2',
+  'urn:X-hypercat:rels:hasMedia3': 'urn:X-hypercat:rels:hasMedia3',
+  'urn:X-hypercat:rels:health':'urn:X-hypercat:rels:health',
+  'urn:X-hypercat:rels:healthStatus':'urn:X-hypercat:rels:healthStatus'
+};
+
+
+const source2 = [
+  'urn:X-hypercat:rels:isContentType',
+  'urn:X-hypercat:rels:supportsSearch',
+  'urn:Xhypercat:rels:hasDescription',
+  'urn:X-hypercat:rels:containsContentType',
+  'urn:X-hypercat:rels:hasHomepage',
+  'urn:X-hypercat:rels:lastUpdated',
+  'urn:X-hypercat:rels:launchDate',
+  'urn:X-hypercat:rels:jws:alg',
+  'urn:X-hypercat:rels:jws:signature',
+  'urn:X-hypercat:rels:accessHint',
+  'urn:X-hypercat:rels:acquireCredential',
+  'urn:X-hypercat:rels:eventsource',
+  'urn:X-hypercat:rels:hasLicense',
+  'urn:X-hypercat:rels:hasRobotstxt',
+  'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+  'http://www.w3.org/2003/01/geo/wgs84_pos#lat',
+  'http://www.w3.org/2003/01/geo/wgs84_pos#long',
+  'urn:X-hypercat:rels:hasColour',
+  'urn:X-hypercat:rels:hasMedia',
+  'urn:X-hypercat:rels:hasMedia2',
+  'urn:X-hypercat:rels:hasMedia3',
+  'urn:X-hypercat:rels:health',
+  'urn:X-hypercat:rels:healthStatus'
+];
+
 /*
  * Create component.
  */
@@ -174,25 +230,53 @@ class ContractForm extends Component {
 
     if (this.state.mode == 'metaAdd2') {
       return <div>
-              <li><div className={"input-group"}>
-
-                     <textarea className={"form-control"} rows={10}
+        <div>
+                    
+              <Autocomplete
+                  direction="down"
+                  label="Choose or Specify PAS212:2016 Relation"
+                  //hint="Specify PAS212:2016 Relation"
+                  multiple={false}
+                  allowCreate={true}
+                  onChange={(val) => {
+                    //alert(val);
+                    mdata.rel=val;
+                    self.setState({mdata,formRel:val});
+                    
+                  }}
+                  onQueryChange={(val) => {
+                    //alert(val);
+                    mdata.rel=val;
+                    self.setState({mdata,formRel:val});
+                    
+                  }}
+                  showSelectedWhenNotInSource={true}
+                  showSuggestionsWhenValueIsSet={true}
+                  source={source2}
+                  value={mdata.rel}
+                />
+        </div>
+                <font size={2}>
+                <b>Specify PAS212:2016 Value</b><br/>
+                </font>
+                <div className={"input-group"}>
+                  {/*   <textarea className={"form-control"} rows={10}
                                                 style={{maxWidth:"40%"}}
                                                 onChange={(e) => {
                                                   self.setState({formRel:e.target.value});
-                                                  //alert(this.state.formVal);
-                                                
+                                                  alert(e.target.value);
+                                                  
                                                 }}
                             defaultValue={mdata.rel} />
-
                     <span style={{verticalAlign:"middle"}}>
                         <br/><br/>
                         <br/><br/>
                         
                         <h1> = </h1>
                     </span>
+                                              */}
                     <textarea className={"form-control"} rows={10}
-                                                style={{maxWidth:"40%"}}
+                                                style={{maxWidth:"80%"}}
                                                 onChange={(e) => {
                                                   self.setState({formVal:e.target.value});
                                                   //alert(this.state.formVal);
@@ -236,7 +320,6 @@ class ContractForm extends Component {
 
                           }}> Save </button>
               </div>
-          </li>
           </div>
   } 
 

@@ -319,7 +319,7 @@ save_location=(node_href, lat, lng) => {
                                 self.setState({mode:'editMap'});
                                 //self.add_meta('catalogue_create_meta_data_' + i, url, item.href);
                                 }}> 
-                        Edit Location
+                        Add / Edit Location
                         </span>] 
                         
             <br/><br/>
