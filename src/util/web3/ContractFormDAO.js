@@ -38,6 +38,7 @@ class ContractForm extends Component {
         props.addContract(drizzle, cfg, events, web3) 
       }
 
+      var url='';
       if (props.catAdd) {
         var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(this.props.contract));
         var events=[];
@@ -45,7 +46,9 @@ class ContractForm extends Component {
         var drizzle=context.drizzle;
         //this.setState({loading:false})
         //context.drizzle.addContract({cfg, events})
-        
+        if (props.idata && props.idata.href) {
+            url=props.idata.href;
+        }
         props.addContract(drizzle, cfg, events, web3) 
       }
     }
@@ -62,14 +65,16 @@ class ContractForm extends Component {
     }
 
     this.state={
-      loading:true,
+      loading:false,
       mode:mode,
       mdata:props.mdata,
+      url:url,
       //metaEdit:this.props.metaEdit,
       //dataKey:dataKey,
       //drizzleState: this.context.drizzle.store.getState(),
       //initialState:initialState,
     };
+
     
 
     //this.state = drizzle.store.getState()
@@ -115,6 +120,16 @@ class ContractForm extends Component {
   
 
     var res=[];
+    if (this.state.loading) {
+      return (
+          <div>
+              <center>
+              <b>Processing Contribution... <br/></b>
+              </center>
+          </div>
+      )
+   }
+
     if (this.state.mode == 'metaView') {
       return <li>
                 [ <a 
@@ -237,15 +252,39 @@ class ContractForm extends Component {
                 <input className={"form-control"} type={"text"} id={item.id + "_new_url"} 
                   onChange={(e) => {
                     self.setState({url:e.target.value});
+                    //alert(url);
                   }}
                 defaultValue={url} />
                     <button className={"btn btn-primary"} type={"button"} 
                             onClick={() => {
+                              this.setState({loading:true})
                               var drizzleState=this.context.drizzle.store.getState()
                               var smartNode="SmartNode";
                               var method="upsertItem";
-                              this.contracts[smartNode].methods[method].cacheSend(this.props.idata.address, this.state.url, 
-                                {from: drizzleState.accounts[0],  value: Math.round(parseFloat(this.props.eth_contrib)*eth1_amount), gas: 100000, gasPrice:23000000000
+                              /*
+                              web3Utils.add_node(this.props.idata.address, self.state.url).then(function (node_address) {
+                                self.setState({loading:false})
+
+                                item.href=self.state.url;
+                                window.location='/iotpedia/editor?url=' + item.href;
+                              })
+                              */
+                             var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                             //alert(contrib);
+                              this.contracts[smartNode].methods.upsertItem(this.props.idata.address, self.state.url).send( 
+                                {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                                })
+                                .then(function(val)  {
+                                  //alert(val);
+                                  //self.setState({loading:false})
+
+                                  item.href=self.state.url;
+                                  window.location='/iotpedia/editor?url=' + item.href;
+    
+                                }).catch(function(error) {
+                                  alert("Could not complete transaction")
+                                  alert(error);
+                                  console.log(error);
                                 });
                                 //  graphAddr=web3.toChecksumAddress(graphAddr)
                                 //tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
@@ -253,7 +292,7 @@ class ContractForm extends Component {
                                 //var href=$('#' + item.id + "_new_url").val();
                                 //item.href=href;
                                 //item.item_href=href;
-                                self.props.refreshCatalogue(item);
+                                //self.props.refreshCatalogue(item);
                                 //self.setState({idata:item, mode:'itemView', hideAddItem:true});
                                 //self.save_item(item.node_href,href,  item[this.props.catalogueType]);
                             }}>Save</button>
