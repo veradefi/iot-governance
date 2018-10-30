@@ -260,21 +260,7 @@ class ContractForm extends Component {
                 <b>Specify PAS212:2016 Value</b><br/>
                 </font>
                 <div className={"input-group"}>
-                  {/*   <textarea className={"form-control"} rows={10}
-                                                style={{maxWidth:"40%"}}
-                                                onChange={(e) => {
-                                                  self.setState({formRel:e.target.value});
-                                                  alert(e.target.value);
-                                                  
-                                                }}
-                            defaultValue={mdata.rel} />
-                    <span style={{verticalAlign:"middle"}}>
-                        <br/><br/>
-                        <br/><br/>
-                        
-                        <h1> = </h1>
-                    </span>
-                                              */}
+                 
                     <textarea className={"form-control"} rows={10}
                                                 style={{maxWidth:"80%"}}
                                                 onChange={(e) => {
