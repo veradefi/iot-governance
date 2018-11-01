@@ -562,6 +562,17 @@ export const get_address = () => {
     return window.address;
 }
 
+export const get_key_contract_cfg = (key) => {
+    console.log(key_artifacts)
+      var jsonInterface=key_artifacts.abi.slice(0);
+      console.log(jsonInterface)
+      var key_contract=new window.web3.eth.Contract(jsonInterface, key);
+      var contractConfig = {
+        contractName: key,
+        web3Contract: key_contract
+      }
+      return contractConfig;
+}
 
 export const get_pool_contract_cfg = (poolkey) => {
     console.log(poolkey_artifacts)

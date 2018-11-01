@@ -5,49 +5,15 @@ import * as web3Utils from "../../util/web3/web3Utils";
 import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
 
 var $ = require ('jquery');
+var eth1_amount=1000000000000000000;
 
 
-
-
-const stateToProps = state => {
-    return {
-        api_auth: state.auth.api_auth,
-        api_key: state.auth.api_key,
-        eth_contrib: state.auth.eth_contrib,
-        isAuthenticated: state.auth.isAuthenticated
-    };
-  };
-  
-  /**
-   *
-   * @function dispatchToProps React-redux dispatch to props mapping function
-   * @param {any} dispatch
-   * @returns {Object} object with keys which would later become props to the `component`.
-   */
-  
-const dispatchToProps = dispatch => {
-    return {
-        showDialog: (show, content) => {
-            dispatch(actions.showDialog(show, content));
-        },
-        closeDialog: () => {
-            dispatch(actions.closeDialog());
-        },
-        authSuccess: (api_auth, api_key) => {
-            dispatch(actions.authSuccess(api_auth, api_key));
-        },
-        authEthContrib: (eth_contrib) => {
-            dispatch(actions.authEthContrib(eth_contrib));
-        },
-    };
-};
-
-
-
-@connect(stateToProps, dispatchToProps)
-export default class KeyInfo extends Component {
+class KeyInfo extends Component {
     static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
@@ -58,14 +24,17 @@ export default class KeyInfo extends Component {
     };
   
   /**
-   * Creates an instance of OrderDialog.
+   * Creates an instance of KeyInfo
    * @constructor
    * @param {any} props
-   * @memberof OrderDialog
+   * @memberof KeyInfo
    */
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+
+    this.drizzleState=context.drizzle.store.getState()
+    this.contracts = context.drizzle.contracts
 
     this.state = {
         loading:true,
@@ -248,7 +217,7 @@ fill_page2_transactions = (sender, date, amount, tx_type) => {
             </div>
         </div>);
     
-        html.push(<div className={'row'}>
+        html.push(<div  key={Math.random()} className={'row'}>
                 <div className={'col-xs-12'}>
                     <hr />
                     </div>
@@ -270,7 +239,7 @@ fill_page2_transactions_load_more = ()  => {
         offset+=limit;
         if (offset < count) {
             var html = (
-            <div className={'row label8 loadmore'}>
+            <div  key={Math.random()} className={'row label8 loadmore'}>
                 <div className={'col-md-12'}>
                 <center>
                     <a href="#transactions" className={"button3 form-control btn btn-primary"} 
@@ -288,6 +257,31 @@ fill_page2_transactions_load_more = ()  => {
 
 }    
 
+get_transfer_user_eth_drizzle = (beneficiary, amount) => {
+    var self=this;
+    $('#eth_transfer').hide();
+    $('#eth_transfer_loading').show();
+    var drizzleState=this.context.drizzle.store.getState()
+    var smartNode="SmartKey";
+        
+    var amount=Math.round(parseFloat(amount)*eth1_amount);
+    var sender=self.props.myAddress;
+
+    this.contracts[smartNode].methods.transferEth(amount, sender, beneficiary).send(
+    {from: drizzleState.accounts[0],  gasPrice:23000000000
+    })
+    .then(function(address)  {
+        $('#eth_transfer').show();
+        $('#eth_transfer_loading').hide();
+
+    }).catch(function(error) {
+        self.setState({loading:false})
+            
+        alert("Could not complete transaction")
+        alert(error);
+        console.log(error);
+    });
+}
 
 get_transfer_user_eth = (beneficiary, amount)  =>  {
    var self=this;
@@ -307,7 +301,7 @@ get_transfer_user_eth = (beneficiary, amount)  =>  {
             success: function(body, textStatus, xhr) {
                $('#eth_transfer').show();
                $('#eth_transfer_loading').hide();
-               self.props.fill_page2(self.props.myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["props"], body["health"], body["tokens"], body["isOwner"]);
+               //self.props.fill_page2(self.props.myAddress, body["address"], body["balance"], body["eth_recv"], body["vault"], body["props"], body["health"], body["tokens"], body["isOwner"]);
             },
             error: function(xhr, textStatus, err) {
                $('#eth_transfer').show();
@@ -344,13 +338,24 @@ setHealth = (health) => {
         });
 }
 
+get_keyInfo= (address) => {
+    var self=this;
+    var cfg=Object.assign({}, web3Utils.get_key_contract_cfg(address));
+    var events=[];
+    var web3=web3Utils.get_web3();
+    var drizzle=this.context.drizzle;
+    
+    this.props.addContract(drizzle, cfg, events, web3) 
+    self.setState({key_addr:address, loading:false});
 
+}
 componentDidMount() {
     var self=this;
     var {userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.props.keyInfo;
 
-    self.get_smartkey_transactions(userAddress,0,10);
+    //self.get_smartkey_transactions(userAddress,0,10);
     
+   this.get_keyInfo(address);
     
     
 }
@@ -359,7 +364,8 @@ componentWillReceiveProps(newProps) {
     var self=this;
     if (newProps.keyInfo && !(JSON.stringify(newProps.keyInfo) === JSON.stringify(this.props.keyInfo))) {
         this.setState({keyInfo:newProps.keyInfo})
-        self.get_smartkey_transactions(this.state.keyInfo.address,0,10);
+        self.get_keyInfo(this.state.keyInfo.address);
+        //self.get_smartkey_transactions(this.state.keyInfo.address,0,10);
     }
 
 }
@@ -369,7 +375,12 @@ render() {
     var {userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.state.keyInfo;
     
    
-
+    if (this.state.loading) {
+        var loading=(<div id={"loading"}>
+        <img src="/images/wait.gif" />
+        </div>)
+        return loading;
+    }
     return(
       
         <div id={"page2"} style={{ }}>
@@ -526,7 +537,7 @@ render() {
                                         <div className={"col-xs-12"}>
                                             <button 
                                                 onClick={() => {
-                                                    self.get_transfer_user_eth($('#beneficiary').val(), $('#send_amt').val());
+                                                    self.get_transfer_user_eth_drizzle($('#beneficiary').val(), $('#send_amt').val());
                                                  }} 
                                                  className={"form-control  button3  btn btn-primary"} 
                                                  id={"wd_ether"}><span className={"buttonText"}>Withdraw Ether</span>
@@ -657,6 +668,7 @@ render() {
                                                         padding:"20px",
                                                     }}
                                                     >
+                                                    {/*
                                                     {this.state.transactions ? 
                                                     self.state.transactions.map(item => {
                                                         var account=item["account"];
@@ -669,7 +681,49 @@ render() {
                                                     {self.state.transactionCount && self.state.transactionCount > self.state.transactions.length ?
                                                         self.fill_page2_transactions_load_more()
                                                         : null }
+                                                    */}
                                                     </div>
+                                                    <ContractDAO contract={self.state.key_addr} 
+                                                    method="getTransactionCount"
+                                                    methodArgs={[self.props.accounts[0]]}
+                                                    value_post_process={(val)=> {
+                                                        var items=[];
+                                                        for (var i=val -1; i>= 0; i--) {
+                                                            var idx=i;
+                                                            items.push(<ContractDAO key={idx} contract={self.state.key_addr} 
+                                                            method="transactions" 
+                                                            methodArgs={[self.props.accounts[0], idx]}
+                                                            object_values={['date','account','transaction_type','amount']} 
+                                                            object_labels={['Date','Address','Type','Amount']} 
+                                                            object_classes={['col-md-3','col-md-5','col-md-2','col-md-2']}
+                                                            object_values_post_process={[
+                                                                (date) => {
+                                                                    var dateTime = new Date(parseInt(date) * 1000);
+                                                                    date=dateTime.toISOString(); 
+                                                                    return date;
+                                                                },
+                                                                (address) => {
+                                                                    return address
+                                                                },
+                                                                (tx_type) => {
+                                                                    var tx='Incoming';
+                                                                    if (tx_type > 0) {
+                                                                        tx='Outgoing';
+                                                                    }
+                                                                    return tx;
+                                                                },
+                                                                (amount) => {
+
+                                                                    var eth1=1000000000000000000;
+                                                                    return (amount / eth1) + " ETH"
+                                                                }]} 
+                                                                object_add_hr={true}
+                                                            />);
+                                                        }
+                                                        return items;
+                                                    }
+                                                }
+                                                    />
                                     </div>
                                 </div>
                             </div>
@@ -679,3 +733,65 @@ render() {
   }
 }
 
+KeyInfo.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+
+  
+const stateToProps = state => {
+    return {
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated,
+  
+    };
+  };
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  /**
+   *
+   * @function dispatchToProps React-redux dispatch to props mapping function
+   * @param {any} dispatch
+   * @returns {Object} object with keys which would later become props to the `component`.
+   */
+  
+  const dispatchToProps = dispatch => {
+    return {
+        showDialog: (show, content) => {
+            dispatch(actions.showDialog(show, content));
+        },
+        closeDialog: () => {
+            dispatch(actions.closeDialog());
+        },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
+       
+    };
+  };
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+export default connect( stateToProps, dispatchToProps)( drizzleConnect(KeyInfo,drizzleStateToProps, drizzleDispatchToProps))
