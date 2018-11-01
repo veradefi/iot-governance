@@ -9,47 +9,19 @@ import KeyHealth from "./KeyHealth";
 import KeyInfo from "./KeyInfo";
 import NodeKeyInfo from "./NodeKeyInfo";
 import * as web3Utils from "../../util/web3/web3Utils";
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
+import BigNumber from 'bignumber.js';
+import createKeccak from 'keccak';
+import LoadingContainer from '../../LoadingContainer';
+
+var eth1_amount=1000000000000000000;
+
+
 var $ = require ('jquery');
 
-
-
-const stateToProps = state => {
-    return {
-        api_auth: state.auth.api_auth,
-        api_key: state.auth.api_key,
-        eth_contrib: state.auth.eth_contrib,
-        isAuthenticated: state.auth.isAuthenticated
-    };
-  };
-  
-  /**
-   *
-   * @function dispatchToProps React-redux dispatch to props mapping function
-   * @param {any} dispatch
-   * @returns {Object} object with keys which would later become props to the `component`.
-   */
-  
-const dispatchToProps = dispatch => {
-    return {
-        showDialog: (show, content) => {
-            dispatch(actions.showDialog(show, content));
-        },
-        closeDialog: () => {
-            dispatch(actions.closeDialog());
-        },
-        authSuccess: (api_auth, api_key) => {
-            dispatch(actions.authSuccess(api_auth, api_key));
-        },
-        authEthContrib: (eth_contrib) => {
-            dispatch(actions.authEthContrib(eth_contrib));
-        },
-    };
-};
-
-
-
-@connect(stateToProps, dispatchToProps)
-export default class Key extends Component {
+class Key extends Component {
     static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
@@ -62,14 +34,17 @@ export default class Key extends Component {
     };
   
   /**
-   * Creates an instance of OrderDialog.
+   * Creates an instance of Key
    * @constructor
    * @param {any} props
-   * @memberof OrderDialog
+   * @memberof Key
    */
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+
+    this.drizzleState=context.drizzle.store.getState()
+    this.contracts = context.drizzle.contracts
 
     this.state = {
         isSmartKey:true,
@@ -83,7 +58,7 @@ export default class Key extends Component {
         loading:true,
 
     };
-    this._isMounted = false;
+    //this._isMounted = false;
   }
 
 
@@ -105,9 +80,10 @@ export default class Key extends Component {
   }
   
   showPage1 = (address) => {
+    var self=this;
     this.setState({page1_init:true});
     console.log("show page1 dialog")
-    this.props.showDialog(true, <KeyCreate address={address} createSmartKey={this.createSmartKey} />);
+    this.props.showDialog(true, <KeyCreate address={address} callback={self.page2} />);
     
   }
 
@@ -124,8 +100,9 @@ export default class Key extends Component {
 
  
 showPage2_api= () => {
+    var self=this;
     this.setState({page2_api_init:true});
-    this.props.showDialog(true, <KeyApiCreate address={this.state.myAddress} createApiKey={this.createApiKey} />);
+    this.props.showDialog(true, <KeyApiCreate address={this.state.myAddress}  key_address={self.state.keyAddress}  callback={self.page2_api} />);
     
   
 }
@@ -197,8 +174,6 @@ get_smart_key_info = (address) => {
         });
 }
 
-
-
 fill_page2 = (userAddress, address, balance, eth_recv, vault, state, health, tokens, isOwner)  => {
    var self=this;
    console.log(userAddress, address, balance, eth_recv, vault, state, health, tokens);
@@ -250,6 +225,37 @@ page2 = (address) => {
 
 
 
+
+get_keyAuth_drizzle = (beneficiary, cb) => {
+    var self=this;
+    this.contracts = this.context.drizzle.contracts
+    this.drizzleState=this.context.drizzle.store.getState()
+    var smartNode="SmartKey";
+        
+    var amount=Math.round(parseFloat(amount)*eth1_amount);
+
+    console.log(self.contracts);
+    self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
+    {from: this.drizzleState.accounts[0]})
+    .then(function(keyAddress)  {
+        alert(keyAddress);
+        if (keyAddress != '0x0000000000000000000000000000000000000000') {
+            self.get_keyInfo(keyAddress);
+        } else {
+                    console.log("Key not found");
+                    cb(beneficiary, '', '');
+        }
+
+    }).catch(function(error) {
+        self.setState({loading:false})            
+        alert("Could not complete transaction")
+        alert(error);
+        console.log(error);
+        cb(beneficiary, '', '');
+    });
+}
+
+
 createApiKey = () => {
     var self=this;
     self.setState({loading:true});
@@ -265,6 +271,8 @@ createApiKey = () => {
     web3Utils.add_keyAuth(myAddress, myAddress, auth_key,  self.page2_api);         
 
 }
+
+
 
   createSmartKey = () => {
     var self=this;
@@ -316,6 +324,7 @@ createApiKey = () => {
   componentDidMount() {
       var self=this;
       var address=this.props.init_address;
+      
       if (!address) {
             this.getKeyStatus();
       } else {
@@ -372,3 +381,67 @@ createApiKey = () => {
   }
 }
 
+
+
+Key.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+
+  
+const stateToProps = state => {
+    return {
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated,
+  
+    };
+  };
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  /**
+   *
+   * @function dispatchToProps React-redux dispatch to props mapping function
+   * @param {any} dispatch
+   * @returns {Object} object with keys which would later become props to the `component`.
+   */
+  
+  const dispatchToProps = dispatch => {
+    return {
+        showDialog: (show, content) => {
+            dispatch(actions.showDialog(show, content));
+        },
+        closeDialog: () => {
+            dispatch(actions.closeDialog());
+        },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
+       
+    };
+  };
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+export default connect( stateToProps, dispatchToProps)( drizzleConnect(Key,drizzleStateToProps, drizzleDispatchToProps))

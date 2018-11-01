@@ -1,9 +1,113 @@
 import React, { Component } from 'react'
+import KeyHealth from "./KeyHealth";
+import * as web3Utils from "../../util/web3/web3Utils";
 
-export default class KeyCreate extends Component {
+import PropTypes from "prop-types";
+import * as actions from "../../store/actions";
+import { connect, Provider } from "react-redux";
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
+import BigNumber from 'bignumber.js';
+import createKeccak from 'keccak';
 
-  render() {
-      var self=this;
+var $ = require ('jquery');
+var eth1_amount=1000000000000000000;
+
+class KeyCreate extends Component {
+    static propTypes = {
+        showDialog:PropTypes.func.isRequired,
+        closeDialog:PropTypes.func.isRequired,
+        api_auth: PropTypes.string.isRequired,
+        api_key: PropTypes.string.isRequired,
+        eth_contrib: PropTypes.number.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
+        init_address:PropTypes.string,
+        isNode:PropTypes.bool,
+        key_address:PropTypes.string,
+        callback:PropTypes.func
+    };
+  
+  /**
+   * Creates an instance of Key
+   * @constructor
+   * @param {any} props
+   * @memberof Key
+   */
+
+  constructor(props, context) {
+    super(props);
+
+    this.drizzleState=context.drizzle.store.getState()
+    this.contracts = context.drizzle.contracts
+    this.state={
+      loading:false,
+      myAddress:this.props.accounts[0]
+    }
+  }
+
+componentDidMount() {
+}
+
+createSmartKey = () => {
+    var self=this;
+    
+    var eth1=1000000000000000000;
+    
+    var beneficiary=$('#address').val();
+    this.setState({loading:true});
+            
+    var drizzleState=this.context.drizzle.store.getState()
+    var smartNode="SmartKey";
+        
+    self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
+        {from: drizzleState.accounts[0]}).then(function (keyAddress) {
+            if (keyAddress.toString() != '0x0000000000000000000000000000000000000000') {
+                //alert(keyAddress);
+                console.log('Key Address', keyAddress);
+                self.props.closeDialog();
+                self.props.callback( self.props.accounts[0]);
+            } else {
+                    self.contracts[smartNode].methods.loadSmartKey(
+                        keyAddress, beneficiary, web3Utils.get_web3().utils.fromAscii("Deposit"), 
+                                ).send(
+                    {from: drizzleState.accounts[0], value:eth1_amount, gasPrice:23000000000})
+                    .then(function(keyAddress)  {
+                        self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
+                            {from: drizzleState.accounts[0]}).then(function (keyAddress) {
+                                    console.log('Key Address', keyAddress);
+
+                                    self.props.closeDialog();
+                                    self.props.callback( self.props.accounts[0]);
+                                    
+                            });
+                    }).catch(function(error) {
+                        self.setState({loading:false})
+                            
+                        alert("Could not complete transaction")
+                        alert(error);
+                        console.log(error);
+                    });
+            }
+        });
+
+        
+
+  }
+
+render() {
+    var self=this;
+    if (this.state.loading) {
+      return <div>
+                  <div className={"row"}>
+                    <div className={"col-md-12 col-sm-12 col-xs-12"}>
+                        <span className={"middle"}>
+                        <center><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    }
     return(
       
         <div id={"page1"}>
@@ -62,7 +166,7 @@ export default class KeyCreate extends Component {
                                         id={'pool'} 
                                         onClick={
                                             () => {
-                                                self.props.createSmartKey();
+                                                self.createSmartKey();
                                             }
                                         }
                                         className={"button3 btn btn-accent"}>
@@ -81,3 +185,68 @@ export default class KeyCreate extends Component {
   }
 }
 
+
+
+KeyCreate.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+  
+  
+  const stateToProps = state => {
+    return {
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated,
+  
+    };
+  };
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  /**
+   *
+   * @function dispatchToProps React-redux dispatch to props mapping function
+   * @param {any} dispatch
+   * @returns {Object} object with keys which would later become props to the `component`.
+   */
+  
+  const dispatchToProps = dispatch => {
+    return {
+        showDialog: (show, content) => {
+            dispatch(actions.showDialog(show, content));
+        },
+        closeDialog: () => {
+            dispatch(actions.closeDialog());
+        },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
+       
+    };
+  };
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+  export default connect( stateToProps, dispatchToProps)( drizzleConnect(KeyCreate,drizzleStateToProps, drizzleDispatchToProps))
+  

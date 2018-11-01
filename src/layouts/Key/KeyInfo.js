@@ -50,7 +50,7 @@ showHealthDialog = () => {
     this.setState({health_init:true});
     var amt=$('#eth_contrib').val();
     $('.donate_amt').html(amt);
-    this.props.showDialog(true, <KeyHealth account={this.props.myAddress} donate_amt={amt} setHealth={this.setHealth} />);
+    this.props.showDialog(true, <KeyHealth account={this.props.myAddress} donate_amt={amt} setHealth={this.setHealth_drizzle} />);
     
 }
 
@@ -312,6 +312,35 @@ get_transfer_user_eth = (beneficiary, amount)  =>  {
 }
 
 
+setHealth_drizzle = (health ) => {
+    var self=this;
+    self.hideHealthDialog();
+
+    var drizzleState=this.context.drizzle.store.getState()
+    var smartNode=self.state.key_addr;
+    //print('setHealth',key.transact({ 'from': address, 'value':int(auth['eth_contrib']) }).setHealth(health))
+        
+    var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+
+    this.contracts[smartNode].methods.setHealth(health).send(
+    {from: drizzleState.accounts[0], value:contrib, gasPrice:23000000000
+    })
+    .then(function(address)  {
+        $('#health').show();
+        $('#health_loading').hide();
+
+    }).catch(function(error) {
+        $('#health').show();
+        $('#health_loading').hide();
+        self.hideHealthDialog();
+            
+        alert("Could not complete transaction")
+        alert(error);
+        console.log(error);
+    });
+}
+
+
 setHealth = (health) => {
    var self=this;
    var health=parseInt(health)
@@ -402,7 +431,9 @@ render() {
                                         <br/><br/>
                                         <span className={"inputbox4"}><span className={"label5"} style={{ }} id={"poolkey"}>
                                         <center>
-                                        <pre style={{ width:"90%" }}>{address}</pre>
+                                        <pre style={{ width:"90%" }}>
+                                        {self.state.key_addr} 
+                                        {/* address */}</pre>
                                         </center>
                                         </span></span>
                                         <hr/>
@@ -425,7 +456,12 @@ render() {
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_balance"}>
-                                        {balance.toLocaleString()}
+                                        {/* balance.toLocaleString() */}
+                                        <ContractDAO contract={"SmartKey"} 
+                                                        method="getBalance" 
+                                                        methodArgs={[self.props.accounts[0]]} 
+                                                        isLocaleString={true} />
+
                                         </span>
                                         <font size={2}> IOTBLOCK</font><br/>
                                     </div>
@@ -437,7 +473,10 @@ render() {
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_balance"}>
-                                        {eth_recv}
+                                        {/* eth_recv */}
+                                        <AccountDAO contract={self.state.key_addr} 
+                                                        getBalance={self.state.key_addr}
+                                                        units="ether" precision="6" />
                                         </span>
                                         <font size={2}> ETH</font><br/>
                                     </div>
@@ -450,7 +489,13 @@ render() {
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_received"}>
-                                        {eth_recv}</span>
+                                        {/* eth_recv */}
+                                        <ContractDAO contract={self.state.key_addr} 
+                                                        method="contrib_amount" 
+                                                        methodArgs={[]} 
+                                                        units="ether" precision="6" />
+
+                                        </span>
                                         <font size={2}> ETH</font>
                                     </div>
                                 </div>
@@ -463,8 +508,13 @@ render() {
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                             <label className={"label7"}>
                                                 <span className={"health"}>
-                                                
-                                                {health == 5 ? <b style={{color:'red'}}>{healthStates[health]}</b> : <b>{healthStates[health]}</b>}
+                                                <ContractDAO contract={self.state.key_addr} 
+                                                        method="health" 
+                                                        methodArgs={[]} 
+                                                        isHealth={true} />
+
+                                                {/* health == 5 ? <b style={{color:'red'}}>
+                                                        {healthStates[health]}</b> : <b>{healthStates[health]}</b> */}
                                                 </span>
                                             </label>
                                     </div>
@@ -488,7 +538,11 @@ render() {
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <label className={"label7 title3"}><span className={"state"}>
-                                        { states[state] }
+                                        {/* states[state] */}
+                                        <ContractDAO contract={self.state.key_addr} 
+                                                        method="state" 
+                                                        methodArgs={[]} 
+                                                        isState={true} />
                                         </span></label> 
                                         <font size={2}></font>
                                     </div>
