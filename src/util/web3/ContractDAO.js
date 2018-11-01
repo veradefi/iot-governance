@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 /*
  * Create component.
  */
+var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
+var states=[ 'Issued', 'Active', 'Returned' ]
 
 class ContractDAO extends Component {
 
@@ -70,10 +72,36 @@ class ContractDAO extends Component {
 
     var displayData=this.props.contracts[this.props.contract][this.props.method][this.dataKey].value
 
+    if (this.props.isHealth) {
+      var health=parseInt(displayData);
+      return(
+        <span>
+          {health == 5 ? <b style={{color:'red'}}>{healthStates[health]}</b> : <b>{healthStates[health]}</b>}
+        </span>
+      )
+
+    }
+    if (this.props.isState) {
+      var state=parseInt(displayData);
+      return(
+        <span>
+          <b>{states[state]}</b>
+        </span>
+      )
+
+    }
     if (this.props.isString) {
       return(
         <span>
           {displayData}
+        </span>
+      )
+    }
+
+    if (this.props.isLocaleString) {
+      return (
+        <span>
+          {parseFloat(displayData).toLocaleString()}
         </span>
       )
     }
