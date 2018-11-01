@@ -9,41 +9,11 @@ import ContractDAO from '../../util/web3/ContractDAO'
 import AccountDAO from '../../util/web3/AccountDAO'
 import { drizzleConnect } from 'drizzle-react'
 import PoolKeyContract from '../../solc/contracts/PoolKey.json'
+import BigNumber from 'bignumber.js';
 
 var $ = require ('jquery');
+var eth1_amount=1000000000000000000;
 
-
-
-const stateToProps = state => {
-    return {
-        drizzleStatus: state.drizzleStatus,
-        accounts: state.accounts,
-        contracts: state.contracts
-
-    };
-  };
-  
-  /**
-   *
-   * @function dispatchToProps React-redux dispatch to props mapping function
-   * @param {any} dispatch
-   * @returns {Object} object with keys which would later become props to the `component`.
-   */
-  
-const dispatchToProps = dispatch => {
-    return {
-        showDialog: (show, content) => {
-            dispatch(actions.showDialog(show, content));
-        },
-        closeDialog: () => {
-            dispatch(actions.closeDialog());
-        },
-        addContract: (drizzle, poolcfg, events, web3) => {
-            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
-        },
-
-    };
-};
 
 const getParameterByName = (name, url) => {
     if (!url) url = window.location.href;
@@ -57,12 +27,24 @@ const getParameterByName = (name, url) => {
   
 
 class PoolKey extends Component {
-  
+    static propTypes = {
+        showDialog:PropTypes.func.isRequired,
+        closeDialog:PropTypes.func.isRequired,
+        api_auth: PropTypes.string.isRequired,
+        api_key: PropTypes.string.isRequired,
+        eth_contrib: PropTypes.number.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
+        init_address:PropTypes.string,
+        isNode:PropTypes.bool,
+    };
     constructor(props, context) {
         super(props)
         var self=this;
         console.log(props.drizzleStatus)
         console.log(context.drizzle)
+        var drizzleState=context.drizzle.store.getState()
+        this.contracts = context.drizzle.contracts
+
         this.state={
             transferAmt:1,
             isSmartKey:false,
@@ -74,7 +56,7 @@ class PoolKey extends Component {
             min_per_contrib:1,
             fee:5,
             auto:"0",
-            send_amt:1        
+            send_amt:1,   
         }
         self.graph={}; 
         self.cursor=""
@@ -205,8 +187,32 @@ class PoolKey extends Component {
     }
     
     
+  getKeyStatus = () => {
+    var self=this;
+      
+    var eth_salt = web3Utils.getCookie('iotcookie');
+    if (window.eth_salt) {
+        eth_salt=window.eth_salt;
+    }
+    if (eth_salt == null) {
+        web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
+        eth_salt = web3Utils.getCookie('iotcookie');
+    }
+    
+    
+    var check_key=function(address) {
+        console.log('address' + address);
+        self.setState({beneficiary:address, admin1:address})
+        
+    }
+
+    web3Utils.init_wallet(eth_salt, check_key);
+    
+  }
+    
     componentDidMount() {
         var self=this;
+
         $('#fee').on('change', function(e) {
 
 
@@ -259,7 +265,7 @@ class PoolKey extends Component {
             var max_per_contrib=parseInt($('#max_per_contrib').val()) * eth1;
             var min_per_contrib=parseInt($('#min_per_contrib').val()) * eth1;
             
-            var beneficiary=$('#address').val();
+            var beneficiary=self.state.beneficiary;
             var autoDistribute=true;
             if ($('#auto').find('option:selected').val() == '1') {
                 autoDistribute=false;
@@ -270,34 +276,66 @@ class PoolKey extends Component {
             // $('#loading').show();
             // $('#page2').hide();
              
-            web3Utils.add_pool(beneficiary, 
+            self.add_pool(beneficiary, 
                 max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, self.page2);
+
+            
        
         });
         $('#fee').trigger('change');
     
-        var eth_salt = web3Utils.getCookie('iotcookie');
-        if (eth_salt == null) {
-            web3Utils.setCookie('iotcookie',new Date().toUTCString(),7);
-            eth_salt = web3Utils.getCookie('iotcookie');
-        }
-        
-        
-        var callback=function(address) {
-            console.log('address' + address);
-            $('.address').html(address);
-            $('.address_val').val(address);
-            
-        }
-        
-        web3Utils.init_wallet(eth_salt, callback);
-
+    
         var find_key=getParameterByName('key'); 
         if (find_key) {
             self.page2(find_key);
         }
-      }
+        
+        this.getKeyStatus();
+
+    }
     
+    add_pool = (beneficiary, 
+        max_contrib, max_per_contrib, min_per_contrib, admins, has_whitelist, fee, autoDistribute, callback) => {
+        var self=this;
+
+        this.setState({loading:true})
+        var drizzleState=this.context.drizzle.store.getState()
+        var smartNode="SmartPoolKey";
+        var method="addSmartPoolKey";
+
+        max_contrib= new BigNumber(max_contrib);
+        max_per_contrib= new BigNumber(max_per_contrib);
+        min_per_contrib= new BigNumber(min_per_contrib);
+           
+        if (fee == 'Infinity' || fee < 1) 
+              fee=1;
+              
+        console.log(beneficiary + ' , ' + max_contrib + ' , ' + max_per_contrib + ' , ' + min_per_contrib + ' , ' + admins + ' , ' + has_whitelist + ' , ' + fee);
+          
+        var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+        //alert(contrib);
+        this.contracts[smartNode].methods.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, 
+            admins, has_whitelist, fee, autoDistribute).send( 
+        {from: drizzleState.accounts[0],  gasPrice:23000000000
+        })
+        .then(function(address)  {
+            self.contracts[smartNode].methods.getSmartPoolKey(beneficiary).call(
+            {from: drizzleState.accounts[0]
+            })
+            .then(function(address)  {
+                self.setState({loading:false})
+                console.log(address);
+                callback(address);
+            });
+
+        }).catch(function(error) {
+            self.setState({loading:false})
+                
+            alert("Could not complete transaction")
+            alert(error);
+            console.log(error);
+        });
+    }
 
     render() {
         var self=this;
@@ -360,10 +398,17 @@ class PoolKey extends Component {
                          </div>
                          <div className={"col-md-6"} align={"left"}>
                 
-                                 <input name={"address"} 
-                                 className={"address_val inputbox3 form-control m-input m-input--air"}  
-                                 type="text"
-                                id={"address"} placeholder="" aria-invalid={"false"} aria-required={"false"} />
+                                 <input 
+                                  className={"inputbox3 form-control m-input m-input--air"}  
+                                  type="text"
+                                  onChange={(e) => {
+                                    console.log(e.target.value);
+                                    self.setState({beneficiary:e.target.value})
+                                  }}
+        
+                                  id={"beneficiary"} 
+                                  value={self.state.beneficiary}
+                                  />
                          </div>
                     </div>
                     <div className={"row"}>
@@ -452,8 +497,8 @@ class PoolKey extends Component {
                         </div>
                         <div className={"col-md-6"} align={"left"}>
                           
-                          <input name={"admin1"} 
-                          className={"address_val form-control m-input m-input--air m-input--pill"}  
+                          <input 
+                          className={"form-control m-input m-input--air m-input--pill"}  
                           type="text" 
                           id={"admin1"} 
                           onChange={(e) => {
@@ -986,4 +1031,60 @@ PoolKey.contextTypes = {
   }
   
 
-export default drizzleConnect(PoolKey, stateToProps, dispatchToProps)
+  
+const stateToProps = state => {
+    return {
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated,
+  
+    };
+  };
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  /**
+   *
+   * @function dispatchToProps React-redux dispatch to props mapping function
+   * @param {any} dispatch
+   * @returns {Object} object with keys which would later become props to the `component`.
+   */
+  
+  const dispatchToProps = dispatch => {
+    return {
+        showDialog: (show, content) => {
+            dispatch(actions.showDialog(show, content));
+        },
+        closeDialog: () => {
+            dispatch(actions.closeDialog());
+        },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
+       
+    };
+  };
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+export default connect( stateToProps, dispatchToProps)( drizzleConnect(PoolKey,drizzleStateToProps, drizzleDispatchToProps))

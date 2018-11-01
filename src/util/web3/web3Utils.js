@@ -558,6 +558,11 @@ export const get_web3 = () => {
     return window.web3;
 }
 
+export const get_address = () => {
+    return window.address;
+}
+
+
 export const get_pool_contract_cfg = (poolkey) => {
     console.log(poolkey_artifacts)
       var jsonInterface=poolkey_artifacts.abi.slice(0);

@@ -392,6 +392,8 @@ class ContractForm extends Component {
                                 //self.save_item(item.node_href,href,  item[this.props.catalogueType]);
                             }}>Save</button>
                 </div>
+                <br/>
+                <center><b><font color='orange'>{parseFloat(self.props.eth_contrib)} ETH and Gas / Transaction</font></b></center>
             </div>
             );
   } 
