@@ -218,7 +218,7 @@ fill_page2 = (userAddress, address, balance, eth_recv, vault, state, health, tok
 
 page2 = (address) => {
 
-   this.setState({myAddress: address});
+   this.setState({myAddress: address, loading:true});
    web3Utils.get_keyAuth(address, this.page2_api) 
 
 }
