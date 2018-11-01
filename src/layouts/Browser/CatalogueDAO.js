@@ -238,7 +238,8 @@ render() {
                             />;
                     //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && mdata.val == "application/vnd.tsbiot.catalogue+json")
                     //    isCat = true;
-                    //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" || mdata.val == "CompositeContentType"))
+                    //if (mdata.rel == "urn:X-tsbiot:rels:isContentType" && (mdata.val == "application/senml+json" 
+                    // || mdata.val == "CompositeContentType"))
                     //    isGenericResource = true;
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
                         map_json["Latitude"]=mdata.val;
