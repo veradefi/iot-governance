@@ -316,7 +316,7 @@ class PoolKey extends Component {
         //alert(contrib);
         this.contracts[smartNode].methods.addSmartPoolKey(beneficiary, max_contrib, max_per_contrib, min_per_contrib, 
             admins, has_whitelist, fee, autoDistribute).send( 
-        {from: drizzleState.accounts[0],  gasPrice:23000000000
+        {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
         })
         .then(function(address)  {
             self.contracts[smartNode].methods.getSmartPoolKey(beneficiary).call(
