@@ -5,49 +5,17 @@ import * as web3Utils from "../../util/web3/web3Utils";
 import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
+import BigNumber from 'bignumber.js';
+import createKeccak from 'keccak';
 
 var $ = require ('jquery');
+var eth1_amount=1000000000000000000;
 
 
-
-
-const stateToProps = state => {
-    return {
-        api_auth: state.auth.api_auth,
-        api_key: state.auth.api_key,
-        eth_contrib: state.auth.eth_contrib,
-        isAuthenticated: state.auth.isAuthenticated
-    };
-  };
-  
-  /**
-   *
-   * @function dispatchToProps React-redux dispatch to props mapping function
-   * @param {any} dispatch
-   * @returns {Object} object with keys which would later become props to the `component`.
-   */
-  
-const dispatchToProps = dispatch => {
-    return {
-        showDialog: (show, content) => {
-            dispatch(actions.showDialog(show, content));
-        },
-        closeDialog: () => {
-            dispatch(actions.closeDialog());
-        },
-        authSuccess: (api_auth, api_key) => {
-            dispatch(actions.authSuccess(api_auth, api_key));
-        },
-        authEthContrib: (eth_contrib) => {
-            dispatch(actions.authEthContrib(eth_contrib));
-        },
-    };
-};
-
-
-
-@connect(stateToProps, dispatchToProps)
-export default class NodeKeyInfo extends Component {
+class NodeKeyInfo extends Component {
     static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
@@ -58,14 +26,17 @@ export default class NodeKeyInfo extends Component {
     };
   
   /**
-   * Creates an instance of OrderDialog.
+   * Creates an instance of NodeKeyInfo
    * @constructor
    * @param {any} props
-   * @memberof OrderDialog
+   * @memberof NodeKeyInfo
    */
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+
+    this.drizzleState=context.drizzle.store.getState()
+    this.contracts = context.drizzle.contracts
 
     this.state = {
         loading:true,
@@ -371,14 +342,25 @@ setHealth = (health) => {
  }
 
 
+ get_keyInfo= (address) => {
+    var self=this;
+    var cfg=Object.assign({}, web3Utils.get_key_contract_cfg(address));
+    var events=[];
+    var web3=web3Utils.get_web3();
+    var drizzle=this.context.drizzle;
+    
+    this.props.addContract(drizzle, cfg, events, web3) 
+    self.setState({key_addr:address, loading:false});
+
+}
+
 componentDidMount() {
     var self=this;
     var {address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates, url}=this.props.keyInfo;
 
-    self.get_smartkey_transactions(url,0,10);
-    
-    
-    
+    //self.get_smartkey_transactions(url,0,10);
+    this.get_keyInfo(address);
+       
 }
 
 componentWillReceiveProps(newProps) {
@@ -395,7 +377,9 @@ render() {
     var {address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.state.keyInfo;
     
    
-
+    if (this.state.loading) {
+        return <div><center>Loading Key...</center></div>
+    }
     return(
       
         <div id={"page2"} style={{ }}>
@@ -606,6 +590,7 @@ render() {
                                                         padding:"20px",
                                                     }}
                                                     >
+                                                    {/*
                                                     {this.state.transactions ? 
                                                     self.state.transactions.map(item => {
                                                         var account=item["account"];
@@ -618,7 +603,103 @@ render() {
                                                     {self.state.transactionCount && self.state.transactionCount > self.state.transactions.length ?
                                                         self.fill_page2_transactions_load_more()
                                                         : null }
+                                                    */}
                                                     </div>
+                                                    <ContractDAO contract={address} 
+                                                    method="getTransactionCount"
+                                                    methodArgs={[address]}
+                                                    value_post_process={(val)=> {
+                                                        var items=[];
+                                                        for (var i=val -1; i>= 0; i--) {
+                                                            var idx=i;
+                                                            items.push(<ContractDAO key={idx} contract={address} 
+                                                            method="transactions" 
+                                                            methodArgs={[address, idx]}
+                                                            object_values={['date','account','transaction_type','amount']} 
+                                                            object_labels={['Date','Address','Type','Amount']} 
+                                                            object_classes={['col-md-3','col-md-5','col-md-2','col-md-2']}
+                                                            object_values_post_process={[
+                                                                (date) => {
+                                                                    var dateTime = new Date(parseInt(date) * 1000);
+                                                                    date=dateTime.toISOString(); 
+                                                                    return date;
+                                                                },
+                                                                (address) => {
+                                                                    return address
+                                                                },
+                                                                (tx_type) => {
+                                                                    var tx='Incoming';
+                                                                    if (tx_type > 0) {
+                                                                        tx='Outgoing';
+                                                                    }
+                                                                    return tx;
+                                                                },
+                                                                (amount) => {
+
+                                                                    var eth1=1000000000000000000;
+                                                                    return (amount / eth1) + " ETH"
+                                                                }]} 
+                                                                object_add_hr={true}
+                                                            />);
+                                                        }
+                                                        return items;
+                                                    }
+                                                }
+                                                    />
+
+                                        <center>
+                                                        <label className={"title2"}>
+                                                        Key Events
+                                                        </label>
+                                                    </center> 
+                                                    <hr/>
+                                                    <ContractDAO contract={address} 
+                                                    method="getTransactionCount"
+                                                    methodArgs={[address]}
+                                                    value_post_process={(val)=> {
+                                                        var items=[];
+                                                        for (var i=val -1; i>= 0; i--) {
+                                                            var idx=i;
+                                                            items.push(<ContractDAO key={idx} contract={"SmartKey"} 
+                                                            method="events" 
+                                                            methodArgs={[address, idx]}
+                                                            object_values={['date','account','transaction_type','amount', 'transaction_name','health_status']} 
+                                                            object_labels={['Date','Address','Type','Amount','Event','Health']} 
+                                                            object_classes={['col-md-2','col-md-4','col-md-1','col-md-1','col-md-2','col-md-2']}
+                                                            object_values_post_process={[
+                                                                (date) => {
+                                                                    var dateTime = new Date(parseInt(date) * 1000);
+                                                                    date=dateTime.toISOString(); 
+                                                                    return date;
+                                                                },
+                                                                (address) => {
+                                                                    return address
+                                                                },
+                                                                (tx_type) => {
+                                                                    var tx='Incoming';
+                                                                    if (tx_type > 0) {
+                                                                        tx='Outgoing';
+                                                                    }
+                                                                    return tx;
+                                                                },
+                                                                (amount) => {
+
+                                                                    var eth1=1000000000000000000;
+                                                                    return (amount / eth1) + " ETH"
+                                                                },
+                                                                (transaction_name) => {
+                                                                    return web3Utils.get_web3().utils.hexToAscii(transaction_name)
+                                                                },
+                                                                (health_status) => {
+                                                                    return web3Utils.get_web3().utils.hexToAscii(health_status)
+                                                                }]} 
+                                                                object_add_hr={true}
+                                                            />);
+                                                        }
+                                                        return items;
+                                                    }
+                                                }
+                                                    />
                                     </div>
                                 </div>
                             </div>
@@ -628,3 +709,67 @@ render() {
   }
 }
 
+
+NodeKeyInfo.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+  
+  
+  const stateToProps = state => {
+    return {
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated,
+  
+    };
+  };
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  /**
+   *
+   * @function dispatchToProps React-redux dispatch to props mapping function
+   * @param {any} dispatch
+   * @returns {Object} object with keys which would later become props to the `component`.
+   */
+  
+  const dispatchToProps = dispatch => {
+    return {
+        showDialog: (show, content) => {
+            dispatch(actions.showDialog(show, content));
+        },
+        closeDialog: () => {
+            dispatch(actions.closeDialog());
+        },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
+       
+    };
+  };
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+  export default connect( stateToProps, dispatchToProps)( drizzleConnect(NodeKeyInfo,drizzleStateToProps, drizzleDispatchToProps))
+  

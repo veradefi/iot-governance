@@ -6,6 +6,7 @@ import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 
+var eth1_amount=1000000000000000000;
 
 const source = {
   'urn:X-hypercat:rels:isContentType': 'urn:X-hypercat:rels:isContentType',
@@ -95,7 +96,7 @@ class ContractForm extends Component {
       }
 
       var url='';
-      if (props.catAdd) {
+      if (props.catAdd || props.mapEdit) {
         var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(this.props.contract));
         var events=[];
         var web3=web3Utils.get_web3();
@@ -118,6 +119,9 @@ class ContractForm extends Component {
     }
     if (this.props.catAdd) {
       mode='catAdd'
+    }
+    if (this.props.mapEdit) {
+      mode='mapEdit'
     }
 
     this.state={
@@ -165,6 +169,53 @@ class ContractForm extends Component {
         default:
             return 'text'
     }
+  }
+
+  saveLocation=(lat, lng) => {
+    var self=this;
+     
+     var lat_rel="http://www.w3.org/2003/01/geo/wgs84_pos#lat"
+     var lng_rel="http://www.w3.org/2003/01/geo/wgs84_pos#long"
+
+     var method="upsertMetaData";
+     if (lat && lng) {
+            var drizzleState=this.context.drizzle.store.getState()
+            //alert(drizzleState.accounts[0]);
+            //alert(this.props.eth_contrib)
+            this.setState({loading:true})
+
+            var contrib=Math.round(parseFloat(self.props.eth_contrib/2)*eth1_amount);
+            //alert(contrib);
+            this.contracts[self.props.contract].methods.upsertMetaData(lat_rel, lat).send( 
+                {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                })
+                .then(function(val)  {
+                //alert(val);
+                self.contracts[self.props.contract].methods.upsertMetaData(lng_rel, lng).send( 
+                    {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                    })
+                    .then(function(val)  {
+                            self.setState({
+                                loading:false,
+                                //mode:'metaView',
+                                lat:lat,
+                                lng:lng,
+                                lat_rel:lat_rel,
+                                lng_rel:lng_rel
+                            });
+                    }).catch(function(error) {
+                        alert("Could not complete transaction")
+                        alert(error);
+                        console.log(error);
+                    });
+
+                }).catch(function(error) {
+                alert("Could not complete transaction")
+                alert(error);
+                console.log(error);
+                });
+     }                
+     
   }
 
   render() {
@@ -605,7 +656,63 @@ class ContractForm extends Component {
                   </li>
       } 
       
+      
+      
     }
+    if (this.state.mode == 'mapEdit') {
+      return <div className={"row"} id={"location_map"}>
+          <div className={"col-md-12"}>
+             
+              <div className={"input-group"}>
+                  <input  className={"form-control"} 
+                          type={"text"} 
+                          id={"lat"} 
+                          value={"http://www.w3.org/2003/01/geo/wgs84_pos#lat"}
+                          readOnly={true} />
+                  <span style={{verticalAlign:"middle"}}><h1> = </h1></span>
+      
+                  <input  className={"form-control"} 
+                          type={"text"} 
+                          id={"lat"} 
+                          value={self.props.lat}
+                          onChange={(e) => {
+                              var val=e.target.value;
+                              self.props.setLat(val);
+                          }}
+                          />   
+              </div>                  
+              <div className={"input-group"}>
+                  <input  className={"form-control"} 
+                          type={"text"}
+                          id={"long_name"}
+                          readOnly={true} 
+                          value={"http://www.w3.org/2003/01/geo/wgs84_pos#long"} />
+
+                  <span style={{verticalAlign:"middle"}}><h1> = </h1></span>
+                  <input  className={"form-control"} 
+                          type={"text"} 
+                          id={"lng"} 
+                          onChange={(e) => {
+                              var val=e.target.value;
+                              self.props.setLng(val);
+                          }}
+                          value={self.props.lng} />   
+              </div>
+              <center>
+                  <br/>
+                  <button className={"btn btn-primary"} 
+                          type={"button"} 
+                          onClick={() =>{
+                              self.saveLocation(self.props.lat.toString(), self.props.lng.toString());
+                          }}>
+                          Save Location
+                  </button>
+              </center>
+
+          </div>
+      </div>
+    }
+    
     return (
       <form className="pure-form pure-form-stacked">
         {this.inputs.map((input, index) => {            
