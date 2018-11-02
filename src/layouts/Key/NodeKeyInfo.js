@@ -576,6 +576,7 @@ render() {
                     
                                 <div className={"row"}>
                                     <div className={"col-xs-12"}>
+                                                    {/*
                                                     <center>
                                                         <label className={"title2"}>
                                                         Transactions
@@ -590,7 +591,6 @@ render() {
                                                         padding:"20px",
                                                     }}
                                                     >
-                                                    {/*
                                                     {this.state.transactions ? 
                                                     self.state.transactions.map(item => {
                                                         var account=item["account"];
@@ -603,7 +603,6 @@ render() {
                                                     {self.state.transactionCount && self.state.transactionCount > self.state.transactions.length ?
                                                         self.fill_page2_transactions_load_more()
                                                         : null }
-                                                    */}
                                                     </div>
                                                     <ContractDAO contract={address} 
                                                     method="getTransactionCount"
@@ -646,8 +645,9 @@ render() {
                                                     }
                                                 }
                                                     />
+                                                    */}
 
-                                        <center>
+                                                     <center>
                                                         <label className={"title2"}>
                                                         Key Events
                                                         </label>
@@ -658,8 +658,13 @@ render() {
                                                     methodArgs={[address]}
                                                     value_post_process={(val)=> {
                                                         var items=[];
-                                                        for (var i=val -1; i>= 0; i--) {
+                                                        var e=0;
+                                                        if (this.state.eventHistStart) {
+                                                            e=this.state.eventHistStart;
+                                                        }
+                                                        for (var i=0; i<e+10; i++) {
                                                             var idx=i;
+
                                                             items.push(<ContractDAO key={idx} contract={"SmartKey"} 
                                                             method="events" 
                                                             methodArgs={[address, idx]}
@@ -700,6 +705,24 @@ render() {
                                                     }
                                                 }
                                                     />
+                                                    <div id={"events"} className={'row label8 loadmore'}>
+                                                            <div className={'col-xs-12'}>
+                                                            <center>
+                                                                <a href="#events" className={"button3 form-control btn btn-primary"} 
+                                                                onClick={() => {
+                                                                    var e=0;
+                                                                    if (self.state.eventHistStart) {
+                                                                        e=self.state.eventHistStart + 10;
+                                                                    } else {
+                                                                        e+=10;
+                                                                    }
+                                                                    self.setState({eventHistStart:e});
+                                                                }}>
+                                                                <span className={"buttonText"}>Load More</span>
+                                                                </a>
+
+                                                            </center><br/><br/></div>
+                                                        </div>
                                     </div>
                                 </div>
                             </div>
