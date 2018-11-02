@@ -55,7 +55,7 @@ export default class Catalogue extends Component {
         browse:PropTypes.func,
         showAddItem:PropTypes.bool,
         showButton:PropTypes.bool,
-        itemName:PropTypes.itemName
+        itemName:PropTypes.string
   };
   
   constructor(props) {
