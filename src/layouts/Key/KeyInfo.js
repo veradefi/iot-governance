@@ -739,14 +739,14 @@ render() {
                                                     </div>
                                                     <ContractDAO contract={self.state.key_addr} 
                                                     method="getTransactionCount"
-                                                    methodArgs={[self.props.accounts[0]]}
+                                                    methodArgs={[self.state.key_addr]}
                                                     value_post_process={(val)=> {
                                                         var items=[];
                                                         for (var i=val -1; i>= 0; i--) {
                                                             var idx=i;
                                                             items.push(<ContractDAO key={idx} contract={self.state.key_addr} 
                                                             method="transactions" 
-                                                            methodArgs={[self.props.accounts[0], idx]}
+                                                            methodArgs={[self.state.key_addr, idx]}
                                                             object_values={['date','account','transaction_type','amount']} 
                                                             object_labels={['Date','Address','Type','Amount']} 
                                                             object_classes={['col-md-3','col-md-5','col-md-2','col-md-2']}
@@ -770,6 +770,59 @@ render() {
 
                                                                     var eth1=1000000000000000000;
                                                                     return (amount / eth1) + " ETH"
+                                                                }]} 
+                                                                object_add_hr={true}
+                                                            />);
+                                                        }
+                                                        return items;
+                                                    }
+                                                }
+                                                    />
+                                                <center>
+                                                        <label className={"title2"}>
+                                                        Key Events
+                                                        </label>
+                                                    </center> 
+                                                    <hr/>
+                                                    <ContractDAO contract={self.state.key_addr} 
+                                                    method="getTransactionCount"
+                                                    methodArgs={[self.state.key_addr]}
+                                                    value_post_process={(val)=> {
+                                                        var items=[];
+                                                        for (var i=val -1; i>= 0; i--) {
+                                                            var idx=i;
+                                                            items.push(<ContractDAO key={idx} contract={"SmartKey"} 
+                                                            method="events" 
+                                                            methodArgs={[self.state.key_addr, idx]}
+                                                            object_values={['date','account','transaction_type','amount', 'transaction_name','health_status']} 
+                                                            object_labels={['Date','Address','Type','Amount','Event','Health']} 
+                                                            object_classes={['col-md-2','col-md-4','col-md-1','col-md-1','col-md-2','col-md-2']}
+                                                            object_values_post_process={[
+                                                                (date) => {
+                                                                    var dateTime = new Date(parseInt(date) * 1000);
+                                                                    date=dateTime.toISOString(); 
+                                                                    return date;
+                                                                },
+                                                                (address) => {
+                                                                    return address
+                                                                },
+                                                                (tx_type) => {
+                                                                    var tx='Incoming';
+                                                                    if (tx_type > 0) {
+                                                                        tx='Outgoing';
+                                                                    }
+                                                                    return tx;
+                                                                },
+                                                                (amount) => {
+
+                                                                    var eth1=1000000000000000000;
+                                                                    return (amount / eth1) + " ETH"
+                                                                },
+                                                                (transaction_name) => {
+                                                                    return web3Utils.get_web3().utils.hexToAscii(transaction_name)
+                                                                },
+                                                                (health_status) => {
+                                                                    return web3Utils.get_web3().utils.hexToAscii(health_status)
                                                                 }]} 
                                                                 object_add_hr={true}
                                                             />);

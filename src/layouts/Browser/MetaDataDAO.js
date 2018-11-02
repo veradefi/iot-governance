@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
-import BrowserMapInfo from "./BrowserMapInfo";
+import MapDataDAO from "./MapDataDAO";
 import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import ContractDAO from '../../util/web3/ContractDAO'
 import AccountDAO from '../../util/web3/AccountDAO'
@@ -193,79 +193,6 @@ class MetaData extends Component {
 
 
 
-save_location=(node_href, lat, lng) => {
-    var self=this;
-
-    $('#location_save_loading').show();
-    $('#location_map').hide();
-     var key='';
-             
-     var post_url='/cat/postNodeMetaData?href=' + encodeURIComponent(node_href);
-     
-     var lat_rel="http://www.w3.org/2003/01/geo/wgs84_pos#lat"
-     var lng_rel="http://www.w3.org/2003/01/geo/wgs84_pos#long"
-     
-     var lat_url= post_url + '&rel=' + encodeURIComponent(lat_rel);
-     lat_url+='&val=' + encodeURIComponent(lat);
-     lat_url+='&key=' + encodeURIComponent(key);
-     
-     var lng_url= post_url + '&rel=' + encodeURIComponent(lng_rel);
-     lng_url+='&val=' + encodeURIComponent(lng);
-     lng_url+='&key=' + encodeURIComponent(key);
-     //alert(post_url);
-     $.ajax({
-         beforeSend: function(xhr){
-                 self.add_auth(xhr);
-                 //setHeaders(xhr);
-         },   
-         type: 'GET',
-         url: lat_url,
-         //data: JSON.stringify(user_item),
-         contentType: "application/json; charset=utf-8",
-         dataType: 'json',
-         success: function(body, textStatus, xhr) {
-             $.ajax({
-                 beforeSend: function(xhr){
-                     self.add_auth(xhr);
-                                     //setHeaders(xhr);
-                             },                    
-                 type: 'GET',
-                 url: lng_url,
-                 //data: JSON.stringify(user_item),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: 'json',
-                 success: function(body, textStatus, xhr) {
-                    var mdata=self.state.mdata;
-                    mdata.lat=lat;
-                    mdata.lng=lng;
-                    /*
-                   
-                        */
-
-                    self.setState({dataLoading:false})
-            
-                    if (self.props.refreshCatalogue !== undefined) {
-                        self.props.refreshCatalogue(body);
-                    } else {
-                        var data=body['catalogue-metadata'];
-                        self.setState({
-                            mode:'editLoc',
-                            mdata: mdata
-                            });
-                    }
-                 },
-                 error: function(xhr, textStatus, err) {
-                     console.log(xhr.status + ' ' + xhr.statusText);
-                 }
-             });
-         },
-         error: function(xhr, textStatus, err) {
-             console.log(xhr.status + ' ' + xhr.statusText);
-         }
-     });
-
- //alert(id);  
-}
   render() {
     var self=this;
     var mdata=this.state.mdata;
@@ -328,18 +255,14 @@ save_location=(node_href, lat, lng) => {
             )
         } else if (this.state.mode && this.state.mode=='editMap') {
             return (
-                <li 
-                        id={mdata.id} 
-                        key={mdata.id}>
-                    <BrowserMapInfo lat={mdata.lat} lng={mdata.lng} id={mdata.id} mdata={mdata} 
-                    saveLocation={(lat,lng) => {
-                        self.setState({mode:'saveMap'})
-                        self.save_location(mdata.href, lat, lng);
-
-                    }} />
-            <br/><br/>
-            
-            </li>
+                
+                    <MapDataDAO 
+                    contract={this.props.item.address} 
+                    lat={mdata.lat} 
+                    lng={mdata.lng} 
+                    id={mdata.id} 
+                    mdata={mdata} 
+                    />
             )
         } else if (this.state.mode && this.state.mode=='saveMap') {
             return (
