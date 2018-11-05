@@ -20,6 +20,7 @@ import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Map2D from './layouts/Map/Map2D.js';
+import MiniKey from './layouts/Key/MiniKey.js'
 
 @withRouter
 export default class App extends Component {
@@ -37,6 +38,7 @@ export default class App extends Component {
     <Nav>
       <Switch>
          <Route exact path="/" component={Key} />
+         <Route exact path="/minikey" component={MiniKey} />
          <Route exact path="/key" component={Key} />
          <Route exact path="/key.html" component={Key} />
          <Route exact path="/browser" component={Browser} />

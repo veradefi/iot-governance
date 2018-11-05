@@ -132,6 +132,9 @@ class Nav extends Component {
                      link.selected=false;
                 }
 
+                if (window.location.pathname.match('minikey') && link.href=='key') {
+                  link.name="ETH Address";
+                }
                 if (window.location.pathname == "/" || window.location.pathname == "/iotpedia" || window.location.pathname == "/iotpedia/")
                     if (link.href=='key') 
                         link.selected=true;
