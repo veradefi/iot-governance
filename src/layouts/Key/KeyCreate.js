@@ -61,27 +61,30 @@ createSmartKey = () => {
     var smartNode="SmartKey";
         
     self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
-        {from: drizzleState.accounts[0]}).then(function (keyAddress) {
+        {from: web3Utils.get_address()}).then(function (keyAddress) {
             if (keyAddress.toString() != '0x0000000000000000000000000000000000000000') {
                 //alert(keyAddress);
                 console.log('Key Address', keyAddress);
                 self.props.closeDialog();
-                self.props.callback( self.props.accounts[0]);
+                self.props.callback( web3Utils.get_address());
             } else {
                     self.contracts[smartNode].methods.loadSmartKey(
                         keyAddress, beneficiary, web3Utils.get_web3().utils.fromAscii("Deposit"), 
                                 ).send(
-                    {from: drizzleState.accounts[0], value:eth1_amount, gasPrice:23000000000})
+                    {from: web3Utils.get_address(), value:eth1_amount, gasPrice:23000000000})
                     .then(function(keyAddress)  {
                         self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
-                            {from: drizzleState.accounts[0]}).then(function (keyAddress) {
+                            {from: web3Utils.get_address()}).then(function (keyAddress) {
                                     console.log('Key Address', keyAddress);
 
                                     self.props.closeDialog();
-                                    self.props.callback( self.props.accounts[0]);
+                                    self.props.callback( web3Utils.get_address());
                                     
                             });
                     }).catch(function(error) {
+                        if (error.code == "-32601") {
+                            alert("32601")
+                        }
                         self.setState({loading:false})
                             
                         alert("Could not complete transaction")
