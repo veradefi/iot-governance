@@ -58,6 +58,9 @@ export default class MiniKey extends Component {
     
     var check_key=function(address) {
         console.log('address' + address);
+        web3Utils.get_web3().eth.getBalance(address).then(function (bal) {
+            self.setState({balance:parseFloat(bal)/eth1_amount})
+        })
         self.setState({loading:false, address:address})
     }
 
@@ -88,7 +91,9 @@ export default class MiniKey extends Component {
     return <div className={"row"}>
             <div className={"col-xs-12"}>
                     
+                    {this.state.balance ? <div><b>Balance: {this.state.balance} ETH</b><br/></div> : null}
                     <center>
+                    
                     <textarea className={"auth_key"} id={'auth_api_key'}  style={{width:"100%", height:"30px",textAlign:'left', background:'white'}} 
                     value={this.state.address} onChange={() => {}}/>
                     </center>
