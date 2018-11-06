@@ -128,7 +128,6 @@ fill_api_info = (auth, auth_info, user_key_address) => {
         
     //$('.auth').html(auth);
     this.setState({
-        loading:false,
         api_key:auth_info,
         api_auth:auth
     });
@@ -154,6 +153,7 @@ add_auth = (xhr) => {
 browseCatalogue = () => {
     var self=this;
     self.browse($('#browse_url').val(), function() {
+        
     });
 }
 
@@ -280,7 +280,8 @@ parseCatalogue = (doc) => {
             catalogue_html:listHTML,
             catalogue_meta_data:doc,
             map_json,
-            catalogue_item_meta_data:doc['item-metadata']});
+            catalogue_item_meta_data:doc['item-metadata'],
+            loading:false});
             
     //} catch(e) {
     //    log(e);
@@ -320,7 +321,7 @@ initCatalogue = () => {
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
                     //var history=self.state.history;
-                    self.setState({loading:false, isCatalogue:true, isSearch:false});
+                    self.setState({ isCatalogue:true, isSearch:false});
                     //history.push(url);
                     //self.setState({history});
                     //$('#browse_url').val(url);
