@@ -95,6 +95,14 @@ createApiKey = () => {
       self.props.callback( auth, auth_key_str.toLowerCase(), keyAddress );
 
   }).catch(function(error) {
+      if (error.toString().match("32601") || error.toString().match("Method not found")) {
+        console.log('Key Address', self.state.key_addr);
+        self.props.closeDialog();
+        self.props.callback( auth, auth_key_str.toLowerCase(), self.state.key_addr );
+        return;
+  
+      }
+
       self.setState({loading:false})
           
       alert("Could not complete transaction")
