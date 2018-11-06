@@ -12,10 +12,9 @@ import contract from 'truffle-contract';
 import BigNumber from 'bignumber.js';
 import createKeccak from 'keccak';
 import shajs from 'sha.js'
-
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 
-   
+ 
   
   
   //var providerUrl = "https://iotblock.io/rpc";
@@ -48,6 +47,13 @@ export const create_wallet = (eth_salt, call_back) => {
             var WebsocketSubprovider = require('web3-provider-engine/subproviders/websocket.js')
             var hdwallet = hdkey.fromMasterSeed(user); //bip39.mnemonicToSeed(mnemonic + user));
             
+            const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js')
+            const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js')
+            const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js')
+            const VmSubprovider = require('web3-provider-engine/subproviders/vm.js')
+            const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js')
+            const SubSubprovider = require('web3-provider-engine/subproviders/subscriptions.js')
+            
             // Get the first account using the standard hd path.
             var wallet_hdpath = "m/44'/60'/0'/0/";
             var wallet = hdwallet.derivePath(wallet_hdpath + "0").getWallet();
@@ -58,24 +64,57 @@ export const create_wallet = (eth_salt, call_back) => {
             
             window.address=address;
             window.account=address;
+
+            // static results
+            /*
+            engine.addProvider(new FixtureSubprovider({
+                web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
+                net_listening: true,
+                eth_hashrate: '0x00',
+                eth_mining: false,
+                eth_syncing: true,
+            }))
+            */
+
+            // cache layer
+            //engine.addProvider(new CacheSubprovider())
+            
+            // filters
+            //engine.addProvider(new FilterSubprovider())
+            
+            // pending nonce
+            //engine.addProvider(new NonceSubprovider())
+            
+            // vm
+            //engine.addProvider(new VmSubprovider())
     
             engine.addProvider(new WalletSubprovider(wallet, {}));
             
             //engine.addProvider(new RpcSubprovider({
             //    rpcUrl: providerUrl,
             //}))
+            
+            var subP=new SubSubprovider();
+            subP.on('data', (err, notification) => {
+                engine.emit('data', err, notification)
+              })
+            engine.addProvider(subP);
+
             engine.addProvider(new WebsocketSubprovider({
-                rpcUrl: wsUrl
+               rpcUrl: wsUrl
             }))
+            
         
+            var web3 = new Web3(engine);
+            web3.currentProvider.setMaxListeners(1000);
+            
+            
             engine.on('block', function(block){
                 console.log('================================')
                 console.log('BLOCK CHANGED:', '#'+block.number.toString('hex'), '0x'+block.hash.toString('hex'))
                 console.log('================================')
               })
-
-              
-            var web3 = new Web3(engine);
+            
             const subscription = web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
                 if (error) return console.error(error);
               
@@ -90,7 +129,8 @@ export const create_wallet = (eth_salt, call_back) => {
               
                 console.log('Successfully unsubscribed!');
               });
-
+            
+              
             window.web3=web3;
             engine.start(); // Required by the provider engine.
           }

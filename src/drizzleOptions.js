@@ -9,12 +9,12 @@ import * as web3Utils from './util/web3/web3Utils.js'
 
 var drizzleOptions = {
   web3: {
-    //block: false,
+    block: false,
     fallback: {
       type: 'ws',
-      url: 'wss://rinkeby.infura.io/ws'
+      //url: 'wss://rinkeby.infura.io/ws'
       //url: 'ws://127.0.0.1:8545'
-      //url: 'https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'
+      url: 'https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'
     }
   },
   contracts: [
@@ -31,7 +31,7 @@ var drizzleOptions = {
   //},
   polls: {
       accounts: 1500,
-      //blocks: 1500
+      blocks: 1500
   },
   //syncAlways,
 }
