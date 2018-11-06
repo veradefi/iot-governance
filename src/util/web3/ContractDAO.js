@@ -12,8 +12,14 @@ class ContractDAO extends Component {
 
   constructor(props, context) {
     super(props)
+    this.state={
+      loading:true
+    }
+    
+  }
 
-    this.contracts = context.drizzle.contracts
+  getContract = () => {
+    this.contracts = this.context.drizzle.contracts
 
     // Get the contract ABI
     const abi = this.contracts[this.props.contract].abi;
@@ -22,14 +28,17 @@ class ContractDAO extends Component {
     var methodArgs = this.props.methodArgs ? this.props.methodArgs : []
     var methodArgs2 = this.props.methodArgs2 ? this.props.methodArgs2 : []
     this.dataKey = this.contracts[this.props.contract].methods[this.props.method].cacheCall(...methodArgs)
+    
     if (this.props.morris) {
 
         this.dataKey2 = this.contracts[this.props.contract].methods[this.props.method2].cacheCall(...methodArgs2)
 
      }
+     this.setState({loading:false})
   }
-
   componentDidMount() {
+
+    
       
   }
 
@@ -46,6 +55,9 @@ class ContractDAO extends Component {
       )
     }
 
+    if (this.state.loading)
+      this.getContract();
+    
     // If the cache key we received earlier isn't in the store yet; the initial value is still being fetched.
     if(!(this.dataKey in this.props.contracts[this.props.contract][this.props.method])) {
       return (
