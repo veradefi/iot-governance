@@ -95,6 +95,7 @@ createApiKey = () => {
       self.props.callback( auth, auth_key_str.toLowerCase(), keyAddress );
 
   }).catch(function(error) {
+      
       if (error.toString().match("32601") || error.toString().match("Method not found")) {
         console.log('Key Address', self.state.key_addr);
         self.props.closeDialog();
@@ -102,6 +103,7 @@ createApiKey = () => {
         return;
   
       }
+      
 
       self.setState({loading:false})
           

@@ -82,14 +82,23 @@ createSmartKey = () => {
                                     
                             });
                     }).catch(function(error) {
-                        if (error.code == "-32601") {
-                            alert("32601")
+                        if (error.toString().match("32601") || error.toString().match("Method not found")) {
+                            self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
+                                {from: web3Utils.get_address()}).then(function (keyAddress) {
+                                        console.log('Key Address', keyAddress);
+    
+                                        self.props.closeDialog();
+                                        self.props.callback( web3Utils.get_address());
+                                        
+                                });
+                      
+                        } else {
+                            self.setState({loading:false})
+                                
+                            alert("Could not complete transaction")
+                            alert(error);
+                            console.log(error);
                         }
-                        self.setState({loading:false})
-                            
-                        alert("Could not complete transaction")
-                        alert(error);
-                        console.log(error);
                     });
             }
         });

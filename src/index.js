@@ -11,11 +11,13 @@ import App from './App'
 
 // Redux Store
 import store from './store'
+//require('events').EventEmitter.defaultMaxListeners = 0
 
 // Initialize react-router-redux.
 //const history = syncHistoryWithStore(browserHistory, store)
 
 // Initialize web3 and set in Redux.
+
 getWeb3
 .then(results => {
   console.log('Web3 initialized!')
@@ -23,6 +25,7 @@ getWeb3
 .catch(() => {
   console.log('Error in web3 initialization.')
 })
+
 
 var basename="/iotpedia"
 ReactDOM.render((
