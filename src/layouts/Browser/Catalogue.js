@@ -425,6 +425,11 @@ render() {
 
                     }}
                     >
+                     <a href={"/iotpedia/editor?url=" + item.href}
+                       >
+                       {item.href}
+                    </a>
+                    {/*
                     <Link to={{ 
                         pathname: '/view',
                         url:item.href
@@ -432,6 +437,7 @@ render() {
                        >
                        {item.href.replace("https://iotblock.io/cat/","")}
                     </Link>
+                    */}
                     </pre>
                     <br/>
                     {self.state.dataLoading ? (
