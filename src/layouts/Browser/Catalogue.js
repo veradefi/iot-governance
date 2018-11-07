@@ -271,16 +271,11 @@ render() {
 
                     }}
                     >
-                    <a href={"#top"}
-                       onClick={()=>{
-
-                           self.props.browse(item.href, () => {
-
-                           });
-                       }}
+                    <a href={"/iotpedia/editor?url=" + item.href}
                        >
                        {item.href}
                     </a>
+                    
                     </pre>
                         <br/>
                     {self.state.dataLoading ? (
