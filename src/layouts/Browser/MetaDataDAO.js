@@ -280,7 +280,7 @@ class MetaData extends Component {
                 <li id={mdata.id} key={mdata.id}> 
                         &nbsp;
                        
-                        {mdata.rel} <pre style={{width:"81%"}}>{mdata.val}</pre>
+                        {mdata.rel} <pre style={{whiteSpace: "pre-wrap",  width:"81%"}}>{mdata.val}</pre>
 
                         <br/>
                         {self.state.dataLoading ? (

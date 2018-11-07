@@ -402,7 +402,7 @@ render() {
                                         <span className={"inputbox4"}>
                                         <span className={"label5"} style={{ }} id={"poolkey"}>
                                         <center>
-                                        <pre style={{ maxWidth:"50%" }}>{address}</pre>
+                                        <pre style={{ whiteSpace: "pre-wrap",  maxWidth:"50%" }}>{address}</pre>
                                         </center>
                                         </span></span>
                                         <hr/>

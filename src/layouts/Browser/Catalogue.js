@@ -266,7 +266,7 @@ render() {
                     <li>
                     <pre
                       style={{
-
+                        whiteSpace: "pre-wrap",  
                         maxWidth:"88%"
 
                     }}
@@ -420,7 +420,7 @@ render() {
                     <li>
                     <pre
                       style={{
-
+                        whiteSpace: "pre-wrap",  
                         maxWidth:"88%"
 
                     }}

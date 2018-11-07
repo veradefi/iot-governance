@@ -250,7 +250,7 @@ refreshCatalogue = (data) => {
                     >
                     <pre
                       style={{
-
+                        whiteSpace: "pre-wrap",  
                         maxWidth:"81%"
 
                     }}

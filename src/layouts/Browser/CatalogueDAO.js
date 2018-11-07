@@ -532,7 +532,7 @@ render() {
                     <li>
                     <pre
                       style={{
-
+                        whiteSpace: "pre-wrap",  
                         maxWidth:"88%"
 
                     }}

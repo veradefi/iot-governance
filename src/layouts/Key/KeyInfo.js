@@ -431,7 +431,7 @@ render() {
                                         <br/><br/>
                                         <span className={"inputbox4"}><span className={"label5"} style={{ }} id={"poolkey"}>
                                         <center>
-                                        <pre style={{ width:"90%" }}>
+                                        <pre style={{ whiteSpace: "pre-wrap",  width:"90%" }}>
                                         {self.state.key_addr} 
                                         {/* address */}</pre>
                                         </center>

@@ -475,16 +475,16 @@ populateUrls = (urls) => {
 
                                     }}
                                     >
-                                    <input className={"form-control m-input m-input--air"} 
+                                    <textarea className={"form-control m-input m-input--air"} 
                                     style={{
                                         height:"45px",
                                     }} type={"text"} id={"browse_url"} 
-                                        size={80} 
-                                        value={self.state.catalogue_url} 
+                                        //size={80} 
                                         onChange={(e) => {
                                             self.setState({catalogue_url:e.target.value});
                                         }}
-                                        />
+                                        >{self.state.catalogue_url}</textarea> 
+                                        
                                         <div className={"input-group-append"}>
                                             <button className={"button3 btn btn-primary"} type="button" 
                                             onClick={() => {
@@ -501,8 +501,7 @@ populateUrls = (urls) => {
                                     </td>
                                     <td> <pre className={"auth"} 
                                     style={{
-                                        
-                                        height:"40px",
+                                        whiteSpace: "pre-wrap",  
                                         maxWidth:"88%",
                                         marginBottom:"0px"}}>
                                     <Link to={{ 
@@ -526,11 +525,11 @@ populateUrls = (urls) => {
                                                 self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
                                     }}
                                     className={"form-control m-input m-input--air"} style={{height:"45px"}}>
-                                        <option value='0.0001'>0.0001 ETH Per Transaction</option>
-                                        <option value='0.001'>0.001 ETH Per Transaction</option>
-                                        <option value='0.01'>0.01 ETH Per Transaction</option>
-                                        <option value='0.1'>0.1 ETH Per Transaction</option>
-                                        <option value='1'>1 ETH Per Transaction</option>
+                                        <option value='0.0001'>0.0001 ETH & Gas / Transaction</option>
+                                        <option value='0.001'>0.001 ETH & Gas / Transaction</option>
+                                        <option value='0.01'>0.01 ETH & Gas / Transaction</option>
+                                        <option value='0.1'>0.1 ETH & Gas / Transaction</option>
+                                        <option value='1'>1 ETH & Gas / Transaction</option>
                                         
                                     </select>
                                         <div className={"input-group-append"}>
