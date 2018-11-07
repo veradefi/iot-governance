@@ -281,7 +281,7 @@ save_location=(node_href, lat, lng) => {
                              Edit 
                            </a> 
                         ] &nbsp; 
-                        {mdata.rel} <pre style={{width:"80%"}}>{mdata.val}</pre>
+                        {mdata.rel} <pre style={{width:"80%", whiteSpace: "pre-wrap"}}>{mdata.val}</pre>
                         <br/>
                         {self.state.dataLoading ? (
                             <b>Processing Contribution... <br/></b>
