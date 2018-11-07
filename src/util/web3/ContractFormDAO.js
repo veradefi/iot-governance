@@ -245,7 +245,7 @@ class ContractForm extends Component {
                     Edit 
                   </a> 
                 ] &nbsp; 
-                {mdata.rel} <pre style={{width:"88%"}}>{mdata.val}</pre>
+                {mdata.rel} <pre style={{width:"88%", whiteSpace: "pre-wrap" }}>{mdata.val}</pre>
 
                 <br/>
                 {self.state.dataLoading ? (
@@ -395,12 +395,11 @@ class ContractForm extends Component {
             <div key={item.id + "_add"}>
                 <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
                 <div  className={"input-group"}>
-                <input className={"form-control"} type={"text"} id={item.id + "_new_url"} 
+                <textarea className={"form-control"} type={"text"} id={item.id + "_new_url"} 
                   onChange={(e) => {
                     self.setState({url:e.target.value});
                     //alert(url);
-                  }}
-                defaultValue={url} />
+                  }}>{url}</textarea>
                     <button className={"btn btn-primary"} type={"button"} 
                             onClick={() => {
                               this.setState({loading:true})

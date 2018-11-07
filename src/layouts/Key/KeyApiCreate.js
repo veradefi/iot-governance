@@ -146,35 +146,7 @@ render() {
                                           <br/>                                                                                  
                                  </div>
                             </div>
-                            <div className={"row"}>
-                                <div className={"col-xs-12"}>
-                    
-                                  <label className={"title3"}>
-                                    Wallet
-                                  </label>
-                                  <br/><br/>
-                                </div>
-                            </div>
-                            <div className={"row"}>
-                                <div className={"col-xs-12"} style={{textAlign:"center"}}>
-                        
-                                  <label className={"label2"}>Your wallet address:</label>
-                                  
-                                </div>
-                            </div>
-                            <div className={"row"}>
-                                <div className={"col-xs-12"} style={{textAlign:"center"}}>
-                                    <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
-                                                        style={{width:"100%"}} 
-                                                        type={"text"} 
-                                                        id={"address"} 
-                                                        placeholder={""} 
-                                                        value={this.props.address}
-                                                        onChange={() => {
-                                                        }}
-                                                     />
-                                 </div>
-                            </div>
+                            {/*
                             <div className={"row"}>
                                 <div className={"col-xs-12"}>
                                   <br/>
@@ -184,6 +156,7 @@ render() {
                                   <br/><br/>
                                 </div>
                             </div>
+                            */}
                             <div className={"row"}>
                                 <div className={"col-xs-4"} style={{textAlign:"right"}}>
                         
@@ -238,6 +211,37 @@ render() {
                                     <a href='/' className={"link2"}>Go back to home</a>
                                 </div>
                             </div>
+                            {/*
+                            <div className={"row"}>
+                                <div className={"col-xs-12"}>
+                    
+                                  <label className={"title3"}>
+                                    Wallet
+                                  </label>
+                                  <br/><br/>
+                                </div>
+                            </div>
+                            <div className={"row"}>
+                                <div className={"col-xs-12"} style={{textAlign:"center"}}>
+                        
+                                  <label className={"label2"}>Your wallet address:</label>
+                                  
+                                </div>
+                            </div>
+                            <div className={"row"}>
+                                <div className={"col-xs-12"} style={{textAlign:"center"}}>
+                                    <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
+                                                        style={{width:"100%"}} 
+                                                        type={"text"} 
+                                                        id={"address"} 
+                                                        placeholder={""} 
+                                                        value={this.props.address}
+                                                        onChange={() => {
+                                                        }}
+                                                     />
+                                 </div>
+                            </div>
+                                                    */}
                     </center>
             </div>
         </div>

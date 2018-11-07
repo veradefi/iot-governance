@@ -540,7 +540,7 @@ populateUrls = (urls) => {
                                                 self.props.authEthContrib(parseFloat($('#eth_contrib').val()));
 
 
-                                            }} ><span className={"buttonText"}>Set Donation Terms</span></button>
+                                            }} ><span className={"buttonText"}>Set Terms</span></button>
                                         </div>
                                     </div>
                                     (Data update will reflect in catalogue after 1-2 minutes)
