@@ -315,13 +315,7 @@ render() {
 
                     }}
                     >
-                    <a href={"#top"}
-                       onClick={()=>{
-
-                           self.props.browse(item.href, () => {
-
-                           });
-                       }}
+                     <a href={"/iotpedia/editor?url=" + item.href}
                        >
                        {item.href}
                     </a>
@@ -537,13 +531,10 @@ render() {
 
                     }}
                     >
-                    <Link to={{ 
-                        pathname: '/view',
-                        url:item.href
-                    }}
+                     <a href={"/iotpedia/editor?url=" + item.href}
                        >
-                       {item.href.replace("https://iotblock.io/cat/","")}
-                    </Link>
+                       {item.href}
+                    </a>
                     </pre>
                     <br/>
                     {self.state.dataLoading ? (
