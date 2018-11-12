@@ -7,7 +7,7 @@ const SmartNode = artifacts.require("./SmartNode.sol");
 const GraphRoot = artifacts.require("./GraphRoot.sol");
 
 var admins=[
-            web3.eth.coinbase,
+            web3.eth.accounts[0],
             web3.eth.accounts[1],
             ];
 

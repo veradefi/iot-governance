@@ -1,5 +1,6 @@
 import store from '../../store'
 import Web3 from 'web3'
+import {providerUrl, wsUrl} from '../../providerOptions'
 
 export const WEB3_INITIALIZED = 'WEB3_INITIALIZED'
 function web3Initialized(results) {
@@ -31,7 +32,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
 
       // Fallback to localhost if no web3 injection. We've configured this to
       // use the development console's port by default.
-      var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
+      //var providerUrl = "https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR";
       var provider = new Web3.providers.HttpProvider(providerUrl);
 
       web3 = new Web3(provider)

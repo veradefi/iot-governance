@@ -6,7 +6,7 @@ import SmartNode from './solc/contracts/SmartNode.json'
 import SmartKey from './solc/contracts/SmartKey.json'
 import PoolKey from './solc/contracts/PoolKey.json'
 import * as web3Utils from './util/web3/web3Utils.js'
-
+import {providerUrl, wsUrl} from './providerOptions'
 var drizzleOptions = {
   web3: {
     block: false,
@@ -14,7 +14,7 @@ var drizzleOptions = {
       type: 'ws',
       //url: 'wss://rinkeby.infura.io/ws'
       //url: 'ws://127.0.0.1:8545'
-      url: 'https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'
+      url: providerUrl
     }
   },
   contracts: [

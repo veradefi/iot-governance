@@ -255,14 +255,14 @@ class Resource(Base):
         j[ITEM_METADATA] = self.metadata
         j[HREF] = self.href
         return j
-    
-def loads(inputStr):
-    """Takes a string and converts it into an internal hypercat object, with some checking"""
-    inCat = json.loads(inputStr)
+
+
+def loadJson(inCat):
+
     assert CATALOGUE_TYPE in _values(inCat[CATALOGUE_METADATA], ISCONTENTTYPE_RELATION)
     # Manually copy mandatory fields, to check that they are they, and exclude other garbage
     desc = _values(inCat[CATALOGUE_METADATA], DESCRIPTION_RELATION)[0]  # TODO: We are ASSUMING just one description, which may not be true
-    outCat = Hypercat(desc, inCat[ITEM_METADATA])
+    outCat = Hypercat(desc, inCat[CATALOGUE_METADATA])
     for i in inCat[ITEMS]:
         href = i[HREF]
         print(i[ITEM_METADATA])
@@ -299,6 +299,11 @@ def loads(inputStr):
             outCat.addItem(r, href)
 
     return outCat
+
+def loads(inputStr):
+    """Takes a string and converts it into an internal hypercat object, with some checking"""
+    inCat = json.loads(inputStr)
+    loadJson(inCat)
 
 #if __name__ == '__main__':
 #    # Unit tests
