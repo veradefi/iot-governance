@@ -1,5 +1,5 @@
-import "./GoodwillCoin.sol";
 import "./Network.sol";
+import "../SmartKey.sol";
 pragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use
 
 contract User {
@@ -7,7 +7,7 @@ contract User {
   SmartKey key;
   Network rsNetwork;
   
-  function RSUser(Key _key, RSNetwork _rsNetwork) {
+  function User(SmartKey _key, Network _rsNetwork) {
       key=_key;
       rsNetwork=_rsNetwork;
   }

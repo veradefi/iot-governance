@@ -1,16 +1,15 @@
-import "./admin/Administered.sol";
-import "./ConvertLib.sol";
-import "./GoodwillCoin.sol";
+import "../admin/Administered.sol";
+import "../SmartKey.sol";
+import "../Catalogue.sol";
 
 
 pragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use
 
-contract RSLogistics is Administered {
-  using ConvertLib for *;
+contract Logistics is Administered {
   
   SmartKey key;
   
-  function RSLogistics(SmartKey _key, address[] adminAddress) 
+  function Logistics(SmartKey _key, address[] adminAddress) 
       Administered(adminAddress)
   {
   

@@ -1,15 +1,12 @@
-import "./admin/Administered.sol";
-import "./ConvertLib.sol";
-import "./GoodwillCoin.sol";
+import "../admin/Administered.sol";
 import "./Operator.sol";
 import "./Contributor.sol";
-
+import "../SmartKey.sol";
 
 pragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use
 
 contract Network is Administered {
 
-  using ConvertLib for *;
   
   struct resourceNet {
       string rsName;
@@ -24,15 +21,15 @@ contract Network is Administered {
   mapping (bytes32 => resourceNet[]) private rsInfo;  
   mapping (address => mapping(bytes32 => resourceNet)) private rsNetInfo;  
      
-  GoodwillCoin rsToken;
-  RSOperator rsOperator;
-  RSContributor rsContributor;
+  SmartKey key;
+  Operator rsOperator;
+  Contributor rsContributor;
   
-  function RSNetwork(GoodwillCoin _rsToken, RSOperator _rsOperator, RSContributor _rsContributor, address[] adminAddress) 
+  function Network(SmartKey _key, Operator _rsOperator, Contributor _rsContributor, address[] adminAddress) 
       Administered(adminAddress)
   {
   
-      rsToken=_rsToken;
+      key=_key;
       rsOperator=_rsOperator;
       rsContributor=_rsContributor;
     
@@ -42,6 +39,7 @@ contract Network is Administered {
   
   }
   
+  /*
   function ListResourceNet(bytes32 _rsType) returns (uint, uint[], uint[], bytes) {
         uint transactions=0;
         resourceNet[] memory signatures;
@@ -97,6 +95,7 @@ contract Network is Administered {
       }
       return false;
   }
+  */
   
 
 }
