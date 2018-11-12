@@ -12,6 +12,7 @@ import contract from 'truffle-contract';
 import BigNumber from 'bignumber.js';
 import createKeccak from 'keccak';
 import shajs from 'sha.js'
+import {providerUrl, wsUrl} from '../../providerOptions'
 Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 
  
@@ -19,8 +20,8 @@ Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.pr
   
   //var providerUrl = "https://iotblock.io/rpc";
   //var providerUrl = "http://localhost:9545";
-  var providerUrl = "https://rinkeby.infura.io/v3/5a4e19427c10436fbbbf6b6526e37ba0";
-  var wsUrl = "wss://rinkeby.infura.io/ws"
+//  var providerUrl = "https://rinkeby.infura.io/v3/5a4e19427c10436fbbbf6b6526e37ba0";
+  //var wsUrl = "wss://rinkeby.infura.io/ws"
   var host=providerUrl;
       
   

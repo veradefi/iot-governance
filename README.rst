@@ -30,16 +30,13 @@ Ethereum Ganache RPC
 ::
         
         npm install
-        ganache-cli --network-id 5
+        ganache-cli -p 9545 -i 4447
 
 IoTBlock Ethereum Smart Contracts (/contracts)
 
 ::
-
-        sh build.sh
-        python testnet/test_hypercat.py
-        python testnet/test_smartkey.py
-        python testnet/test_ico.py
+        pip3 install -r requirements.txt 
+        sh build_testnet.sh
 
 Rinkeby
 ------------------------------------------------------------------
@@ -56,7 +53,30 @@ IoTBlock Ethereum Smart Contracts (/contracts)
 
         sh build_rinkeby.sh
         sh build_rinkeby_data.sh
-        
+
+
+******************************************************************
+The Universal IoT Blockchain Hypercat API
+******************************************************************
+
+The Universal IoT Blockchain Hypercat API to access The Universal IoT Blockchain Smart Contracts
+
+Testnet Hypercat API (http://localhost:8888)
+
+::
+	
+    python server/index_testnet.py
+
+
+Rinkeby Hypercat API (http://localhost:8888)
+
+::
+	
+    python server/index.py
+
+
+IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
+
 
 ******************************************************************
 The Universal IoT Blockchain IoTPedia Web Interface
@@ -64,13 +84,30 @@ The Universal IoT Blockchain IoTPedia Web Interface
 
 Web Interface to access the The Universal IoT Blockchain Hypercat API and The Universal IoT Blockchain Smart Contracts
 
+::
+        First Edit package.json, set proxy (at the bottom of the file) to Hypercat API URL (e.g. https://iotblock.io, or http://localhost:8888)
 
 ::
 
 	npm install
+        npm run-script build
 	npm start
 
 IoTBlock's Web Interface is accessible via <https://iotblock.io/iotpedia/>
+
+
+
+******************************************************************
+The Universal IoT Blockchain Hypercat Event Listener
+******************************************************************
+
+The Universal IoT Blockchain Event Listener to access The Universal IoT Blockchain Smart Contracts
+
+::
+	
+    python server/events.py
+    
+IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
 
 ******************************************************************
@@ -87,30 +124,4 @@ Web Browser Tools to access the The Universal IoT Blockchain Hypercat API and Th
 	npm start
 
 IoTBlock's Web Interface is accessible via <https://iotblock.io/icatOS>
-
-
-******************************************************************
-The Universal IoT Blockchain Hypercat API
-******************************************************************
-
-The Universal IoT Blockchain Hypercat API to access The Universal IoT Blockchain Smart Contracts
-
-::
-	
-    python server/index.py
-    
-IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
-
-
-******************************************************************
-The Universal IoT Blockchain Hypercat Event Listener
-******************************************************************
-
-The Universal IoT Blockchain Event Listener to access The Universal IoT Blockchain Smart Contracts
-
-::
-	
-    python server/events.py
-    
-IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
