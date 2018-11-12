@@ -1,12 +1,10 @@
 import "../admin/Administered.sol";
-import "./ConvertLib.sol";
-import "./GoodwillCoin.sol";
 
 pragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use
 
-contract RSOperator is Administered {
-  using ConvertLib for *;
+contract Operator is Administered {
   
+  /*
   SmartKey key;
   
   function RSOperator( SmartKey _key, address[] adminAddress) 
@@ -22,5 +20,6 @@ contract RSOperator is Administered {
       //rsNetwork.SetResourceTerm(_rsName,  _rsType, _rsToken);
   
   }
+  */
 
 }

@@ -1,19 +1,17 @@
 
 import "../admin/Administered.sol";
-import "./ConvertLib.sol";
-//import "./GoodwillCoin.sol";
 import "./Logistics.sol";
 
 
 pragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use
 
-contract RSContributor is Administered {
+contract Contributor is Administered {
 
-  using ConvertLib for *;
 
   //GoodwillCoin rsToken;
   Logistics logistics;
 
+  /*
   struct resource {
       address rsAddress; // The address of the question
       bytes32 rsType;
@@ -91,7 +89,7 @@ contract RSContributor is Administered {
           return rsLogistics.RequestDelivery(_rsAddress, _rsType, 0);
 
   }
-
+  */
   // function GetResourceQty(address _rsAddress, uint _rsIdx) returns (bool) {
   //
   // }
