@@ -58,7 +58,7 @@ web3 = Web3(HTTPProvider('http://localhost:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address=web3.toChecksumAddress(web3.eth.coinbase)
 address2=web3.toChecksumAddress(web3.eth.accounts[0])
-address3='0xe7f78ff99a0e0aba71a35051fec7c92332821d8f'
+address3='0x6f205e1D7921f48F2C798cA6C7fc8c3535efa6A4'
 
 print (address, address2)
 gc=getContract('SmartKey',network)
@@ -88,7 +88,7 @@ eth_contrib=int(eth1/100000);
 addAuthKey(kc, address2)
 getApiKey(kc, address2, eth_contrib)
 
-web3.eth.sendTransaction({ 'from' :address, 'to':address3, 'value': eth1 * 3});
+web3.eth.sendTransaction({ 'from' :address2, 'to':web3.toChecksumAddress(address3), 'value': eth1 * 3});
     
 '''
 

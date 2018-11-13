@@ -114,7 +114,7 @@ export default class Browser extends Component {
             
 
     };
-    this._isMounted = false;
+    //this._isMounted = false;
   }
 
   
@@ -171,8 +171,11 @@ parseCatalogue = (doc) => {
     console.log(doc);
     var eth1_amount=1000000000000000000;
     doc.id="res";
-    var url='/cat';
-    doc.href=url;
+    var url=doc.href; //'/cat';
+    if (!url) {
+        url='/cat';
+        doc.href=url;
+    }
     var catMetadataListHTML = (
         <ul>
 
@@ -224,7 +227,7 @@ parseCatalogue = (doc) => {
                     address: doc.address,
                     id:'add_catalogue_item',
                     node_href:'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes',
-                    href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search,
+                    href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search ? this.state.search : '',
                     items:[],          
                     "catalogue-metadata": [
                         {
@@ -252,7 +255,7 @@ parseCatalogue = (doc) => {
                 }}
                 mode={'add'} 
                 browse={() => {
-                    window.location='/iotpedia/editor?url=https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search
+                    window.location='/iotpedia/editor?url=https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search ? this.state.search : ''
                 }} />
             <br/>
             <b>
@@ -269,18 +272,18 @@ parseCatalogue = (doc) => {
             <li> {self.state.isCatalogue && !self.state.isSearch ? "Catalogue Index (UK SIC):" : "Search Result:"} 
                 <br/><br/> 
             </li>
-            {itemListHTML}
+            {itemListHTML ? itemListHTML : null}
         </ul>
         );
     
-        self.populateUrls(urls);
-        // $('#browser').html(listHTML);
-        this.setState({
-            catalogue_html:listHTML,
-            catalogue_meta_data:doc,
-            map_json,
-            catalogue_item_meta_data:doc['item-metadata'],
-            loading:false});
+    self.populateUrls(urls);
+    // $('#browser').html(listHTML);
+    self.setState({
+        catalogue_html:listHTML,
+        catalogue_meta_data:doc,
+        map_json,
+        catalogue_item_meta_data:doc['item-metadata'],
+        loading:false});
             
     //} catch(e) {
     //    log(e);
@@ -294,7 +297,7 @@ initCatalogue = () => {
     var history=[];
         
     //alert(url);
-    var fetch_location=this.state.catalogue;
+    var fetch_location='/cat/getBalance?href=' + this.state.catalogue;
                     
     var param= getParameterByName("url");
     var q = getParameterByName("q");
@@ -319,6 +322,7 @@ initCatalogue = () => {
             //contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
+                    console.log(doc);
                     //var history=self.state.history;
                     self.setState({ isCatalogue:true, isSearch:false});
                     //history.push(url);
