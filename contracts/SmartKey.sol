@@ -70,7 +70,7 @@ contract SmartKey is MintableToken
     // @return true if the transaction can buy tokens
     function validPurchase() internal constant returns (bool) 
     {
-        return msg.value > 1000000000;
+        return msg.value >= 0;
     }
 
     // fallback function can be used to buy tokens
@@ -89,6 +89,14 @@ contract SmartKey is MintableToken
       
         return smartKeys[beneficiary];
         
+    }
+
+    function getEventCount(address _address) 
+    view
+    public
+    returns (uint256)
+    {
+       return events[_address].length;
     }
 
     function loadSmartKey(Key key, address transacting_contract,  bytes32 transaction_name) 
@@ -110,15 +118,19 @@ contract SmartKey is MintableToken
             
             KeyEvent(msg.sender, address(key), transacting_contract, msg.value, transaction_name, healthStatus);
             events[address(key)].push(event_transaction(transacting_contract,now,msg.value, 0, transaction_name, healthStatus));            
-            tokenMinted = tokenMinted.add(token);
-            balances[address(transacting_contract)] = balances[address(transacting_contract)].add(token);
-            Transfer(address(0), address(transacting_contract), token);
-   
+            
+        
+            tokenMinted = tokenMinted + token; //.add(token);
+            balances[address(key)] = balances[address(key)].add(token);
+            Transfer(address(0), address(key), token);
+            
+            //mint(address(key), token);
+
             key.activateKey.value(msg.value)(address(transacting_contract));
             
             return true;
     }
-    
+        
     function putSmartKey(Key key, address beneficiary) 
     onlyAdmin
     public
@@ -129,6 +141,7 @@ contract SmartKey is MintableToken
         {
             smartKeys[beneficiary] = key;
         }
+        mint(beneficiary, msg.gas);
         
     }
     
