@@ -2,7 +2,7 @@ from iotblock_sdk.pathfinder import Catalogue
 import iotblock_sdk.hypercat as hypercat
 import json
 import logging
-TEST_PATHFINDER_URL_ROOT = "https://iotblock.io/cat"
+TEST_PATHFINDER_URL_ROOT = "http://localhost:8888/cat"
 
 def unittest():
     
