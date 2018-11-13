@@ -288,10 +288,8 @@ class MetaData extends Component {
                         ) : 
                         mdata.bal ? (
                         <b>Donation Received: {parseFloat(mdata.bal)/eth1_amount} ETH 
-                        <br/>
                         </b> 
                         ) : null }
-                        <br/>
                 </li>
             )
         } 

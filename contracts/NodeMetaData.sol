@@ -58,6 +58,7 @@ contract NodeMetaData is Administered, Key {
       } 
       
       smartKey.loadSmartKey.value(msg.value)(Key(this), address(itemMetaData[hashVal]), bytes32("MetaDataUpdate"));
+      
       return true;
   }
  

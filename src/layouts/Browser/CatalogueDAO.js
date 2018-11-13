@@ -1,51 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
+import * as web3Utils from "../../util/web3/web3Utils";
+
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
+
 import MetaData from "./MetaDataDAO"
 import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import { Link } from "react-router-dom";
+import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
+import {Button} from 'react-toolbox/lib/button';
+
 var $ = require ('jquery');
 
 
-
-const stateToProps = state => {
-    return {
-        api_auth: state.auth.api_auth,
-        api_key: state.auth.api_key,
-        eth_contrib: state.auth.eth_contrib,
-        isAuthenticated: state.auth.isAuthenticated
-    };
-  };
-  
-  /**
-   *
-   * @function dispatchToProps React-redux dispatch to props mapping function
-   * @param {any} dispatch
-   * @returns {Object} object with keys which would later become props to the `component`.
-   */
-  
-const dispatchToProps = dispatch => {
-    return {
-        showDialog: (show, content) => {
-            dispatch(actions.showDialog(show, content));
-        },
-        closeDialog: () => {
-            dispatch(actions.closeDialog());
-        },
-        authSuccess: (api_auth, api_key) => {
-            dispatch(actions.authSuccess(api_auth, api_key));
-        },
-        authEthContrib: (eth_contrib) => {
-            dispatch(actions.authEthContrib(eth_contrib));
-        },
-    };
-};
-
-
-
-@connect(stateToProps, dispatchToProps)
-export default class Catalogue extends Component {
+//@connect(stateToProps, dispatchToProps)
+class CatalogueDAO extends Component {
    static propTypes = {
         showDialog:PropTypes.func.isRequired,
         closeDialog:PropTypes.func.isRequired,
@@ -306,42 +279,95 @@ render() {
                 refreshCatalogue={self.refreshCatalogue}  
                 />
             return (
-                <div key={item.id}> 
-                    <li>
-                    <pre
-                      style={{
-                        whiteSpace: "pre-wrap",  
-                        width:"88%"
+                <div style={{ flex: "1 1 250px", position: "relative", height: '180px', margin: '2px'}}> 
+                    <Card style={{ height: '180px' }}>
+                        <pre
+                        style={{
+                            whiteSpace: "pre-wrap",  
+                            width:"100%"
 
-                    }}
-                    >
-                     <a href={"/iotpedia/editor?url=" + item.href}
-                       >
-                       {item.href}
-                    </a>
-                    </pre>
-                        <br/>
-                    {self.state.dataLoading ? (
-                        <b>Processing Contribution...
+                        }}
+                        >
+                        <a href={"/iotpedia/editor?url=" + item.href}
+                        >
+                        {item.href}
+                        </a>
+                        </pre>      
+                            <center>                  
+                            <span>
+                                <b>
+                                <ContractDAO contract={"SmartKey"} 
+                                                                method="getBalance" 
+                                                                methodArgs={[item.address]} 
+                                                                isLocaleString={true} /> IOTBLOCK
+                                </b>
+                            </span>
+                            </center>
                             <br/>
-                        </b>
-                    ) : null}
+                   
+                        <CardActions style={{position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width:"100%"}}>
+                             <Button label='View / Contribute Info' raised primary 
+                                style={{width:"100%"}}
+                                onClick={() => {
+                                
+                                    this.props.showDialog(true, 
+                                    <div style={{ height: window.innerHeight * 0.9,
+                                                overflowY: "auto" }}>
+                                        {self.state.dataLoading ? (
+                                        <b>Processing Contribution...
+                                            <br/>
+                                        </b>
+                                    ) : null}
+
+                                    <center>                  
+                                    <span>
+                                        <b>
+                                        <ContractDAO contract={"SmartKey"} 
+                                                                        method="getBalance" 
+                                                                        methodArgs={[item.address]} 
+                                                                        isLocaleString={true} /> IOTBLOCK
+                                        </b><br/>
+                                    </span>
+                                    </center>
+                                    <pre
+                                    style={{
+                                        whiteSpace: "pre-wrap",  
+                                        width:"100%"
+
+                                    }}
+                                    >
+                                    <a href={"/iotpedia/editor?url=" + item.href}
+                                    >
+                                    {item.href}
+                                    </a>
+                                    </pre>      
+                                
+                                <br/>
+                                        {items}
+                                
+                                    {self.state.addMeta[item.address].map(item => {
+                                        return item;
+                                    })}
+                                    {editLoc}
+                                    <Button style={{width:"100%"}} raised primary onClick={() => {
+                                            self.props.closeDialog();
+                                        }}>Close</Button> 
+                                    </div>);
+                                }}
+                                
+                                />
+                        </CardActions>
+                    </Card>
                     <br/>
-                    </li>
-                    <ul>
-                    {items}
-                    
-                    {self.state.addMeta[item.address].map(item => {
-                        return item;
-                    })}
-                    {editLoc}
-                    </ul>
 
                     
                     {self.props.showAddItem && !self.state.hideAddItem ? (
 
                         
-                          <Catalogue 
+                          <CatalogueDAO 
                                 {...self.props}
                                 catalogueType={'item-metadata'}
                                 idata={{
@@ -371,7 +397,7 @@ render() {
                         onClick={() => {
                             console.log(this.props.idata)
                             this.props.showDialog(true, 
-                                <Catalogue 
+                                <CatalogueDAO 
                                         catalogueType={'catalogue-metadata'}
                                         showAddItem={true}
                                         showButton={true}
@@ -383,26 +409,7 @@ render() {
                                             href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.props.itemName,
                                             items:[],          
                                             "catalogue-metadata": [
-                                                //{
-                                                //    "rel": "urn:X-hypercat:rels:isContentType",
-                                                //    "val": "application/vnd.hypercat.catalogue+json"
-                                                //},
-                                                //{
-                                                //    "rel": "urn:X-hypercat:rels:hasDescription:en",
-                                                //    "val": ""
-                                                //},
-                                                //{
-                                                //    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
-                                                //    "val": "78.47609815628121"
-                                                //},
-                                                //{
-                                                //    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
-                                                //    "val": "-39.99203727636359"
-                                                //},
-                                                //{
-                                                 //   "rel": "urn:X-hypercat:rels:Media:1",
-                                                //    "val": ""
-                                                //}
+                                               
                                             ]
                                             
                                         }}
@@ -425,7 +432,7 @@ render() {
                         [<a href={"#add_catalogue_item"}
                             onClick={() => {
                                 this.props.showDialog(true, 
-                                    <Catalogue 
+                                    <CatalogueDAO 
                                                 {...self.props}
                                                 catalogueType={'item-metadata'}
                                                 idata={{
@@ -522,34 +529,86 @@ render() {
                 />)
             */
             return (
-                <div key={item.id}> 
-                    <li>
-                    <pre
-                      style={{
-                        whiteSpace: "pre-wrap",  
-                        maxWidth:"88%"
+                <div style={{ flex: "1 1 250px", position: "relative", height: '180px', margin: '2px'}}> 
+                    <Card style={{ height: '180px' }}>
+                        <pre
+                        style={{
+                            whiteSpace: "pre-wrap",  
+                            width:"100%"
 
-                    }}
-                    >
-                     <a href={"/iotpedia/editor?url=" + item.href}
-                       >
-                       {item.href}
-                    </a>
-                    </pre>
+                        }}
+                        >
+                            <a href={"/iotpedia/editor?url=" + item.href}
+                            >
+                            {item.href}
+                            </a>
+                        </pre>
+                    
+                            <center>                  
+
+
+                                    <span>
+                                        <b>
+                                        <ContractDAO contract={"SmartKey"} 
+                                                                        method="getBalance" 
+                                                                        methodArgs={[item.address]} 
+                                                                        isLocaleString={true} /> IOTBLOCK
+                                        </b>
+                                    </span>
+                            </center>
                     <br/>
-                    {self.state.dataLoading ? (
-                        <b>Processing Contribution...
+                    <CardActions style={{position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width:"100%"}}>
+
+                    <Button label='View / Contribute Info' raised primary 
+                    style={{width:"100%"}}
+                    onClick={() => {
+                    
+                        this.props.showDialog(true, 
+                        <div style={{ height: window.innerHeight * 0.9,
+                                      overflowY: "auto" }}>
+                            {self.state.dataLoading ? (
+                                <b>Processing Contribution...
+                                    <br/>
+                                </b>
+                            ) : null}
+                            <center>                  
+                            <span>
+                                <b>
+                                <ContractDAO contract={"SmartKey"} 
+                                                                method="getBalance" 
+                                                                methodArgs={[item.address]} 
+                                                                isLocaleString={true} /> IOTBLOCK
+                                </b><br/>
+                            </span>
+                            </center>
+                            <pre
+                            style={{
+                                whiteSpace: "pre-wrap",  
+                                width:"100%"
+
+                            }}
+                            >
+                            <a href={"/iotpedia/editor?url=" + item.href}
+                            >
+                            {item.href}
+                            </a>
+                            </pre>      
+                            
                             <br/>
-                        </b>
-                    ) : null}
-                    <br/>
-                    </li>
-                    <ul>
-                    {items}
-                    
-                    
+                            {items}
+                            <Button style={{width:"100%"}} raised primary onClick={() => {
+                                self.props.closeDialog();
+                            }}>Close</Button> 
 
-                    </ul>
+                        </div>)
+                    }} />
+                    
+                    
+                    </CardActions>
+                    </Card>
 
                 </div>
                 
@@ -558,3 +617,68 @@ render() {
     }
   }
 }
+
+
+CatalogueDAO.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+  
+  
+  const stateToProps = state => {
+    return {
+        api_auth: state.auth.api_auth,
+        api_key: state.auth.api_key,
+        eth_contrib: state.auth.eth_contrib,
+        isAuthenticated: state.auth.isAuthenticated,
+  
+    };
+  };
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  /**
+   *
+   * @function dispatchToProps React-redux dispatch to props mapping function
+   * @param {any} dispatch
+   * @returns {Object} object with keys which would later become props to the `component`.
+   */
+  
+  const dispatchToProps = dispatch => {
+    return {
+        showDialog: (show, content) => {
+            dispatch(actions.showDialog(show, content));
+        },
+        closeDialog: () => {
+            dispatch(actions.closeDialog());
+        },
+        authSuccess: (api_auth, api_key) => {
+            dispatch(actions.authSuccess(api_auth, api_key));
+        },
+        authEthContrib: (eth_contrib) => {
+            dispatch(actions.authEthContrib(eth_contrib));
+        },
+       
+    };
+  };
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+  export default connect( stateToProps, dispatchToProps)( drizzleConnect(CatalogueDAO,drizzleStateToProps, drizzleDispatchToProps))
+  

@@ -177,8 +177,6 @@ parseCatalogue = (doc) => {
         doc.href=url;
     }
     var catMetadataListHTML = (
-        <ul>
-
             <Catalogue  
                 key={doc.id} 
                 catalogueType={'catalogue-metadata'} 
@@ -186,8 +184,6 @@ parseCatalogue = (doc) => {
                 mode={'browse'} 
                 browse={self.browse} 
             />
-        
-        </ul>    
     );
         
     
@@ -195,26 +191,22 @@ parseCatalogue = (doc) => {
     var urls=[url];
     count=0;
     var i=0;
-    var itemListHTML = (
-        <ul>
-        
-            {doc.items.map(item => {
+    var itemListHTML = doc.items.map(item => {
                 urls.push(item.href);
                 item.id='item_' + i;
                 item.node_href=url;
                 i+=1;
                 return <Catalogue 
-                        key={item.id}
+                        key={Math.random()}
                         catalogueType={'item-metadata'}
                         idata={item}
                         mode={'browse'}
                         browse={self.browse}
                         />
+                        
 
-            })}
+            })
            
-        </ul>
-    );
     if (doc.items.length < 1) {
         itemListHTML=<div>
             <center>
@@ -268,12 +260,21 @@ parseCatalogue = (doc) => {
     }
         
     var listHTML = (
-        <ul>
-            <li> {self.state.isCatalogue && !self.state.isSearch ? "Catalogue Index (UK SIC):" : "Search Result:"} 
+        <div>
+
+        <b> {self.state.isCatalogue && !self.state.isSearch ? "Catalogue Index (UK SIC):" : "Search Result:"} 
+        </b>
                 <br/><br/> 
-            </li>
+                <div style={{
+                        display: "flex",
+                        flexFlow: "row wrap",
+                        alignItems: "stretch",
+                        justifyContent: "space-around"
+                    }}>
+
             {itemListHTML ? itemListHTML : null}
-        </ul>
+                </div>
+        </div>
         );
     
     self.populateUrls(urls);
@@ -535,6 +536,8 @@ render() {
 
                         </div>
                     </div>
+                   
+                            
                 </div>   
             );
         }

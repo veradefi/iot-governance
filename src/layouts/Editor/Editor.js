@@ -179,7 +179,6 @@ parseCatalogue = (url, doc) => {
     doc.id="catalogue";
     doc.href=url;
     var catMetadataListHTML = (
-        <ul>
 
             <Catalogue  key={doc.id} 
                         catalogueType={'catalogue-metadata'} 
@@ -187,7 +186,6 @@ parseCatalogue = (url, doc) => {
                         mode={'view'} 
                         browse={self.browse} />
         
-        </ul>    
     );
         
     
@@ -195,24 +193,23 @@ parseCatalogue = (url, doc) => {
     var urls=[url];
     count=0;
     var i=0;
-    var itemListHTML = (
-        <ul>
-        
-            {doc.items.map(item => {
+    var itemListHTML=doc.items.map(item => {
                 urls.push(item.href);
                 item.id='item_' + i;
                 item.node_href=url;
                 i+=1;
                 return <Catalogue 
-                        key={item.id}
+                        key={Math.random()}
                         catalogueType={'item-metadata'}
                         idata={item}
                         mode={'view'}
                         browse={self.browse}
+                      
                         />
 
-            })}
-            <Catalogue 
+            })
+    var addItem=<Catalogue 
+                key={Math.random()}
                 catalogueType={'item-metadata'}
                 showAddItem={true}
                 idata={{
@@ -224,21 +221,37 @@ parseCatalogue = (url, doc) => {
                     
                 }}
                 mode={'add'} 
-                browse={self.browse} />
-        </ul>
-    );
+                browse={self.browse} />;
         
     var listHTML = (
-        <ul><li> Catalogue Metadata
+        <div><b>Catalogue Metadata</b>
                 <br/><br/> 
-            </li>
+            <div style={{
+                        display: "flex",
+                        flexFlow: "row wrap",
+                        alignItems: "stretch",
+                        justifyContent: "space-around"
+                    }}>
+
+
+
+
+
             {catMetadataListHTML}
+            </div>
             <li id={"showMap"} style={{display:"none"}}></li>
-            <li> Items 
-                <br/><br/> 
-            </li>
+            <b>Items</b>
+            <div style={{
+                         
+                         display: "flex",
+                         flexFlow: "wrap",
+                         alignItems: "stretch",
+                         
+                         }}> 
             {itemListHTML}
-        </ul>
+            </div>
+            {addItem}
+        </div>
         );
     
         self.populateUrls(urls);

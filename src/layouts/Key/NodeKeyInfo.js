@@ -418,6 +418,24 @@ render() {
                                         <br/>
                                     </div>
                                 </div>
+
+                                 <div className={"row"}>
+                                    <div className={"col-xs-6"} style={{ textAlign: "right" }}>
+                                        <label className={"label6"}>IOTBLOCK Balance</label>
+                                    </div>
+                                    <div className={"col-xs-6"} style={{ textAlign: "left" }}>
+                                        <span className={"label7 eth_balance"}>
+                                        {/* balance.toLocaleString() */}
+                                        <ContractDAO contract={"SmartKey"} 
+                                                        method="getBalance" 
+                                                        methodArgs={[address]} 
+                                                        isLocaleString={true} />
+
+                                        </span>
+                                        <font size={2}> IOTBLOCK</font><br/>
+                                    </div>
+                                </div>              
+
                                         
                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>
@@ -653,16 +671,13 @@ render() {
                                                         </label>
                                                     </center> 
                                                     <hr/>
-                                                    <ContractDAO contract={address} 
-                                                    method="getTransactionCount"
-                                                    methodArgs={[address]}
+                                                    <ContractDAO contract={"SmartKey"} 
+                                                    //method="getEventCount"
+                                                    //methodArgs={[address]}
+                                                    method="decimals"
                                                     value_post_process={(val)=> {
                                                         var items=[];
-                                                        var e=0;
-                                                        if (this.state.eventHistStart) {
-                                                            e=this.state.eventHistStart;
-                                                        }
-                                                        for (var i=0; i<e+10; i++) {
+                                                        for (var i=val -1; i>= 0; i--) {
                                                             var idx=i;
 
                                                             items.push(<ContractDAO key={idx} contract={"SmartKey"} 

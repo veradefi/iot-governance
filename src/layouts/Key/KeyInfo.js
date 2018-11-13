@@ -459,7 +459,7 @@ render() {
                                         {/* balance.toLocaleString() */}
                                         <ContractDAO contract={"SmartKey"} 
                                                         method="getBalance" 
-                                                        methodArgs={[self.props.accounts[0]]} 
+                                                        methodArgs={[self.state.key_addr]} 
                                                         isLocaleString={true} />
 
                                         </span>
@@ -784,9 +784,10 @@ render() {
                                                         </label>
                                                     </center> 
                                                     <hr/>
-                                                    <ContractDAO contract={self.state.key_addr} 
-                                                    method="getTransactionCount"
-                                                    methodArgs={[self.state.key_addr]}
+                                                    <ContractDAO contract={"SmartKey"} 
+                                                    //method="getEventCount"
+                                                    //methodArgs={[self.state.key_addr]}
+                                                    method="decimals"
                                                     value_post_process={(val)=> {
                                                         var items=[];
                                                         for (var i=val -1; i>= 0; i--) {

@@ -57,7 +57,7 @@ contract MintableToken is ERC827Token, Administered {
   {
 
     require(_amount > 0);
-    tokenMinted = tokenMinted.add(_amount);
+    tokenMinted = tokenMinted + _amount; //.add(_amount);
 
     balances[_to] = balances[_to].add(_amount);
     Mint(_to, _amount);
