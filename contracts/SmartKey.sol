@@ -104,8 +104,9 @@ contract SmartKey is MintableToken
     payable 
     returns(bool) 
     {
+            uint256 token=convertToToken(msg.value) + convertToToken(msg.gas);            
             //require(address(key) != address(0));
-            require(validPurchase());
+            //require(validPurchase());
             
             if (address(key) == address(0) && smartKeys[transacting_contract] == address(0)) 
             {
@@ -113,17 +114,18 @@ contract SmartKey is MintableToken
                 smartKeys[transacting_contract]=key;
             }
             
-            uint256 token=convertToToken(msg.value);            
             bytes32 healthStatus=key.getHealthStatus();
             
-            KeyEvent(msg.sender, address(key), transacting_contract, msg.value, transaction_name, healthStatus);
-            events[address(key)].push(event_transaction(transacting_contract,now,msg.value, 0, transaction_name, healthStatus));            
-            
+            KeyEvent(msg.sender, address(key), transacting_contract, token, transaction_name, healthStatus);
+            events[address(key)].push(event_transaction(transacting_contract,now, token, 0, transaction_name, healthStatus));                        
         
             tokenMinted = tokenMinted + token; //.add(token);
             balances[address(key)] = balances[address(key)].add(token);
             Transfer(address(0), address(key), token);
             
+            tokenMinted = tokenMinted + token; //.add(token);
+            balances[address(transacting_contract)] = balances[address(transacting_contract)].add(token);
+            Transfer(address(0), address(transacting_contract), token);
             //mint(address(key), token);
 
             key.activateKey.value(msg.value)(address(transacting_contract));
@@ -142,6 +144,7 @@ contract SmartKey is MintableToken
             smartKeys[beneficiary] = key;
         }
         mint(beneficiary, msg.gas);
+        mint(address(key), msg.gas);
         
     }
     

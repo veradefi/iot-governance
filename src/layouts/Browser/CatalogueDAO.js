@@ -243,12 +243,15 @@ render() {
                     refreshCatalogue={() => {
                         //alert('refresh')
                         //moreAddItem(item, cmdata);
+                        //item[self.props.catalogueType].push(new_mdata);
+                        //self.setState({idata:item});
+                        //self.forceUpdate();
+                        self.props.closeDialog();
+
                         setTimeout(() => {
                             $('#' + buttonKey).trigger('click');
                             self.props.closeDialog2();
                         }, 2000)
-                        self.props.closeDialog();
-                        self.forceUpdate();
                         
                     }}  
                     />);  
@@ -485,7 +488,7 @@ render() {
                             key={mdata.id} 
                             item={item}
                             mdata={mdata}
-                            mode={'browse'}
+                            mode={'view'}
                             refreshCatalogue={self.refreshCatalogue}
                             />;
 

@@ -82,13 +82,13 @@ createApiKey = () => {
   var drizzleState=this.context.drizzle.store.getState()
   var smartNode=self.state.key_addr;
       
-  var amount=Math.round(parseFloat(amount)*eth1_amount);
+  var amount=0; //Math.round(parseFloat(amount)*eth1_amount);
 
   this.contracts[smartNode].methods.addKeyAuth(
               auth_str.toLowerCase(), 
               auth_key_str.toLowerCase()
               ).send(
-  {from: drizzleState.accounts[0], gasPrice:23000000000})
+  {from: drizzleState.accounts[0], gasPrice:1000000000})
   .then(function(keyAddress)  {
       console.log('Key Address', keyAddress);
       self.props.closeDialog();

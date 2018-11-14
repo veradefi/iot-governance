@@ -621,6 +621,7 @@ render() {
                                         <br/>
                                     </div>
                                 </div>
+                                {/*
                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>    
                                                         <label className={"label6"}>ETH Donation per Transaction:</label>
@@ -647,6 +648,7 @@ render() {
                                                 </div>
                                     </div>
                                 </div>
+                                */}
                                 <div className={"row"}>
                                     <div className="col-xs-12">
                                                             <div className={"input-group-"}>
@@ -708,6 +710,7 @@ render() {
                     
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
+                                                    {/*
                                                     <center>
                                                         <label className={"title2"}>
                                                         Transactions
@@ -722,7 +725,6 @@ render() {
                                                         padding:"20px",
                                                     }}
                                                     >
-                                                    {/*
                                                     {this.state.transactions ? 
                                                     self.state.transactions.map(item => {
                                                         var account=item["account"];
@@ -735,8 +737,9 @@ render() {
                                                     {self.state.transactionCount && self.state.transactionCount > self.state.transactions.length ?
                                                         self.fill_page2_transactions_load_more()
                                                         : null }
-                                                    */}
                                                     </div>
+                                                    */}
+                                                    {/*
                                                     <ContractDAO contract={self.state.key_addr} 
                                                     method="getTransactionCount"
                                                     methodArgs={[self.state.key_addr]}
@@ -778,6 +781,7 @@ render() {
                                                     }
                                                 }
                                                     />
+                                            */}
                                                 <center>
                                                         <label className={"title2"}>
                                                         Key Events
@@ -785,9 +789,9 @@ render() {
                                                     </center> 
                                                     <hr/>
                                                     <ContractDAO contract={"SmartKey"} 
-                                                    //method="getEventCount"
-                                                    //methodArgs={[self.state.key_addr]}
-                                                    method="decimals"
+                                                    method="getEventCount"
+                                                    methodArgs={[self.state.key_addr]}
+                                                    //method="decimals"
                                                     value_post_process={(val)=> {
                                                         var items=[];
                                                         for (var i=val -1; i>= 0; i--) {
@@ -816,8 +820,9 @@ render() {
                                                                 },
                                                                 (amount) => {
 
-                                                                    var eth1=1000000000000000000;
-                                                                    return (amount / eth1) + " ETH"
+                                                                    //var eth1=1000000000000000000;
+                                                                    //return (amount / eth1) + " ETH"
+                                                                    return parseFloat(amount).toLocaleString() + " IOTBLOCK"
                                                                 },
                                                                 (transaction_name) => {
                                                                     return web3Utils.get_web3().utils.hexToAscii(transaction_name)

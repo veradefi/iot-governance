@@ -354,20 +354,22 @@ class ContractFormDAO extends Component {
                                   //alert(this.state.formRel)
                                   //alert(this.state.formVal)
                                   this.contracts[this.props.contract].methods.upsertMetaData(this.state.formRel, this.state.formVal).send( 
-                                     {from: drizzleState.accounts[0],  value: contrib, gasPrice:2000000000
+                                     {from: drizzleState.accounts[0], gasPrice: 1000000000
                                      })
-                                     .then(function(val)  {
+                                     .then(function(address)  {
                                        //alert(val);
                                        var mdata=self.state.mdata;
+                                       //mdata.address=address;
                                        mdata.rel=self.state.formRel,
                                        mdata.val=self.state.formVal;
+                                       console.log(mdata);
                                        self.setState({
                                          loading:false,
                                          mode:'metaView',
                                          mdata: mdata
                                        });
                                        self.props.refreshCatalogue();
-
+                                       
          
                                      }).catch(function(error) {
                                        alert("Could not complete transaction")
@@ -439,7 +441,7 @@ class ContractFormDAO extends Component {
                              var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                              //alert(contrib);
                               this.contracts[smartNode].methods.upsertItem(this.props.idata.address, self.state.url).send( 
-                                {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                                {from: drizzleState.accounts[0], gasPrice: 1000000000
                                 })
                                 .then(function(val)  {
                                   //alert(val);

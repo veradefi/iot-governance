@@ -523,6 +523,7 @@ populateUrls = (urls) => {
                                     </pre>
                                     </td>
                                 </tr>
+                                {/*
                                 <tr><td  style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >ETH Donation:
                                     </label>
                                     </td>
@@ -558,6 +559,7 @@ populateUrls = (urls) => {
                                     (Data update will reflect in catalogue after 1-2 minutes)
                                     </td>
                                 </tr>
+                                        */}
                             </tbody>
                         </table>
                         </center>
