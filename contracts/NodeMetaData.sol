@@ -41,7 +41,7 @@ contract NodeMetaData is Administered, Key {
   function upsertMetaData(string _rel, string _val) 
   public
   payable
-  returns (bool)
+  returns (address)
   {
   
       bytes32 hashVal=getHash(_rel);
@@ -59,7 +59,7 @@ contract NodeMetaData is Administered, Key {
       
       smartKey.loadSmartKey.value(msg.value)(Key(this), address(itemMetaData[hashVal]), bytes32("MetaDataUpdate"));
       
-      return true;
-  }
+      return address(itemMetaData[hashVal]);
+    }
  
 }

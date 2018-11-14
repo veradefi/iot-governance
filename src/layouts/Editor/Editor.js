@@ -495,8 +495,8 @@ populateUrls = (urls) => {
                                         //size={80} 
                                         onChange={(e) => {
                                             self.setState({catalogue_url:e.target.value});
-                                        }}
-                                        >{self.state.catalogue_url}</textarea> 
+                                        }} value={self.state.catalogue_url}
+                                        />
                                         
                                         <div className={"input-group-append"}>
                                             <button className={"button3 btn btn-primary"} type="button" 

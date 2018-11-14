@@ -84,6 +84,26 @@ const reducer = (state = initialState, action) => {
         dialogContent: (<div></div>),
         dialogTitle:null
     };
+
+    case actionTypes.SHOW_DIALOG2:
+
+      console.log('show dialog2');
+      return {
+          ...state,
+          dialogShowing2:true,
+          dialogContent2:action.content,
+          dialogTitle2:null,
+          dialogSize2:action.dialogType
+    };
+    case actionTypes.CLOSE_DIALOG2:
+
+    console.log('close dialog2');
+    return {
+        ...state,
+        dialogShowing2:false,
+        dialogContent2: (<div></div>),
+        dialogTitle2:null
+    };
     default:
       return state;
   }

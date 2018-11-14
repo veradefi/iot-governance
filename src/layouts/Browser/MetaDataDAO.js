@@ -285,11 +285,13 @@ class MetaData extends Component {
                         <br/>
                         {self.state.dataLoading ? (
                             <b>Processing Contribution... <br/></b>
-                        ) : 
-                        mdata.bal ? (
-                        <b>Donation Received: {parseFloat(mdata.bal)/eth1_amount} ETH 
-                        </b> 
-                        ) : null }
+                        ) : <span><b>Donation Received: <ContractDAO contract={"SmartKey"} 
+                        method="getBalance" 
+                        methodArgs={[mdata.address]} 
+                        isLocaleString={true} /> &nbsp;
+              IOTBLOCK </b></span>
+
+                         }
                 </li>
             )
         } 
