@@ -672,9 +672,9 @@ render() {
                                                     </center> 
                                                     <hr/>
                                                     <ContractDAO contract={"SmartKey"} 
-                                                    //method="getEventCount"
-                                                    //methodArgs={[address]}
-                                                    method="decimals"
+                                                    method="getEventCount"
+                                                    methodArgs={[address]}
+                                                    //method="decimals"
                                                     value_post_process={(val)=> {
                                                         var items=[];
                                                         for (var i=val -1; i>= 0; i--) {
@@ -704,8 +704,9 @@ render() {
                                                                 },
                                                                 (amount) => {
 
-                                                                    var eth1=1000000000000000000;
-                                                                    return (amount / eth1) + " ETH"
+                                                                    //var eth1=1000000000000000000;
+                                                                    //return (amount / eth1) + " ETH"
+                                                                    return parseFloat(amount).toLocaleString() + " IOTBLOCK"
                                                                 },
                                                                 (transaction_name) => {
                                                                     return web3Utils.get_web3().utils.hexToAscii(transaction_name)
