@@ -13,5 +13,7 @@ export {
     viewMap,
     showDialog,
     closeDialog,
+    showDialog2,
+    closeDialog2,
     addContract,
   } from "./items";

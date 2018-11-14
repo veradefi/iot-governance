@@ -14,6 +14,7 @@ import Map from './layouts/Map/Map'
 import Browser from './layouts/Browser/Browser'
 import Editor from './layouts/Editor/Editor'
 import Dialog from './layouts/Dialog/Dialog'
+import Dialog2 from './layouts/Dialog/Dialog2'
 import Explorer from './layouts/Explorer/Explorer'
 import View from './layouts/Browser/View'
 import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
@@ -103,6 +104,7 @@ export default class App extends Component {
       </div>
       </Hidden>
       <Dialog />
+      <Dialog2 />
       </React.Fragment>
     );
   }

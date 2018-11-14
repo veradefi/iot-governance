@@ -5,6 +5,7 @@ import * as web3Utils from "../../util/web3/web3Utils";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import Autocomplete from 'react-toolbox/lib/autocomplete';
+import ContractDAO from './ContractDAO'
 
 var eth1_amount=1000000000000000000;
 
@@ -65,7 +66,7 @@ const source2 = [
  * Create component.
  */
 
-class ContractForm extends Component {
+class ContractFormDAO extends Component {
   constructor(props, context) {
     super(props);
 
@@ -116,6 +117,9 @@ class ContractForm extends Component {
     }
     if (this.props.metaAdd) {
       mode='metaAdd'
+    }
+    if (this.props.metaAdd2) {
+      mode='metaAdd2'
     }
     if (this.props.catAdd) {
       mode='catAdd'
@@ -230,7 +234,7 @@ class ContractForm extends Component {
     if (this.state.loading) {
       return (
           <li>
-              <b>Processing Contribution... Please Confirm ETH Contribution<br/></b>
+              <b>Processing Contribution... Please Confirm Gas Contribution<br/></b>
           </li>
       )
    }
@@ -250,12 +254,14 @@ class ContractForm extends Component {
                 <br/>
                 {self.state.dataLoading ? (
                     <b>Processing Contribution... <br/></b>
-                ) : 
-                mdata.bal ? (
-                <b>Donation Received: { parseFloat(mdata.bal)/eth1_amount } ETH 
-                <br/>
-                </b> 
-                ) : null }
+                ) : mdata.address ?
+                <span><b>Donation Received: <ContractDAO contract={"SmartKey"} 
+                            method="getBalance" 
+                            methodArgs={[mdata.address]} 
+                            isLocaleString={true} /> &nbsp;
+                  IOTBLOCK </b></span> : null}
+                
+                
                 <br/>
         </li>
     }
@@ -265,9 +271,19 @@ class ContractForm extends Component {
                   <li>
                           [<span style={{'cursor':'pointer'}}
                               onClick={() => {
-                                  this.props.refreshCatalogue();
-                                  this.setState({mode:'metaAdd2'});
-                                  //self.add_meta('catalogue_create_meta_data_' + i, url, item.href);
+                                  //this.setState({mode:'metaAdd2'})
+                                  
+                                  this.props.showDialog2(true, 
+                                    <ContractFormDAO
+                                    contract={self.props.contract} 
+                                    metaAdd2={true} 
+                                    mdata={mdata}
+                                    refreshCatalogue={() => {
+                                        this.props.refreshCatalogue();
+                                    }}
+                                  /> )
+                                  
+
                                   }}> 
                           Add Meta Data 
                           </span>] 
@@ -278,7 +294,7 @@ class ContractForm extends Component {
     }
 
     if (this.state.mode == 'metaAdd2') {
-      return <li>
+      return <div>
         <div>
                     
               <Autocomplete
@@ -313,11 +329,12 @@ class ContractForm extends Component {
                     <textarea className={"form-control"} rows={10}
                                                 style={{maxWidth:"80%"}}
                                                 onChange={(e) => {
-                                                  self.setState({formVal:e.target.value});
+                                                  mdata.val=e.target.value;
+                                                  self.setState({formVal:e.target.value, mdata});
                                                   //alert(this.state.formVal);
                                                 
                                                 }}
-                            defaultValue={mdata.val} />
+                            value={mdata.val} />
 
                     <br/>
                           <button className={"btn btn-primary"} type="button"
@@ -332,8 +349,12 @@ class ContractForm extends Component {
 
                                   var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                                   //alert(contrib);
+                                  contrib=0.0001 * eth1_amount;
+                                  //alert(contrib)
+                                  //alert(this.state.formRel)
+                                  //alert(this.state.formVal)
                                   this.contracts[this.props.contract].methods.upsertMetaData(this.state.formRel, this.state.formVal).send( 
-                                     {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                                     {from: drizzleState.accounts[0],  value: contrib, gasPrice:2000000000
                                      })
                                      .then(function(val)  {
                                        //alert(val);
@@ -345,6 +366,7 @@ class ContractForm extends Component {
                                          mode:'metaView',
                                          mdata: mdata
                                        });
+                                       self.props.refreshCatalogue();
 
          
                                      }).catch(function(error) {
@@ -383,7 +405,7 @@ class ContractForm extends Component {
 
                           }}> Save </button>
               </div>
-          </li>
+          </div>
   } 
 
   if (this.state.mode == 'catAdd') { 
@@ -532,11 +554,12 @@ class ContractForm extends Component {
                                                 style={{maxWidth:"80%"}}
 
                             onChange={(e) => {
-                              self.setState({formVal:e.target.value});
+                              mdata.val=e.target.value
+                              self.setState({formVal:e.target.value, mdata});
                               //alert(this.state.formVal);
                             
                             }}
-                            defaultValue={mdata.val} />
+                            value={mdata.val} />
 
                       {/*
                   
@@ -572,7 +595,7 @@ class ContractForm extends Component {
                                     .then(function(val)  {
                                       //alert(val);
                                       var mdata=self.state.mdata;
-                                      mdata.rel=self.state.formRel,
+                                      mdata.rel=mdata.rel,
                                       mdata.val=self.state.formVal;
 
                                       var web3=web3Utils.get_web3();
@@ -726,7 +749,7 @@ class ContractForm extends Component {
   }
 }
 
-ContractForm.contextTypes = {
+ContractFormDAO.contextTypes = {
   drizzle: PropTypes.object
 }
 
@@ -770,6 +793,12 @@ const dispatchToProps = dispatch => {
       closeDialog: () => {
           dispatch(actions.closeDialog());
       },
+      showDialog2: (show, content) => {
+          dispatch(actions.showDialog2(show, content));
+      },
+      closeDialog2: () => {
+          dispatch(actions.closeDialog2());
+      },
       authSuccess: (api_auth, api_key) => {
           dispatch(actions.authSuccess(api_auth, api_key));
       },
@@ -788,9 +817,6 @@ const drizzleDispatchToProps = dispatch => {
   };
 };
 
-
-
-
-export default connect( stateToProps, dispatchToProps)( drizzleConnect(ContractForm,drizzleStateToProps, drizzleDispatchToProps))
+export default connect( stateToProps, dispatchToProps)( drizzleConnect(ContractFormDAO,drizzleStateToProps, drizzleDispatchToProps))
 
 //export default drizzleConnect(ContractForm, mapStateToProps,  drizzleDispatchToProps)

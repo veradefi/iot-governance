@@ -8,7 +8,7 @@ import ContractDAO from '../../util/web3/ContractDAO'
 import AccountDAO from '../../util/web3/AccountDAO'
 import { drizzleConnect } from 'drizzle-react'
 
-import MetaData from "./MetaDataDAO"
+import MetaData from "./MetaDataDAO"    
 import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import { Link } from "react-router-dom";
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
@@ -226,6 +226,7 @@ render() {
                     items.push(ires);
                 });
             }
+            var buttonKey=item.address;
             var cmdata={ 
                 id: "catalogue_create_meta_data_" + Math.round(Math.random() * 10000),
                 href: item.href,
@@ -241,14 +242,19 @@ render() {
                     mode={'add'} 
                     refreshCatalogue={() => {
                         //alert('refresh')
-                        moreAddItem(item, cmdata);
+                        //moreAddItem(item, cmdata);
+                        setTimeout(() => {
+                            $('#' + buttonKey).trigger('click');
+                            self.props.closeDialog2();
+                        }, 2000)
+                        self.props.closeDialog();
+                        self.forceUpdate();
+                        
                     }}  
-                    />);    
+                    />);  
+                //self.setState(addMeta); 
                 // self.state.addMeta=addMeta;
                 //console.log(self.state.addMeta);
-                self.setState({addMeta : addMeta})
-                //self.forceUpdate();
-
             }
 
             if (!(item.address in this.state.addMeta)) {
@@ -311,6 +317,7 @@ render() {
                                 width:"100%"}}>
                              <Button label='View / Contribute Info' raised primary 
                                 style={{width:"100%"}}
+                                id={buttonKey}
                                 onClick={() => {
                                 
                                     this.props.showDialog(true, 
@@ -658,6 +665,9 @@ CatalogueDAO.contextTypes = {
         },
         closeDialog: () => {
             dispatch(actions.closeDialog());
+        },
+        closeDialog2: () => {
+            dispatch(actions.closeDialog2());
         },
         authSuccess: (api_auth, api_key) => {
             dispatch(actions.authSuccess(api_auth, api_key));
