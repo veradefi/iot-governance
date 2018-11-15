@@ -5,7 +5,7 @@ export PATH
 #rm -fr bin/*
 #rm -fr build/*
 truffle compile
-truffle migrate --reset --network rinkeby
+truffle migrate --reset --network rinkeby_local
 cp -pR build/contracts/* src/solc/contracts/
 sh build_solcjs.sh
 
