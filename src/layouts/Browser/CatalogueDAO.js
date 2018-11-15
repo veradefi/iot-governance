@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import * as web3Utils from "../../util/web3/web3Utils";
-
+import * as APIUtils from "../../util/web3/APIUtils";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import ContractDAO from '../../util/web3/ContractDAO'
@@ -38,6 +38,7 @@ class CatalogueDAO extends Component {
         loading:false,
         mode:props.mode,
         idata:props.idata,
+        catalogueType: props.catalogueType,
         dataLoading:false,
         addItems:{},
         addMeta:{}
@@ -112,7 +113,7 @@ save_item = (parent_href, new_href, user_item=null) => {
                     item['items']=[];
                 if (body['catalogue-metadata'] && body['catalogue-metadata'].length > 0) {
                     item['catalogue-metadata']=body['catalogue-metadata']
-                    item[self.props.catalogueType]=body['catalogue-metadata']
+                    item[self.state.catalogueType]=body['catalogue-metadata']
 
                 } else {
                     //body['catalogue-metadata']=[];
@@ -129,9 +130,9 @@ save_item = (parent_href, new_href, user_item=null) => {
 
 refreshCatalogue = (data) => {
     var idata=this.state.idata;
-    idata[this.props.catalogueType]=data['catalogue-metadata'];
+    idata[this.state.catalogueType]=data['catalogue-metadata'];
     idata['items']=data['items']
-    this.setState({idata, idata});
+    this.setState({idata: idata});
 }
 
 
@@ -193,8 +194,8 @@ render() {
             var count=0;
         
             var map_json={};
-            if (this.props.catalogueType in item) {
-                item[this.props.catalogueType].map(mdata  => {
+            if (this.state.catalogueType in item) {
+                item[this.state.catalogueType].map(mdata  => {
                     if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                         supportsQueryOpenIoT = true;
                     mdata.node_href=item.node_href;
@@ -241,17 +242,16 @@ render() {
                     item={item}
                     mode={'add'} 
                     refreshCatalogue={() => {
-                        //alert('refresh')
-                        //moreAddItem(item, cmdata);
-                        //item[self.props.catalogueType].push(new_mdata);
-                        //self.setState({idata:item});
-                        //self.forceUpdate();
                         self.props.closeDialog();
-
-                        setTimeout(() => {
-                            $('#' + buttonKey).trigger('click');
-                            self.props.closeDialog2();
-                        }, 2000)
+                        APIUtils.browse({api_key: self.props.api_key, api_auth:self.props.api_auth}, item.href, 
+                            (listHtml, doc, urls) => {
+                                self.refreshCatalogue(doc);
+                                //self.setState({catalogueType: 'catalogue-metadata', idata: doc})
+                                setTimeout(() => {
+                                    $('#' + buttonKey).trigger('click');
+                                    self.props.closeDialog2();
+                                }, 1000)
+                        })
                         
                     }}  
                     />);  
@@ -476,8 +476,8 @@ render() {
             var count=0;
         
             var map_json={};
-            if (this.props.catalogueType in item) {
-                item[this.props.catalogueType].map(mdata  => {
+            if (this.state.catalogueType in item) {
+                item[this.state.catalogueType].map(mdata  => {
                     if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                         supportsQueryOpenIoT = true;
 
