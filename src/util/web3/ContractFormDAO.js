@@ -405,7 +405,7 @@ class ContractFormDAO extends Component {
                                   //alert(self.props.contract)
                                   //console.log(this.contracts)
                                   this.contracts[self.props.contract].methods.upsertMetaData(self.state.formRel, self.state.formVal).send( 
-                                     {from: drizzleState.accounts[0], gasPrice: 20000000000
+                                     {from: drizzleState.accounts[0], gasPrice: 5000000000
                                      })
                                      .then(function(address)  {
                                        //alert(val);
@@ -492,7 +492,7 @@ class ContractFormDAO extends Component {
                              //var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                              //alert(contrib);
                               this.contracts[smartNode].methods.upsertItem(this.props.idata.address, self.state.url).send( 
-                                {from: drizzleState.accounts[0], gasPrice: 23000000000
+                                {from: drizzleState.accounts[0], gasPrice: 1000000000
                                 })
                                 .then(function(val)  {
                                   //alert(val);

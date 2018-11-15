@@ -71,7 +71,7 @@ createSmartKey = () => {
                     self.contracts[smartNode].methods.loadSmartKey(
                         keyAddress, beneficiary, web3Utils.get_web3().utils.fromAscii("Deposit"), 
                                 ).send(
-                    {from: web3Utils.get_address(), gasPrice:10000000000})
+                    {from: web3Utils.get_address(), gasPrice:5000000000})
                     .then(function(keyAddress)  {
                         self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
                             {from: web3Utils.get_address()}).then(function (keyAddress) {
