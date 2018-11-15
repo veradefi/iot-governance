@@ -188,15 +188,15 @@ class ContractFormDAO extends Component {
             //alert(this.props.eth_contrib)
             this.setState({loading:true})
 
-            var contrib=Math.round(parseFloat(self.props.eth_contrib/2)*eth1_amount);
+            //var contrib=Math.round(parseFloat(self.props.eth_contrib/2)*eth1_amount);
             //alert(contrib);
             this.contracts[self.props.contract].methods.upsertMetaData(lat_rel, lat).send( 
-                {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                {from: drizzleState.accounts[0],  gasPrice:1000000000
                 })
                 .then(function(val)  {
                 //alert(val);
                 self.contracts[self.props.contract].methods.upsertMetaData(lng_rel, lng).send( 
-                    {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                    {from: drizzleState.accounts[0],  gasPrice:1000000000
                     })
                     .then(function(val)  {
                             self.setState({
@@ -347,9 +347,9 @@ class ContractFormDAO extends Component {
                                   //alert(this.props.eth_contrib)
                                   this.setState({loading:true})
 
-                                  var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                                  //var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                                   //alert(contrib);
-                                  contrib=0.0001 * eth1_amount;
+                                  //contrib=0.0001 * eth1_amount;
                                   //alert(contrib)
                                   //alert(this.state.formRel)
                                   //alert(this.state.formVal)
@@ -581,7 +581,7 @@ class ContractFormDAO extends Component {
                                 //if (this.state.formVal) {
                                   //alert(self.state.mdata.contract_address);
                                   var contract_address=self.state.mdata.contract_address;
-                                  var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                                  //var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                                   var formVal=this.state.formVal;
                                   var formRel=mdata.rel;
                                   if (!formVal)
@@ -592,7 +592,7 @@ class ContractFormDAO extends Component {
                                   this.setState({loading:true})
 
                                   this.contracts[contract_address].methods.upsertMetaData(formRel, formVal).send( 
-                                    {from: drizzleState.accounts[0],  value: contrib, gasPrice:23000000000
+                                    {from: drizzleState.accounts[0],  gasPrice:1000000000
                                     })
                                     .then(function(val)  {
                                       //alert(val);
