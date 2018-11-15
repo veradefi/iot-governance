@@ -344,7 +344,7 @@ setHealth = (health) => {
 
  get_keyInfo= (address) => {
     var self=this;
-    var cfg=Object.assign({}, web3Utils.get_key_contract_cfg(address));
+    var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(address));
     var events=[];
     var web3=web3Utils.get_web3();
     var drizzle=this.context.drizzle;

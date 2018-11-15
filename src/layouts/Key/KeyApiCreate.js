@@ -88,7 +88,7 @@ createApiKey = () => {
               auth_str.toLowerCase(), 
               auth_key_str.toLowerCase()
               ).send(
-  {from: drizzleState.accounts[0], gasPrice:1000000000})
+  {from: drizzleState.accounts[0], gasPrice:10000000000})
   .then(function(keyAddress)  {
       console.log('Key Address', keyAddress);
       self.props.closeDialog();

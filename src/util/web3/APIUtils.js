@@ -30,15 +30,12 @@ export const parseCatalogue = (url, doc, cb) => {
     var eth1_amount=1000000000000000000;
     doc.id="catalogue";
     doc.href=url;
-    var catMetadataListHTML = (
-
-            <Catalogue  key={doc.id} 
+    doc.node_href=url;
+    var catMetadataListHTML = <Catalogue  key={Math.random()} 
                         catalogueType={'catalogue-metadata'} 
-                        idata={doc} 
+                        idata={Object.assign({}, doc)} 
                         mode={'view'} 
                         browse={browse} />
-        
-    );
         
 
 

@@ -232,6 +232,7 @@ render() {
                 id: "catalogue_create_meta_data_" + Math.round(Math.random() * 10000),
                 href: item.href,
                 item_href: item.href,
+                contract_address:item.address,
                 rel: '',
                 val: ''}
             const moreAddItem = (item, cmdata) => {
@@ -246,7 +247,6 @@ render() {
                         APIUtils.browse({api_key: self.props.api_key, api_auth:self.props.api_auth}, item.href, 
                             (listHtml, doc, urls) => {
                                 self.refreshCatalogue(doc);
-                                //self.setState({catalogueType: 'catalogue-metadata', idata: doc})
                                 setTimeout(() => {
                                     $('#' + buttonKey).trigger('click');
                                     self.props.closeDialog2();
@@ -488,7 +488,7 @@ render() {
                             key={mdata.id} 
                             item={item}
                             mdata={mdata}
-                            mode={'view'}
+                            mode={'browse'}
                             refreshCatalogue={self.refreshCatalogue}
                             />;
 

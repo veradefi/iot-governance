@@ -669,8 +669,8 @@ export const get_meta_contract_cfg = (meta) => {
 }
 
 export const get_item_contract_cfg = (item) => {
-    console.log(item_artifacts)
-      var jsonInterface=item_artifacts.abi.slice(0);
+    console.log(node_artifacts)
+      var jsonInterface=node_artifacts.abi.slice(0);
       console.log(jsonInterface)
       var item_contract=new window.web3.eth.Contract(jsonInterface, item);
       var contractConfig = {
