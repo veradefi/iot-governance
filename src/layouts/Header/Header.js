@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import Hidden from '@material-ui/core/Hidden';
+import * as web3Utils from "../../util/web3/web3Utils";
 
-export default class Header extends Component {
+import PropTypes from "prop-types";
+import * as actions from "../../store/actions";
+import { connect, Provider } from "react-redux";
+import ContractDAO from '../../util/web3/ContractDAO'
+import AccountDAO from '../../util/web3/AccountDAO'
+import { drizzleConnect } from 'drizzle-react'
+
+class Header extends Component {
   render() {
     return(
         <Hidden smDown>
@@ -18,11 +26,25 @@ export default class Header extends Component {
                              <img style={{marginLeft:"16px", height:"40px"}} alt={'Logo'} src={"images/logo.svg"} className={"Logo"} />
                              </a>
                             </div>
-                            <div style={{float:"right"}}>
-                             <a href={'/iotpedia/'}>
-                                <img src={"images/home.svg"} className={"Home"} alt={'Home'} style={{marginRight:"16px"}} />
-                            </a>
+                            <div style={{marginTop: "16px", float:"right"}}>
+                                    
+                                    <a href={'/iotpedia/'}>
+                                        <img src={"images/home.svg"} className={"Home"} alt={'Home'} style={{marginRight:"16px"}} />
+                                    </a>
+   
+                            </div>
+                            <div style={{float:"right", marginRight:"16px"} }>
                             
+                                <pre style={{}}>
+                                <span className={"label7 eth_balance"}>
+                                <ContractDAO contract={"SmartKey"} 
+                                                method="getBalance" 
+                                                methodArgs={[this.props.accounts[0]]} 
+                                                isLocaleString={true} />
+
+                                </span>
+                                <font size={2}> IOTBLOCK</font>
+                                </pre>
                             </div>
                         </div>
                     </div>
@@ -34,3 +56,31 @@ export default class Header extends Component {
 }
      
 
+Header.contextTypes = {
+    drizzle: PropTypes.object
+  }
+  
+  
+  const drizzleStateToProps = state => {
+    return {
+        drizzleStatus: state.drizzleStatus,
+        accounts: state.accounts,
+        contracts: state.contracts
+  
+    };
+  };
+  
+  
+  const drizzleDispatchToProps = dispatch => {
+    return {
+        addContract: (drizzle, poolcfg, events, web3) => {
+            dispatch(actions.addContract(drizzle, poolcfg, events, web3));
+        },
+    };
+  };
+  
+  
+  
+  
+  export default drizzleConnect(Header,drizzleStateToProps, drizzleDispatchToProps)
+  

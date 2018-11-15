@@ -685,7 +685,7 @@ render() {
                                                             methodArgs={[address, idx]}
                                                             object_values={['date','account','transaction_type','amount', 'transaction_name','health_status']} 
                                                             object_labels={['Date','Address','Type','Amount','Event','Health']} 
-                                                            object_classes={['col-md-2','col-md-4','col-md-1','col-md-1','col-md-2','col-md-2']}
+                                                            object_classes={['col-md-2','col-md-4','col-md-1','col-md-2','col-md-2','col-md-1']}
                                                             object_values_post_process={[
                                                                 (date) => {
                                                                     var dateTime = new Date(parseInt(date) * 1000);

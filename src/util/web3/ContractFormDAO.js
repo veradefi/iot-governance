@@ -471,10 +471,11 @@ class ContractFormDAO extends Component {
                 <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
                 <div  className={"input-group"}>
                 <textarea className={"form-control"} type={"text"} id={item.id + "_new_url"} 
-                  onChange={(e) => {
+                    value={url}
+                    onChange={(e) => {
                     self.setState({url:e.target.value});
                     //alert(url);
-                  }}>{url}</textarea>
+                  }}/>
                     <button className={"btn btn-primary"} type={"button"} 
                             onClick={() => {
                               this.setState({loading:true})
@@ -518,7 +519,7 @@ class ContractFormDAO extends Component {
                             }}>Save</button>
                 </div>
                 <br/>
-                <center><b><font color='orange'>{parseFloat(self.props.eth_contrib)} ETH and Gas / Transaction</font></b></center>
+                <center><b><font color='orange'>1GWei Gas / Transaction</font></b></center>
             </div>
             );
   } 

@@ -166,7 +166,7 @@ render() {
                                 <div className={"row"}>
                                     <div className={"col-xs-12"} style={{textAlign:'center'}}>    
                                         <br/>
-                                            <label className={"label3"}>1 ETH is the minimum ETH needed to create Smart Key.</label>
+                                            <label className={"label3"}>1GWei Gas / Transaction needed to create Smart Key.</label>
                                     </div>
                                 </div>
                                 <br/>
