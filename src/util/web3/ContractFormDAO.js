@@ -67,85 +67,40 @@ const source2 = [
  */
 
 class ContractFormDAO extends Component {
+  static propTypes = {
+    showDialog:PropTypes.func.isRequired,
+    closeDialog:PropTypes.func.isRequired,
+    showDialog2:PropTypes.func.isRequired,
+    closeDialog2:PropTypes.func.isRequired,
+    api_auth: PropTypes.string.isRequired,
+    api_key: PropTypes.string.isRequired,
+    eth_contrib: PropTypes.number.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    refreshCatalogue:PropTypes.func,
+    metaDataAddress:PropTypes.string,
+    mdata:PropTypes.object,
+    item:PropTypes.object,
+    addContract:PropTypes.func.isRequired,
+    contracts:PropTypes.object.isRequired,
+    accounts:PropTypes.object.isRequired,
+    procMetaAdd2:PropTypes.func
+};
+
   constructor(props, context) {
     super(props);
-
-    if (this.props.contract) {
-      this.contracts = context.drizzle.contracts
-
-      if (props.metaEdit || props.metaView) {
-
-            var cfg=Object.assign({}, web3Utils.get_meta_contract_cfg(this.props.contract));
-            var events=[];
-            var web3=web3Utils.get_web3();
-            var drizzle=context.drizzle;
-            //this.setState({loading:false})
-            //context.drizzle.addContract({cfg, events})
-            
-            props.addContract(drizzle, cfg, events, web3) 
-          
-      }
-      if (props.metaAdd) {
-        var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(this.props.contract));
-        var events=[];
-        var web3=web3Utils.get_web3();
-        var drizzle=context.drizzle;
-        //this.setState({loading:false})
-        //context.drizzle.addContract({cfg, events})
-        
-        props.addContract(drizzle, cfg, events, web3) 
-      }
-
-      var url='';
-      if (props.catAdd || props.mapEdit) {
-        var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(this.props.contract));
-        var events=[];
-        var web3=web3Utils.get_web3();
-        var drizzle=context.drizzle;
-        //this.setState({loading:false})
-        //context.drizzle.addContract({cfg, events})
-        if (props.idata && props.idata.href) {
-            url=props.idata.href;
-        }
-        props.addContract(drizzle, cfg, events, web3) 
-      }
-    }
- 
-    var mode='metaView'
-    if (this.props.metaEdit) {
-      mode = 'metaEdit'
-    }
-    if (this.props.metaAdd) {
-      mode='metaAdd'
-    }
-    if (this.props.metaAdd2) {
-      mode='metaAdd2'
-    }
-    if (this.props.catAdd) {
-      mode='catAdd'
-    }
-    if (this.props.mapEdit) {
-      mode='mapEdit'
-    }
-
-    this.state={
-      loading:false,
-      mode:mode,
-      mdata:props.mdata,
-      url:url,
-      //metaEdit:this.props.metaEdit,
-      //dataKey:dataKey,
-      //drizzleState: this.context.drizzle.store.getState(),
-      //initialState:initialState,
-    };
-
     
 
-    //this.state = drizzle.store.getState()
-    //this.state = initialState;
+
+    this.state={proploading:true}
   }
 
   componentDidMount() {
+    var props=this.props;
+    var context=this.context;
+
+    
+
+
   }
   handleSubmit() {
     if (this.props.sendArgs) {
@@ -222,6 +177,84 @@ class ContractFormDAO extends Component {
      
   }
 
+  getContract = () => {
+    var context=this.context;
+    var props=this.props;
+    this.contracts = context.drizzle.contracts
+    
+    if (this.contracts) {
+     
+
+      if (props.metaEdit || props.metaView) {
+
+            var cfg=Object.assign({}, web3Utils.get_meta_contract_cfg(props.contract));
+            var events=[];
+            var web3=web3Utils.get_web3();
+            var drizzle=context.drizzle;
+            //this.setState({loading:false})
+            //context.drizzle.addContract({cfg, events})
+            
+            if (!(props.contract in context.drizzle.contracts))
+              props.addContract(drizzle, cfg, events, web3) 
+          
+      }
+      if (props.metaAdd || props.metaAdd2) {
+        var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(props.contract));
+        var events=[];
+        var web3=web3Utils.get_web3();
+        var drizzle=context.drizzle;
+        //this.setState({loading:false})
+        //context.drizzle.addContract({cfg, events})
+        
+        if (!(props.contract in context.drizzle.contracts))
+          props.addContract(drizzle, cfg, events, web3) 
+      }
+
+      var url='';
+      if (props.catAdd || props.mapEdit) {
+        var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(props.contract));
+        var events=[];
+        var web3=web3Utils.get_web3();
+        var drizzle=context.drizzle;
+        //this.setState({loading:false})
+        //context.drizzle.addContract({cfg, events})
+        if (props.idata && props.idata.href) {
+            url=props.idata.href;
+        }
+        if (!(props.contract in context.drizzle.contracts))
+          props.addContract(drizzle, cfg, events, web3) 
+      }
+    }
+ 
+    var mode='metaView'
+    if (props.metaEdit) {
+      mode = 'metaEdit'
+    }
+    if (props.metaAdd) {
+      mode='metaAdd'
+    }
+    if (props.metaAdd2) {
+      mode='metaAdd2'
+    }
+    if (props.catAdd) {
+      mode='catAdd'
+    }
+    if (props.mapEdit) {
+      mode='mapEdit'
+    }
+
+    this.setState({
+      proploading:false,
+
+      mode:mode,
+      mdata:props.mdata,
+      url:url,
+      //metaEdit:this.props.metaEdit,
+      //dataKey:dataKey,
+      //drizzleState: context.drizzle.store.getState(),
+      //initialState:initialState,
+    });
+  }
   render() {
     var self=this;
     var mdata=this.state.mdata;
@@ -231,6 +264,31 @@ class ContractFormDAO extends Component {
   
 
     var res=[];
+    if (this.state.proploading) {
+      this.getContract();
+    }
+
+    
+
+    if(!this.props ||
+      !this.props.contracts ||
+      !(this.props.contract in this.props.contracts) ||
+        !this.props.contracts[this.props.contract].initialized) {
+      return (
+        <span>🔄</span>
+      )
+    }
+    if(!this.props.contracts[this.props.contract] 
+      || !this.props.contracts[this.props.contract].initialized 
+      || !this.props.contracts[this.props.contract].synced
+    ) 
+    {
+        return (
+          <span>🔄</span>
+        )
+    }
+
+    
     if (this.state.loading) {
       return (
           <li>
@@ -238,6 +296,7 @@ class ContractFormDAO extends Component {
           </li>
       )
    }
+  
 
     if (this.state.mode == 'metaView') {
       return <li>
@@ -273,17 +332,7 @@ class ContractFormDAO extends Component {
                               onClick={() => {
                                   //this.setState({mode:'metaAdd2'})
                                   
-                                  this.props.showDialog2(true, 
-                                    <ContractFormDAO
-                                    contract={self.props.contract} 
-                                    metaAdd2={true} 
-                                    mdata={mdata}
-                                    refreshCatalogue={() => {
-                                        this.props.refreshCatalogue();
-                                    }}
-                                  /> )
-                                  
-
+                                  this.props.procMetaAdd2();
                                   }}> 
                           Add Meta Data 
                           </span>] 
@@ -353,8 +402,10 @@ class ContractFormDAO extends Component {
                                   //alert(contrib)
                                   //alert(this.state.formRel)
                                   //alert(this.state.formVal)
-                                  this.contracts[this.props.contract].methods.upsertMetaData(this.state.formRel, this.state.formVal).send( 
-                                     {from: drizzleState.accounts[0], gasPrice: 1000000000
+                                  //alert(self.props.contract)
+                                  //console.log(this.contracts)
+                                  this.contracts[self.props.contract].methods.upsertMetaData(self.state.formRel, self.state.formVal).send( 
+                                     {from: drizzleState.accounts[0], gasPrice: 20000000000
                                      })
                                      .then(function(address)  {
                                        //alert(val);
@@ -438,10 +489,10 @@ class ContractFormDAO extends Component {
                                 window.location='/iotpedia/editor?url=' + item.href;
                               })
                               */
-                             var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                             //var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                              //alert(contrib);
                               this.contracts[smartNode].methods.upsertItem(this.props.idata.address, self.state.url).send( 
-                                {from: drizzleState.accounts[0], gasPrice: 1000000000
+                                {from: drizzleState.accounts[0], gasPrice: 23000000000
                                 })
                                 .then(function(val)  {
                                   //alert(val);
@@ -472,15 +523,7 @@ class ContractFormDAO extends Component {
             );
   } 
 
-  if(!this.props.contracts[this.props.contract] 
-    || !this.props.contracts[this.props.contract].initialized 
-    || !this.props.contracts[this.props.contract].synced
-  ) 
-  {
-      return (
-        <span>🔄</span>
-      )
-  }
+  
 
     
     if (this.state.mode == 'metaEdit') {
@@ -738,15 +781,7 @@ class ContractFormDAO extends Component {
     }
     
     return (
-      <form className="pure-form pure-form-stacked">
-        {this.inputs.map((input, index) => {            
-            var inputType = this.translateType(input.type)
-            var inputLabel = this.props.labels ? this.props.labels[index] : input.name
-            // check if input type is struct and if so loop out struct fields as well
-            return (<input key={input.name} type={inputType} name={input.name} value={this.state[input.name]} placeholder={inputLabel} onChange={this.handleInputChange} />)
-        })}
-        <button key="submit" className="pure-button" type="button" onClick={this.handleSubmit}>Submit</button>
-      </form>
+      <span>Loading...</span>
     )
   }
 }
