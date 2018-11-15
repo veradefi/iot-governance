@@ -181,7 +181,7 @@ parseCatalogue = (doc) => {
                 key={doc.id} 
                 catalogueType={'catalogue-metadata'} 
                 idata={doc} 
-                mode={'browse'} 
+                mode={'view'} 
                 browse={self.browse} 
             />
     );
@@ -200,7 +200,7 @@ parseCatalogue = (doc) => {
                         key={Math.random()}
                         catalogueType={'item-metadata'}
                         idata={item}
-                        mode={'browse'}
+                        mode={'view'}
                         browse={self.browse}
                         />
                         
@@ -222,26 +222,7 @@ parseCatalogue = (doc) => {
                     href: 'https://iotblock.io/cat/StandardIndustrialClassification/BarCodes/' + this.state.search ? this.state.search : '',
                     items:[],          
                     "catalogue-metadata": [
-                        {
-                            "rel": "urn:X-hypercat:rels:isContentType",
-                            "val": "application/vnd.hypercat.catalogue+json"
-                        },
-                        {
-                            "rel": "urn:X-hypercat:rels:hasDescription:en",
-                            "val": ""
-                        },
-                        {
-                            "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
-                            "val": "78.47609815628121"
-                        },
-                        {
-                            "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
-                            "val": "-39.99203727636359"
-                        },
-                        {
-                            "rel": "urn:X-hypercat:rels:Media:1",
-                            "val": ""
-                        }
+                        
                     ]
                     
                 }}

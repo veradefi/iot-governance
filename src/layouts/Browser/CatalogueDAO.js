@@ -480,16 +480,17 @@ render() {
                 item[this.state.catalogueType].map(mdata  => {
                     if (mdata.rel == 'urn:X-tsbiot:rels:supports:query' && mdata.val == 'urn:X-tsbiot:query:openiot:v1')
                         supportsQueryOpenIoT = true;
-
                     mdata.node_href=item.node_href;
                     mdata.item_href=item.href;
                     mdata.id=item.id + "_item_metadata_" + count;
+                    mdata.contract_address=item.address;
                     var ires=<MetaData 
                             key={mdata.id} 
                             item={item}
                             mdata={mdata}
                             mode={'browse'}
-                            refreshCatalogue={self.refreshCatalogue}
+                            refreshCatalogue={() => {
+                            }} 
                             />;
 
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
