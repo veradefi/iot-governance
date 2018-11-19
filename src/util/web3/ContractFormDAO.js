@@ -376,7 +376,7 @@ class ContractFormDAO extends Component {
                 </font>
                 <div className={"input-group"}>
                  
-                    <textarea className={"form-control"} rows={10}
+                    <textarea className={"form-control"} rows={8}
 
                                                 style={{maxWidth:"100%"}}
                                                 onChange={(e) => {
