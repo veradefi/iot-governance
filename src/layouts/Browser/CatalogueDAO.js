@@ -335,11 +335,12 @@ render() {
                                     <center>                  
                                     <span>
                                         <b>
+                                        The Catalogue Earned &nbsp;
                                         <ContractDAO contract={"SmartKey"} 
                                                                         method="getBalance" 
                                                                         methodArgs={[item.address]} 
                                                                         isLocaleString={true} /> IOTBLOCK
-                                        </b><br/>
+                                        </b><br/><br/>
                                     </span>
                                     </center>
                                     <pre
@@ -588,6 +589,7 @@ render() {
                             <center>                  
                             <span>
                                 <b>
+                                The Catalogue Earned 
                                 <ContractDAO contract={"SmartKey"} 
                                                                 method="getBalance" 
                                                                 methodArgs={[item.address]} 

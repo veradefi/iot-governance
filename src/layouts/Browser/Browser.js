@@ -232,7 +232,7 @@ parseCatalogue = (doc) => {
                 }} />
             <br/>
             <b>
-                        <font color={"orange"}>{self.props.eth_contrib} ETH / Transaction</font>
+                        <font color={"orange"}>*Earn IOTBLOCK Token for Item Data Contribution</font>
                         </b>
 
                
@@ -240,7 +240,7 @@ parseCatalogue = (doc) => {
         </div>
         if (this.auth) {
             this.props.showDialog(true, 
-                <div><center>Item Unidentified ... </center><br/>
+                <div><center>Item Not Identified* ... </center><br/>
                 {itemListHTML}
                 </div>);
             self.setState({
@@ -256,7 +256,7 @@ parseCatalogue = (doc) => {
             this.props.showDialog(true, 
                 <div style={{ height: window.innerHeight * 0.9,
                     overflowY: "auto" }}>
-                <div><center>Item Successfully Identified! </center><br/>
+                <div><center><b>Item Matching ID {this.state.search} Successfully Found </b></center><br/>
                 <div style={{
                         display: "flex",
                         flexFlow: "row wrap",
@@ -395,10 +395,11 @@ initCatalogue = () => {
 search = (q) => {
     var self=this;
     var search='';
-    if (self.state.search)
-        search=self.state.search;
     if (q) 
         search=q;
+    else if (self.state.search)
+        search=self.state.search;
+
     if (!search)
         return;
     var history=[];
@@ -430,7 +431,7 @@ search = (q) => {
                     self.props.closeDialog();
                     //var history=self.state.history;
                     //history.push(url);
-                    self.setState({loading:false, isCatalogue:false, isSearch:true});
+                    self.setState({loading:false, search:search, isCatalogue:false, isSearch:true});
                     //$('#browse_url').val(url);
                     self.parseCatalogue(doc);
                     //self.get_smart_key_info(url);
