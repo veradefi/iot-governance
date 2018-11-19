@@ -6,6 +6,7 @@ import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import ContractDAO from './ContractDAO'
+import {Button} from 'react-toolbox/lib/button';
 
 var eth1_amount=1000000000000000000;
 
@@ -292,7 +293,7 @@ class ContractFormDAO extends Component {
     if (this.state.loading) {
       return (
           <li>
-              <b>Processing Contribution... Please Confirm Gas Contribution<br/></b>
+              <b>Processing Contribution & Granting IOTBLOCK Tokens... Please Confirm Gas Contribution<br/></b>
           </li>
       )
    }
@@ -314,7 +315,7 @@ class ContractFormDAO extends Component {
                 {self.state.dataLoading ? (
                     <b>Processing Contribution... <br/></b>
                 ) : mdata.address ?
-                <span><b>Donation Received: <ContractDAO contract={"SmartKey"} 
+                <span><b>Earned <ContractDAO contract={"SmartKey"} 
                             method="getBalance" 
                             methodArgs={[mdata.address]} 
                             isLocaleString={true} /> &nbsp;
@@ -376,7 +377,8 @@ class ContractFormDAO extends Component {
                 <div className={"input-group"}>
                  
                     <textarea className={"form-control"} rows={10}
-                                                style={{maxWidth:"80%"}}
+
+                                                style={{maxWidth:"100%"}}
                                                 onChange={(e) => {
                                                   mdata.val=e.target.value;
                                                   self.setState({formVal:e.target.value, mdata});
@@ -456,9 +458,13 @@ class ContractFormDAO extends Component {
                               });
                               */
 
-                          }}> Save </button>
+                          }}> <b>Save</b> </button>
               </div>
-          </div>
+              <br/>
+              <Button style={{width:"100%"}} raised primary onClick={() => {
+                                            self.props.closeDialog2();
+                                        }}>Cancel</Button> 
+           </div>
   } 
 
   if (this.state.mode == 'catAdd') { 
@@ -500,7 +506,7 @@ class ContractFormDAO extends Component {
                                   //self.setState({loading:false})
 
                                   item.href=self.state.url;
-                                  window.location='/iotpedia/editor?url=' + item.href;
+                                  window.location='/iotpedia/editor?auth=1&url=' + item.href;
     
                                 }).catch(function(error) {
                                   alert("Could not complete transaction")
@@ -767,7 +773,6 @@ class ContractFormDAO extends Component {
                           value={self.props.lng} />   
               </div>
               <center>
-                  <br/>
                   <button className={"btn btn-primary"} 
                           type={"button"} 
                           onClick={() =>{
@@ -775,6 +780,8 @@ class ContractFormDAO extends Component {
                           }}>
                           Save Location
                   </button>
+                  <br/>
+                  <br/>
               </center>
 
           </div>

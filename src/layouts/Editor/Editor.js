@@ -130,6 +130,13 @@ proc_browse_data = (listHtml, doc, urls) => {
     self.populateUrls(urls);
 
     // $('#browser').html(listHTML);
+
+    if (this.auth) {
+        this.props.showDialog(true, 
+            <div style={{ height: window.innerHeight * 0.9,
+                overflowY: "auto" }}>{listHtml}</div>
+            )
+    } 
     self.setState({
         history,
         loading:false,
@@ -210,6 +217,7 @@ populateUrls = (urls) => {
            //url="https://iotblock.io" + path
            
            var param= getParameterByName("url");
+           this.auth= getParameterByName("auth");
            if (param) {
                url=param;
                self.setState({catalogue_url:url})
