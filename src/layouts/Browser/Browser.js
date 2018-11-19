@@ -238,6 +238,42 @@ parseCatalogue = (doc) => {
                
             </center>
         </div>
+        if (this.auth) {
+            this.props.showDialog(true, 
+                <div><center>Item Unidentified ... </center><br/>
+                {itemListHTML}
+                </div>);
+            self.setState({
+                //catalogue_html:listHTML,
+                //catalogue_meta_data:doc,
+                //map_json,
+                //catalogue_item_meta_data:doc['item-metadata'],
+                loading:false});
+            
+        }
+    } else {
+        if (this.auth) {
+            this.props.showDialog(true, 
+                <div style={{ height: window.innerHeight * 0.9,
+                    overflowY: "auto" }}>
+                <div><center>Item Successfully Identified! </center><br/>
+                <div style={{
+                        display: "flex",
+                        flexFlow: "row wrap",
+                        alignItems: "stretch",
+                        justifyContent: "space-around"
+                    }}>
+                {itemListHTML}
+                </div>
+                </div>
+                </div>);
+            self.setState({
+                //catalogue_html:listHTML,
+                //catalogue_meta_data:doc,
+                //map_json,
+                //catalogue_item_meta_data:doc['item-metadata'],
+                loading:false});
+        }       
     }
         
     var listHTML = (
@@ -283,6 +319,8 @@ initCatalogue = () => {
                     
     var param= getParameterByName("url");
     var q = getParameterByName("q");
+    this.auth=getParameterByName("auth");
+    this.auth_q=q;
     if (param) {
         fetch_location=param;
     }
@@ -368,6 +406,15 @@ search = (q) => {
     //alert(url);
     var fetch_location='/cat/?q=' + search;
 
+    if (this.auth) {
+        this.props.showDialog(true, 
+        <div><center>Identifying Item ID {search} ... </center></div>);
+    } else {
+        this.props.showDialog(true, 
+            <div><center>Searching Catalogue for {search} ... </center></div>);
+    
+    }
+
     this.setState({loading:true})
     $.ajax({
             beforeSend: function(xhr){
@@ -380,6 +427,7 @@ search = (q) => {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function(doc, textStatus, xhr) {
+                    self.props.closeDialog();
                     //var history=self.state.history;
                     //history.push(url);
                     self.setState({loading:false, isCatalogue:false, isSearch:true});
@@ -462,7 +510,8 @@ render() {
                                 <div style={{width:"100%"}}>
                                     <div className={"col-md-12 col-sm-12 col-xs-12"}>
                                         <span className={"middle"}>
-                                        <center><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
+                                        <center>
+                                            <img src={"images/wait.gif"} style={{width:"100%"}} /></center>
                                         </span>
                                     </div>
                                 </div>

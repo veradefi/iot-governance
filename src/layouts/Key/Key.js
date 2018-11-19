@@ -352,7 +352,8 @@ createApiKey = () => {
                              <div className={"row"}>
                                 <div className={"col-md-12 col-sm-12 col-xs-12"}>
                                     <span className={"middle"}>
-                                    <center><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
+                                    
+                                    <center>Loading Smartkey...<br/><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
                                     </span>
                                 </div>
                             </div>
