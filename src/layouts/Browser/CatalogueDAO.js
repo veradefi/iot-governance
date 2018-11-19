@@ -318,7 +318,7 @@ render() {
                                 bottom: 0,
                                 left: 0,
                                 width:"100%"}}>
-                             <Button label='View / Contribute Info' raised primary 
+                             <Button label='View / Contribute Item Details' raised primary 
                                 style={{width:"100%"}}
                                 id={buttonKey}
                                 onClick={() => {
