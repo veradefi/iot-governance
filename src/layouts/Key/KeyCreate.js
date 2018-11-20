@@ -101,6 +101,8 @@ createSmartKey = () => {
                         }
                     });
             }
+        }).catch(function (error) {
+            alert(error);
         });
 
         
@@ -109,12 +111,14 @@ createSmartKey = () => {
 
 render() {
     var self=this;
-    if (this.state.loading) {
+    var smartNode="SmartKey";
+    if (this.state.loading || !self.contracts || !self.contracts[smartNode] || !self.contracts[smartNode].methods) {
       return <div>
                   <div className={"row"}>
                     <div className={"col-md-12 col-sm-12 col-xs-12"}>
                         <span className={"middle"}>
-                        <center><img src={"images/wait.gif"} style={{width:"100%"}} /></center>
+                        <center>Loading SmartKey...<br/>
+                        <img src={"images/wait.gif"} style={{width:"50%"}} /></center>
                         </span>
                     </div>
                 </div>

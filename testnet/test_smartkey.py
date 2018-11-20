@@ -67,7 +67,7 @@ amount=1000000000000000000 #1 ETH
 
 print ('getBalance (eth) for address1',web3.eth.getBalance(address))
 print ('getBalance (eth) for address2',web3.eth.getBalance(address2))
-print (io.transact({ 'from': address2, 'value': amount}).loadSmartKey(address2))
+#print (io.transact({ 'from': address2, 'value': amount}).loadSmartKey(address2))
 print ('convertToToken', gc.call({ 'from': address2}).convertToToken(amount))
 print ('getBalance', gc.call({ 'from': address2}).getBalance(address2))
 print ('getSmartKey', gc.call({ 'from': address2 }).getSmartKey(address2))

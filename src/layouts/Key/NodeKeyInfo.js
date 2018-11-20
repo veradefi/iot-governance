@@ -49,10 +49,11 @@ class NodeKeyInfo extends Component {
 
     
 showHealthDialog = () => {
+    var self=this;
     this.setState({health_init:true});
     var amt=$('#eth_contrib').val();
     $('.donate_amt').html(amt);
-    this.props.showDialog(true, <KeyHealth account={this.props.myAddress} donate_amt={amt} setHealth={this.setHealth} />);
+    this.props.showDialog(true, <KeyHealth account={this.props.myAddress} donate_amt={amt} setHealth={self.setHealth_drizzle} />);
     
 }
 
@@ -311,6 +312,35 @@ get_transfer_node_eth = (beneficiary, amount) => {
  }
  
 
+ setHealth_drizzle = (health ) => {
+    var self=this;
+    self.hideHealthDialog();
+
+    var drizzleState=this.context.drizzle.store.getState()
+    var smartNode=self.state.key_addr;
+    //print('setHealth',key.transact({ 'from': address, 'value':int(auth['eth_contrib']) }).setHealth(health))
+        
+    var contrib=0; //Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+
+    this.contracts[smartNode].methods.setHealth(health).send(
+    {from: drizzleState.accounts[0], gasPrice:1000000000
+    })
+    .then(function(address)  {
+        $('#health').show();
+        $('#health_loading').hide();
+        
+    }).catch(function(error) {
+        $('#health').show();
+        $('#health_loading').hide();
+        self.hideHealthDialog();
+            
+        alert("Could not complete transaction")
+        alert(error);
+        console.log(error);
+    });
+}
+
+
 setHealth = (health) => {
     var self=this;
     var href=this.state.keyInfo.url;
@@ -366,8 +396,10 @@ componentDidMount() {
 componentWillReceiveProps(newProps) {
     var self=this;
     if (newProps.keyInfo && !(JSON.stringify(newProps.keyInfo) === JSON.stringify(this.props.keyInfo))) {
-        self.get_smartkey_transactions(newProps.keyInfo.url,0,10);
+        //self.get_smartkey_transactions(newProps.keyInfo.url,0,10);
         this.setState({keyInfo:newProps.keyInfo})
+        this.get_keyInfo(newProps.keyInfo.address);
+    
     }
 
 }
@@ -376,7 +408,6 @@ render() {
     var self=this;
     var {address, balance, eth_recv, vault, state, health, tokens, isOwner, states, healthStates}=this.state.keyInfo;
     
-   
     if (this.state.loading) {
         return <div><center>Loading Key...</center></div>
     }
@@ -402,7 +433,7 @@ render() {
                                         <span className={"inputbox4"}>
                                         <span className={"label5"} style={{ }} id={"poolkey"}>
                                         <center>
-                                        <pre style={{ whiteSpace: "pre-wrap",  maxWidth:"50%" }}>{address}</pre>
+                                        <pre style={{ whiteSpace: "pre-wrap",  maxWidth:"50%" }}>{this.state.key_addr}</pre>
                                         </center>
                                         </span></span>
                                         <hr/>
@@ -469,8 +500,14 @@ render() {
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                             <label className={"label7"}>
                                                 <span className={"health"}>
-                                                
-                                                {health == 5 ? <b style={{color:'red'}}>{healthStates[health]}</b> : <b>{healthStates[health]}</b>}
+                                                <ContractDAO contract={self.state.key_addr} 
+                                                        method="health" 
+                                                        methodArgs={[]} 
+                                                        isHealth={true} />
+
+                                                {/* 
+                                                health == 5 ? <b style={{color:'red'}}>{healthStates[health]}</b> : <b>{healthStates[health]}</b>
+                                                */}
                                                 </span>
                                             </label>
                                     </div>
@@ -493,7 +530,11 @@ render() {
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <label className={"label7 title3"}><span className={"state"}>
-                                        { states[state] }
+                                        <ContractDAO contract={self.state.key_addr} 
+                                                        method="state" 
+                                                        methodArgs={[]} 
+                                                        isState={true} />
+                                        {/* states[state] */}
                                         </span></label> 
                                         <font size={2}></font>
                                     </div>
@@ -673,19 +714,24 @@ render() {
                                                     <hr/>
                                                     <ContractDAO contract={"SmartKey"} 
                                                     method="getEventCount"
-                                                    methodArgs={[address]}
+                                                    methodArgs={[self.state.key_addr]}
                                                     //method="decimals"
                                                     value_post_process={(val)=> {
                                                         var items=[];
                                                         for (var i=val -1; i>= 0; i--) {
                                                             var idx=i;
-
                                                             items.push(<ContractDAO key={idx} contract={"SmartKey"} 
                                                             method="events" 
-                                                            methodArgs={[address, idx]}
-                                                            object_values={['date','account','transaction_type','amount', 'transaction_name','health_status']} 
-                                                            object_labels={['Date','Address','Type','Amount','Event','Health']} 
-                                                            object_classes={['col-md-2','col-md-4','col-md-1','col-md-2','col-md-2','col-md-1']}
+                                                            methodArgs={[self.state.key_addr, idx]}
+                                                            object_values={['date','account',/*'transaction_type',*/
+                                                                            'amount', 'transaction_name',
+                                                                            'health_status', 'user_health_status']} 
+                                                            object_labels={['Date','Counterparty Address',/*'Type',*/
+                                                                            'Tokens Earned','Event',
+                                                                            'Transaction Health', 'Counterparty Health']} 
+                                                            object_classes={['col-md-2','col-md-4',
+                                                                             'col-md-2','col-md-2',
+                                                                             'col-md-1','col-md-1']}
                                                             object_values_post_process={[
                                                                 (date) => {
                                                                     var dateTime = new Date(parseInt(date) * 1000);
@@ -695,13 +741,14 @@ render() {
                                                                 (address) => {
                                                                     return address
                                                                 },
-                                                                (tx_type) => {
+                                                                /*(tx_type) => {
                                                                     var tx='Incoming';
                                                                     if (tx_type > 0) {
                                                                         tx='Outgoing';
                                                                     }
                                                                     return tx;
                                                                 },
+                                                                */
                                                                 (amount) => {
 
                                                                     //var eth1=1000000000000000000;
@@ -713,6 +760,9 @@ render() {
                                                                 },
                                                                 (health_status) => {
                                                                     return web3Utils.get_web3().utils.hexToAscii(health_status)
+                                                                },
+                                                                (user_health_status) => {
+                                                                    return web3Utils.get_web3().utils.hexToAscii(user_health_status)
                                                                 }]} 
                                                                 object_add_hr={true}
                                                             />);

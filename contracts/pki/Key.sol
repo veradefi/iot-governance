@@ -8,7 +8,7 @@ contract Key is Ownable {
    
    using SafeMath for uint256;
     
-   enum State { Issued, Active, Returned }
+   enum State { Issued, Active, Alert }
    //event KeyStateUpdate(address indexed beneficiary, address indexed vault, State status);
     
    enum Health { Provisioning, Certified, Modified, Compromised, Malfunctioning, Harmful, Counterfeit }
@@ -67,14 +67,15 @@ contract Key is Ownable {
    payable
    {
    
-        if (msg.value > 10000000000000) {
             health = _health;
             
             if (uint256(_health) > 1) {
-                smartKey.loadSmartKey.value(msg.value)(this, address(this), bytes32('HealthWarning'));
+                smartKey.loadSmartKey.value(msg.value)(this, msg.sender, bytes32('HealthWarning'));
+                state=State.Alert;
                 
             } else {
-                smartKey.loadSmartKey.value(msg.value)(this, address(this), bytes32('HealthUpdate'));
+                smartKey.loadSmartKey.value(msg.value)(this, msg.sender, bytes32('HealthUpdate'));
+                state=State.Active;
                 
             }
             HealthUpdate(_health);
@@ -85,7 +86,6 @@ contract Key is Ownable {
             //if (vault != address(this) && vault != address(msg.sender)) {
             //    vault.transfer(msg.value);
             //}
-        }
    
    }
    
@@ -134,6 +134,7 @@ contract Key is Ownable {
    }
 
     
+   /*
    function returnKey() 
    public
    onlyOwner 
@@ -142,6 +143,8 @@ contract Key is Ownable {
         state = State.Returned;
    }
    
+   */
+
    function getHash(string key) 
    pure
    public
@@ -189,6 +192,7 @@ contract Key is Ownable {
         return getValueByHash(keccak256(key));
    }
    
+   
    function () 
    public
    payable 
@@ -196,4 +200,5 @@ contract Key is Ownable {
         activateKey(msg.sender);
    }
    
+
 }

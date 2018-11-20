@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
  * Create component.
  */
 var healthStates = ['Provisioning', 'Certified', 'Modified', 'Compromised', 'Malfunctioning', 'Harmful', 'Counterfeit' ]
-var states=[ 'Issued', 'Active', 'Returned' ]
+var states=[ 'Issued', 'Active', 'Alert' ]
 
 class ContractDAO extends Component {
 
