@@ -14,7 +14,7 @@ contract SmartKey is MintableToken
     string public version = 'IoTBlock_SmartKey_0.01';       // version
     address vault;
 
-    event KeyEvent(address user, address key, address transacting_contract, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status);
+    event KeyEvent(address key, address transacting_contract, uint256 eth_amount, bytes32 transaction_name, bytes32 health_status, bytes32 user_health_status);
     
     mapping (address => Key) public  smartKeys;
 
@@ -23,11 +23,10 @@ contract SmartKey is MintableToken
         address account;
         uint256 date;
         uint256 amount;
-        
-        uint256 transaction_type;
-        
+        //uint256 transaction_type;
         bytes32 transaction_name;
         bytes32 health_status;
+        bytes32 user_health_status;
         
     }
     
@@ -78,7 +77,7 @@ contract SmartKey is MintableToken
     public
     payable 
     {
-        loadSmartKey(getSmartKey(msg.sender), address(this), 'Deposit');
+        loadSmartKey(getSmartKey(msg.sender), msg.sender, 'Deposit');
     }
     
     function getSmartKey(address beneficiary) 	
@@ -108,17 +107,19 @@ contract SmartKey is MintableToken
             //require(address(key) != address(0));
             //require(validPurchase());
             
-            if (address(key) == address(0) && smartKeys[transacting_contract] == address(0)) 
+            if (address(key) == address(0) || smartKeys[transacting_contract] == address(0)) 
             {
                 key = new Key(this, transacting_contract); 
                 smartKeys[transacting_contract]=key;
             }
             
             bytes32 healthStatus=key.getHealthStatus();
-            
-            KeyEvent(msg.sender, address(key), transacting_contract, token, transaction_name, healthStatus);
-            events[address(key)].push(event_transaction(transacting_contract,now, token, 0, transaction_name, healthStatus));                        
+            bytes32 userHealthStatus=smartKeys[transacting_contract].getHealthStatus();
+
+            KeyEvent(address(key), transacting_contract, token, transaction_name, healthStatus, userHealthStatus);
+            events[address(key)].push(event_transaction(transacting_contract,now, token, transaction_name, healthStatus, userHealthStatus));                        
         
+            
             tokenMinted = tokenMinted + token; //.add(token);
             balances[address(key)] = balances[address(key)].add(token);
             Transfer(address(0), address(key), token);
@@ -126,8 +127,9 @@ contract SmartKey is MintableToken
             tokenMinted = tokenMinted + token; //.add(token);
             balances[address(transacting_contract)] = balances[address(transacting_contract)].add(token);
             Transfer(address(0), address(transacting_contract), token);
-            //mint(address(key), token);
+            
 
+            //mint(address(key), token);
             key.activateKey.value(msg.value)(address(transacting_contract));
             
             return true;

@@ -90,7 +90,7 @@ export default class NodeKey extends Component {
     var api_auth=self.props.api_auth;
     var api_key=self.props.api_key;
     var eth1=1000000000000000000;
-    var eth_contrib=1;
+    var eth_contrib=0;
     if (self.props.eth_contrib) {
         eth_contrib=parseFloat(self.props.eth_contrib) * eth1;
     }

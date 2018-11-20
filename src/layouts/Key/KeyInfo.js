@@ -320,10 +320,10 @@ setHealth_drizzle = (health ) => {
     var smartNode=self.state.key_addr;
     //print('setHealth',key.transact({ 'from': address, 'value':int(auth['eth_contrib']) }).setHealth(health))
         
-    var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+    var contrib=0; //Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
 
     this.contracts[smartNode].methods.setHealth(health).send(
-    {from: drizzleState.accounts[0], value:contrib, gasPrice:23000000000
+    {from: drizzleState.accounts[0], gasPrice:1000000000
     })
     .then(function(address)  {
         $('#health').show();
@@ -799,9 +799,15 @@ render() {
                                                             items.push(<ContractDAO key={idx} contract={"SmartKey"} 
                                                             method="events" 
                                                             methodArgs={[self.state.key_addr, idx]}
-                                                            object_values={['date','account','transaction_type','amount', 'transaction_name','health_status']} 
-                                                            object_labels={['Date','Address','Type','Amount','Event','Health']} 
-                                                            object_classes={['col-md-2','col-md-4','col-md-1','col-md-2','col-md-2','col-md-1']}
+                                                            object_values={['date','account',/*'transaction_type',*/
+                                                                            'amount', 'transaction_name',
+                                                                            'health_status', 'user_health_status']} 
+                                                            object_labels={['Date','Counterparty Address',/*'Type',*/
+                                                                            'Tokens Earned','Event',
+                                                                            'Transaction Health', 'Counterparty Health']} 
+                                                            object_classes={['col-md-2','col-md-4',
+                                                                             'col-md-2','col-md-2',
+                                                                             'col-md-1','col-md-1']}
                                                             object_values_post_process={[
                                                                 (date) => {
                                                                     var dateTime = new Date(parseInt(date) * 1000);
@@ -811,13 +817,14 @@ render() {
                                                                 (address) => {
                                                                     return address
                                                                 },
-                                                                (tx_type) => {
+                                                                /*(tx_type) => {
                                                                     var tx='Incoming';
                                                                     if (tx_type > 0) {
                                                                         tx='Outgoing';
                                                                     }
                                                                     return tx;
                                                                 },
+                                                                */
                                                                 (amount) => {
 
                                                                     //var eth1=1000000000000000000;
@@ -829,6 +836,9 @@ render() {
                                                                 },
                                                                 (health_status) => {
                                                                     return web3Utils.get_web3().utils.hexToAscii(health_status)
+                                                                },
+                                                                (user_health_status) => {
+                                                                    return web3Utils.get_web3().utils.hexToAscii(user_health_status)
                                                                 }]} 
                                                                 object_add_hr={true}
                                                             />);
