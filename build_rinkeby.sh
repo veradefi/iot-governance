@@ -2,15 +2,15 @@
 PATH=./node_modules/.bin:$PATH
 export PATH
 
-#rm -fr bin/*
-#rm -fr build/*
+rm -fr bin/*
+rm -fr build/*
 truffle compile
 truffle migrate --reset --network rinkeby_local
 cp -pR build/contracts/* src/solc/contracts/
 sh build_solcjs.sh
+tar -cf bin3.tar build/contracts src/solc/contracts
 
-sleep 200
-
-sh build_rinkeby_data.sh
+#sleep 200
+#sh build_rinkeby_data.sh
 
 

@@ -1,0 +1,244 @@
+{
+  "contractName": "Operator",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "admins",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "isAdmin",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAdmins",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "admin",
+          "type": "address"
+        }
+      ],
+      "name": "addAdmin",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "banned",
+          "type": "address"
+        }
+      ],
+      "name": "addBanned",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "import \"../admin/Administered.sol\";\n\npragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use\n\ncontract Operator is Administered {\n  \n  /*\n  SmartKey key;\n  \n  function RSOperator( SmartKey _key, address[] adminAddress) \n      Administered(adminAddress)\n  {\n    key=_key;\n    \n  }\n\n  function SetResourceTerm(bytes32 _rsName, bytes32 _rsType, uint256 _startTime, uint256 _endTime, uint256 _rate)\n  {\n  \n      //rsNetwork.SetResourceTerm(_rsName,  _rsType, _rsToken);\n  \n  }\n  */\n\n}",
+  "sourcePath": "/windata/iotblock/contracts/resource/Operator.sol",
+  "ast": {
+    "absolutePath": "/windata/iotblock/contracts/resource/Operator.sol",
+    "exportedSymbols": {
+      "Operator": [
+        3331
+      ]
+    },
+    "id": 3332,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
+        "file": "../admin/Administered.sol",
+        "id": 3327,
+        "nodeType": "ImportDirective",
+        "scope": 3332,
+        "sourceUnit": 1587,
+        "src": "0:35:24",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 3328,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "37:24:24"
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": [],
+            "baseName": {
+              "contractScope": null,
+              "id": 3329,
+              "name": "Administered",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1586,
+              "src": "153:12:24",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Administered_$1586",
+                "typeString": "contract Administered"
+              }
+            },
+            "id": 3330,
+            "nodeType": "InheritanceSpecifier",
+            "src": "153:12:24"
+          }
+        ],
+        "contractDependencies": [
+          1586
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 3331,
+        "linearizedBaseContracts": [
+          3331,
+          1586
+        ],
+        "name": "Operator",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3332,
+        "src": "132:386:24"
+      }
+    ],
+    "src": "0:518:24"
+  },
+  "legacyAST": {
+    "absolutePath": "/windata/iotblock/contracts/resource/Operator.sol",
+    "exportedSymbols": {
+      "Operator": [
+        3331
+      ]
+    },
+    "id": 3332,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
+        "file": "../admin/Administered.sol",
+        "id": 3327,
+        "nodeType": "ImportDirective",
+        "scope": 3332,
+        "sourceUnit": 1587,
+        "src": "0:35:24",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 3328,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "37:24:24"
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": [],
+            "baseName": {
+              "contractScope": null,
+              "id": 3329,
+              "name": "Administered",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1586,
+              "src": "153:12:24",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Administered_$1586",
+                "typeString": "contract Administered"
+              }
+            },
+            "id": 3330,
+            "nodeType": "InheritanceSpecifier",
+            "src": "153:12:24"
+          }
+        ],
+        "contractDependencies": [
+          1586
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 3331,
+        "linearizedBaseContracts": [
+          3331,
+          1586
+        ],
+        "name": "Operator",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3332,
+        "src": "132:386:24"
+      }
+    ],
+    "src": "0:518:24"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-11-21T11:31:57.936Z"
+}
