@@ -467,7 +467,7 @@ render() {
                                     </div>
                                 </div>              
 
-                                        
+                                {/*
                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>
                                         <label className={"label6"}>Balance</label>
@@ -491,7 +491,7 @@ render() {
                                         <font size={2}> ETH</font>
                                     </div>
                                 </div>
-
+                                */}
                                 
                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>    

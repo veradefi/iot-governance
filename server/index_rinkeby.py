@@ -41,10 +41,10 @@ network='4'
 port='8666'
 
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
-web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
+#web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
 #network='4447'
 #port='9545'
-#web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
+web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
 address2=web3.toChecksumAddress(web3.eth.coinbase)
 address=web3.toChecksumAddress(web3.eth.accounts[0])
@@ -219,7 +219,7 @@ def userEthTransfer(amount, beneficiary, sender, key=None,auth=None):
     
         #print("isOwner", key.call({ 'from': address }).isOwner(smartKey.address))
         if not auth is None and key.call({'from':address}).isOwner(web3.toChecksumAddress(auth['auth'])):   
-            print('transferEth',smartKey.transact({ 'from': address }).transferEth(amount, sender, beneficiary));
+            print('transferEth',smartKey.transact({ 'from': address }).transferFromKey(amount, sender, beneficiary, True));
        
         return key
     except Exception as e:
@@ -620,7 +620,7 @@ def nodeEthTransfer(amount, beneficiary, href, auth):
     
     isOwner=False
     if graphRoot.call({'from':address}).isOwner(auth['auth']):        
-        print('transferEth',graphRoot.transact({ 'from': address }).transferEth(amount, beneficiary));
+        print('transferEth',graphRoot.transact({ 'from': address }).transferFromKey(amount, beneficiary, True));
         isOwner=True
         
     key=getContract('Key',network, graphRoot.address, prefix="pki_")
@@ -676,7 +676,7 @@ def setHealth(health, href, eth_contrib):
 
     try:     
 
-        print('transferEth',wait_tx(graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health)))
+        print('setHealth',wait_tx(graphRoot.transact({ 'from': address,  'value':int(contrib) }).setHealth(health)))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:health", str(health)))
         print ('upsertMetaData',graphRoot.transact({ 'from': address, 'value':int(contrib/2) }).upsertMetaData("urn:X-hypercat:rels:healthStatus", healthStates[health]))
     except Exception as e:

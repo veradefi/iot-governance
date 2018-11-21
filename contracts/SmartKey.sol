@@ -118,7 +118,7 @@ contract SmartKey is MintableToken
 
             KeyEvent(address(key), transacting_contract, token, transaction_name, healthStatus, userHealthStatus);
             events[address(key)].push(event_transaction(transacting_contract,now, token, transaction_name, healthStatus, userHealthStatus));                        
-        
+            
             
             tokenMinted = tokenMinted + token; //.add(token);
             balances[address(key)] = balances[address(key)].add(token);
@@ -128,7 +128,6 @@ contract SmartKey is MintableToken
             balances[address(transacting_contract)] = balances[address(transacting_contract)].add(token);
             Transfer(address(0), address(transacting_contract), token);
             
-
             //mint(address(key), token);
             key.activateKey.value(msg.value)(address(transacting_contract));
             
@@ -158,7 +157,8 @@ contract SmartKey is MintableToken
         require(smartKeys[_user] != address(0));
         smartKeys[_user].addOwner(msg.sender);
     }
-    
+
+    /*
  
     function transferEth(uint amount, address sender, address beneficiary) 
     public
@@ -168,6 +168,29 @@ contract SmartKey is MintableToken
         require(smartKeys[sender] != address(0));
         if (isAdmin[msg.sender] || smartKeys[sender].isOwner(msg.sender)) {
             smartKeys[sender].transferEth(amount, beneficiary);
+        }
+    }
+    */
+
+    function transferFromKey(uint amount, address sender, address beneficiary, bool isEth) 
+    public
+    {
+        require(sender != 0x0);
+        require(beneficiary != 0x0);
+        require(smartKeys[sender] != address(0));
+        if (isAdmin[msg.sender] || smartKeys[sender].isOwner(msg.sender)) {
+            bytes32 healthStatus=smartKeys[sender].getHealthStatus();
+            bytes32 transferName="Transfer To";
+            if (isEth) {
+                smartKeys[sender].transferEth(amount, beneficiary);
+                transferName="Transfer ETH To";
+
+            } else {
+                smartKeys[sender].transfer(amount, beneficiary);
+            }
+            KeyEvent(address(smartKeys[sender]), beneficiary, amount, transferName, healthStatus,healthStatus);
+            events[address(smartKeys[sender])].push(event_transaction(beneficiary,now,amount, transferName, healthStatus, healthStatus));                        
+
         }
     }
 

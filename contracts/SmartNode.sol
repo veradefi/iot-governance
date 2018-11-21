@@ -42,6 +42,20 @@ contract SmartNode is Administered {
         return graphRoot.upsertItem.value(msg.value/2)(GraphNode(addr), _href);
       
   }
+  
+  /*
+  function buyCatalogue(GraphNode _node)
+  public
+  {
     
+    if (smartKey.balanceOf(msg.sender) >= smartKey.balanceOf(_node)) {
+        //this.removeOwner(vault);
+        //vault=msg.sender;
+        _node.addOwner(msg.sender);
+        //smartKey.loadSmartKey.value(msg.value)(Key(this), address(msg.sender), bytes32("Catalogue Purchase"));
+    }
+  }
+  */ 
+
   
 }
