@@ -38,7 +38,7 @@ class KeyInfo extends Component {
 
     this.state = {
         loading:true,
-        transferAmt:0.1,
+        transferAmt:1,
         keyInfo:props.keyInfo,
         
     };
@@ -264,11 +264,11 @@ get_transfer_user_eth_drizzle = (beneficiary, amount) => {
     var drizzleState=this.context.drizzle.store.getState()
     var smartNode="SmartKey";
         
-    var amount=Math.round(parseFloat(amount)*eth1_amount);
+    var amount=Math.round(parseFloat(amount));
     var sender=self.props.myAddress;
 
-    this.contracts[smartNode].methods.transferEth(amount, sender, beneficiary).send(
-    {from: drizzleState.accounts[0],  gasPrice:23000000000
+    this.contracts[smartNode].methods.transferFromKey(amount, sender, beneficiary, false).send(
+    {from: drizzleState.accounts[0],  gasPrice:1000000000
     })
     .then(function(address)  {
         $('#eth_transfer').show();
@@ -375,7 +375,7 @@ get_keyInfo= (address) => {
     var drizzle=this.context.drizzle;
     
     this.props.addContract(drizzle, cfg, events, web3) 
-    self.setState({key_addr:address, loading:false});
+    self.setState({key_addr:address, loading:false, transferDst:this.props.accounts[0]});
 
 }
 componentDidMount() {
@@ -467,13 +467,13 @@ render() {
                                     </div>
                                 </div>                 
                                         
+                                {/*
                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>
                                         <label className={"label6"}>ETH Balance</label>
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_balance"}>
-                                        {/* eth_recv */}
                                         <AccountDAO contract={self.state.key_addr} 
                                                         getBalance={self.state.key_addr}
                                                         units="ether" precision="6" />
@@ -489,7 +489,6 @@ render() {
                                     </div>
                                     <div className={"col-xs-6"} style={{ textAlign: "left" }}>
                                         <span className={"label7 eth_received"}>
-                                        {/* eth_recv */}
                                         <ContractDAO contract={self.state.key_addr} 
                                                         method="contrib_amount" 
                                                         methodArgs={[]} 
@@ -499,7 +498,7 @@ render() {
                                         <font size={2}> ETH</font>
                                     </div>
                                 </div>
-
+                                */}
                                 
                                 <div className={"row"}>
                                     <div className={"col-xs-6"} style={{ textAlign: "right" }}>    
@@ -557,7 +556,7 @@ render() {
                                 <div className={"row"}>
                                     <div className={"col-md-12"}>
                                         <center>
-                                        <label className={"title2"}>Transfer ETH</label>                            
+                                        <label className={"title2"}>Transfer IOTBLOCK Tokens</label>                            
                                         </center>
                                         <br/>
                                     </div>
@@ -565,12 +564,13 @@ render() {
                                 <div id={"eth_transfer"} style={{width:"100%"}}> 
                                     <div className={"row"}>
                                         <div className={"col-xs-6"} style={{ textAlign: "right" }}>
-                                            <label className={"label6"}>ETH Amount:</label>
+                                            <label className={"label6"}>IOTBLOCK Amount:</label>
                                         </div>
                                         <div className={"col-xs-6"} style={{ textAlign: "left" }}>                                                
                                             <input id={"send_amt"} className={"form-control m-input m-input--air m-input--pill"} 
                                             onChange={(val) => {
-                                                this.setState({transferAmt:$('#send_amt').val()});
+                                                //alert(val.target.value);
+                                                this.setState({transferAmt:val.target.value});
                                             }} 
                                             value={this.state.transferAmt} />
                                             <br/>
@@ -583,7 +583,13 @@ render() {
                                         <div className={"col-xs-6"} style={{ textAlign: "left" }}>                                                
                                         
                                             <input id={"beneficiary"} className={"form-control address_val m-input m-input--air m-input--pill"} 
-                                            placeholder={"Beneficiary Address"} defaultValue={userAddress} />
+                                            placeholder={"Beneficiary Address"}
+                                            onChange={(val) => {
+                                                //alert(val.target.value);
+                                                this.setState({transferDst:val.target.value});
+                                            }} 
+                                            //defaultValue={userAddress}
+                                            value={this.state.transferDst} />
                                             <br/>
                                         </div>
                                     </div>
@@ -591,10 +597,11 @@ render() {
                                         <div className={"col-xs-12"}>
                                             <button 
                                                 onClick={() => {
-                                                    self.get_transfer_user_eth_drizzle($('#beneficiary').val(), $('#send_amt').val());
+                                                    self.get_transfer_user_eth_drizzle(this.state.transferDst, 
+                                                        this.state.transferAmt);
                                                  }} 
                                                  className={"form-control  button3  btn btn-primary"} 
-                                                 id={"wd_ether"}><span className={"buttonText"}>Withdraw Ether</span>
+                                                 id={"wd_ether"}><span className={"buttonText"}>Transfer IOTBLOCK Tokens</span>
                                             </button>
                                         </div>
                                     </div>

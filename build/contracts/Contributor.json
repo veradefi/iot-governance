@@ -92,19 +92,19 @@
     "absolutePath": "/windata/iotblock/contracts/resource/Contributor.sol",
     "exportedSymbols": {
       "Contributor": [
-        3007
+        3157
       ]
     },
-    "id": 3008,
+    "id": 3158,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
-        "id": 3000,
+        "id": 3150,
         "nodeType": "ImportDirective",
-        "scope": 3008,
-        "sourceUnit": 1449,
+        "scope": 3158,
+        "sourceUnit": 1561,
         "src": "1:35:20",
         "symbolAliases": [],
         "unitAlias": ""
@@ -112,16 +112,16 @@
       {
         "absolutePath": "/windata/iotblock/contracts/resource/Logistics.sol",
         "file": "./Logistics.sol",
-        "id": 3001,
+        "id": 3151,
         "nodeType": "ImportDirective",
-        "scope": 3008,
-        "sourceUnit": 3072,
+        "scope": 3158,
+        "sourceUnit": 3222,
         "src": "37:25:20",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "id": 3002,
+        "id": 3152,
         "literals": [
           "solidity",
           "^",
@@ -137,57 +137,57 @@
             "arguments": [],
             "baseName": {
               "contractScope": null,
-              "id": 3003,
+              "id": 3153,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1448,
+              "referencedDeclaration": 1560,
               "src": "184:12:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1448",
+                "typeIdentifier": "t_contract$_Administered_$1560",
                 "typeString": "contract Administered"
               }
             },
-            "id": 3004,
+            "id": 3154,
             "nodeType": "InheritanceSpecifier",
             "src": "184:12:20"
           }
         ],
         "contractDependencies": [
-          1448
+          1560
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 3007,
+        "id": 3157,
         "linearizedBaseContracts": [
-          3007,
-          1448
+          3157,
+          1560
         ],
         "name": "Contributor",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3006,
+            "id": 3156,
             "name": "logistics",
             "nodeType": "VariableDeclaration",
-            "scope": 3007,
+            "scope": 3157,
             "src": "229:19:20",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_Logistics_$3071",
+              "typeIdentifier": "t_contract$_Logistics_$3221",
               "typeString": "contract Logistics"
             },
             "typeName": {
               "contractScope": null,
-              "id": 3005,
+              "id": 3155,
               "name": "Logistics",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3071,
+              "referencedDeclaration": 3221,
               "src": "229:9:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Logistics_$3071",
+                "typeIdentifier": "t_contract$_Logistics_$3221",
                 "typeString": "contract Logistics"
               }
             },
@@ -195,7 +195,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 3008,
+        "scope": 3158,
         "src": "160:2542:20"
       }
     ],
@@ -205,19 +205,19 @@
     "absolutePath": "/windata/iotblock/contracts/resource/Contributor.sol",
     "exportedSymbols": {
       "Contributor": [
-        3007
+        3157
       ]
     },
-    "id": 3008,
+    "id": 3158,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
-        "id": 3000,
+        "id": 3150,
         "nodeType": "ImportDirective",
-        "scope": 3008,
-        "sourceUnit": 1449,
+        "scope": 3158,
+        "sourceUnit": 1561,
         "src": "1:35:20",
         "symbolAliases": [],
         "unitAlias": ""
@@ -225,16 +225,16 @@
       {
         "absolutePath": "/windata/iotblock/contracts/resource/Logistics.sol",
         "file": "./Logistics.sol",
-        "id": 3001,
+        "id": 3151,
         "nodeType": "ImportDirective",
-        "scope": 3008,
-        "sourceUnit": 3072,
+        "scope": 3158,
+        "sourceUnit": 3222,
         "src": "37:25:20",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "id": 3002,
+        "id": 3152,
         "literals": [
           "solidity",
           "^",
@@ -250,57 +250,57 @@
             "arguments": [],
             "baseName": {
               "contractScope": null,
-              "id": 3003,
+              "id": 3153,
               "name": "Administered",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1448,
+              "referencedDeclaration": 1560,
               "src": "184:12:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Administered_$1448",
+                "typeIdentifier": "t_contract$_Administered_$1560",
                 "typeString": "contract Administered"
               }
             },
-            "id": 3004,
+            "id": 3154,
             "nodeType": "InheritanceSpecifier",
             "src": "184:12:20"
           }
         ],
         "contractDependencies": [
-          1448
+          1560
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 3007,
+        "id": 3157,
         "linearizedBaseContracts": [
-          3007,
-          1448
+          3157,
+          1560
         ],
         "name": "Contributor",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3006,
+            "id": 3156,
             "name": "logistics",
             "nodeType": "VariableDeclaration",
-            "scope": 3007,
+            "scope": 3157,
             "src": "229:19:20",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_Logistics_$3071",
+              "typeIdentifier": "t_contract$_Logistics_$3221",
               "typeString": "contract Logistics"
             },
             "typeName": {
               "contractScope": null,
-              "id": 3005,
+              "id": 3155,
               "name": "Logistics",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3071,
+              "referencedDeclaration": 3221,
               "src": "229:9:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Logistics_$3071",
+                "typeIdentifier": "t_contract$_Logistics_$3221",
                 "typeString": "contract Logistics"
               }
             },
@@ -308,7 +308,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 3008,
+        "scope": 3158,
         "src": "160:2542:20"
       }
     ],
@@ -320,5 +320,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-11-20T09:59:12.862Z"
+  "updatedAt": "2018-11-21T06:28:59.420Z"
 }

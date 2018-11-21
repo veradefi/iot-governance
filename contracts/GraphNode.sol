@@ -68,8 +68,7 @@ contract GraphNode is Catalogue {
       return 0x0;
       
   }
-  
+   
 
-    
 }
 

@@ -4,6 +4,7 @@ const PublicOffering = artifacts.require("./PublicOffering.sol");
 const SmartKey = artifacts.require("./SmartKey.sol");
 const SmartPoolKey = artifacts.require("./SmartPoolKey.sol");
 const SmartNode = artifacts.require("./SmartNode.sol");
+const SmartRent = artifacts.require("./SmartRent.sol");
 const GraphRoot = artifacts.require("./GraphRoot.sol");
 
 var admins=[
@@ -16,6 +17,7 @@ module.exports = async (deployer) => {
 
     await SmartKey.deployed().then(function(contractInstance) {
         
+        contractInstance.addAdmin(SmartRent.address, {from:web3.eth.accounts[0]});
         contractInstance.addAdmin(PublicOffering.address, {from:web3.eth.accounts[0]});
         contractInstance.addAdmin(SmartKey.address, {from:web3.eth.accounts[0]});
         contractInstance.addAdmin(SmartPoolKey.address, {from:web3.eth.accounts[0]});

@@ -61,6 +61,15 @@ contract Key is Ownable {
         beneficiary.transfer(amount);
         transactions[address(this)].push(transaction(beneficiary,now,amount, 1));
    }
+
+   function transfer(uint amount, address beneficiary) 
+   public
+   onlyOwner 
+   {
+        require(state == State.Active);
+        smartKey.transfer(beneficiary, amount);
+        transactions[address(this)].push(transaction(beneficiary,now,amount, 1));
+   }
    
    function setHealth(Health _health) 
    public
