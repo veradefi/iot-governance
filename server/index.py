@@ -19,7 +19,7 @@ import gevent
 from gevent.queue import Queue
 import threading, logging, time
 import multiprocessing
-from kafka import KafkaConsumer, KafkaProducer
+#from kafka import KafkaConsumer, KafkaProducer
 
 rootNode="https://iotblock.io/"
 def getContract(item, network, address=None, prefix=""):
@@ -1246,7 +1246,7 @@ def subscribe():
             evt=evt.replace('\u0000','')
                 
             yield "id: %s\nevent: %s\ndata: %s\n\n" % (event["blockHash"], url, evt)
-            
+    '''      
     def consumeKafka():
             consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
                              auto_offset_reset='earliest',
@@ -1268,8 +1268,8 @@ def subscribe():
                     yield "id: %s\nevent: %s\ndata: %s\n\n" % (message.offset,url, message.value)
                     
             consumer.close()
-
-    return Response(consumeKafka(), mimetype="text/event-stream")
+    '''
+    return Response(consumeEthereumEvents(), mimetype="text/event-stream")
 
 
 @app.route('/', defaults={'path': ''},  methods = ['GET', 'POST', 'DELETE'])
