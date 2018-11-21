@@ -16013,7 +16013,125 @@
     "name": "solc",
     "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "4": {
+      "events": {
+        "0xab89f8739c528673d37ed462053f9daf4ebe947fc08d0ae54a254c98c13a023d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "key",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "transacting_contract",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "eth_amount",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "transaction_name",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "health_status",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "user_health_status",
+              "type": "bytes32"
+            }
+          ],
+          "name": "KeyEvent",
+          "type": "event"
+        },
+        "0x0f6798a560793a54c3bcfe86a93cde1e73087d944c0ea20544137d4121396885": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "Mint",
+          "type": "event"
+        },
+        "0xae5184fba832cb2b1f702aca6117b8d265eaf03ad33eb133f19dde0f5920fa08": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "MintFinished",
+          "type": "event"
+        },
+        "0xfaf1a2c39271cfdeecee5390aecc19469ffd226d9c8c4f339f46f50a94d169f5": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "MintReopened",
+          "type": "event"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x7a429b236e1adfbde3acdb981a413d3c870feae5",
+      "transactionHash": "0xbd5d0647f218dc0de09f05c56cb1d9ac8b67450f34764bf9c3d4b346d6d2357d"
+    }
+  },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-11-21T11:31:57.918Z"
+  "updatedAt": "2018-11-21T11:43:20.886Z"
 }
