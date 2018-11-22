@@ -469,7 +469,10 @@ class ContractFormDAO extends Component {
 
   if (this.state.mode == 'catAdd') { 
         var item=this.props.idata;
-        var url = item.href ? item.href : item.node_href + '/<catalogue_name>';
+        var url = this.state.url;
+        if (!url) {
+          url=item.href ? item.href : item.node_href + '/<catalogue_name>';
+        }
         console.log(item);
         return (
       
