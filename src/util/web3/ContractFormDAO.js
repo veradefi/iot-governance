@@ -502,7 +502,7 @@ class ContractFormDAO extends Component {
                              //var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
                              //alert(contrib);
                               this.contracts[smartNode].methods.upsertItem(this.props.idata.address, self.state.url).send( 
-                                {from: drizzleState.accounts[0], gasPrice: 1000000000
+                                {from: drizzleState.accounts[0], gasPrice: 10000000000
                                 })
                                 .then(function(val)  {
                                   //alert(val);
@@ -528,7 +528,7 @@ class ContractFormDAO extends Component {
                             }}>Save</button>
                 </div>
                 <br/>
-                <center><b><font color='orange'>1GWei Gas / Transaction</font></b></center>
+                <center><b><font color='orange'>10GWei Gas / Transaction</font></b></center>
             </div>
             );
   } 
