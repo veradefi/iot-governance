@@ -77,6 +77,7 @@
     "eth-block-tracker-es5": "^2.3.2",
     "ethereumjs-wallet": "^0.6.2",
     "jquery": "^3.3.1",
+    "qrcode.react": "^0.8.0",
     "react": "^16.4.0",
     "react-awesome-popover": "^2.0.5",
     "react-bootstrap-toggle": "^2.3.1",
@@ -155,7 +156,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://iotblock.io/", 
+  "proxy": "https://iotblock.io/",
   "proxy_dev": "http://localhost:8888/",
   "homepage": "https://iotblock.io/iotpedia"
 }

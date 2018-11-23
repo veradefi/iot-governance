@@ -407,7 +407,7 @@ render() {
                 if (this.props['showButton'] && this.props['itemName']){ 
                         return <div><button className={"form-control button3 btn btn-primary"}
                         type={"button"}
-                        style={{height:"80px"}}
+                        style={{height:"80px", width:"100%"}}
                         //style={{ maxWidth:"100px"}}
                         onClick={() => {
                             console.log(this.props.idata)
@@ -438,7 +438,7 @@ render() {
 
 
                             //self.setState({mode:'edit'});
-                        }} ><span className={"buttonText"}>Add MetaData & Health Info for <br/> {this.props.itemName} to IoTBlock</span></button>
+                        }} ><span className={"buttonText"}>Add</span></button>
                         </div>
                 }
             } else {
