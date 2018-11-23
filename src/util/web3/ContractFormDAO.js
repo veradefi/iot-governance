@@ -293,7 +293,7 @@ class ContractFormDAO extends Component {
     if (this.state.loading) {
       return (
           <li>
-              <b>Processing Contribution & Granting IOTBLOCK Tokens... Please Confirm Gas Contribution<br/></b>
+              <b>Processing Contribution & Granting IOTBLOCK Tokens... <br/></b>
           </li>
       )
    }
@@ -528,7 +528,7 @@ class ContractFormDAO extends Component {
                             }}>Save</button>
                 </div>
                 <br/>
-                <center><b><font color='orange'>10GWei Gas / Transaction</font></b></center>
+                <center><b><font color='orange'>10GWei / Transaction</font></b></center>
             </div>
             );
   } 

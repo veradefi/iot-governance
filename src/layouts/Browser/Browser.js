@@ -7,6 +7,7 @@ import MetaData from "./MetaDataDAO";
 import Catalogue from "./CatalogueDAO";
 import * as web3Utils from "../../util/web3/web3Utils";
 import Key from "../Key/Key"
+var QRCode = require('qrcode.react');
 var $ = require ('jquery');
 
 const getParameterByName = (name, url) => {
@@ -240,7 +241,14 @@ parseCatalogue = (doc) => {
         </div>
         if (this.auth) {
             this.props.showDialog(true, 
-                <div><center>Item Not Identified* ... </center><br/>
+                <div><center><h3>We recognize your device</h3></center><br/>
+
+                <center>
+                <QRCode value={this.state.search} /><br/>
+                <h3>{this.state.search}</h3>
+                <br/>
+
+                </center>
                 {itemListHTML}
                 </div>);
             self.setState({
@@ -256,7 +264,13 @@ parseCatalogue = (doc) => {
             this.props.showDialog(true, 
                 <div style={{ height: window.innerHeight * 0.9,
                     overflowY: "auto" }}>
-                <div><center><b>Item Matching ID {this.state.search} Successfully Found </b></center><br/>
+                <div><center><h3>We recognize your device</h3></center><br/>
+                <center>
+                <QRCode value={this.state.search} /><br/>
+                <h3>{this.state.search}</h3>
+                <br/>
+
+                </center>
                 <div style={{
                         display: "flex",
                         flexFlow: "row wrap",
