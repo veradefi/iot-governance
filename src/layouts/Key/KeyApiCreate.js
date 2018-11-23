@@ -142,8 +142,10 @@ render() {
                                 <div className={"col-xs-12"}>
                                           <br/>
                                           <center><label className={"title1"} style={{ fontSize: "16px" }}>
-                                          Create Smart Key API Access Token<br/>
+                                          {/*Create Smart Key API Access Token<br/>
                                           (Rinkeby Ethereum Network)
+                                          */}
+                                          <img src="images/logo.svg" />
                                           </label></center>
                                           <br/>                                                                                  
                                  </div>
@@ -160,38 +162,22 @@ render() {
                             </div>
                             */}
                             <div className={"row"}>
-                                <div className={"col-xs-4"} style={{textAlign:"right"}}>
-                        
-                                  <label 
-                                  className={"label2"}
-                                  style={{ fontSize:"12px" }}
-
-                                  >Email</label>
+                                <div className={"col-xs-12"} style={{textAlign:"left"}}>
                                   
-                                </div>
-                                <div className={"col-xs-8"} style={{textAlign:"left"}}>
-                                  
-                                  <input name="username" className={"form-control m-input m-input--air m-input--pill"}  
+                                  <input name="username" 
+                                  className={"form-control m-input m-input--air m-input--pill"}  
                                   type={"text"} id={"username"} 
-                                  placeholder={""} 
+                                  placeholder={"Email"} 
                                   />
                               
                                  </div>
                             </div>
                             <div className={"row"}>
-                                <div className={"col-xs-4"} style={{textAlign:"right"}}>
-                        
-                                  <label 
-                                  className={"label2"} 
-                                  style={{ fontSize:"12px" }}
-                                  >Select Password</label>
-                                  
-                                </div>
-                                <div className={"col-xs-8"} style={{textAlign:"left"}}>
+                                <div className={"col-xs-12"} style={{textAlign:"left"}}>
                                   
                                   <input name="password" className={"form-control m-input m-input--air m-input--pill"}  
                                   type={"password"} id={"password"} 
-                                  placeholder={""}
+                                  placeholder={"Password"}
                                   />
                                   <br/><br/>
                                  </div>
@@ -208,9 +194,12 @@ render() {
 
                                       }
                                     }
-                                  >Create Smart Key Access Token</span></button>
+                                  >Sign In</span></button>
+
+                                  {/*
                                     <br/><br/>
                                     <a href='/' className={"link2"}>Go back to home</a>
+                                  */}
                                 </div>
                             </div>
                             {/*

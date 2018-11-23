@@ -132,8 +132,10 @@ render() {
                             <center>
                                 <div className={"row"}>
                                     <div className={"col-xs-12"}>
-                                            <br/><br/>
-                                            <center><label className={"title1"}>Create Smart Key<br/>(Rinkeby Ethereum Network)</label></center>
+                                            <center><label className={"title1"}>
+                                          {/* Create Smart Key<br/>(Rinkeby Ethereum Network) */}
+                                          <img src="images/logo.svg" />
+                                            </label></center>
                                             <br/>
                                             
                                             
@@ -146,13 +148,15 @@ render() {
                                             
                                             <div className={"col-xs-12"}>
                                                 <center>
-                                                        <label className={"label2"}>Your wallet address:</label>
+                                                        <label className={"label2"}><h3>Add New Device</h3></label>
                                                 </center>
                                             </div>
                                         </div>
                                         <div className={"row"}>
                                             <div className={"col-xs-12"}>
-                                                        <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
+                                                <center>      
+                                                    
+                                                    <input name="address" className={"address_val inputbox3 form-control m-input m-input--air"}  
                                                         style={{width:"100%"}} 
                                                         type={"text"} 
                                                         id={"address"} 
@@ -161,18 +165,14 @@ render() {
                                                         onChange={() => {
                                                         }}
                                                      />
+                                                     </center>
+
                                             </div>
                                         </div>
                     
                                     </div>
                                 </div>
                                             
-                                <div className={"row"}>
-                                    <div className={"col-xs-12"} style={{textAlign:'center'}}>    
-                                        <br/>
-                                            <label className={"label3"}>1GWei Gas / Transaction needed to create Smart Key.</label>
-                                    </div>
-                                </div>
                                 <br/>
                                 
                         
@@ -187,9 +187,8 @@ render() {
                                         }
                                         className={"button3 btn btn-accent"}>
                                             <span 
-                                                className={"buttonText"}>Create Smart Key</span></button>
-                                             <br/><br/>
-                                             <a href='/' className={"link2"}>Go back to home</a>
+                                                className={"buttonText"}>Sign In</span></button>
+                                            
                                     
                                     </div>
                                 </div>
