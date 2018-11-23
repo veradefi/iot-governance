@@ -7,7 +7,7 @@ import { connect, Provider } from "react-redux";
 import ContractDAO from '../../util/web3/ContractDAO'
 import AccountDAO from '../../util/web3/AccountDAO'
 import { drizzleConnect } from 'drizzle-react'
-
+import NodeKey from "../Key/NodeKey"
 import MetaData from "./MetaDataDAO"    
 import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import { Link } from "react-router-dom";
@@ -363,8 +363,12 @@ render() {
                                         return item;
                                     })}
                                     {editLoc}
+
+                                    {item.href ? 
+                                    <NodeKey isNode={true} url={item.href} />
+                                        : null}
                                     <Button style={{width:"100%"}} raised primary onClick={() => {
-                                            self.props.closeDialog();
+                                        self.props.closeDialog();
                                         }}>Close</Button> 
                                     </div>);
                                 }}

@@ -40,7 +40,7 @@ class NodeKeyInfo extends Component {
 
     this.state = {
         loading:true,
-        transferAmt:0.1,
+        transferAmt:1,
         keyInfo:props.keyInfo,
         
     };
@@ -280,6 +280,33 @@ fill_page2_transactions_load_more = ()  => {
 }    
 
 
+get_transfer_node_eth_drizzle = (beneficiary, amount) => {
+    var self=this;
+    $('#eth_transfer').hide();
+    $('#eth_transfer_loading').show();
+    var drizzleState=this.context.drizzle.store.getState()
+    var smartNode="SmartKey";
+        
+    var amount=Math.round(parseFloat(amount));
+    var sender=self.state.key_addr;
+
+    this.contracts[smartNode].methods.transferFromKey(amount, sender, beneficiary, false).send(
+    {from: drizzleState.accounts[0],  gasPrice:1000000000
+    })
+    .then(function(address)  {
+        $('#eth_transfer').show();
+        $('#eth_transfer_loading').hide();
+
+    }).catch(function(error) {
+        self.setState({loading:false})
+            
+        alert("Could not complete transaction")
+        alert(error);
+        console.log(error);
+    });
+
+ }
+
 get_transfer_node_eth = (beneficiary, amount) => {
     var self=this;
     var href=this.state.keyInfo.url;
@@ -380,8 +407,7 @@ setHealth = (health) => {
     var drizzle=this.context.drizzle;
     
     this.props.addContract(drizzle, cfg, events, web3) 
-    self.setState({key_addr:address, loading:false});
-
+    self.setState({key_addr:address, loading:false, transferDst:this.props.accounts[0]});
 }
 
 componentDidMount() {
@@ -547,22 +573,27 @@ render() {
                                     </div>
                                 </div>    
                                 <div className={"row"}>
-                                    <div className={"col-xs-12"}>
+                                    <div className={"col-md-12"}>
                                         <center>
-                                        <label className={"title2"}>Transfer ETH</label>                            
+                                        <label className={"title2"}>Transfer IOTBLOCK Tokens</label>                            
                                         </center>
                                         <br/>
                                     </div>
                                 </div>
-                                <div id={"eth_transfer"} style={{width:"95%"}}> 
+                                <div id={"eth_transfer_loading"} style={{display:"none"}}>
+                                    <center>Transferring {this.state.transferAmt} IOTBLOCK Token to {this.state.transferDst}...<br/>
+                                    <img src="images/wait.gif" width={100} /></center>
+                                </div>
+                                <div id={"eth_transfer"} style={{width:"100%"}}> 
                                     <div className={"row"}>
                                         <div className={"col-xs-6"} style={{ textAlign: "right" }}>
-                                            <label className={"label6"}>ETH Amount:</label>
+                                            <label className={"label6"}>IOTBLOCK Amount:</label>
                                         </div>
                                         <div className={"col-xs-6"} style={{ textAlign: "left" }}>                                                
                                             <input id={"send_amt"} className={"form-control m-input m-input--air m-input--pill"} 
                                             onChange={(val) => {
-                                                this.setState({transferAmt:$('#send_amt').val()});
+                                                //alert(val.target.value);
+                                                this.setState({transferAmt:val.target.value});
                                             }} 
                                             value={this.state.transferAmt} />
                                             <br/>
@@ -575,35 +606,33 @@ render() {
                                         <div className={"col-xs-6"} style={{ textAlign: "left" }}>                                                
                                         
                                             <input id={"beneficiary"} className={"form-control address_val m-input m-input--air m-input--pill"} 
-                                            placeholder={"Beneficiary Address"} defaultValue={self.props.api_auth} />
+                                            placeholder={"Beneficiary Address"}
+                                            onChange={(val) => {
+                                                //alert(val.target.value);
+                                                this.setState({transferDst:val.target.value});
+                                            }} 
+                                            //defaultValue={userAddress}
+                                            value={this.state.transferDst} />
                                             <br/>
                                         </div>
                                     </div>
                                     <div className={"row"}>
                                         <div className={"col-xs-12"}>
-                                            <a href='#eth_transfer' 
+                                            <button 
                                                 onClick={() => {
-                                                    self.get_transfer_node_eth($('#beneficiary').val(), $('#send_amt').val());
+                                                    self.get_transfer_node_eth_drizzle(this.state.transferDst, 
+                                                        this.state.transferAmt);
                                                  }} 
-                                                 className={"button3 form-control  btn btn-primary"} 
-                                                 id={"wd_ether"}><span className={"buttonText"}>Withdraw Ether</span></a>
+                                                 className={"form-control  button3  btn btn-primary"} 
+                                                 id={"wd_ether"}><span className={"buttonText"}>Transfer IOTBLOCK Tokens</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                                 </div>
                                 ) : null }
-                                <div id={"eth_transfer_loading"} style={{display:"none"}}>
-                                    <center><img src="images/wait.gif" width={100} /></center>
-                                </div>
+                               
 
-                                { isOwner ? (
-                                <div className={"row"}>
-                                    <div className={"col-xs-12"}>
-                                        <hr/>
-                                    </div>
-                                </div>    
-
-                                 ) : null}
                                 <div id={"view_api_loading"} style={{display:"none"}}>
                                     <center><img src="images/wait.gif" width={100} /></center>
                                 </div>
@@ -771,9 +800,11 @@ render() {
                                                     }
                                                 }
                                                     />
+                                                    {/*
                                                     <div id={"events"} className={'row label8 loadmore'}>
                                                             <div className={'col-xs-12'}>
                                                             <center>
+
                                                                 <a href="#events" className={"button3 form-control btn btn-primary"} 
                                                                 onClick={() => {
                                                                     var e=0;
@@ -789,6 +820,7 @@ render() {
 
                                                             </center><br/><br/></div>
                                                         </div>
+                                                            */}
                                     </div>
                                 </div>
                             </div>
