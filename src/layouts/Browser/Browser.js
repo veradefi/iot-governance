@@ -215,6 +215,7 @@ parseCatalogue = (doc) => {
                 catalogueType={'catalogue-metadata'}
                 showAddItem={true}
                 showButton={true}
+                showDeviceUI={true}
                 itemName={this.state.search ? this.state.search : ''}
                 idata={{
                     address: doc.address,

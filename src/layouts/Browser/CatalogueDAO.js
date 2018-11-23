@@ -29,6 +29,7 @@ class CatalogueDAO extends Component {
         browse:PropTypes.func,
         showAddItem:PropTypes.bool,
         showButton:PropTypes.bool,
+        showDeviceUI:PropTypes.bool,
         itemName:PropTypes.string,
   };
   
@@ -156,7 +157,8 @@ render() {
                     
                     <ContractFormDAO
                     contract={item.address} 
-                    catAdd={true} 
+                    catAdd={true}
+                    showDeviceUI={this.props.showDeviceUI} 
                     idata={item}
                     refreshCatalogue={(res) => {
                         self.setState({idata:res, mode:'view', hideAddItem:true, showClose:true})
@@ -416,6 +418,7 @@ render() {
                                         catalogueType={'catalogue-metadata'}
                                         showAddItem={true}
                                         showButton={true}
+                                        showDeviceUI={this.props.itemName}
                                         itemName={this.props.itemName ? this.props.itemName : ''}
                                         idata={{
                                             address: self.props.idata.address,
