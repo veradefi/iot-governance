@@ -427,7 +427,7 @@ render() {
                                     <div className={"col-md-12"}>    
                                     <br/>
                                         <center>
-                                        <label className={"title2"} style={{paddingTop:"5px"}}>Smart Key Contract Address (Rinkeby Ethereum Network)</label>
+                                        <label className={"title2"} style={{paddingTop:"5px"}}>We recognize your device</label>
                                         <br/><br/>
                                         <span className={"inputbox4"}><span className={"label5"} style={{ }} id={"poolkey"}>
                                         <center>
