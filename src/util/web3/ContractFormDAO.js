@@ -7,13 +7,16 @@ import { connect, Provider } from "react-redux";
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import ContractDAO from './ContractDAO'
 import {Button} from 'react-toolbox/lib/button';
-
+var QRCode = require('qrcode.react');
 var eth1_amount=1000000000000000000;
 
 const source = {
   'urn:X-hypercat:rels:isContentType': 'urn:X-hypercat:rels:isContentType',
   'urn:X-hypercat:rels:supportsSearch': 'urn:X-hypercat:rels:supportsSearch',
-  'urn:Xhypercat:rels:hasDescription': 'urn:Xhypercat:rels:hasDescription',
+  'urn:X-hypercat:rels:hasDescription': 'urn:Xhypercat:rels:hasDescription',
+  'urn:X-hypercat:rels:hasBrand': 'urn:Xhypercat:rels:hasBrand',
+  'urn:X-hypercat:rels:hasName': 'urn:Xhypercat:rels:hasName',
+  'urn:X-hypercat:rels:hasItemID': 'urn:Xhypercat:rels:hasItemID',
   'urn:X-hypercat:rels:containsContentType':'urn:X-hypercat:rels:containsContentType',
   'urn:X-hypercat:rels:hasHomepage': 'urn:X-hypercat:rels:hasHomepage',
   'urn:X-hypercat:rels:lastUpdated':'urn:X-hypercat:rels:lastUpdated',
@@ -40,7 +43,10 @@ const source = {
 const source2 = [
   'urn:X-hypercat:rels:isContentType',
   'urn:X-hypercat:rels:supportsSearch',
-  'urn:Xhypercat:rels:hasDescription',
+  'urn:X-hypercat:rels:hasBrand',
+  'urn:X-hypercat:rels:hasName',
+  'urn:X-hypercat:rels:hasItemID',
+  'urn:X-hypercat:rels:hasDescription',
   'urn:X-hypercat:rels:containsContentType',
   'urn:X-hypercat:rels:hasHomepage',
   'urn:X-hypercat:rels:lastUpdated',
@@ -84,6 +90,7 @@ class ContractFormDAO extends Component {
     addContract:PropTypes.func.isRequired,
     contracts:PropTypes.object.isRequired,
     accounts:PropTypes.object.isRequired,
+    showDeviceUI:PropTypes.bool,
     procMetaAdd2:PropTypes.func
 };
 
@@ -178,6 +185,21 @@ class ContractFormDAO extends Component {
      
   }
 
+  getItemContract = (address) => {
+    var context=this.context;
+    var props=this.props;
+    this.contracts = context.drizzle.contracts
+    
+    var cfg=Object.assign({}, web3Utils.get_item_contract_cfg(address));
+    var events=[  ];
+    var web3=web3Utils.get_web3();
+    var drizzle=context.drizzle;
+    //this.setState({loading:false})
+    //context.drizzle.addContract({cfg, events})
+    
+    if (!(address in context.drizzle.contracts))
+      props.addContract(drizzle, cfg, events, web3) 
+  }
   getContract = () => {
     var context=this.context;
     var props=this.props;
@@ -293,12 +315,36 @@ class ContractFormDAO extends Component {
     if (this.state.loading) {
       return (
           <li>
-              <b>Processing Contribution & Granting IOTBLOCK Tokens... <br/></b>
+              <b>{this.state.loadingMessage ? this.state.loadingMessage : "Processing Contribution & Granting IOTBLOCK Tokens..."} <br/></b>
           </li>
       )
    }
-  
 
+   if (this.state.addSuccess) {
+  
+      return <div>
+     
+                <center>
+                <QRCode value={this.state.itemName} /><br/>
+                <h3>{this.state.itemName}</h3>
+                <br/>
+
+                </center>
+                <a href={this.state.next}>
+                <center><h3>Device Added!</h3></center>
+                </a>
+                <br/>
+                {/*
+                <Button label='View / Contribute Item Details' raised primary 
+                                style={{width:"100%"}}
+                                onClick={() => {
+                                  window.location=self.state.next;
+                                }}
+                                />
+                              */}
+
+                </div>
+   }
     if (this.state.mode == 'metaView') {
       return <li>
                 [ <a 
@@ -474,10 +520,138 @@ class ContractFormDAO extends Component {
           url=item.href ? item.href : item.node_href + '/<catalogue_name>';
         }
         console.log(item);
+        if (this.props.showDeviceUI) {
+          return (
+      
+            <div key={item.id + "_add"}>
+                <div style={{textAlign:'center'}}><h3>Add Item to Catalogue</h3></div>
+                <br/>
+                <input 
+                      className={ "form-control" } 
+                      style={{ height:"50px", width:"100%" }} 
+                      type="text" 
+                      value={this.state.deviceName}
+                      onChange={(e) => {
+                        self.setState({deviceName:e.target.value})
+                      }}
+                      placeholder="Device name" /> <br/>
+                <input  
+                    className={ "form-control" } 
+                    style={{ height:"50px", width:"100%" }} 
+                    type="text" placeholder="Brand" 
+                    value={this.state.deviceBrand}
+                    onChange={(e) => {
+                      self.setState({deviceBrand:e.target.value})
+                    }}
+
+                    /> <br/>
+                
+                    <button className={"form-control btn btn-primary"} 
+                             style={{ height:"50px", width:"100%" }} 
+                             type={"button"} 
+                             onClick={() => {
+                              this.setState({loading:true,loadingMessage:'Adding Item & Granting IOTBLOCK Tokens... Please Confirm Transaction...'})
+                              var drizzleState=this.context.drizzle.store.getState()
+                              var smartNode="SmartNode";
+                              var method="upsertItem";
+                              /*
+                              web3Utils.add_node(this.props.idata.address, self.state.url).then(function (node_address) {
+                                self.setState({loading:false})
+
+                                item.href=self.state.url;
+                                window.location='/iotpedia/editor?url=' + item.href;
+                              })
+                              */
+                             //var contrib=Math.round(parseFloat(self.props.eth_contrib)*eth1_amount);
+                             //alert(contrib);
+                              this.contracts[smartNode].methods.upsertItem(this.props.idata.address, self.state.url).send( 
+                                {from: drizzleState.accounts[0], gasPrice: 10000000000
+                                })
+                                .then(function(val)  {
+                                  self.contracts[self.props.idata.address].methods.getItem(self.state.url).call().
+                                    then(function(contract_address) {
+                                      self.getItemContract(contract_address);
+
+                                      setTimeout(() => {
+                                        self.setState({loading:true,loadingMessage:'Adding Device ID Metadata... Please Confirm Transaction...'})
+                                        self.contracts[contract_address].methods.upsertMetaData(
+                                          "urn:X-hypercat:rels:hasItemID",
+                                          self.props.showDeviceUI).send( 
+                                          {from: drizzleState.accounts[0],  gasPrice:1000000000
+                                          })
+                                          .then(function(val)  {
+  
+                                          self.setState({loading:true,loadingMessage:'Adding Device Name Metadata... Please Confirm Transaction...'})
+                                          self.contracts[contract_address].methods.upsertMetaData(
+                                            "urn:X-hypercat:rels:hasBrand",
+                                            self.state.deviceName).send( 
+                                            {from: drizzleState.accounts[0],  gasPrice:1000000000
+                                            })
+                                            .then(function(val)  {
+                                              self.setState({loading:true,loadingMessage:'Adding Device Brand Metadata... Please Confirm Transaction...'})
+                                              self.contracts[contract_address].methods.upsertMetaData(
+                                                "urn:X-hypercat:rels:hasName",
+                                                self.state.deviceBrand).send( 
+                                                {from: drizzleState.accounts[0],  gasPrice:1000000000
+                                                })
+                                                .then(function(val)  {
+            
+                                                      //alert(val);
+                                                      item.href=self.state.url;
+                                                      //window.location='/iotpedia/editor?auth=1&url=' + item.href;
+                                                      self.setState({loading:false, 
+                                                        addSuccess:true, 
+                                                        itemName:self.props.showDeviceUI, 
+                                                        next: '/iotpedia/editor?auth=1&url=' + item.href})
+        
+                                                    }).catch(function(error) {
+                                                      alert("Could not complete transaction")
+                                                      alert(error);
+                                                      console.log(error);
+                                                    });
+                                              }).catch(function(error) {
+                                                alert("Could not complete transaction")
+                                                alert(error);
+                                                console.log(error);
+                                              });
+        
+                                            }).catch(function(error) {
+                                              alert("Could not complete transaction")
+                                              alert(error);
+                                              console.log(error);
+                                            });
+  
+                                      }, 3000);
+                                      }).catch(function(error) {
+                                        alert("Could not complete transaction")
+                                        alert(error);
+                                        console.log(error);
+                                      });
+                              }).catch(function(error) {
+                                  alert("Could not complete transaction")
+                                  alert(error);
+                                  console.log(error);
+                                });
+                                //  graphAddr=web3.toChecksumAddress(graphAddr)
+                                //tx=smartNode.transact({ 'from': address, 'value':contrib * 3 }).upsertItem(graphAddr, href)
+                                //var item=self.state.idata;
+                                //var href=$('#' + item.id + "_new_url").val();
+                                //item.href=href;
+                                //item.item_href=href;
+                                //self.props.refreshCatalogue(item);
+                                //self.setState({idata:item, mode:'itemView', hideAddItem:true});
+                                //self.save_item(item.node_href,href,  item[this.props.catalogueType]);
+                            }}><h3>Save</h3></button>
+                <br/>
+            </div>
+            );
+
+        }
         return (
       
             <div key={item.id + "_add"}>
-                <div style={{textAlign:'left'}}><b>Add to Catalogue</b></div>
+                <div style={{textAlign:'center'}}><h3>Add Item to Catalogue</h3></div>
+                <br/>
                 <div  className={"input-group"}>
                 <textarea className={"form-control"} type={"text"} id={item.id + "_new_url"} 
                     value={url}
@@ -485,7 +659,9 @@ class ContractFormDAO extends Component {
                     self.setState({url:e.target.value});
                     //alert(url);
                   }}/>
-                    <button className={"btn btn-primary"} type={"button"} 
+                </div><br/>
+                    <button className={"form-control btn btn-primary"} type={"button"} 
+                            style={{ height:"50px", width:"100%" }} 
                             onClick={() => {
                               this.setState({loading:true})
                               var drizzleState=this.context.drizzle.store.getState()
@@ -525,10 +701,8 @@ class ContractFormDAO extends Component {
                                 //self.props.refreshCatalogue(item);
                                 //self.setState({idata:item, mode:'itemView', hideAddItem:true});
                                 //self.save_item(item.node_href,href,  item[this.props.catalogueType]);
-                            }}>Save</button>
-                </div>
+                            }}><h3>Save</h3></button>
                 <br/>
-                <center><b><font color='orange'>10GWei / Transaction</font></b></center>
             </div>
             );
   } 
