@@ -119,7 +119,7 @@ class MiniKey extends Component {
                         self.props.showDialog(true, 
                             <center>
 
-                     <textarea readonly
+                     <textarea
                      className={"auth_key"} 
                      id={'auth_api_key'}  
                      style={{ width:"100%", 
@@ -127,16 +127,18 @@ class MiniKey extends Component {
                               textAlign:'left', 
                               background:'white'}} 
                               value={this.state.address} 
-                            onChange={() => {}}/>
-                    <br/><br/>
+                            onChange={() => {}}> 
+                    </textarea>
+                    <br/>
                     <div className={"input-group"}>
                         <button   
                             onClick={() => {
                                 var txt=document.getElementById('auth_api_key');
-                                txt.focus();
+                                //txt.focus();
                                 txt.select();
                                 document.execCommand('copy')
-
+                                var tweetbtn=document.getElementById('tweetbtn');
+                                tweetbtn.focus();
                             }}  
                             style={{ width: "100%" }}
                         className={"div-control button3 btn btn-primary"} 
@@ -148,6 +150,7 @@ class MiniKey extends Component {
                     </div>
                     <br/>
                     <a class="twitter-share-button" target="_newwindow"
+                        id="tweetbtn"
                         href={"https://twitter.com/intent/tweet?text=" + this.state.address }
                         data-size="large"
                         style={{ width: "100%" }}
