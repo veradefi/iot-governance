@@ -119,8 +119,15 @@ class MiniKey extends Component {
                         self.props.showDialog(true, 
                             <center>
 
-                     <textarea className={"auth_key"} id={'auth_api_key'}  style={{width:"100%", height:"30px",textAlign:'left', background:'white'}} 
-                    value={this.state.address} onChange={() => {}}/>
+                     <textarea readonly
+                     className={"auth_key"} 
+                     id={'auth_api_key'}  
+                     style={{ width:"100%", 
+                              height:"30px",
+                              textAlign:'left', 
+                              background:'white'}} 
+                              value={this.state.address} 
+                            onChange={() => {}}/>
                     <br/><br/>
                     <div className={"input-group"}>
                         <button   
