@@ -102,7 +102,7 @@ createSmartKey = () => {
                             self.setState({loading:false})
                                 
                             alert("Could not complete transaction")
-                            alert(error);
+                            alert(error.message);
                             console.log(error);
                         }
                     });
