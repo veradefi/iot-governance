@@ -13,7 +13,7 @@ import ContractFormDAO from '../../util/web3/ContractFormDAO'
 import { Link } from "react-router-dom";
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
-
+var QRCode = require('qrcode.react');
 var $ = require ('jquery');
 
 
@@ -290,8 +290,8 @@ render() {
                 refreshCatalogue={self.refreshCatalogue}  
                 />
             return (
-                <div style={{ flex: "1 1 250px", position: "relative", height: '180px', margin: '2px'}}> 
-                    <Card style={{ height: '180px' }}>
+                <div style={{ flex: "1 1 250px", position: "relative", height: '323px', margin: '2px'}}> 
+                    <Card style={{ height: '323px' }}>
                         <pre
                         style={{
                             whiteSpace: "pre-wrap",  
@@ -304,7 +304,9 @@ render() {
                         {item.href}
                         </a>
                         </pre>      
-                            <center>                  
+                            <center>      
+                            <b>{item.address}</b><br/>
+                            <QRCode value={item.address} /><br/>
                             <span>
                                 <b>
                                 <ContractDAO contract={"SmartKey"} 
@@ -335,6 +337,8 @@ render() {
                                     ) : null}
 
                                     <center>                  
+                                    <b>{item.address}</b><br/><br/>
+                                    <QRCode value={item.address} /><br/><br/>
                                     <span>
                                         <b>
                                         The Catalogue Earned &nbsp;
