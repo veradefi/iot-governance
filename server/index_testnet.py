@@ -700,7 +700,7 @@ def metaSearch(request, data):
                 for item in items:
                     try:
                         found=False
-                        if ('address' in item and re.search(q, item['address']))
+                        if ('address' in item and re.search(q, item['address'])):
                             found=True
                         if (item['href'] and re.search(q, item['href'])):
                             found=True
