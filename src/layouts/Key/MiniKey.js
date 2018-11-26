@@ -11,7 +11,8 @@ import { drizzleConnect } from 'drizzle-react'
 import BigNumber from 'bignumber.js';
 import createKeccak from 'keccak';
 import {Button, IconButton} from 'react-toolbox/lib/button';
-
+import ImageUploader from 'react-images-upload';
+var QRCode = require('qrcode.react');
 var $ = require ('jquery');
 var eth1_amount=1000000000000000000;
 
@@ -36,13 +37,19 @@ class MiniKey extends Component {
 
     this.state = {
         loading:true,
-        transferAmt:0.1,
+        transferAmt:1,
+        pictures: []
         //keyInfo:props.keyInfo,
         
     };
     
   }
 
+  onDrop = (picture) => {
+    this.setState({
+        pictures: this.state.pictures.concat(picture),
+    });
+  }
 
   getKeyStatus = () => {
     var self=this;
@@ -91,98 +98,147 @@ class MiniKey extends Component {
     }
     return <div className={"row"}>
             <div className={"col-xs-12"}>
-                    
                     <center>
-                    <h3>My Account</h3>
+                    <QRCode value={this.state.address} /><br/>
+                    <b>{this.state.address}</b>
                     <br/>
+                    </center>
+            </div>
+                <div className={"col-xs-12 upload-btn-wrapper"}>
+            
+            <center>
+            
+            {/*
+            <ImageUploader
+                withIcon={true}
+                withLabel={false}
+                withButton={true}
+                withPreview={true}
+                //singleImage={true}
+                buttonText='Upload Image'
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+            />
+            */}
+            
+            </center>
+
+            <Button primary raised 
+            style={{ width: "100%" }}
+            onClick={() => {
+                self.props.showDialog(true, 
+                    <center>
+
+             <textarea
+             className={"auth_key"} 
+             id={'auth_api_key'}  
+             style={{ width:"100%", 
+                      height:"30px",
+                      textAlign:'left', 
+                      background:'white'}} 
+                      value={this.state.address} 
+                    onChange={() => {}}> 
+            </textarea>
+            <br/>
+            <div className={"input-group"}>
+                <button   
+                    onClick={() => {
+                        var txt=document.getElementById('auth_api_key');
+                        //txt.focus();
+                        txt.select();
+                        document.execCommand('copy')
+                        var tweetbtn=document.getElementById('tweetbtn');
+                        tweetbtn.focus();
+                    }}  
+                    style={{ width: "100%" }}
+                className={"div-control button3 btn btn-primary"} 
+                type={"button"} 
+                >
+                <span className={"buttonText"}>1. Copy Wallet Address</span>
+                </button>
+                
+            </div>
+            <br/>
+            <a className="twitter-share-button div-control button3 btn btn-primary" target="_newwindow"
+                id="tweetbtn"
+                href={"https://twitter.com/intent/tweet?text=" + this.state.address }
+                data-size="large"
+                style={{ width: "100%" }}
+                >
+                <span className={"buttonText"}>
+                2. Tweet Wallet Address on Twitter
+                </span>
+                </a>
+            <br/>
+            <br/>
+            <a className={"div-control button3 btn btn-primary"} 
+                target="_newwindow2"
+                href={"https://faucet.rinkeby.io"}
+                data-size="large"
+                style={{ width: "100%" }}
+                >
+                <span className={"buttonText"}>
+                3. Paste Tweet URL to Rinkeby Faucet
+                </span>
+                </a>
+             <br/>
+             <br/>
+             <Button primary raised 
+            style={{ width: "100%" }}
+            onClick={() => {
+                self.props.closeDialog();
+            }}>Close</Button>
+            </center>
+                    );
+            }}
+            >Deposit</Button>
+            <hr/>
+            </div>
+
+
+            <div className={"col-xs-6"}>
+                    <b>ETH Balance</b>
                     
-                    {this.state.balance ? <div><b>ETH Balance: {this.state.balance} ETH</b><br/></div> : null}
-                    <br/>
-                    <span>
-                    <b>Token Balance:
+            </div>
+            <div className={"col-xs-6"}>
+                    <div align={"right"}>
+                    <b>{this.state.balance} ETH</b>
+                    </div>
+            </div>
+            <div className={"col-xs-12"}>
+            <hr/>
+            </div>
+            <div className={"col-xs-6"}>
+                    <b>Token Balance</b>
+                    
+            </div>
+            <div className={"col-xs-6"}>
+                    <div align={"right"}>
+                    <b><span>
                     <ContractDAO contract={"SmartKey"} 
                                                         method="getBalance" 
                                                         methodArgs={[this.state.address]} 
                                                         isLocaleString={true} />
 
                                         <font size={2}> IOTBLOCK</font>
-                                        </b>                    
-                                        </span>
-                    <br/>
-                    <br/>
-                   
-                    </center>
-
-                    <Button primary raised 
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                        self.props.showDialog(true, 
-                            <center>
-
-                     <textarea
-                     className={"auth_key"} 
-                     id={'auth_api_key'}  
-                     style={{ width:"100%", 
-                              height:"30px",
-                              textAlign:'left', 
-                              background:'white'}} 
-                              value={this.state.address} 
-                            onChange={() => {}}> 
-                    </textarea>
-                    <br/>
-                    <div className={"input-group"}>
-                        <button   
-                            onClick={() => {
-                                var txt=document.getElementById('auth_api_key');
-                                //txt.focus();
-                                txt.select();
-                                document.execCommand('copy')
-                                var tweetbtn=document.getElementById('tweetbtn');
-                                tweetbtn.focus();
-                            }}  
-                            style={{ width: "100%" }}
-                        className={"div-control button3 btn btn-primary"} 
-                        type={"button"} 
-                        >
-                        <span className={"buttonText"}>1. Copy Wallet Address</span>
-                        </button>
-                        
+                                        </span></b>
                     </div>
-                    <br/>
-                    <a class="twitter-share-button" target="_newwindow"
-                        id="tweetbtn"
-                        href={"https://twitter.com/intent/tweet?text=" + this.state.address }
-                        data-size="large"
-                        style={{ width: "100%" }}
-                        className={"div-control button3 btn btn-primary"} >
-                        <span className={"buttonText"}>
-                        2. Tweet Wallet Address on Twitter
-                        </span>
-                        </a>
-                    <br/>
-                    <br/>
-                    <a class="twitter-share-button" target="_newwindow2"
-                        href={"https://faucet.rinkeby.io"}
-                        data-size="large"
-                        style={{ width: "100%" }}
-                        className={"div-control button3 btn btn-primary"} >
-                        <span className={"buttonText"}>
-                        3. Paste Tweet URL to Rinkeby Faucet
-                        </span>
-                        </a>
-                     <br/>
-                     <br/>
-                     <Button primary raised 
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                        self.props.closeDialog();
-                    }}>Close</Button>
-                    </center>
-                            );
-                    }}
-                    >Deposit</Button>
+            </div>
+            <div className={"col-xs-12 upload-btn-wrapper"}>
+                    <hr/>
+            </div>
+
+            <div className={"col-xs-6"}>
+                    <b>Currency</b>
                     
             </div>
+            <div className={"col-xs-6"}>
+                    <div align={"right"}>
+                    <b>ETH</b>
+                    </div>
+            </div>
+            
         </div>
   }
 

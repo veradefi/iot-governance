@@ -87,6 +87,7 @@
     "react-dom": "^16.1.1",
     "react-google-maps": "^9.4.5",
     "react-google-maps-loader": "^4.2.3",
+    "react-images-upload": "^1.2.3",
     "react-moment": "^0.7.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
