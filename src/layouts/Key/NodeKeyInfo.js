@@ -759,8 +759,8 @@ render() {
                                                                             'Tokens Earned','Event',
                                                                             'Transaction Health', 'Counterparty Health']} 
                                                             object_classes={['col-md-1 mini','col-md-5 mini',
-                                                                             'col-md-1 mini','col-md-1 mini',
-                                                                             'col-md-2 mini','col-md-2 mini']}
+                                                                             'col-md-1 mini','col-md-2 mini',
+                                                                             'col-md-2 mini','col-md-1 mini']}
                                                             object_values_post_process={[
                                                                 (date) => {
                                                                     var dateTime = new Date(parseInt(date) * 1000);
