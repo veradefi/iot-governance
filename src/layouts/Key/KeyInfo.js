@@ -812,9 +812,9 @@ render() {
                                                             object_labels={['Date','Counterparty Address',/*'Type',*/
                                                                             'Tokens Earned','Event',
                                                                             'Transaction Health', 'Counterparty Health']} 
-                                                            object_classes={['col-md-2','col-md-4',
-                                                                             'col-md-2','col-md-2',
-                                                                             'col-md-1','col-md-1']}
+                                                            object_classes={['col-md-1','col-md-5',
+                                                                             'col-md-1','col-md-1',
+                                                                             'col-md-2','col-md-2']}
                                                             object_values_post_process={[
                                                                 (date) => {
                                                                     var dateTime = new Date(parseInt(date) * 1000);
