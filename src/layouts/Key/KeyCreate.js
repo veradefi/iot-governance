@@ -80,7 +80,10 @@ createSmartKey = () => {
                                     self.props.closeDialog();
                                     self.props.callback( web3Utils.get_address());
                                     
+                            }).catch(function (error) {
+                                alert(error);
                             });
+                    
                     }).catch(function(error) {
                         if (error.toString().match("32601") || error.toString().match("Method not found")) {
                             self.contracts[smartNode].methods.getSmartKey(beneficiary).call(
@@ -90,7 +93,10 @@ createSmartKey = () => {
                                         self.props.closeDialog();
                                         self.props.callback( web3Utils.get_address());
                                         
+                                }).catch(function (error) {
+                                    alert(error);
                                 });
+                        
                       
                         } else {
                             self.setState({loading:false})

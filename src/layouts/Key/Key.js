@@ -120,6 +120,7 @@ page2_api = (auth, auth_info, key_address)  => {
     var self=this;
    //$('#page2').show();
     this.setState({
+        loading:false,
         keyAddress:key_address
     });
 

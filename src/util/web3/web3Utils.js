@@ -91,9 +91,9 @@ export const create_wallet = (eth_salt, call_back) => {
     
             engine.addProvider(new WalletSubprovider(wallet, {}));
             
-            //engine.addProvider(new RpcSubprovider({
-            //    rpcUrl: providerUrl,
-            //}))
+            engine.addProvider(new RpcSubprovider({
+                rpcUrl: providerUrl,
+            }))
             
             var subP=new SubSubprovider();
             subP.on('data', (err, notification) => {
@@ -434,16 +434,24 @@ export const get_keyAuth = (beneficiary, cb) =>
                                   console.log('API Key', res.toString().toLowerCase());
                                   cb(beneficiary, res.toString().toLowerCase(), keyAddress.toLowerCase());
                                   
+                           }).catch(function (err) {
+                            alert(err)
                            });
+                       }).catch(function (err) {
+                        alert(err)
                        });
                       } else {
                                  console.log("API Key not found");
                                  console.log(cb);
                                  cb(beneficiary, '', '');
-                      }
+                      } 
                           
-                  });                
+                  }).catch(function (err) {
+                    alert(err)
+                  });;                
                   
+         }).catch(function (err) {
+             alert(err)
          });
   
           
