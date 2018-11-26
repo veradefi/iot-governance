@@ -13,7 +13,7 @@ import BigNumber from 'bignumber.js';
 import createKeccak from 'keccak';
 import shajs from 'sha.js'
 import {providerUrl, wsUrl} from '../../providerOptions'
-Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
+//Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
 
  
   
@@ -91,9 +91,9 @@ export const create_wallet = (eth_salt, call_back) => {
     
             engine.addProvider(new WalletSubprovider(wallet, {}));
             
-            engine.addProvider(new RpcSubprovider({
-                rpcUrl: providerUrl,
-            }))
+            //engine.addProvider(new RpcSubprovider({
+            //    rpcUrl: providerUrl,
+            //}))
             
             var subP=new SubSubprovider();
             subP.on('data', (err, notification) => {
