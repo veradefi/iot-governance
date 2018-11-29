@@ -67,7 +67,7 @@ contract SmartKey is MintableToken
     }
 		    
     // @return true if the transaction can buy tokens
-    function validPurchase() internal pure returns (bool) 
+    function validPurchase() internal view returns (bool) 
     {
         return msg.value >= 0;
     }
