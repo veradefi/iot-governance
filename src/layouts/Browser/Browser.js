@@ -209,6 +209,7 @@ parseCatalogue = (doc) => {
             })
            
     if (doc.items.length < 1) {
+        
         itemListHTML=<div>
             <center>
             <Catalogue 

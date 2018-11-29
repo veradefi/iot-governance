@@ -7,6 +7,10 @@ import { connect, Provider } from "react-redux";
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import ContractDAO from './ContractDAO'
 import {Button} from 'react-toolbox/lib/button';
+import Geolocation from 'react-geolocation';
+import Checkbox from 'react-toolbox/lib/checkbox';
+
+
 var QRCode = require('qrcode.react');
 var eth1_amount=1000000000000000000;
 
@@ -331,7 +335,7 @@ class ContractFormDAO extends Component {
 
                 </center>
                 <a href={this.state.next}>
-                <center><h3>Device Added!</h3></center>
+                <center><h3>Catalogue Added!</h3></center>
                 </a>
                 <br/>
                 {/*
@@ -534,11 +538,11 @@ class ContractFormDAO extends Component {
                       onChange={(e) => {
                         self.setState({deviceName:e.target.value})
                       }}
-                      placeholder="Device name" /> <br/>
+                      placeholder="Name" /> <br/>
                 <input  
                     className={ "form-control" } 
                     style={{ height:"50px", width:"100%" }} 
-                    type="text" placeholder="Brand" 
+                    type="text" placeholder="Brand / Entity" 
                     value={this.state.deviceBrand}
                     onChange={(e) => {
                       self.setState({deviceBrand:e.target.value})
@@ -550,7 +554,7 @@ class ContractFormDAO extends Component {
                              style={{ height:"50px", width:"100%" }} 
                              type={"button"} 
                              onClick={() => {
-                              this.setState({loading:true,loadingMessage:'Adding Item & Granting IOTBLOCK Tokens... Please Confirm Transaction...'})
+                              this.setState({loading:true,loadingMessage:'Adding Catalogue & Granting IOTBLOCK Tokens... Please Confirm Transaction...'})
                               var drizzleState=this.context.drizzle.store.getState()
                               var smartNode="SmartNode";
                               var method="upsertItem";
@@ -573,7 +577,7 @@ class ContractFormDAO extends Component {
                                       self.getItemContract(contract_address);
 
                                       setTimeout(() => {
-                                        self.setState({loading:true,loadingMessage:'Adding Device ID Metadata... Please Confirm Transaction...'})
+                                        self.setState({loading:true,loadingMessage:'Adding ID Metadata... Please Confirm Transaction...'})
                                         self.contracts[contract_address].methods.upsertMetaData(
                                           "urn:X-hypercat:rels:hasItemID",
                                           self.props.showDeviceUI).send( 
@@ -581,14 +585,14 @@ class ContractFormDAO extends Component {
                                           })
                                           .then(function(val)  {
   
-                                          self.setState({loading:true,loadingMessage:'Adding Device Name Metadata... Please Confirm Transaction...'})
+                                          self.setState({loading:true,loadingMessage:'Adding Name Metadata... Please Confirm Transaction...'})
                                           self.contracts[contract_address].methods.upsertMetaData(
                                             "urn:X-hypercat:rels:hasBrand",
                                             self.state.deviceName).send( 
                                             {from: drizzleState.accounts[0],  gasPrice:1000000000
                                             })
                                             .then(function(val)  {
-                                              self.setState({loading:true,loadingMessage:'Adding Device Brand Metadata... Please Confirm Transaction...'})
+                                              self.setState({loading:true,loadingMessage:'Adding Brand Metadata... Please Confirm Transaction...'})
                                               self.contracts[contract_address].methods.upsertMetaData(
                                                 "urn:X-hypercat:rels:hasName",
                                                 self.state.deviceBrand).send( 
@@ -948,6 +952,36 @@ class ContractFormDAO extends Component {
                               self.props.setLng(val);
                           }}
                           value={self.props.lng} />   
+              </div>
+              <div>
+              <Geolocation
+                render={({
+                  fetchingPosition,
+                  position: { coords: { latitude, longitude } = {} } = {},
+                  error,
+                  getCurrentPosition
+                }) =>
+                  <div>
+                    {error &&
+                      <div>
+                        {error.message}
+                      </div>}
+                    <Checkbox
+                      checked={this.state.useLocation}
+                      label="Use Current Position"
+                      onChange={(value) => {
+                        if (value) {
+                          self.props.setLat(latitude);
+                          self.props.setLng(longitude);                      
+                          self.setState({useLocation:true});
+    
+                        } else {
+                          self.setState({useLocation:false});
+                        }
+                      }}
+                    />
+                  </div>}
+              />
               </div>
               <center>
                   <button className={"btn btn-primary"} 

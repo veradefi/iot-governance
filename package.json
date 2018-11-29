@@ -85,6 +85,7 @@
     "react-dnd-html5-backend": "^2.5.4",
     "react-dnd-touch-backend": "^0.4.0",
     "react-dom": "^16.1.1",
+    "react-geolocation": "^1.0.4",
     "react-google-maps": "^9.4.5",
     "react-google-maps-loader": "^4.2.3",
     "react-images-upload": "^1.2.3",

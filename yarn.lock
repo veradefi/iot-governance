@@ -8747,6 +8747,11 @@ react-flip-move@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.3.tgz#3065b0b9e622ae73953aba725f8feed8e4643667"
   integrity sha512-gR2jvjUgIXI7ceFWJkr8owX4vKhV0IJoXIf/Dt7gESFe5OKiSz2H6d10mKTW8fN134NDI16J4HgEgq9pKqJd5A==
 
+react-geolocation@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-geolocation/-/react-geolocation-1.0.4.tgz#493f3ff1b8f89398cad0fb1001672a9611438e3d"
+  integrity sha512-4j5vejxE5wvELp/L+024FX9xYF6lC+gc/PPPsptHGQIJtrGYpvbAEOlmApwUlBV+H+1dG8CjL339kflXxBTBcg==
+
 react-google-maps-loader@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/react-google-maps-loader/-/react-google-maps-loader-4.2.3.tgz#cec58bce81399d433d68f0f6a82617c62957ffef"
