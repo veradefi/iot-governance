@@ -145,6 +145,10 @@ class ContractDAO extends Component {
         displayData=this.props.value_post_process(displayData)
         return displayData;
     }
+    if (this.props.value_methodArgs_post_process) {
+      displayData=this.props.value_methodArgs_post_process(displayData, this.props.methodArgs)
+      return displayData;
+    }
     if (this.props.morris) {
         if(!(this.dataKey2 in this.props.contracts[this.props.contract][this.props.method2])) {
             return (

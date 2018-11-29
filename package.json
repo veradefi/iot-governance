@@ -159,6 +159,6 @@
     "extends": "react-app"
   },
   "proxy": "https://iotblock.io/",
-  "proxy_dev": "http://localhost:8888/",
+  "proxy_div": "http://localhost:8888/",
   "homepage": "https://iotblock.io/iotpedia"
 }

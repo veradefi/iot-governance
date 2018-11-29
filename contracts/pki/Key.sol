@@ -139,7 +139,7 @@ contract Key is Ownable {
         state = State.Active;
         //activated[msg.sender] = activated[msg.sender].add(msg.value);     
         contrib_amount=contrib_amount.add(msg.value);    
-        transactions[user].push(transaction(msg.sender,now,msg.value, 0));
+        //transactions[user].push(transaction(msg.sender,now,msg.value, 0));
    }
 
     

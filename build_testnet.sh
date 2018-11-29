@@ -4,8 +4,9 @@ PATH=./node_modules/.bin:$PATH
 export PATH
 #ganache-cli -p 9545 -i 4447 -e 1000 &
 
-#rm -fr bin/*
-#rm -fr build/*
+rm -fr bin/*
+rm -fr build/*
+rm -fr src/solc/contracts/*
 truffle compile
 truffle migrate --reset --network development
 cp -pR build/contracts/* src/solc/contracts/

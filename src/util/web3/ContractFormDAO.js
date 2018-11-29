@@ -1,34 +1,17 @@
 import { drizzleConnect } from 'drizzle-react'
-
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types'
-
 import * as web3Utils from "../../util/web3/web3Utils";
-
 import * as actions from "../../store/actions";
-
 import { connect, Provider } from "react-redux";
-
 import Autocomplete from 'react-toolbox/lib/autocomplete';
-
 import ContractDAO from './ContractDAO'
-
 import {Button} from 'react-toolbox/lib/button';
-
 import Geolocation from 'react-geolocation';
-
 import Checkbox from 'react-toolbox/lib/checkbox';
 
-
-
-
-
 var QRCode = require('qrcode.react');
-
 var eth1_amount=1000000000000000000;
-
-
 
 const source = {
 
@@ -704,7 +687,7 @@ class ContractFormDAO extends Component {
 
       return <li>
 
-                [ <a 
+                [&nbsp; <a 
 
                     href={'JavaScript:'}
 
@@ -717,10 +700,56 @@ class ContractFormDAO extends Component {
                     Edit 
 
                   </a> 
+                &nbsp;
+                ]&nbsp;
+                {mdata.address ? <span>[ <a 
 
-                ] &nbsp; 
+                href={'JavaScript:'}
 
-                {mdata.rel} <pre style={{width:"88%", whiteSpace: "pre-wrap" }}>{mdata.val}</pre>
+                onClick={() => {
+
+                    self.props.showDialog2(true, 
+                      <div>
+                        <center><h3>Metadata Values History</h3></center>
+                      <ContractDAO contract={mdata.address} 
+                                                    method="getValHistoryCount"
+                                                    methodArgs={[]}
+                                                    //method="decimals"
+                                                    value_post_process={(val)=> {
+                                                        var items=[];
+                                                        for (var i=val -1; i>= 0; i--) {
+                                                            var idx=i;
+                                                            
+                                                            items.push(<ContractDAO key={idx} contract={mdata.address} 
+                                                            method="val_history" 
+                                                            methodArgs={[idx]}
+                                                            value_methodArgs_post_process={(value, methodArgs)=> {
+                                                                    return <div>Revision {parseInt(methodArgs[0]) + 1}: <b>{value}</b></div>;
+                                                                }}
+                                                            />);
+                                                        }
+                                                        return items;
+                                                    }
+                                                }
+                                                    />
+                                                    <br/>
+                            <Button style={{width:"100%"}} raised primary onClick={() => {
+                                self.props.closeDialog2();
+                            }}>Close</Button> 
+
+                      </div>
+                      )
+
+                }}> 
+
+                View Revision History
+
+                </a> 
+
+                 &nbsp;]</span>
+                : null} <br/>
+
+                <b>{mdata.rel}</b><br/> <pre style={{width:"88%", whiteSpace: "pre-wrap" }}>{mdata.val}</pre>
 
 
 

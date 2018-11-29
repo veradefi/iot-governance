@@ -37,7 +37,7 @@ def getContract(item, network, address=None, prefix=""):
     conf=conf_c(address)
     return conf
 
-network='4777'
+network='4447'
 port='9545'
 
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))

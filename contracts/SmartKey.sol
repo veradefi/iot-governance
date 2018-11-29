@@ -107,14 +107,14 @@ contract SmartKey is MintableToken
             //require(address(key) != address(0));
             //require(validPurchase());
             
-            if (address(key) == address(0) || smartKeys[transacting_contract] == address(0)) 
+            if (address(key) == address(0) || smartKeys[msg.sender] == address(0)) 
             {
-                key = new Key(this, transacting_contract); 
-                smartKeys[transacting_contract]=key;
+                key = new Key(this, msg.sender); 
+                smartKeys[msg.sender]=key;
             }
             
             bytes32 healthStatus=key.getHealthStatus();
-            bytes32 userHealthStatus=smartKeys[transacting_contract].getHealthStatus();
+            bytes32 userHealthStatus=smartKeys[msg.sender].getHealthStatus();
 
             KeyEvent(address(key), transacting_contract, token, transaction_name, healthStatus, userHealthStatus);
             events[address(key)].push(event_transaction(transacting_contract,now, token, transaction_name, healthStatus, userHealthStatus));                        
@@ -127,9 +127,13 @@ contract SmartKey is MintableToken
             tokenMinted = tokenMinted + token; //.add(token);
             balances[address(transacting_contract)] = balances[address(transacting_contract)].add(token);
             Transfer(address(0), address(transacting_contract), token);
-            
+
+            tokenMinted = tokenMinted + token; //.add(token);
+            balances[address(msg.sender)] = balances[address(msg.sender)].add(token);
+            Transfer(address(0), address(msg.sender), token);
+
             //mint(address(key), token);
-            key.activateKey.value(msg.value)(address(transacting_contract));
+            key.activateKey.value(msg.value)(address(key));
             
             return true;
     }

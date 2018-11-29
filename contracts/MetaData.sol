@@ -30,6 +30,14 @@ contract MetaData is Administered {
       
       return true;
   }
+
+  function getValHistoryCount()
+  view
+  public
+  returns (uint256)
+  {
+    return val_history.length;
+  }
   
 
 }

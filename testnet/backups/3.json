@@ -1,0 +1,121 @@
+{
+    "catalogue-metadata": [
+        {
+            "val": "urn:X-hypercat:search:simple", 
+            "rel": "urn:X-hypercat:rels:supportsSearch", 
+            "address": "0x409Ba3dd291bb5D48D5B4404F5EFa207441F6CbA"
+        }, 
+        {
+            "val": "2018-06-14", 
+            "rel": "urn:X-space:rels:launchDate", 
+            "address": "0x9A3B7C7EBcE69ebfab795cd28Dbc7172B93f88F3"
+        }, 
+        {
+            "val": "2018-06-141T06:53:05Z", 
+            "rel": "urn:X-hypercat:rels:lastUpdated", 
+            "address": "0x3f363A6145F0Cb7AD64dF8F2d5CFEc638186931a"
+        }, 
+        {
+            "val": "78.47609815628121", 
+            "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat", 
+            "address": "0x00654b24ae1725a32A35E9547e0bE171644D59d4"
+        }, 
+        {
+            "val": "-39.99203727636359", 
+            "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long", 
+            "address": "0x4833B47d68C1f74bb30E8cF18352096bcb8EFA5c"
+        }, 
+        {
+            "val": "application/vnd.hypercat.catalogue+json", 
+            "rel": "urn:X-hypercat:rels:isContentType", 
+            "address": "0xC17d94a1c0d42fDFfbeda174706298A852beE829"
+        }, 
+        {
+            "val": "", 
+            "rel": "urn:X-hypercat:rels:hasDescription:en", 
+            "address": "0xf354b45011FD380d7A9A67A2Ef7e3a0Daf74F4B9"
+        }, 
+        {
+            "val": "1", 
+            "rel": "urn:X-hypercat:rels:health", 
+            "address": "0xF25d3CE75C36d30b36cD21C633ed0Dc64A8A5dEE"
+        }, 
+        {
+            "val": "Certified", 
+            "rel": "urn:X-hypercat:rels:healthStatus", 
+            "address": "0xBB6456D1c6C8856162dAFfc388286387170073FE"
+        }, 
+        {
+            "val": "https://www.youtube.com/watch?v=i41qWJ6QjPI", 
+            "rel": "urn:X-hypercat:rels:Media:1", 
+            "address": "0x842116D41704622F9095C8e103ddb10590f26e5f"
+        }
+    ], 
+    "items": [
+        {
+            "items": [
+                {
+                    "href": "https://iotblock.io/cat/StandardIndustrialClassification/BarCodes", 
+                    "item-metadata": [], 
+                    "address": "0xB92AD002944Ae85008dB2d6F478aA6C6eD03c399"
+                }
+            ], 
+            "href": "https://iotblock.io/cat/StandardIndustrialClassification", 
+            "item-metadata": [
+                {
+                    "val": "urn:X-hypercat:search:simple", 
+                    "rel": "urn:Xhypercat:rels:supportsSearch", 
+                    "address": "0x5333a5E8802f1116b35E5BEB9214039A9e01e107"
+                }, 
+                {
+                    "val": "2018-08-22", 
+                    "rel": "urn:X-space:rels:launchDate", 
+                    "address": "0x8AB08F4A885EBe7c5F99F0d2b80d47ca5696a31F"
+                }, 
+                {
+                    "val": "2018-10-301T17:43:58Z", 
+                    "rel": "urn:X-hypercat:rels:lastUpdated", 
+                    "address": "0xaF9b7c13D2a4F23a0dED588b99Bc00204EB6d197"
+                }, 
+                {
+                    "val": "51.508775", 
+                    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#lat", 
+                    "address": "0x59207Af52bF790Fe3Ca14a9C2DD9F66309830E2E"
+                }, 
+                {
+                    "val": "-0.116993", 
+                    "rel": "http://www.w3.org/2003/01/geo/wgs84_pos#long", 
+                    "address": "0xD1581aC39bE496888AE691a5AA014F7BEf02F91D"
+                }, 
+                {
+                    "val": "application/vnd.hypercat.catalogue+json", 
+                    "rel": "urn:X-hypercat:rels:isContentType", 
+                    "address": "0x80f2d27289B070BdeA25bac190148881b4b4C018"
+                }, 
+                {
+                    "val": "", 
+                    "rel": "urn:X-hypercat:rels:hasDescription:en", 
+                    "address": "0x6A397EBFA79BD07a0fdb1e3C4d16DB21c1A20aE4"
+                }, 
+                {
+                    "val": "metaData2", 
+                    "rel": "1", 
+                    "address": "0x6BAb0C2bEE6588eB84d3937673e6F7AE2b242fe4"
+                }, 
+                {
+                    "val": "https://www.ons.gov.uk/methodology/classificationsandstandards/ukstandardindustrialclassificationofeconomicactivities", 
+                    "rel": "urn:X-hypercat:rels:hasHomepage", 
+                    "address": "0xcb706D564289d2C83f4Def2b98f6e91563A6AED1"
+                }
+            ], 
+            "address": "0x440B7f9b667420af04e88d4dA0B9122E05cCa5A0"
+        }, 
+        {
+            "items": [], 
+            "href": "https://iotblock.io/cat/StandardIndustrialClassification/BarCodes", 
+            "item-metadata": [], 
+            "address": "0xB92AD002944Ae85008dB2d6F478aA6C6eD03c399"
+        }
+    ], 
+    "address": "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4"
+}
