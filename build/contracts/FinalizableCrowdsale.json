@@ -350,9 +350,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\nimport '../math/SafeMath.sol';\nimport '../admin/Administered.sol';\nimport './Crowdsale.sol';\n\n/**\n * @title FinalizableCrowdsale\n * @dev Extension of Crowsdale where an owner can do extra work\n * after finishing. \n */\n \ncontract FinalizableCrowdsale is Crowdsale {\n  using SafeMath for uint256;\n\n  bool public isFinalized = false;\n\n  event Finalized();\n\n  /**\n   * @dev Must be called after crowdsale ends, to do some extra finalization\n   * work. Calls the contract's finalization function.\n   */\n  function finalize() \n  public\n  onlyAdmin \n  {\n    require(!isFinalized);\n    require(hasEnded());\n\n    finalization();\n    Finalized();\n    \n    isFinalized = true;\n  }\n\n  /**\n   * @dev Can be overriden to add finalization logic. The overriding function\n   * should call super.finalization() to ensure the chain of finalization is\n   * executed entirely.\n   */\n  function finalization()\n  pure\n  internal {\n  }\n  \n}\n",
-  "sourcePath": "/windata/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
+  "sourcePath": "/home/ubuntu/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
   "ast": {
-    "absolutePath": "/windata/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
+    "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
     "exportedSymbols": {
       "FinalizableCrowdsale": [
         2146
@@ -373,7 +373,7 @@
         "src": "0:24:15"
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 2103,
         "nodeType": "ImportDirective",
@@ -384,7 +384,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 2104,
         "nodeType": "ImportDirective",
@@ -395,7 +395,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 2105,
         "nodeType": "ImportDirective",
@@ -408,7 +408,7 @@
       {
         "baseContracts": [
           {
-            "arguments": [],
+            "arguments": null,
             "baseName": {
               "contractScope": null,
               "id": 2106,
@@ -514,6 +514,7 @@
           },
           {
             "anonymous": false,
+            "documentation": null,
             "id": 2115,
             "name": "Finalized",
             "nodeType": "EventDefinition",
@@ -575,8 +576,11 @@
                       "id": 2120,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "647:7:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -646,8 +650,11 @@
                       "id": 2125,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "674:7:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -795,13 +802,14 @@
                 }
               ]
             },
+            "documentation": "@dev Must be called after crowdsale ends, to do some extra finalization\nwork. Calls the contract's finalization function.",
             "id": 2141,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": [],
+                "arguments": null,
                 "id": 2118,
                 "modifierName": {
                   "argumentTypes": null,
@@ -848,6 +856,7 @@
               "src": "1002:5:15",
               "statements": []
             },
+            "documentation": "@dev Can be overriden to add finalization logic. The overriding function\nshould call super.finalization() to ensure the chain of finalization is\nexecuted entirely.",
             "id": 2145,
             "implemented": true,
             "isConstructor": false,
@@ -882,7 +891,7 @@
     "src": "0:1013:15"
   },
   "legacyAST": {
-    "absolutePath": "/windata/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
+    "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/FinalizableCrowdsale.sol",
     "exportedSymbols": {
       "FinalizableCrowdsale": [
         2146
@@ -903,7 +912,7 @@
         "src": "0:24:15"
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 2103,
         "nodeType": "ImportDirective",
@@ -914,7 +923,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 2104,
         "nodeType": "ImportDirective",
@@ -925,7 +934,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 2105,
         "nodeType": "ImportDirective",
@@ -938,7 +947,7 @@
       {
         "baseContracts": [
           {
-            "arguments": [],
+            "arguments": null,
             "baseName": {
               "contractScope": null,
               "id": 2106,
@@ -1044,6 +1053,7 @@
           },
           {
             "anonymous": false,
+            "documentation": null,
             "id": 2115,
             "name": "Finalized",
             "nodeType": "EventDefinition",
@@ -1105,8 +1115,11 @@
                       "id": 2120,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "647:7:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1176,8 +1189,11 @@
                       "id": 2125,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "674:7:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1325,13 +1341,14 @@
                 }
               ]
             },
+            "documentation": "@dev Must be called after crowdsale ends, to do some extra finalization\nwork. Calls the contract's finalization function.",
             "id": 2141,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": [],
+                "arguments": null,
                 "id": 2118,
                 "modifierName": {
                   "argumentTypes": null,
@@ -1378,6 +1395,7 @@
               "src": "1002:5:15",
               "statements": []
             },
+            "documentation": "@dev Can be overriden to add finalization logic. The overriding function\nshould call super.finalization() to ensure the chain of finalization is\nexecuted entirely.",
             "id": 2145,
             "implemented": true,
             "isConstructor": false,
@@ -1413,9 +1431,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.0",
-  "updatedAt": "2018-11-29T11:26:50.502Z"
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-11-29T11:36:52.809Z"
 }

@@ -55,14 +55,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b60016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff02191690831515021790555061037b806100756000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063173825d91461005c5780632f54bf6e146100955780637065cb48146100e6575b600080fd5b341561006757600080fd5b610093600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061011f565b005b34156100a057600080fd5b6100cc600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610227565b604051808215151515815260200191505060405180910390f35b34156100f157600080fd5b61011d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610247565b005b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561017657600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156101cd57600080fd5b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff02191690831515021790555050565b60006020528060005260406000206000915054906101000a900460ff1681565b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561029e57600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156102f557600080fd5b60016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff021916908315150217905550505600a165627a7a723058207256676128b1954ff2be45b356f7d751708b727454e425bdfc0e5fafc139abb20029",
-  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063173825d91461005c5780632f54bf6e146100955780637065cb48146100e6575b600080fd5b341561006757600080fd5b610093600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061011f565b005b34156100a057600080fd5b6100cc600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610227565b604051808215151515815260200191505060405180910390f35b34156100f157600080fd5b61011d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610247565b005b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561017657600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156101cd57600080fd5b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff02191690831515021790555050565b60006020528060005260406000206000915054906101000a900460ff1681565b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561029e57600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156102f557600080fd5b60016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff021916908315150217905550505600a165627a7a723058207256676128b1954ff2be45b356f7d751708b727454e425bdfc0e5fafc139abb20029",
-  "sourceMap": "217:679:18:-;;;401:61;;;;;;;;453:4;433:7;:19;441:10;433:19;;;;;;;;;;;;;;;;:24;;;;;;;;;;;;;;;;;;217:679;;;;;;",
-  "deployedSourceMap": "217:679:18:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;757:136;;;;;;;;;;;;;;;;;;;;;;;;;;;;238:40;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;621:132;;;;;;;;;;;;;;;;;;;;;;;;;;;;757:136;577:7;:19;585:10;577:19;;;;;;;;;;;;;;;;;;;;;;;;;569:28;;;;;;;;837:7;:19;845:10;837:19;;;;;;;;;;;;;;;;;;;;;;;;;829:28;;;;;;;;883:5;867:7;:15;875:6;867:15;;;;;;;;;;;;;;;;:21;;;;;;;;;;;;;;;;;;757:136;:::o;238:40::-;;;;;;;;;;;;;;;;;;;;;;:::o;621:132::-;577:7;:19;585:10;577:19;;;;;;;;;;;;;;;;;;;;;;;;;569:28;;;;;;;;698:7;:19;706:10;698:19;;;;;;;;;;;;;;;;;;;;;;;;;690:28;;;;;;;;744:4;728:7;:15;736:6;728:15;;;;;;;;;;;;;;;;:20;;;;;;;;;;;;;;;;;;621:132;:::o",
+  "bytecode": "0x608060405234801561001057600080fd5b5060016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff021916908315150217905550610399806100776000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063173825d91461005c5780632f54bf6e1461009f5780637065cb48146100fa575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061013d565b005b3480156100ab57600080fd5b506100e0600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610245565b604051808215151515815260200191505060405180910390f35b34801561010657600080fd5b5061013b600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610265565b005b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561019457600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156101eb57600080fd5b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff02191690831515021790555050565b60006020528060005260406000206000915054906101000a900460ff1681565b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156102bc57600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561031357600080fd5b60016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff021916908315150217905550505600a165627a7a7230582031209e83f7bfd5665cde2ebe25c34dc2dc572c7e0850897eaa16a0bd340322240029",
+  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063173825d91461005c5780632f54bf6e1461009f5780637065cb48146100fa575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061013d565b005b3480156100ab57600080fd5b506100e0600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610245565b604051808215151515815260200191505060405180910390f35b34801561010657600080fd5b5061013b600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610265565b005b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561019457600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156101eb57600080fd5b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff02191690831515021790555050565b60006020528060005260406000206000915054906101000a900460ff1681565b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff1615156102bc57600080fd5b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151561031357600080fd5b60016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff021916908315150217905550505600a165627a7a7230582031209e83f7bfd5665cde2ebe25c34dc2dc572c7e0850897eaa16a0bd340322240029",
+  "sourceMap": "217:679:18:-;;;401:61;8:9:-1;5:2;;;30:1;27;20:12;5:2;401:61:18;453:4;433:7;:19;441:10;433:19;;;;;;;;;;;;;;;;:24;;;;;;;;;;;;;;;;;;217:679;;;;;;",
+  "deployedSourceMap": "217:679:18:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;757:136;;8:9:-1;5:2;;;30:1;27;20:12;5:2;757:136:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;238:40;;8:9:-1;5:2;;;30:1;27;20:12;5:2;238:40:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;621:132;;8:9:-1;5:2;;;30:1;27;20:12;5:2;621:132:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;757:136;577:7;:19;585:10;577:19;;;;;;;;;;;;;;;;;;;;;;;;;569:28;;;;;;;;837:7;:19;845:10;837:19;;;;;;;;;;;;;;;;;;;;;;;;;829:28;;;;;;;;883:5;867:7;:15;875:6;867:15;;;;;;;;;;;;;;;;:21;;;;;;;;;;;;;;;;;;757:136;:::o;238:40::-;;;;;;;;;;;;;;;;;;;;;;:::o;621:132::-;577:7;:19;585:10;577:19;;;;;;;;;;;;;;;;;;;;;;;;;569:28;;;;;;;;698:7;:19;706:10;698:19;;;;;;;;;;;;;;;;;;;;;;;;;690:28;;;;;;;;744:4;728:7;:15;736:6;728:15;;;;;;;;;;;;;;;;:20;;;;;;;;;;;;;;;;;;621:132;:::o",
   "source": "pragma solidity ^0.4.18;\n\n\n/**\n * @title Ownable\n * @dev The Ownable contract has an owner address, and provides basic authorization control\n * functions, this simplifies the implementation of \"user permissions\".\n */\ncontract Ownable {\n  mapping (address => bool) public isOwner;\n \n\n  /**\n   * @dev The Ownable constructor sets the original `owner` of the contract to the sender\n   * account.\n   */\n  function Ownable() public {\n    isOwner[msg.sender]=true;\n  }\n\n  /**\n   * @dev Throws if called by any account other than the owner.\n   */\n  modifier onlyOwner() {\n    require(isOwner[msg.sender]);\n    \n    _;\n  }\n\n  \n  function addOwner(address _owner) \n  public\n  onlyOwner \n  {\n        require(isOwner[msg.sender]);\n        isOwner[_owner]=true;\n  }\n\n  function removeOwner(address _owner) \n  public\n  onlyOwner \n  {\n        require(isOwner[msg.sender]);\n        isOwner[_owner]=false;\n  }\n\n}\n",
-  "sourcePath": "/windata/iotblock/contracts/ownership/Ownable.sol",
+  "sourcePath": "/home/ubuntu/iotblock/contracts/ownership/Ownable.sol",
   "ast": {
-    "absolutePath": "/windata/iotblock/contracts/ownership/Ownable.sol",
+    "absolutePath": "/home/ubuntu/iotblock/contracts/ownership/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [
         2386
@@ -178,7 +178,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4971,
+                          "referencedDeclaration": 4974,
                           "src": "441:3:18",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -242,6 +242,7 @@
                 }
               ]
             },
+            "documentation": "@dev The Ownable constructor sets the original `owner` of the contract to the sender\naccount.",
             "id": 2332,
             "implemented": true,
             "isConstructor": true,
@@ -302,7 +303,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4971,
+                            "referencedDeclaration": 4974,
                             "src": "585:3:18",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -345,8 +346,11 @@
                       "id": 2334,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "569:7:18",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -378,6 +382,7 @@
                 }
               ]
             },
+            "documentation": "@dev Throws if called by any account other than the owner.",
             "id": 2343,
             "name": "onlyOwner",
             "nodeType": "ModifierDefinition",
@@ -424,7 +429,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4971,
+                            "referencedDeclaration": 4974,
                             "src": "706:3:18",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -467,8 +472,11 @@
                       "id": 2350,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "690:7:18",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -573,13 +581,14 @@
                 }
               ]
             },
+            "documentation": null,
             "id": 2364,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": [],
+                "arguments": null,
                 "id": 2348,
                 "modifierName": {
                   "argumentTypes": null,
@@ -680,7 +689,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4971,
+                            "referencedDeclaration": 4974,
                             "src": "845:3:18",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -723,8 +732,11 @@
                       "id": 2371,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "829:7:18",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -829,13 +841,14 @@
                 }
               ]
             },
+            "documentation": null,
             "id": 2385,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": [],
+                "arguments": null,
                 "id": 2369,
                 "modifierName": {
                   "argumentTypes": null,
@@ -910,7 +923,7 @@
     "src": "0:897:18"
   },
   "legacyAST": {
-    "absolutePath": "/windata/iotblock/contracts/ownership/Ownable.sol",
+    "absolutePath": "/home/ubuntu/iotblock/contracts/ownership/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [
         2386
@@ -1026,7 +1039,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4971,
+                          "referencedDeclaration": 4974,
                           "src": "441:3:18",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1090,6 +1103,7 @@
                 }
               ]
             },
+            "documentation": "@dev The Ownable constructor sets the original `owner` of the contract to the sender\naccount.",
             "id": 2332,
             "implemented": true,
             "isConstructor": true,
@@ -1150,7 +1164,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4971,
+                            "referencedDeclaration": 4974,
                             "src": "585:3:18",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1193,8 +1207,11 @@
                       "id": 2334,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "569:7:18",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1226,6 +1243,7 @@
                 }
               ]
             },
+            "documentation": "@dev Throws if called by any account other than the owner.",
             "id": 2343,
             "name": "onlyOwner",
             "nodeType": "ModifierDefinition",
@@ -1272,7 +1290,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4971,
+                            "referencedDeclaration": 4974,
                             "src": "706:3:18",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1315,8 +1333,11 @@
                       "id": 2350,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "690:7:18",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1421,13 +1442,14 @@
                 }
               ]
             },
+            "documentation": null,
             "id": 2364,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": [],
+                "arguments": null,
                 "id": 2348,
                 "modifierName": {
                   "argumentTypes": null,
@@ -1528,7 +1550,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4971,
+                            "referencedDeclaration": 4974,
                             "src": "845:3:18",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1571,8 +1593,11 @@
                       "id": 2371,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 4974,
+                      "overloadedDeclarations": [
+                        4977,
+                        4978
+                      ],
+                      "referencedDeclaration": 4977,
                       "src": "829:7:18",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1677,13 +1702,14 @@
                 }
               ]
             },
+            "documentation": null,
             "id": 2385,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": [],
+                "arguments": null,
                 "id": 2369,
                 "modifierName": {
                   "argumentTypes": null,
@@ -1759,9 +1785,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.0",
-  "updatedAt": "2018-11-29T11:26:50.503Z"
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-11-29T11:36:52.810Z"
 }

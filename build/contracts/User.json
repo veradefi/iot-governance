@@ -83,14 +83,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b60405160408061024683398101604052808051906020019091908051906020019091905050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505050610180806100c66000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634b062df91461005c5780635b803637146100bd57806387b83d2f146100f6575b600080fd5b341561006757600080fd5b6100bb600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803560001916906020019091908035906020019091908035906020019091908035906020019091905050610145565b005b34156100c857600080fd5b6100f4600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061014c565b005b341561010157600080fd5b610143600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356000191690602001909190803590602001909190505061014f565b005b5050505050565b50565b5050505600a165627a7a723058208fba801ff6e26ce96d087192388fefe40c3b1a567dba2e0f44c06130a75dec790029",
-  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634b062df91461005c5780635b803637146100bd57806387b83d2f146100f6575b600080fd5b341561006757600080fd5b6100bb600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803560001916906020019091908035906020019091908035906020019091908035906020019091905050610145565b005b34156100c857600080fd5b6100f4600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061014c565b005b341561010157600080fd5b610143600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356000191690602001909190803590602001909190505061014f565b005b5050505050565b50565b5050505600a165627a7a723058208fba801ff6e26ce96d087192388fefe40c3b1a567dba2e0f44c06130a75dec790029",
-  "sourceMap": "145:421:25:-;;;206:98;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;267:4;263:3;;:8;;;;;;;;;;;;;;;;;;289:10;279:9;;:20;;;;;;;;;;;;;;;;;;206:98;;145:421;;;;;;",
-  "deployedSourceMap": "145:421:25:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;308:120;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;517:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;432:81;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;308:120;;;;;;:::o;517:41::-;;:::o;432:81::-;;;;:::o",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516040806102738339810180604052810190808051906020019092919080519060200190929190505050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050506101a4806100cf6000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634b062df91461005c5780635b803637146100cb57806387b83d2f1461010e575b600080fd5b34801561006857600080fd5b506100c9600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035600019169060200190929190803590602001909291908035906020019092919080359060200190929190505050610169565b005b3480156100d757600080fd5b5061010c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610170565b005b34801561011a57600080fd5b50610167600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803560001916906020019092919080359060200190929190505050610173565b005b5050505050565b50565b5050505600a165627a7a72305820fa5cf18c692ceb3621182b33664ffc99d3f9318193dc46c09066a36fadbb99180029",
+  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634b062df91461005c5780635b803637146100cb57806387b83d2f1461010e575b600080fd5b34801561006857600080fd5b506100c9600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035600019169060200190929190803590602001909291908035906020019092919080359060200190929190505050610169565b005b3480156100d757600080fd5b5061010c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610170565b005b34801561011a57600080fd5b50610167600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803560001916906020019092919080359060200190929190505050610173565b005b5050505050565b50565b5050505600a165627a7a72305820fa5cf18c692ceb3621182b33664ffc99d3f9318193dc46c09066a36fadbb99180029",
+  "sourceMap": "145:421:25:-;;;206:98;8:9:-1;5:2;;;30:1;27;20:12;5:2;206:98:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;267:4;263:3;;:8;;;;;;;;;;;;;;;;;;289:10;279:9;;:20;;;;;;;;;;;;;;;;;;206:98;;145:421;;;;;;",
+  "deployedSourceMap": "145:421:25:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;308:120;;8:9:-1;5:2;;;30:1;27;20:12;5:2;308:120:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;517:41;;8:9:-1;5:2;;;30:1;27;20:12;5:2;517:41:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;432:81;;8:9:-1;5:2;;;30:1;27;20:12;5:2;432:81:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;308:120;;;;;;:::o;517:41::-;;:::o;432:81::-;;;;:::o",
   "source": "import \"./Network.sol\";\nimport \"../SmartKey.sol\";\npragma solidity ^0.4.11; //We have to specify what version of the compiler this code will use\n\ncontract User {\n  \n  SmartKey key;\n  Network rsNetwork;\n  \n  function User(SmartKey _key, Network _rsNetwork) {\n      key=_key;\n      rsNetwork=_rsNetwork;\n  }\n\n  function RequestUse(address rsAddress, bytes32 rsType, uint256 _startTime, uint256 _endTime, uint256 _rate) {\n      \n  }\n\n  function EndUse(address rsAddress, bytes32 rsType, uint256 _endTime) {\n      \n  }\n\n  function GetUsage(address rsAdress) {\n  }\n  \n\n\n\n}              ",
-  "sourcePath": "/windata/iotblock/contracts/resource/User.sol",
+  "sourcePath": "/home/ubuntu/iotblock/contracts/resource/User.sol",
   "ast": {
-    "absolutePath": "/windata/iotblock/contracts/resource/User.sol",
+    "absolutePath": "/home/ubuntu/iotblock/contracts/resource/User.sol",
     "exportedSymbols": {
       "User": [
         3420
@@ -100,7 +100,7 @@
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "absolutePath": "/windata/iotblock/contracts/resource/Network.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/resource/Network.sol",
         "file": "./Network.sol",
         "id": 3367,
         "nodeType": "ImportDirective",
@@ -111,7 +111,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/SmartKey.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/SmartKey.sol",
         "file": "../SmartKey.sol",
         "id": 3368,
         "nodeType": "ImportDirective",
@@ -301,6 +301,7 @@
                 }
               ]
             },
+            "documentation": null,
             "id": 3389,
             "implemented": true,
             "isConstructor": true,
@@ -391,6 +392,7 @@
               "src": "416:12:25",
               "statements": []
             },
+            "documentation": null,
             "id": 3403,
             "implemented": true,
             "isConstructor": false,
@@ -555,6 +557,7 @@
               "src": "501:12:25",
               "statements": []
             },
+            "documentation": null,
             "id": 3413,
             "implemented": true,
             "isConstructor": false,
@@ -667,6 +670,7 @@
               "src": "553:5:25",
               "statements": []
             },
+            "documentation": null,
             "id": 3419,
             "implemented": true,
             "isConstructor": false,
@@ -728,7 +732,7 @@
     "src": "0:580:25"
   },
   "legacyAST": {
-    "absolutePath": "/windata/iotblock/contracts/resource/User.sol",
+    "absolutePath": "/home/ubuntu/iotblock/contracts/resource/User.sol",
     "exportedSymbols": {
       "User": [
         3420
@@ -738,7 +742,7 @@
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "absolutePath": "/windata/iotblock/contracts/resource/Network.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/resource/Network.sol",
         "file": "./Network.sol",
         "id": 3367,
         "nodeType": "ImportDirective",
@@ -749,7 +753,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/windata/iotblock/contracts/SmartKey.sol",
+        "absolutePath": "/home/ubuntu/iotblock/contracts/SmartKey.sol",
         "file": "../SmartKey.sol",
         "id": 3368,
         "nodeType": "ImportDirective",
@@ -939,6 +943,7 @@
                 }
               ]
             },
+            "documentation": null,
             "id": 3389,
             "implemented": true,
             "isConstructor": true,
@@ -1029,6 +1034,7 @@
               "src": "416:12:25",
               "statements": []
             },
+            "documentation": null,
             "id": 3403,
             "implemented": true,
             "isConstructor": false,
@@ -1193,6 +1199,7 @@
               "src": "501:12:25",
               "statements": []
             },
+            "documentation": null,
             "id": 3413,
             "implemented": true,
             "isConstructor": false,
@@ -1305,6 +1312,7 @@
               "src": "553:5:25",
               "statements": []
             },
+            "documentation": null,
             "id": 3419,
             "implemented": true,
             "isConstructor": false,
@@ -1367,9 +1375,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.0",
-  "updatedAt": "2018-11-29T11:26:50.508Z"
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-11-29T11:36:52.819Z"
 }
