@@ -14,7 +14,7 @@ contract Administered {
    * @dev The Ownable constructor sets the original `owner` of the contract to the sender
    * account.
    */
-  function Administered(address[] adminAddress) 
+  function Administered(address[] memory adminAddress) 
   public
   {
     for (uint i=0; i < adminAddress.length; i++) {
@@ -60,7 +60,7 @@ contract Administered {
   function getAdmins() 
   public
   view 
-  returns (address[]) 
+  returns (address[] memory ) 
   {     
 
         return admins;
