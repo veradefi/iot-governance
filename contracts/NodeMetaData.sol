@@ -22,7 +22,7 @@ contract NodeMetaData is Administered, Key {
   }
 
   function getSmartKey()
-  constant
+  view
   public
   returns (SmartKey)
   {
@@ -30,7 +30,7 @@ contract NodeMetaData is Administered, Key {
   }
 
   function selectMetaData() 
-  constant
+  view
   public
   returns (MetaData[]) 
   {

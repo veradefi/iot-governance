@@ -66,7 +66,7 @@ contract Whitelisted is Administered {
 
   function getWhitelist() 
   public
-  constant 
+  view 
   returns (address[]) 
   {
         //require(isWhitelisted[msg.sender]);

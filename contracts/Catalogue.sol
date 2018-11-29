@@ -19,7 +19,7 @@ contract Catalogue is NodeMetaData {
   }
   
   function selectItems() 
-  constant
+  view
   public
   returns (address[]) 
   {

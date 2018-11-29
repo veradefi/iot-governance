@@ -177,7 +177,7 @@ contract Key is Ownable {
 
    function getValueByHash(bytes32 hash) 
    onlyOwner
-   constant    
+   view    
    public
    returns(string) 
    {
@@ -194,7 +194,7 @@ contract Key is Ownable {
 
    function getKeyAuth(string key) 
    onlyOwner
-   constant 
+   view 
    public
    returns(string)
    {

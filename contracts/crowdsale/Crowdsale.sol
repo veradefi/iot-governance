@@ -132,7 +132,7 @@ contract Crowdsale is Administered {
   // @return true if crowdsale event has ended
   function hasEnded() 
   public 
-  constant 
+  view 
   returns (bool) {
     return now > endTime;
   }

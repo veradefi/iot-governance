@@ -59,7 +59,7 @@ contract Administered {
 
   function getAdmins() 
   public
-  constant 
+  view 
   returns (address[]) 
   {     
 

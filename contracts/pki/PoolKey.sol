@@ -42,7 +42,7 @@ contract PoolKey is Key, Whitelisted
     
     function getMembers() 
     public
-    constant 
+    view 
     returns (address[]) 
     {
             return members;
