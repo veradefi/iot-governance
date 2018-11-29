@@ -265,9 +265,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.13;\n\n\nimport \"../ERC20/ERC20.sol\";\n\n\n/**\n   @title ERC827 interface, an extension of ERC20 token standard\n\n   Interface of a ERC827 token, following the ERC20 standard with extra\n   methods to transfer value and data and execute calls in transfers and\n   approvals.\n */\ncontract ERC827 is ERC20 {\n\n  function approve( address _spender, uint256 _value, bytes _data ) public returns (bool);\n  function transfer( address _to, uint256 _value, bytes _data ) public returns (bool);\n  function transferFrom( address _from, address _to, uint256 _value, bytes _data ) public returns (bool);\n\n}\n",
-  "sourcePath": "/home/ubuntu/iotblock/contracts/token/ERC827/ERC827.sol",
+  "sourcePath": "/windata/iotblock/contracts/token/ERC827/ERC827.sol",
   "ast": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC827/ERC827.sol",
+    "absolutePath": "/windata/iotblock/contracts/token/ERC827/ERC827.sol",
     "exportedSymbols": {
       "ERC827": [
         4650
@@ -288,7 +288,7 @@
         "src": "0:24:36"
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC20/ERC20.sol",
+        "absolutePath": "/windata/iotblock/contracts/token/ERC20/ERC20.sol",
         "file": "../ERC20/ERC20.sol",
         "id": 4612,
         "nodeType": "ImportDirective",
@@ -301,7 +301,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 4613,
@@ -337,7 +337,6 @@
         "nodes": [
           {
             "body": null,
-            "documentation": null,
             "id": 4625,
             "implemented": false,
             "isConstructor": false,
@@ -412,7 +411,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_memory_ptr",
-                    "typeString": "bytes"
+                    "typeString": "bytes memory"
                   },
                   "typeName": {
                     "id": 4619,
@@ -421,7 +420,7 @@
                     "src": "373:5:36",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
-                      "typeString": "bytes"
+                      "typeString": "bytes storage pointer"
                     }
                   },
                   "value": null,
@@ -472,7 +471,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4636,
             "implemented": false,
             "isConstructor": false,
@@ -547,7 +545,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_memory_ptr",
-                    "typeString": "bytes"
+                    "typeString": "bytes memory"
                   },
                   "typeName": {
                     "id": 4630,
@@ -556,7 +554,7 @@
                     "src": "460:5:36",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
-                      "typeString": "bytes"
+                      "typeString": "bytes storage pointer"
                     }
                   },
                   "value": null,
@@ -607,7 +605,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4649,
             "implemented": false,
             "isConstructor": false,
@@ -708,7 +705,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_memory_ptr",
-                    "typeString": "bytes"
+                    "typeString": "bytes memory"
                   },
                   "typeName": {
                     "id": 4643,
@@ -717,7 +714,7 @@
                     "src": "566:5:36",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
-                      "typeString": "bytes"
+                      "typeString": "bytes storage pointer"
                     }
                   },
                   "value": null,
@@ -774,7 +771,7 @@
     "src": "0:606:36"
   },
   "legacyAST": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC827/ERC827.sol",
+    "absolutePath": "/windata/iotblock/contracts/token/ERC827/ERC827.sol",
     "exportedSymbols": {
       "ERC827": [
         4650
@@ -795,7 +792,7 @@
         "src": "0:24:36"
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC20/ERC20.sol",
+        "absolutePath": "/windata/iotblock/contracts/token/ERC20/ERC20.sol",
         "file": "../ERC20/ERC20.sol",
         "id": 4612,
         "nodeType": "ImportDirective",
@@ -808,7 +805,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 4613,
@@ -844,7 +841,6 @@
         "nodes": [
           {
             "body": null,
-            "documentation": null,
             "id": 4625,
             "implemented": false,
             "isConstructor": false,
@@ -919,7 +915,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_memory_ptr",
-                    "typeString": "bytes"
+                    "typeString": "bytes memory"
                   },
                   "typeName": {
                     "id": 4619,
@@ -928,7 +924,7 @@
                     "src": "373:5:36",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
-                      "typeString": "bytes"
+                      "typeString": "bytes storage pointer"
                     }
                   },
                   "value": null,
@@ -979,7 +975,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4636,
             "implemented": false,
             "isConstructor": false,
@@ -1054,7 +1049,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_memory_ptr",
-                    "typeString": "bytes"
+                    "typeString": "bytes memory"
                   },
                   "typeName": {
                     "id": 4630,
@@ -1063,7 +1058,7 @@
                     "src": "460:5:36",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
-                      "typeString": "bytes"
+                      "typeString": "bytes storage pointer"
                     }
                   },
                   "value": null,
@@ -1114,7 +1109,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4649,
             "implemented": false,
             "isConstructor": false,
@@ -1215,7 +1209,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_memory_ptr",
-                    "typeString": "bytes"
+                    "typeString": "bytes memory"
                   },
                   "typeName": {
                     "id": 4643,
@@ -1224,7 +1218,7 @@
                     "src": "566:5:36",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
-                      "typeString": "bytes"
+                      "typeString": "bytes storage pointer"
                     }
                   },
                   "value": null,
@@ -1282,9 +1276,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-29T11:36:52.825Z"
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-11-29T11:38:40.287Z"
 }

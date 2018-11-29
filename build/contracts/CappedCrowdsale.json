@@ -350,9 +350,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\nimport '../math/SafeMath.sol';\nimport './Crowdsale.sol';\nimport \"../admin/Administered.sol\";\n\n/**\n * @title CappedCrowdsale\n * @dev Extension of Crowdsale with a max amount of funds raised\n */\ncontract CappedCrowdsale is Crowdsale {\n  using SafeMath for uint256;\n\n  uint256 public cap;\n\n  function CappedCrowdsale(uint256 _cap, address[] adminAddress)\n  public \n  Administered(adminAddress)\n  {\n    require(_cap > 0);\n    cap = _cap;\n  }\n\n  // overriding Crowdsale#hasEnded to add cap logic\n  // @return true if crowdsale event has ended\n  function hasEnded() public view returns (bool) {\n    bool capReached = weiRaised >= cap;\n    return capReached;\n  }\n\n  // overriding Crowdsale#validPurchase to add extra cap logic\n  // @return true if investors can buy at the moment\n  function validPurchase() internal view returns (bool) {\n    bool withinCap = weiRaised.add(msg.value) <= cap;\n    return withinCap;\n  }\n\n}\n",
-  "sourcePath": "/home/ubuntu/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
+  "sourcePath": "/windata/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
   "ast": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
+    "absolutePath": "/windata/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
     "exportedSymbols": {
       "CappedCrowdsale": [
         1855
@@ -373,7 +373,7 @@
         "src": "0:24:13"
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/windata/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1791,
         "nodeType": "ImportDirective",
@@ -384,7 +384,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/windata/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1792,
         "nodeType": "ImportDirective",
@@ -395,7 +395,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1793,
         "nodeType": "ImportDirective",
@@ -408,7 +408,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 1794,
@@ -566,11 +566,8 @@
                       "id": 1811,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4977,
-                        4978
-                      ],
-                      "referencedDeclaration": 4977,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4974,
                       "src": "495:7:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -643,7 +640,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 1822,
             "implemented": true,
             "isConstructor": true,
@@ -726,7 +722,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
-                    "typeString": "address[]"
+                    "typeString": "address[] memory"
                   },
                   "typeName": {
                     "baseType": {
@@ -745,7 +741,7 @@
                     "src": "424:9:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
-                      "typeString": "address[]"
+                      "typeString": "address[] storage pointer"
                     }
                   },
                   "value": null,
@@ -875,7 +871,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 1836,
             "implemented": true,
             "isConstructor": false,
@@ -990,7 +985,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4974,
+                            "referencedDeclaration": 4971,
                             "src": "962:3:13",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1105,7 +1100,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 1854,
             "implemented": true,
             "isConstructor": false,
@@ -1167,7 +1161,7 @@
     "src": "0:1010:13"
   },
   "legacyAST": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
+    "absolutePath": "/windata/iotblock/contracts/crowdsale/CappedCrowdsale.sol",
     "exportedSymbols": {
       "CappedCrowdsale": [
         1855
@@ -1188,7 +1182,7 @@
         "src": "0:24:13"
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/math/SafeMath.sol",
+        "absolutePath": "/windata/iotblock/contracts/math/SafeMath.sol",
         "file": "../math/SafeMath.sol",
         "id": 1791,
         "nodeType": "ImportDirective",
@@ -1199,7 +1193,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/crowdsale/Crowdsale.sol",
+        "absolutePath": "/windata/iotblock/contracts/crowdsale/Crowdsale.sol",
         "file": "./Crowdsale.sol",
         "id": 1792,
         "nodeType": "ImportDirective",
@@ -1210,7 +1204,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 1793,
         "nodeType": "ImportDirective",
@@ -1223,7 +1217,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 1794,
@@ -1381,11 +1375,8 @@
                       "id": 1811,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4977,
-                        4978
-                      ],
-                      "referencedDeclaration": 4977,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4974,
                       "src": "495:7:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1458,7 +1449,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 1822,
             "implemented": true,
             "isConstructor": true,
@@ -1541,7 +1531,7 @@
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
-                    "typeString": "address[]"
+                    "typeString": "address[] memory"
                   },
                   "typeName": {
                     "baseType": {
@@ -1560,7 +1550,7 @@
                     "src": "424:9:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
-                      "typeString": "address[]"
+                      "typeString": "address[] storage pointer"
                     }
                   },
                   "value": null,
@@ -1690,7 +1680,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 1836,
             "implemented": true,
             "isConstructor": false,
@@ -1805,7 +1794,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4974,
+                            "referencedDeclaration": 4971,
                             "src": "962:3:13",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1920,7 +1909,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 1854,
             "implemented": true,
             "isConstructor": false,
@@ -1983,9 +1971,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-29T11:36:52.808Z"
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-11-29T11:38:40.274Z"
 }

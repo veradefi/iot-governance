@@ -139,9 +139,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\n\n/**\n * @title ERC721 interface\n * @dev see https://github.com/ethereum/eips/issues/721\n */\ncontract ERC721 {\n  event Transfer(address indexed _from, address indexed _to, uint256 _tokenId);\n  event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);\n\n  function balanceOf(address _owner) public view returns (uint256 _balance);\n  function ownerOf(uint256 _tokenId) public view returns (address _owner);\n  function transfer(address _to, uint256 _tokenId) public;\n  function approve(address _to, uint256 _tokenId) public;\n  function takeOwnership(uint256 _tokenId) public;\n}\n",
-  "sourcePath": "/home/ubuntu/iotblock/contracts/token/ERC721/ERC721.sol",
+  "sourcePath": "/windata/iotblock/contracts/token/ERC721/ERC721.sol",
   "ast": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC721/ERC721.sol",
+    "absolutePath": "/windata/iotblock/contracts/token/ERC721/ERC721.sol",
     "exportedSymbols": {
       "ERC721": [
         4111
@@ -176,7 +176,6 @@
         "nodes": [
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4069,
             "name": "Transfer",
             "nodeType": "EventDefinition",
@@ -272,7 +271,6 @@
           },
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4077,
             "name": "Approval",
             "nodeType": "EventDefinition",
@@ -368,7 +366,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4084,
             "implemented": false,
             "isConstructor": false,
@@ -451,7 +448,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4091,
             "implemented": false,
             "isConstructor": false,
@@ -534,7 +530,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4098,
             "implemented": false,
             "isConstructor": false,
@@ -616,7 +611,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4105,
             "implemented": false,
             "isConstructor": false,
@@ -698,7 +692,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4110,
             "implemented": false,
             "isConstructor": false,
@@ -760,7 +753,7 @@
     "src": "0:625:34"
   },
   "legacyAST": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC721/ERC721.sol",
+    "absolutePath": "/windata/iotblock/contracts/token/ERC721/ERC721.sol",
     "exportedSymbols": {
       "ERC721": [
         4111
@@ -795,7 +788,6 @@
         "nodes": [
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4069,
             "name": "Transfer",
             "nodeType": "EventDefinition",
@@ -891,7 +883,6 @@
           },
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4077,
             "name": "Approval",
             "nodeType": "EventDefinition",
@@ -987,7 +978,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4084,
             "implemented": false,
             "isConstructor": false,
@@ -1070,7 +1060,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4091,
             "implemented": false,
             "isConstructor": false,
@@ -1153,7 +1142,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4098,
             "implemented": false,
             "isConstructor": false,
@@ -1235,7 +1223,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4105,
             "implemented": false,
             "isConstructor": false,
@@ -1317,7 +1304,6 @@
           },
           {
             "body": null,
-            "documentation": null,
             "id": 4110,
             "implemented": false,
             "isConstructor": false,
@@ -1380,9 +1366,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-29T11:36:52.822Z"
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-11-29T11:38:40.285Z"
 }

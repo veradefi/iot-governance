@@ -430,9 +430,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18; //We have to specify what version of the compiler this code will use\n\n\n\n//import './ERC827/ERC827Token.sol';\nimport './ERC20/StandardToken.sol';\nimport '../admin/Administered.sol';\n\n\n\n/**\n * @title Mintable token\n * @dev Simple ERC20 Token example, with mintable token creation\n * @dev Issue: * https://github.com/OpenZeppelin/zeppelin-solidity/issues/120\n * Based on code by TokenMarketNet: https://github.com/TokenMarketNet/ico/blob/master/contracts/MintableToken.sol\n */\n\ncontract MintableToken is StandardToken, Administered {\n  event Mint(address indexed to, uint256 amount);\n  event MintFinished();\n  event MintReopened();\n  uint256 public tokenMinted;\n  bool public mintingFinished = false;\n\n  uint256 public rate; // Price per token\n  \n  function MintableToken(uint256 _rate) \n  public\n  {\n        rate=_rate;\n        tokenMinted=0;\n  }\n  \n  function setRate(uint256 _rate) \n  public\n  onlyAdmin \n  returns (uint256){\n        rate=_rate;\n        return rate;                \n  }\n    \n  modifier canMint() {\n    require(!mintingFinished);\n    _;\n  }  \n  \n  /**\n   * @dev Function to mint tokens\n   * @param _to The address that will receive the minted tokens.\n   * @param _amount The amount of tokens to mint.\n   * @return A boolean that indicates if the operation was successful.\n   */\n  function mint(address _to, uint256 _amount) \n  public\n  onlyAdmin \n  canMint \n  returns (bool) \n  {\n\n    require(_amount > 0);\n    tokenMinted = tokenMinted + _amount; //.add(_amount);\n\n    balances[_to] = balances[_to].add(_amount);\n    Mint(_to, _amount);\n    Transfer(address(0), _to, _amount);\n    return true;\n\n  }\n\n  /**\n   * @dev Function to stop minting new tokens.\n   * @return True if the operation was successful.\n   */\n\n  /*\n  function finishMinting() \n  public\n  onlyAdmin \n  returns (bool) {\n    mintingFinished = true;\n    MintFinished();\n    return true;\n  }\n  \n  function reopenMinting() \n  public\n  onlyAdmin \n  returns (bool) {\n    mintingFinished = false;\n    MintReopened();\n    return true;\n  }\n  */    \n}\n",
-  "sourcePath": "/home/ubuntu/iotblock/contracts/token/MintableToken.sol",
+  "sourcePath": "/windata/iotblock/contracts/token/MintableToken.sol",
   "ast": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/token/MintableToken.sol",
+    "absolutePath": "/windata/iotblock/contracts/token/MintableToken.sol",
     "exportedSymbols": {
       "MintableToken": [
         4959
@@ -453,7 +453,7 @@
         "src": "0:24:38"
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC20/StandardToken.sol",
+        "absolutePath": "/windata/iotblock/contracts/token/ERC20/StandardToken.sol",
         "file": "./ERC20/StandardToken.sol",
         "id": 4845,
         "nodeType": "ImportDirective",
@@ -464,7 +464,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 4846,
         "nodeType": "ImportDirective",
@@ -477,7 +477,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 4847,
@@ -495,7 +495,7 @@
             "src": "526:13:38"
           },
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 4849,
@@ -537,7 +537,6 @@
         "nodes": [
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4856,
             "name": "Mint",
             "nodeType": "EventDefinition",
@@ -606,7 +605,6 @@
           },
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4858,
             "name": "MintFinished",
             "nodeType": "EventDefinition",
@@ -620,7 +618,6 @@
           },
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4860,
             "name": "MintReopened",
             "nodeType": "EventDefinition",
@@ -832,7 +829,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 4881,
             "implemented": true,
             "isConstructor": true,
@@ -959,14 +955,13 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 4897,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": null,
+                "arguments": [],
                 "id": 4886,
                 "modifierName": {
                   "argumentTypes": null,
@@ -1110,11 +1105,8 @@
                       "id": 4899,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4977,
-                        4978
-                      ],
-                      "referencedDeclaration": 4977,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4974,
                       "src": "1044:7:38",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1146,7 +1138,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 4906,
             "name": "canMint",
             "nodeType": "ModifierDefinition",
@@ -1230,11 +1221,8 @@
                       "id": 4919,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4977,
-                        4978
-                      ],
-                      "referencedDeclaration": 4977,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4974,
                       "src": "1426:7:38",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1717,14 +1705,13 @@
                 }
               ]
             },
-            "documentation": "@dev Function to mint tokens\n@param _to The address that will receive the minted tokens.\n@param _amount The amount of tokens to mint.\n@return A boolean that indicates if the operation was successful.",
             "id": 4958,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": null,
+                "arguments": [],
                 "id": 4913,
                 "modifierName": {
                   "argumentTypes": null,
@@ -1743,7 +1730,7 @@
                 "src": "1377:9:38"
               },
               {
-                "arguments": null,
+                "arguments": [],
                 "id": 4915,
                 "modifierName": {
                   "argumentTypes": null,
@@ -1871,7 +1858,7 @@
     "src": "0:2049:38"
   },
   "legacyAST": {
-    "absolutePath": "/home/ubuntu/iotblock/contracts/token/MintableToken.sol",
+    "absolutePath": "/windata/iotblock/contracts/token/MintableToken.sol",
     "exportedSymbols": {
       "MintableToken": [
         4959
@@ -1892,7 +1879,7 @@
         "src": "0:24:38"
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/token/ERC20/StandardToken.sol",
+        "absolutePath": "/windata/iotblock/contracts/token/ERC20/StandardToken.sol",
         "file": "./ERC20/StandardToken.sol",
         "id": 4845,
         "nodeType": "ImportDirective",
@@ -1903,7 +1890,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/ubuntu/iotblock/contracts/admin/Administered.sol",
+        "absolutePath": "/windata/iotblock/contracts/admin/Administered.sol",
         "file": "../admin/Administered.sol",
         "id": 4846,
         "nodeType": "ImportDirective",
@@ -1916,7 +1903,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 4847,
@@ -1934,7 +1921,7 @@
             "src": "526:13:38"
           },
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 4849,
@@ -1976,7 +1963,6 @@
         "nodes": [
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4856,
             "name": "Mint",
             "nodeType": "EventDefinition",
@@ -2045,7 +2031,6 @@
           },
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4858,
             "name": "MintFinished",
             "nodeType": "EventDefinition",
@@ -2059,7 +2044,6 @@
           },
           {
             "anonymous": false,
-            "documentation": null,
             "id": 4860,
             "name": "MintReopened",
             "nodeType": "EventDefinition",
@@ -2271,7 +2255,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 4881,
             "implemented": true,
             "isConstructor": true,
@@ -2398,14 +2381,13 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 4897,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": null,
+                "arguments": [],
                 "id": 4886,
                 "modifierName": {
                   "argumentTypes": null,
@@ -2549,11 +2531,8 @@
                       "id": 4899,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4977,
-                        4978
-                      ],
-                      "referencedDeclaration": 4977,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4974,
                       "src": "1044:7:38",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2585,7 +2564,6 @@
                 }
               ]
             },
-            "documentation": null,
             "id": 4906,
             "name": "canMint",
             "nodeType": "ModifierDefinition",
@@ -2669,11 +2647,8 @@
                       "id": 4919,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4977,
-                        4978
-                      ],
-                      "referencedDeclaration": 4977,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4974,
                       "src": "1426:7:38",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3156,14 +3131,13 @@
                 }
               ]
             },
-            "documentation": "@dev Function to mint tokens\n@param _to The address that will receive the minted tokens.\n@param _amount The amount of tokens to mint.\n@return A boolean that indicates if the operation was successful.",
             "id": 4958,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
-                "arguments": null,
+                "arguments": [],
                 "id": 4913,
                 "modifierName": {
                   "argumentTypes": null,
@@ -3182,7 +3156,7 @@
                 "src": "1377:9:38"
               },
               {
-                "arguments": null,
+                "arguments": [],
                 "id": 4915,
                 "modifierName": {
                   "argumentTypes": null,
@@ -3311,9 +3285,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-29T11:36:52.826Z"
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-11-29T11:38:40.288Z"
 }
