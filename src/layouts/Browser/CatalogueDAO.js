@@ -219,10 +219,12 @@ render() {
                     //    isGenericResource = true;
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
                         map_json["Latitude"]=mdata.val;
+                        map_json["LatitudeData"]=mdata;
                     }
 
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
                         map_json["Longitude"]=mdata.val;
+                        map_json["LongitudeData"]=mdata;
                     }
 
                     count+=1;
@@ -274,11 +276,13 @@ render() {
 
             if ("Latitude" in map_json) {
                 cmdata.lat=map_json["Latitude"];
+                cmdata.LatitudeData=map_json["LatitudeData"];
             } else {
                 cmdata.lat=0;
             }
             if ("Longitude" in map_json) {
                 cmdata.lng=map_json["Longitude"];
+                cmdata.LongitudeData=map_json["LongitudeData"];
             } else {
                 cmdata.lng=0;
             }
@@ -507,10 +511,12 @@ render() {
 
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#lat") {
                         map_json["Latitude"]=mdata.val;
+                        map_json["LatitudeData"]=mdata;
                     }
                     
                     if (mdata.rel == "http://www.w3.org/2003/01/geo/wgs84_pos#long") {
                         map_json["Longitude"]=mdata.val;
+                        map_json["LongitudeData"]=mdata;
                     }
                     
                     count+=1;
@@ -535,11 +541,13 @@ render() {
 
             if ("Latitude" in map_json) {
                 cmdata.lat=map_json["Latitude"];
+                cmdata.LatitudeData=map_json["LatitudeData"];
             } else {
                 cmdata.lat=0;
             }
             if ("Longitude" in map_json) {
                 cmdata.lng=map_json["Longitude"];
+                cmdata.LongitudeData=map_json["LongitudeData"];
             } else {
                 cmdata.lng=0;
             }

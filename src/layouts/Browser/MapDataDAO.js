@@ -194,11 +194,13 @@ componentDidMount() {
             <div className={"row"} id={"location_map"}>
             <div className={"col-md-12"}>
                     <MapWithASearchBox />
+                    {!this.props.viewOnly ?  
                     <ContractFormDAO 
                         contract={this.props.contract}
                         mapEdit={true}
                         lat={this.state.lat}
                         lng={this.state.lng}
+                        mdata={this.props.mdata}
                         setLat={(lat)=> {
                             self.setState({lat:lat});
                         }}
@@ -206,6 +208,8 @@ componentDidMount() {
                             self.setState({lng:lng});
                         }}
                     />
+                    :
+                    null}
 
             </div>
         </div>

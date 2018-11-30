@@ -9,6 +9,7 @@ import ContractDAO from './ContractDAO'
 import {Button} from 'react-toolbox/lib/button';
 import Geolocation from 'react-geolocation';
 import Checkbox from 'react-toolbox/lib/checkbox';
+import MapDataDAO from "../../layouts/Browser/MapDataDAO";
 
 var QRCode = require('qrcode.react');
 var eth1_amount=1000000000000000000;
@@ -1940,8 +1941,9 @@ class ContractFormDAO extends Component {
 
               </div>
 
-              <div>
-
+              <div className="row">
+                    <div className="col-md-6">
+                    
               <Geolocation
 
                 render={({
@@ -1997,6 +1999,121 @@ class ContractFormDAO extends Component {
                   </div>}
 
               />
+                </div>
+                <div className={"col-md-6"} align={"right"}>
+                <span>[ <a 
+
+                    href={'JavaScript:'}
+
+                    onClick={() => {
+                        var mdata=self.props.mdata;
+                        self.props.showDialog2(true, 
+                          <div style={{ height: window.innerHeight * 0.9,
+                            overflowY: "auto" }}>
+                            <center><h3>Metadata Values History</h3></center>
+                            <center><b>{mdata.rel}</b></center>
+                            <table style={{width:"100%"}}><thead><tr><td>
+                            {mdata.LatitudeData && mdata.LatitudeData.address ?
+                            <b>{mdata.LatitudeData.rel}</b> : null}
+                              </td><td>
+                              {mdata.LongitudeData && mdata.LongitudeData.address ?
+                            <b>{mdata.LongitudeData.rel}</b> : null}
+
+                                </td></tr>
+                              </thead>
+                              <tbody>
+                                <tr><td>
+
+                                  <div>Latest Revision: <pre>{mdata.lat}</pre></div>
+                            
+                                </td>
+                                <td>
+                                <div>Latest Revision: <pre>{mdata.lng}</pre></div>
+                            
+                                </td>
+                                </tr>
+                                <tr><td colSpan={2}>
+                                <MapDataDAO 
+                                contract={this.props.contract} 
+                                lat={mdata.lat} 
+                                lng={mdata.lng} 
+                                mdata={mdata} 
+                                viewOnly={true}
+                                />
+                                </td></tr>
+                            {mdata.LatitudeData && mdata.LatitudeData.address ?
+                          <ContractDAO contract={mdata.LatitudeData.address} 
+                                                        method="getValHistoryCount"
+                                                        methodArgs={[]}
+                                                        //method="decimals"
+                                                        value_post_process={(val)=> {
+                                                            var items=[];
+                                                            for (var i=val -1; i>= 0; i--) {
+                                                                var idx=i;
+                                                                
+                                                                items.push(<ContractDAO key={idx} 
+                                                                  contract={mdata.LatitudeData.address} 
+                                                                method="val_history" 
+                                                                methodArgs={[idx]}
+                                                                methodArgsAdd={[mdata.LongitudeData.address, mdata]}
+                                                                value_methodArgs_post_process={(value, methodArgs, methodArgsAdd)=> {
+                                                                          return <ContractDAO 
+                                                                            key={Math.random()} 
+                                                                            contract={methodArgsAdd[0]} 
+                                                                            method="val_history" 
+                                                                            methodArgs={[methodArgs[0]]}
+                                                                            methodArgsAdd={[value, methodArgsAdd[1]]}
+                                                                            value_methodArgs_post_process={(value2, methodArgs2, methodArgsAdd2)=> {
+                                                                                    var res=[];
+                                                                                    res.push(<tr key={Math.random()}>
+                                                                                      <td>
+                                                                                      <div>Revision {parseInt(methodArgs2[0]) + 1}: 
+                                                                                      <pre>{methodArgsAdd2[0]}</pre></div>
+                                                                                      </td><td>
+                                                                                      <div>Revision {parseInt(methodArgs2[0]) + 1}: 
+                                                                                      <pre>{value2}</pre></div>
+                                                                                      </td>
+                                                                                      </tr>);
+                                                                                    res.push(<tr key={Math.random()}>
+                                                                                    <td colSpan={2}>
+                                                                                    <MapDataDAO 
+                                                                                      contract={methodArgsAdd2[1].contract_address}
+                                                                                      lat={methodArgsAdd2[0]} 
+                                                                                      lng={value2} 
+                                                                                      mdata={methodArgsAdd2[1]} 
+                                                                                      viewOnly={true}
+                                                                                      />
+                                                                                    </td></tr>
+                                                                                    );
+                                                                                    return res;
+                                                                                      
+                                                                                  }}
+                                                                            />
+                                                                            
+                                                                    }}
+                                                                />);
+                                                            }
+                                                            return items;
+                                                        }
+                                                    }
+                                                        /> : null}
+                              </tbody></table>
+                                                        <br/>
+                                <Button style={{width:"100%"}} raised primary onClick={() => {
+                                    self.props.closeDialog2();
+                                }}>Close</Button> 
+
+                          </div>
+                          )
+
+                    }}> 
+
+                    View Revision History
+
+                    </a> 
+
+                    &nbsp;]</span>
+                </div>
 
               </div>
 
