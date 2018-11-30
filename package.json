@@ -158,7 +158,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://iotblock.io/",
-  "proxy_div": "http://localhost:8888/",
+  "proxy_div": "https://iotblock.io/",
+  "proxy": "http://localhost:8888/",
   "homepage": "https://iotblock.io/iotpedia"
 }

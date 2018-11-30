@@ -2,7 +2,7 @@
 echo $1
 PATH=./node_modules/.bin:$PATH
 export PATH
-#ganache-cli -p 9545 -i 4447 -e 1000 &
+ganache-cli -p 9545 -i 4447 -e 1000 &
 
 rm -fr bin/*
 rm -fr build/*
