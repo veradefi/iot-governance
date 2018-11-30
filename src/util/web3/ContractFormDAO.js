@@ -709,8 +709,10 @@ class ContractFormDAO extends Component {
                 onClick={() => {
 
                     self.props.showDialog2(true, 
-                      <div>
+                      <div style={{ height: window.innerHeight * 0.9,
+                        overflowY: "auto" }}>
                         <center><h3>Metadata Values History</h3></center>
+                        <center><b>{mdata.rel}</b></center>
                       <ContractDAO contract={mdata.address} 
                                                     method="getValHistoryCount"
                                                     methodArgs={[]}
@@ -724,7 +726,7 @@ class ContractFormDAO extends Component {
                                                             method="val_history" 
                                                             methodArgs={[idx]}
                                                             value_methodArgs_post_process={(value, methodArgs)=> {
-                                                                    return <div>Revision {parseInt(methodArgs[0]) + 1}: <b>{value}</b></div>;
+                                                                    return <div>Revision {parseInt(methodArgs[0]) + 1}: <pre>{value}</pre></div>;
                                                                 }}
                                                             />);
                                                         }
