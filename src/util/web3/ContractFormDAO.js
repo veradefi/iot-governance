@@ -713,6 +713,7 @@ class ContractFormDAO extends Component {
                         overflowY: "auto" }}>
                         <center><h3>Metadata Values History</h3></center>
                         <center><b>{mdata.rel}</b></center>
+                        <div>Latest Revision: <pre>{mdata.val}</pre></div>
                       <ContractDAO contract={mdata.address} 
                                                     method="getValHistoryCount"
                                                     methodArgs={[]}
