@@ -1942,7 +1942,7 @@ class ContractFormDAO extends Component {
               </div>
 
               <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-xs-6">
                     
               <Geolocation
 
@@ -2000,7 +2000,7 @@ class ContractFormDAO extends Component {
 
               />
                 </div>
-                <div className={"col-md-6"} align={"right"}>
+                <div className={"col-xs-6"} style={{textAlign:'right'}}>
                 <span>[ <a 
 
                     href={'JavaScript:'}
@@ -2012,27 +2012,21 @@ class ContractFormDAO extends Component {
                             overflowY: "auto" }}>
                             <center><h3>Metadata Values History</h3></center>
                             <center><b>{mdata.rel}</b></center>
-                            <table style={{width:"100%"}}><thead><tr><td>
-                            {mdata.LatitudeData && mdata.LatitudeData.address ?
-                            <b>{mdata.LatitudeData.rel}</b> : null}
-                              </td><td>
-                              {mdata.LongitudeData && mdata.LongitudeData.address ?
-                            <b>{mdata.LongitudeData.rel}</b> : null}
-
-                                </td></tr>
-                              </thead>
-                              <tbody>
-                                <tr><td>
+                            <div className={"row"}>
+                              <div className={"col-md-6"}>
+                                  {mdata.LatitudeData && mdata.LatitudeData.address ?
+                                  <b>{mdata.LatitudeData.rel}</b> : null}
 
                                   <div>Latest Revision: <pre>{mdata.lat}</pre></div>
-                            
-                                </td>
-                                <td>
+                              </div>
+                              <div className={"col-md-6"}>
+                              {mdata.LongitudeData && mdata.LongitudeData.address ?
+                            <b>{mdata.LongitudeData.rel}</b> : null}
                                 <div>Latest Revision: <pre>{mdata.lng}</pre></div>
-                            
-                                </td>
-                                </tr>
-                                <tr><td colSpan={2}>
+                              </div>
+                            </div>
+                            <div className={"row"}>
+                              <div className={"col-md-12"}>
                                 <MapDataDAO 
                                 contract={this.props.contract} 
                                 lat={mdata.lat} 
@@ -2040,7 +2034,9 @@ class ContractFormDAO extends Component {
                                 mdata={mdata} 
                                 viewOnly={true}
                                 />
-                                </td></tr>
+                                <br/><br/>
+                              </div>
+                            </div>
                             {mdata.LatitudeData && mdata.LatitudeData.address ?
                           <ContractDAO contract={mdata.LatitudeData.address} 
                                                         method="getValHistoryCount"
@@ -2065,26 +2061,39 @@ class ContractFormDAO extends Component {
                                                                             methodArgsAdd={[value, methodArgsAdd[1]]}
                                                                             value_methodArgs_post_process={(value2, methodArgs2, methodArgsAdd2)=> {
                                                                                     var res=[];
-                                                                                    res.push(<tr key={Math.random()}>
-                                                                                      <td>
-                                                                                      <div>Revision {parseInt(methodArgs2[0]) + 1}: 
+                                                                                    res.push(
+                                                                                      <div key={Math.random()} className={"row"}>
+                                                                                      <div className={"col-md-6"}>
+                                                                                          {methodArgsAdd2[1].LatitudeData && methodArgsAdd2[1].LatitudeData.address ?
+                                                                                          <b>{methodArgsAdd2[1].LatitudeData.rel}</b> : null}
+                                                        
+                                                                                          <div>Revision {parseInt(methodArgs2[0]) + 1}: 
                                                                                       <pre>{methodArgsAdd2[0]}</pre></div>
-                                                                                      </td><td>
-                                                                                      <div>Revision {parseInt(methodArgs2[0]) + 1}: 
+                                                                                      </div>
+                                                                                      <div className={"col-md-6"}>
+                                                                                      {methodArgsAdd2[1].LongitudeData && methodArgsAdd2[1].LongitudeData.address ?
+                                                                                    <b>{methodArgsAdd2[1].LongitudeData.rel}</b> : null}
+                                                                                        <div>Revision {parseInt(methodArgs2[0]) + 1}: 
                                                                                       <pre>{value2}</pre></div>
-                                                                                      </td>
-                                                                                      </tr>);
-                                                                                    res.push(<tr key={Math.random()}>
-                                                                                    <td colSpan={2}>
-                                                                                    <MapDataDAO 
+                                                                                      </div>
+                                                                                    </div>
+                                                                                    )
+                                                                                  res.push(
+                                                                                    <div key={Math.random()}
+                                                                                    
+                                                                                    className={"row"}>
+                                                                                      <div className={"col-md-12"}>
+                                                                                      <MapDataDAO 
                                                                                       contract={methodArgsAdd2[1].contract_address}
                                                                                       lat={methodArgsAdd2[0]} 
                                                                                       lng={value2} 
                                                                                       mdata={methodArgsAdd2[1]} 
                                                                                       viewOnly={true}
                                                                                       />
-                                                                                    </td></tr>
-                                                                                    );
+                                                                                      <br/><br/>
+                                                                                      </div>
+                                                                                    </div>
+                                                                                  );
                                                                                     return res;
                                                                                       
                                                                                   }}
@@ -2097,7 +2106,6 @@ class ContractFormDAO extends Component {
                                                         }
                                                     }
                                                         /> : null}
-                              </tbody></table>
                                                         <br/>
                                 <Button style={{width:"100%"}} raised primary onClick={() => {
                                     self.props.closeDialog2();
