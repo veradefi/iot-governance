@@ -88,7 +88,7 @@ eth_contrib=int(eth1/100000);
 addAuthKey(kc, address2)
 getApiKey(kc, address2, eth_contrib)
 
-web3.eth.sendTransaction({ 'from' :address2, 'to':web3.toChecksumAddress(address3), 'value': eth1 * 3});
+web3.eth.sendTransaction({ 'from' :address2, 'to':web3.toChecksumAddress(address3), 'value': eth_contrib});
     
 '''
 
