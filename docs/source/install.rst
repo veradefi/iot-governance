@@ -11,6 +11,23 @@ All components of this project, including The Universal IoT Blockchain Database,
 
 We encourage contribution to the open-source development efforts of this project, which is available at <https://github.com/iotblock/iotblock>
 
+Prerequiests
+------------------------------------------------------------------
+
+To run the code you will need the following:
+
+- NodeJS
+- npm pakcage manager
+- ganache-cli
+- solcjs  solidity compiler
+- python > 3.5
+- truffle
+- yarn
+
+Source Code
+------------------------------------------------------------------
+
+
 Accessing the Source Code Repository:
 
 ::
