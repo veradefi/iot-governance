@@ -1,4 +1,4 @@
-sha3
+pysha3
 flask
 gevent
 kafka
