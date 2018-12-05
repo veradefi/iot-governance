@@ -1,0 +1,346 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Wed Dec  5 05:44:10 2018",
+    "version": "eosio::abi/1.0",
+    "structs": [
+        {
+            "name": "addcat",
+            "base": "",
+            "fields": [
+                {
+                    "name": "hrefName",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addmeta",
+            "base": "",
+            "fields": [
+                {
+                    "name": "hrefName",
+                    "type": "string"
+                },
+                {
+                    "name": "rel",
+                    "type": "string"
+                },
+                {
+                    "name": "val",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addpoll",
+            "base": "",
+            "fields": [
+                {
+                    "name": "s",
+                    "type": "name"
+                },
+                {
+                    "name": "pollName",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addpollopt",
+            "base": "",
+            "fields": [
+                {
+                    "name": "pollName",
+                    "type": "string"
+                },
+                {
+                    "name": "option",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "graph",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hrefId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hrefName",
+                    "type": "string"
+                },
+                {
+                    "name": "href",
+                    "type": "string"
+                },
+                {
+                    "name": "hrefStatus",
+                    "type": "uint8"
+                },
+                {
+                    "name": "option",
+                    "type": "string"
+                },
+                {
+                    "name": "metaCount",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "metadata",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hrefName",
+                    "type": "string"
+                },
+                {
+                    "name": "href",
+                    "type": "string"
+                },
+                {
+                    "name": "hrefId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "rel",
+                    "type": "string"
+                },
+                {
+                    "name": "relId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "val",
+                    "type": "string"
+                },
+                {
+                    "name": "account",
+                    "type": "string"
+                },
+                {
+                    "name": "relcount",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "poll",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "pollId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "pollName",
+                    "type": "string"
+                },
+                {
+                    "name": "pollStatus",
+                    "type": "uint8"
+                },
+                {
+                    "name": "option",
+                    "type": "string"
+                },
+                {
+                    "name": "count",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "pollvotes",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "pollId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "pollName",
+                    "type": "string"
+                },
+                {
+                    "name": "account",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "rmpoll",
+            "base": "",
+            "fields": [
+                {
+                    "name": "s",
+                    "type": "name"
+                },
+                {
+                    "name": "pollName",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "rmpollopt",
+            "base": "",
+            "fields": [
+                {
+                    "name": "pollName",
+                    "type": "string"
+                },
+                {
+                    "name": "option",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "status",
+            "base": "",
+            "fields": [
+                {
+                    "name": "pollName",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "statusreset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "pollName",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "version",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "vote",
+            "base": "",
+            "fields": [
+                {
+                    "name": "pollName",
+                    "type": "string"
+                },
+                {
+                    "name": "option",
+                    "type": "string"
+                },
+                {
+                    "name": "accountName",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "addcat",
+            "type": "addcat",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addmeta",
+            "type": "addmeta",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addpoll",
+            "type": "addpoll",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addpollopt",
+            "type": "addpollopt",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rmpoll",
+            "type": "rmpoll",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rmpollopt",
+            "type": "rmpollopt",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "status",
+            "type": "status",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "statusreset",
+            "type": "statusreset",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "version",
+            "type": "version",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "vote",
+            "type": "vote",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "graph",
+            "type": "graph",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "metadata",
+            "type": "metadata",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "poll",
+            "type": "poll",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "pollvotes",
+            "type": "pollvotes",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "abi_extensions": []
+}
