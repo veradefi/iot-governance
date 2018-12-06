@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Wed Dec  5 21:44:31 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Dec  6 02:51:11 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -73,7 +73,7 @@
             ]
         },
         {
-            "name": "catdata",
+            "name": "catdata3",
             "base": "",
             "fields": [
                 {
@@ -111,7 +111,7 @@
             ]
         },
         {
-            "name": "graphdata",
+            "name": "graphdata3",
             "base": "",
             "fields": [
                 {
@@ -141,7 +141,7 @@
             ]
         },
         {
-            "name": "metadata",
+            "name": "metadata3",
             "base": "",
             "fields": [
                 {
@@ -366,22 +366,22 @@
     ],
     "tables": [
         {
-            "name": "catdata",
-            "type": "catdata",
+            "name": "catdata3",
+            "type": "catdata3",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
         },
         {
-            "name": "graphdata",
-            "type": "graphdata",
+            "name": "graphdata3",
+            "type": "graphdata3",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
         },
         {
-            "name": "metadata",
-            "type": "metadata",
+            "name": "metadata3",
+            "type": "metadata3",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

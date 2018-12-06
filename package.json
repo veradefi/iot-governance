@@ -74,6 +74,7 @@
     "drizzle": "^1.2.4",
     "drizzle-react": "^1.2.0",
     "drizzle-react-components": "^1.2.0",
+    "eosjs": "^20.0.0-beta2",
     "eth-block-tracker-es5": "^2.3.2",
     "ethereumjs-wallet": "^0.6.2",
     "jquery": "^3.3.1",

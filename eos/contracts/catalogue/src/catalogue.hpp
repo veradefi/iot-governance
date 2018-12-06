@@ -62,7 +62,7 @@ public:
     votes _votes;
 
     // create the multi index tables to store the data
-    struct [[eosio::table]] catdata
+    struct [[eosio::table]] catdata3
     {
         uint64_t      key; // primary key
 
@@ -79,17 +79,17 @@ public:
     };
     typedef eosio::multi_index
             <
-                "catdata"_n, catdata, 
+                "catdata3"_n, catdata3, 
                 eosio::indexed_by<
                     "hrefid"_n, eosio::const_mem_fun
                     <
-                        catdata, uint64_t, &catdata::by_hrefId
+                        catdata3, uint64_t, &catdata3::by_hrefId
                     >
                 >
             > catalogueTable;
 
 
-    struct [[eosio::table]] metadata 
+    struct [[eosio::table]] metadata3 
     {
         uint64_t     key; 
 
@@ -110,23 +110,23 @@ public:
     };
     typedef eosio::multi_index
             <
-                "metadata"_n, metadata, 
+                "metadata3"_n, metadata3, 
                 eosio::indexed_by<
-                    "href"_n, eosio::const_mem_fun
+                    "hrefid"_n, eosio::const_mem_fun
                     <
-                        metadata, uint64_t, &metadata::by_hrefId
+                        metadata3, uint64_t, &metadata3::by_hrefId
                     >
                 >,
                 eosio::indexed_by<
-                    "rel"_n, eosio::const_mem_fun
+                    "relid"_n, eosio::const_mem_fun
                     <
-                        metadata, uint64_t, &metadata::by_relId
+                        metadata3, uint64_t, &metadata3::by_relId
                     >
                 >
             > metaTable;
 
     // create the multi index tables to store the data
-    struct [[eosio::table]] graphdata
+    struct [[eosio::table]] graphdata3
     {
         uint64_t      key; // primary key
 
@@ -143,17 +143,17 @@ public:
 
     typedef eosio::multi_index
             <
-                "graphdata"_n, graphdata, 
+                "graphdata3"_n, graphdata3, 
                 eosio::indexed_by<
                     "hrefid"_n, eosio::const_mem_fun
                     <
-                        graphdata, uint64_t, &graphdata::by_hrefId
+                        graphdata3, uint64_t, &graphdata3::by_hrefId
                     >
                 >,
                 eosio::indexed_by<
                     "hrefid2"_n, eosio::const_mem_fun
                     <
-                        graphdata, uint64_t, &graphdata::by_hrefId2
+                        graphdata3, uint64_t, &graphdata3::by_hrefId2
                     >
                 >
             > graphNodeTable;
