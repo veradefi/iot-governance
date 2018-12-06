@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Wed Dec  5 05:44:10 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Wed Dec  5 21:44:31 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -8,6 +8,20 @@
             "fields": [
                 {
                     "name": "hrefName",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addgraphnode",
+            "base": "",
+            "fields": [
+                {
+                    "name": "hrefName",
+                    "type": "string"
+                },
+                {
+                    "name": "hrefName2",
                     "type": "string"
                 }
             ]
@@ -59,7 +73,7 @@
             ]
         },
         {
-            "name": "graph",
+            "name": "catdata",
             "base": "",
             "fields": [
                 {
@@ -89,6 +103,40 @@
                 {
                     "name": "metaCount",
                     "type": "uint32"
+                },
+                {
+                    "name": "health",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "graphdata",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hrefId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hrefId2",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hrefName",
+                    "type": "string"
+                },
+                {
+                    "name": "hrefName2",
+                    "type": "string"
+                },
+                {
+                    "name": "hrefStatus",
+                    "type": "uint8"
                 }
             ]
         },
@@ -266,6 +314,11 @@
             "ricardian_contract": ""
         },
         {
+            "name": "addgraphnode",
+            "type": "addgraphnode",
+            "ricardian_contract": ""
+        },
+        {
             "name": "addmeta",
             "type": "addmeta",
             "ricardian_contract": ""
@@ -313,8 +366,15 @@
     ],
     "tables": [
         {
-            "name": "graph",
-            "type": "graph",
+            "name": "catdata",
+            "type": "catdata",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "graphdata",
+            "type": "graphdata",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

@@ -110,6 +110,84 @@ void catalogue::addmeta(std::string hrefName, std::string rel, std::string val) 
     
 }
 
+void catalogue::addgraphnode(std::string hrefName, std::string hrefName2) {
+   eosio::print("Add graphNode ", hrefName, "to ", hrefName2); 
+
+   uint64_t hrefId=0;
+   uint64_t hrefId2=0;
+   bool found=false;
+   bool found2=false;
+   std::vector<uint64_t> keysForModify;
+
+   for(auto& item : _catalogueTable) {
+        if (item.hrefName == hrefName) {
+            keysForModify.push_back(item.key);   
+            found=true;
+            hrefId=item.hrefId;
+        }
+
+        if (item.hrefName == hrefName2) {
+            keysForModify.push_back(item.key);   
+            found2=true;
+            hrefId2=item.hrefId;
+        }
+        if (found && found2) {
+            break;
+        }
+   }
+   
+   if (!found) {
+      eosio::print("upsert item", hrefName);
+      _catalogueTable.emplace(get_self(), [&](auto& p) {
+         p.key = _catalogueTable.available_primary_key();
+         p.hrefId = _catalogueTable.available_primary_key();
+         p.href = hrefName;
+         p.hrefName = hrefName;
+         p.hrefStatus = 0;
+         p.option = "";
+         p.metaCount = 0;
+         hrefId=p.hrefId;
+      });
+   }
+   if (!found2) {
+      eosio::print("upsert item", hrefName2);
+      _catalogueTable.emplace(get_self(), [&](auto& p) {
+         p.key = _catalogueTable.available_primary_key();
+         p.hrefId = _catalogueTable.available_primary_key();
+         p.href = hrefName2;
+         p.hrefName = hrefName2;
+         p.hrefStatus = 0;
+         p.option = "";
+         p.metaCount = 0;
+         hrefId2=p.hrefId;
+      });
+   }
+ 
+   found=false;
+   found2=false;
+    // find the pollId, from _polls, use this to update the _polls with a new option
+    for(auto& item : _graphNodeTable) {
+        if (item.hrefName == hrefName && item.hrefName2 == hrefName2) {
+            found=true;
+        }
+    }
+
+    if (!found) {
+       _graphNodeTable.emplace(get_self(), [&](auto& p) {
+                    p.key = _graphNodeTable.available_primary_key();
+                    p.hrefId = hrefId;
+                    p.hrefName = hrefName;
+                    p.hrefId2 = hrefId2;
+                    p.hrefName2 = hrefName2;                    
+       });
+      eosio::print("Linked ", hrefName, " to ", hrefName2);
+    } else {
+      eosio::print("Found Already Linked ", hrefName, " to ", hrefName2);
+    }
+           
+    
+}
+
 
 void catalogue::addpoll(eosio::name s, std::string pollName) {
     // require_auth(s);
@@ -312,5 +390,5 @@ void catalogue::vote(std::string pollName, std::string option, std::string accou
 }
 
 
-EOSIO_DISPATCH( catalogue, (version)(addcat)(addmeta)(addpoll)(rmpoll)(status)(statusreset)(addpollopt)(rmpollopt)(vote))
+EOSIO_DISPATCH( catalogue, (version)(addcat)(addmeta)(addgraphnode)(addpoll)(rmpoll)(status)(statusreset)(addpollopt)(rmpollopt)(vote))
 
