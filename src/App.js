@@ -13,6 +13,7 @@ import Key from './layouts/Key/Key'
 import Map from './layouts/Map/Map'
 import Browser from './layouts/Browser/Browser'
 import Editor from './layouts/Editor/Editor'
+import EditorEOS from './layouts/Editor/EditorEOS'
 import Dialog from './layouts/Dialog/Dialog'
 import Dialog2 from './layouts/Dialog/Dialog2'
 import Explorer from './layouts/Explorer/Explorer'
@@ -44,6 +45,7 @@ export default class App extends Component {
          <Route exact path="/key.html" component={Key} />
          <Route exact path="/browser" component={Browser} />
          <Route exact path="/browser.html" component={Browser} />
+         <Route exact path="/editoreos" component={EditorEOS} />
          <Route exact path="/editor" component={Editor} />
          <Route exact path="/editor.html" component={Editor} />
          <Route exact path="/explorer" component={Explorer} />
