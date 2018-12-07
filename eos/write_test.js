@@ -33,19 +33,47 @@ const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), te
   }).then(function (result) {
     console.log(result);
     api.transact({
-      actions: [{
-        account: 'catalogue',
-        name: 'addmeta',
-        authorization: [{
-          actor: 'eosio',
-          permission: 'active',
-        }],
-        data: {
-          hrefName: "google.com",
-          rel: "urn:X-hypercat:rels:hasDescription",
-          val: "test metadata desc"
+      actions: 
+      [
+        {
+          account: 'catalogue',
+          name: 'addmeta',
+          authorization: [{
+            actor: 'eosio',
+            permission: 'active',
+          }],
+          data: {
+            hrefName: "google.com",
+            rel: "urn:X-hypercat:rels:hasDescription",
+            val: "test metadata desc"
+          },
         },
-      }]
+        {
+          account: 'catalogue',
+          name: 'addmeta',
+          authorization: [{
+            actor: 'eosio',
+            permission: 'active',
+          }],
+          data: {
+            hrefName: "gmail.com",
+            rel: "urn:X-hypercat:rels:hasDescription",
+            val: "gmail metadata desc"
+          },
+        },
+        {
+          account: 'catalogue',
+          name: 'addgraphnode',
+          authorization: [{
+            actor: 'eosio',
+            permission: 'active',
+          }],
+          data: {
+            hrefName: "google.com",
+            hrefName2: "gmail.com",
+          },
+        }
+      ]
     }, {
       blocksBehind: 30,
       expireSeconds: 30,
