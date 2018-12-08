@@ -2,4 +2,3 @@ pysha3
 flask
 gevent
 kafka
-web3

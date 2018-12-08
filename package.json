@@ -108,6 +108,7 @@
     "redux": "^3.7.2",
     "redux-auth-wrapper": "^1.0.0",
     "redux-thunk": "^2.2.0",
+    "solc": "0.4.25",
     "springy": "^2.8.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "upath": "^1.1.0",
@@ -159,7 +160,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://iotblock.io/",
-  "proxy_dev": "http://localhost:8888/",
+  "proxy_dev": "https://iotblock.io/",
+  "proxy": "http://localhost:8888/",
   "homepage": "https://iotblock.io/iotpedia"
 }
