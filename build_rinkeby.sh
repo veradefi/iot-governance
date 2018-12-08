@@ -5,6 +5,8 @@ export PATH
 rm -fr bin/*
 rm -fr build/*
 rm -fr src/solc/contracts/*
+yarn
+tar -xvf web3providerfix_rinkeby.tar
 truffle compile
 truffle migrate --reset --network rinkeby_local
 cp -pR build/contracts/* src/solc/contracts/

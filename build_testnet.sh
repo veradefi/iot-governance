@@ -2,6 +2,8 @@
 echo $1
 PATH=./node_modules/.bin:$PATH
 export PATH
+yarn
+tar -xvf web3providerfix_local.tar
 ganache-cli -p 9545 -i 4447 -e 1000 &
 
 rm -fr bin/*
@@ -16,7 +18,6 @@ then
 fi
 
 cp -pR build/contracts/* src/solc/contracts/
-
 sh build_solcjs.sh
 case $1 in
     bg)

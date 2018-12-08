@@ -46,17 +46,15 @@ Ethereum Ganache RPC
 
 ::
         
-        npm install
-        ganache-cli --network-id 5
+        yarn
+        ganache-cli -p 9545 -i 4447
 
-IoTBlock Ethereum Smart Contracts (/contracts)
+Testnet IoTBlock Ethereum Smart Contracts (/contracts)
 
 ::
 
-        sh build.sh
-        python test_hypercat.py
-        python test_smartkey.py
-        python test_ico.py
+        bash build_testnet.sh
+        bash build_testnet_data.sh
 
 Rinkeby
 ------------------------------------------------------------------
@@ -64,16 +62,41 @@ Rinkeby
 Ethereum Rinkeby RPC
 
 ::
-
+        yarn 
         sh rpc_rinkeby.sh
 
-IoTBlock Ethereum Smart Contracts (/contracts)
+
+Rinkeby IoTBlock Ethereum Smart Contracts (/contracts)
 
 ::
 
-        sh build_rinkeby.sh
-        sh build_rinkeby_data.sh
+        bash build_rinkeby.sh
+        bash build_rinkeby_data.sh
         
+
+******************************************************************
+The Universal IoT Blockchain Hypercat API
+******************************************************************
+
+The Universal IoT Blockchain Hypercat API to access The Universal IoT Blockchain Smart Contracts
+
+Testnet Hypercat API (http://localhost:8888)
+
+::
+	
+        pip3 install -r requirements.txt 
+        python3 server/index_testnet.py
+
+
+Rinkeby Hypercat API (http://localhost:8888)
+
+::
+	
+        pip3 install -r requirements.txt 
+        python3 server/index.py
+
+    
+IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
 
 ******************************************************************
@@ -83,26 +106,23 @@ The Universal IoT Blockchain Web Interface
 Web Interface to access the The Universal IoT Blockchain Hypercat API and The Universal IoT Blockchain Smart Contracts
 
 
+Testnet Smart Contracts Web Interface
+
+::
+        
+        bash build_testnet.sh
+        bash build_testnet_data.sh
+	npm start
+
+Rinkeby Smart Contracts Web Interface
+
 ::
 
-	cd server/browser-tools
-	npm install
+        bash build_rinkeby.sh
+        bash build_rinkeby_data.sh
 	npm start
 
 IoTBlock's Web Interface is accessible via <https://iotblock.io/icatOS>
-
-
-******************************************************************
-The Universal IoT Blockchain Hypercat API
-******************************************************************
-
-The Universal IoT Blockchain Hypercat API to access The Universal IoT Blockchain Smart Contracts
-
-::
-	
-    python server/index.py
-    
-IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
 
 

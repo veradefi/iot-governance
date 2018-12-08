@@ -29,14 +29,15 @@ Ethereum Ganache RPC
 
 ::
         
-        npm install
+        yarn
         ganache-cli -p 9545 -i 4447
 
-IoTBlock Ethereum Smart Contracts (/contracts)
+Testnet IoTBlock Ethereum Smart Contracts (/contracts)
 
 ::
-        pip3 install -r requirements.txt 
-        sh build_testnet.sh
+
+        bash build_testnet.sh
+        bash build_testnet_data.sh
 
 Rinkeby
 ------------------------------------------------------------------
@@ -47,12 +48,14 @@ Ethereum Rinkeby RPC
 
         sh rpc_rinkeby.sh
 
-IoTBlock Ethereum Smart Contracts (/contracts)
+
+
+Rinkeby IoTBlock Ethereum Smart Contracts (/contracts)
 
 ::
 
-        sh build_rinkeby.sh
-        sh build_rinkeby_data.sh
+        bash build_rinkeby.sh
+        bash build_rinkeby_data.sh
 
 
 ******************************************************************
@@ -65,14 +68,16 @@ Testnet Hypercat API (http://localhost:8888)
 
 ::
 	
-    python server/index_testnet.py
+        pip3 install -r requirements.txt 
+        python3 server/index_testnet.py
 
 
 Rinkeby Hypercat API (http://localhost:8888)
 
 ::
 	
-    python server/index.py
+        pip3 install -r requirements.txt 
+        python3 server/index.py
 
 
 IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
@@ -87,10 +92,20 @@ Web Interface to access the The Universal IoT Blockchain Hypercat API and The Un
 ::
         First Edit package.json, set proxy (at the bottom of the file) to Hypercat API URL (e.g. https://iotblock.io, or http://localhost:8888)
 
+Testnet Smart Contracts Web Interface
+
+::
+        
+        bash build_testnet.sh
+        bash build_testnet_data.sh
+	npm start
+
+Rinkeby Smart Contracts Web Interface
+
 ::
 
-	npm install
-        npm run-script build
+        bash build_rinkeby.sh
+        bash build_rinkeby_data.sh
 	npm start
 
 IoTBlock's Web Interface is accessible via <https://iotblock.io/iotpedia/>
@@ -111,7 +126,7 @@ IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
 
 ******************************************************************
-The Universal IoT Blockchain Browser Tools Web Interface
+The Universal IoT Blockchain Browser API Tools Web Interface 
 ******************************************************************
 
 Web Browser Tools to access the The Universal IoT Blockchain Hypercat API and The Universal IoT Blockchain Smart Contracts
