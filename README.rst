@@ -125,18 +125,3 @@ The Universal IoT Blockchain Event Listener to access The Universal IoT Blockcha
 IoTBlock's Hypercat API is accessible via <https://iotblock.io/cat>
 
 
-******************************************************************
-The Universal IoT Blockchain Browser API Tools Web Interface 
-******************************************************************
-
-Web Browser Tools to access the The Universal IoT Blockchain Hypercat API and The Universal IoT Blockchain Smart Contracts
-
-
-::
-
-	cd browser_tools/web_app
-	npm install
-	npm start
-
-IoTBlock's Web Interface is accessible via <https://iotblock.io/icatOS>
-
