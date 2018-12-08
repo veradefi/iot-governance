@@ -62,7 +62,8 @@ Rinkeby
 Ethereum Rinkeby RPC
 
 ::
-        yarn 
+
+        yarn
         sh rpc_rinkeby.sh
 
 
