@@ -2,4 +2,5 @@ pysha3
 flask
 gevent
 kafka
+web3
 sphinxcontrib-httpdomain
