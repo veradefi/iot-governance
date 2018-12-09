@@ -5,6 +5,7 @@ PATH=./node_modules/.bin:$PATH
 export PATH
 killall -9 node
 killall -9 python3
+rm -fr ./node_modules
 npm install yarn
 chmod +x node_modules/.bin/yarn
 node_modules/.bin/yarn
