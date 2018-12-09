@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo pip3 install -r requirements.txt
 echo $1
 PATH=./node_modules/.bin:$PATH
 export PATH
