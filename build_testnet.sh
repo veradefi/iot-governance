@@ -30,9 +30,11 @@ sh build_solcjs.sh
 case $1 in
     bg)
         python3 server/index_testnet.py &
+	npm start & 
         ;;
     *)
-        python3 server/index_testnet.py 
+        python3 server/index_testnet.py &
+	npm start
         ;;
 esac
 #python3 testnet/restore_hypercat.py
