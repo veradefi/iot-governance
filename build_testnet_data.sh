@@ -8,4 +8,4 @@ python3 testnet/test_smartkey.py
 #python3 testnet/test_restore_hypercat.py
 #cp -pR build/contracts server/browser-tools/htdocs/js/
 
-
+npm start
