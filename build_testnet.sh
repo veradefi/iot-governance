@@ -2,6 +2,8 @@
 echo $1
 PATH=./node_modules/.bin:$PATH
 export PATH
+killall -9 node
+killall -9 python3
 yarn
 tar -xvf web3providerfix_local.tar
 ganache-cli -p 9545 -i 4447 -e 1000 &
