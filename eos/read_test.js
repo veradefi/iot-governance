@@ -1,6 +1,6 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
-
+var axios=require("axios");
+var tableURL="https://iotblock.io/eos/v1/chain/get_table_rows"
 
 function getCat() {
   var data = JSON.stringify({
@@ -10,13 +10,10 @@ function getCat() {
     "json": "true"
   });
 
-  var xhr = new XMLHttpRequest();
-  xhr.withCredentials = true;
+  axios.post(tableURL, data)
+  .then(function (response) {
 
-  xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === this.DONE) {
-      //console.log(this.responseText);
-      var jsonText=JSON.parse(this.responseText);
+      var jsonText=response.data;
       //console.log(jsonText)
       var hrefToId={}
       jsonText.rows.map(item => {
@@ -24,12 +21,9 @@ function getCat() {
       })
       //console.log(hrefToId)
       getMeta(hrefToId);
-    }
+  }).catch(function (error) {
+    console.log(error);
   });
-
-  xhr.open("POST", "http://127.0.0.1:8888/v1/chain/get_table_rows");
-
-  xhr.send(data);
 }
 
 function getMeta(cb) {
@@ -39,13 +33,10 @@ function getMeta(cb) {
     "table": "metadata3",
     "json": "true"
   });
-  var xhr = new XMLHttpRequest();
-  xhr.withCredentials = true;
-
-  xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === this.DONE) {
-      //console.log(this.responseText);
-      var jsonText=JSON.parse(this.responseText);
+  axios.post(tableURL, data2)
+  .then(function (response) {
+    //console.log(response);
+    var jsonText=response.data;
       //console.log(jsonText)
       var hrefToId={}
       jsonText.rows.map(item => {
@@ -56,12 +47,10 @@ function getMeta(cb) {
       })
       //console.log(hrefToId)
       getgraph(hrefToId, cb);
-    }
+    
+  }).catch(function (error) {
+    console.log(error);
   });
-
-  xhr.open("POST", "http://127.0.0.1:8888/v1/chain/get_table_rows");
-
-  xhr.send(data2);
 }
 
 function getgraph(metaData, cb) {
@@ -71,15 +60,12 @@ function getgraph(metaData, cb) {
     "table": "graphdata3",
     "json": "true"
   });
-  var xhr = new XMLHttpRequest();
-  xhr.withCredentials = true;
 
-  xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === this.DONE) {
-      //console.log(this.responseText);
-      var jsonText=JSON.parse(this.responseText);
-      //console.log(jsonText)
-      var hrefToId={}
+  axios.post(tableURL, data2)
+  .then(function (response) {
+    //console.log(response);
+    var jsonText=response.data;
+    var hrefToId={}
       var rootHref=''
       jsonText.rows.map(item => {
         if (!(item.hrefName in hrefToId)) {
@@ -106,21 +92,12 @@ function getgraph(metaData, cb) {
       });
 
       cb(cat);
-      /*
-        Object.keys(metaData).map(href => {
-        var catItem={};
-        catItem.href=item.hrefName2;
-        catItem["catalogue-metadata"]=metaData[item.hrefName2];
-        catItem["items"]=[];
-
-      })
-      */
-    }
+    
+  }).catch(function (error) {
+    console.log(error);
   });
+  
 
-  xhr.open("POST", "http://127.0.0.1:8888/v1/chain/get_table_rows");
-
-  xhr.send(data2);
 }
 
 

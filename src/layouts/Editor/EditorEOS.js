@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import EditorMapInfo from "./EditorMapInfo";
-import MetaData from "../Browser/MetaDataDAO";
-import Catalogue from "../Browser/CatalogueDAO";
+import MetaData from "../Browser/MetaData";
+import Catalogue from "../Browser/Catalogue";
 import * as web3Utils from "../../util/web3/web3Utils";
-import * as APIUtils from "../../util/web3/APIUtils";
+import * as APIUtils from "../../util/web3/EOSUtils";
 
 import Key from "../Key/Key"
 import NodeKey from "../Key/NodeKey"
@@ -198,6 +198,8 @@ populateUrls = (urls) => {
   componentDidMount() {
         var self=this;
         console.log("Loading Editor...")
+        var url="localhost"
+        APIUtils.browse({api_key: self.props.api_key, api_auth:self.props.api_auth}, url, this.proc_browse_data);
         /*
         var param_url = getQueryVariable('url');
         var param_key = getQueryVariable('key');
@@ -209,7 +211,8 @@ populateUrls = (urls) => {
             $('#browse_url').val(param_url);
         }
         */
-           
+    
+        /*
         var check_key=(address) => {
            var url=self.state.catalogue;
             //url=url.replace(/\/$/, "");
@@ -234,7 +237,6 @@ populateUrls = (urls) => {
 
             
            this.setState({catalogue_url:url, loading:true});
-           APIUtils.browse({api_key: self.props.api_key, api_auth:self.props.api_auth}, url, this.proc_browse_data);
             
         }
         var eth_salt = web3Utils.getCookie('iotcookie');
@@ -244,7 +246,7 @@ populateUrls = (urls) => {
         }
         
         web3Utils.init_wallet(eth_salt, check_key);
-
+        */
       
 
 

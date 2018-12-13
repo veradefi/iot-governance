@@ -10,7 +10,7 @@ const defaultPrivateKey = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
 
 const signatureProvider = new JsSignatureProvider([defaultPrivateKey]);
 
-const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
+const rpc = new JsonRpc('https://iotblock.io/eos', { fetch });
 
 const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
 //(async() => {
