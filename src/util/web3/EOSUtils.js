@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import MetaData from "../../layouts/Browser/MetaData";
-import Catalogue from "../../layouts/Browser/Catalogue";
+import MetaData from "../../layouts/Browser/MetaDataEOS";
+import Catalogue from "../../layouts/Browser/CatalogueEOS";
 
 var $ = require ('jquery');
 var axios=require("axios");

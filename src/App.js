@@ -17,7 +17,7 @@ import EditorEOS from './layouts/Editor/EditorEOS'
 import Dialog from './layouts/Dialog/Dialog'
 import Dialog2 from './layouts/Dialog/Dialog2'
 import Explorer from './layouts/Explorer/Explorer'
-import View from './layouts/Browser/View'
+import View from './layouts/Browser/ViewEOS'
 import SmartPoolKey from './layouts/PoolKey/PoolKey.js'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';

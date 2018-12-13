@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import * as actions from "../../store/actions";
 import { connect, Provider } from "react-redux";
 import EditorMapInfo from "./EditorMapInfo";
-import MetaData from "../Browser/MetaData";
-import Catalogue from "../Browser/Catalogue";
+import MetaData from "../Browser/MetaDataEOS";
+import Catalogue from "../Browser/CatalogueEOS";
 import * as web3Utils from "../../util/web3/web3Utils";
 import * as APIUtils from "../../util/web3/EOSUtils";
 
@@ -339,7 +339,7 @@ populateUrls = (urls) => {
                                     </div>
                                     </td>
                                 </tr>
-                                <tr><td  style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >User SmartKey <br/>(Rinkeby Network):
+                                <tr><td  style={{textAlign:"right"}}><label className={"title3"} style={{ fontSize: "12px" }} >User SmartKey: <br/>
                                     </label>
                                     </td>
                                     <td> <pre className={"auth"} 
@@ -350,6 +350,7 @@ populateUrls = (urls) => {
                                     <Link to={{ 
                         pathname: '/key',
                     }}><b>{self.props.user_key_address}</b></Link>
+                     EOS Network Sidechain
                                     </pre>
                                     </td>
                                 </tr>
