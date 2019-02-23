@@ -1,4 +1,6 @@
 accounts/
+node_modules/
+browser_tools/web_app/node_modules/
 browser_tools/web_app/htdocs/js/contracts/
 browser_tools/web_app/htdocs/js/
 src/solc/contracts/
