@@ -41,12 +41,12 @@ network='4'
 port='8666'
 
 #web3 = Web3(IPCProvider("~/.ethereum/rinkeby/geth.ipc"))
-web3 = Web3(HTTPProvider('http://35.165.47.77:' + port ))
+web3 = Web3(HTTPProvider('http://localhost:' + port ))
 #network='4447'
 #port='9545'
 #web3 = Web3(HTTPProvider('http://127.0.0.1:' + port ))
 #web3 = Web3(HTTPProvider('https://rinkeby.infura.io/8BNRVVlo2wy7YaOLcKCR'))
-address2=web3.toChecksumAddress(web3.eth.coinbase)
+address2=web3.toChecksumAddress(web3.eth.accounts[0])
 address=web3.toChecksumAddress(web3.eth.accounts[0])
 
 print (address, address2)
@@ -351,7 +351,9 @@ def getNode(graphRoot):
     def getMeta(metaData):
         
         metaJson=[]
-        for meta in metaData:
+        try:
+         for meta in metaData:
+
             meta_c=getContract('MetaData',network, meta)
             metaJson.append({'rel':meta_c.call().rel(),
                              'val':meta_c.call().val(),
@@ -360,17 +362,20 @@ def getNode(graphRoot):
                              })
             #print (meta_c.call().rel(), meta_c.call().val())
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
+        except Exception as e:
+            print (e)
         return metaJson
     
     def getItem(items, getItems=False):
      
         itemList=[]
-        for item in items:
+        try:
+         for item in items:
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
             itemJson={'href':item_c.call().href(),
-                             'item-metadata':meta,
-                            'address':web3.toChecksumAddress(item)
+                       'item-metadata':meta,
+                       'address':web3.toChecksumAddress(item)
                              
                              }
             if getItems:
@@ -378,6 +383,8 @@ def getNode(graphRoot):
                 itemJson['items']=itemListJson;
                 
             itemList.append(itemJson)
+        except Exception as e:
+            print (e)
         return itemList
 
     metaJson=[]
@@ -407,27 +414,33 @@ def getNodeBalance(graphRoot):
     def getMeta(metaData):
         
         metaJson=[]
-        for meta in metaData:
+        try:
+         for meta in metaData:
             meta_c=getContract('MetaData',network, meta)
-            bal=smartKey.call().getBalance(web3.toChecksumAddress(meta))
+            #bal=smartKey.call().getBalance(web3.toChecksumAddress(meta))
             metaJson.append({'rel':meta_c.call().rel(),
                              'val':meta_c.call().val(),
-                             'bal':bal,
+                             #'bal':bal,
                              'address':web3.toChecksumAddress(meta)})
             #print (meta_c.call().rel(), meta_c.call().val())
             #print ('upsertMetaData',meta_c.transact({ 'from': address }).setVal(datetime.now().strftime("%Y-%m-%d")))
+        except Exception as e:
+            print (e);
         return metaJson
     
     def getItem(items):
      
         itemJson=[]
-        for item in items:
+        try:
+         for item in items:
             item_c=getContract('Catalogue',network,item)
             meta=getMeta(item_c.call({'from':address}).selectMetaData())
         
             itemJson.append({'href':item_c.call().href(),
                              'item-metadata':meta,
                              'address':web3.toChecksumAddress(item)})
+        except Exception as e:
+            print (e)
         return itemJson
 
     metaJson=[]
@@ -1046,10 +1059,10 @@ def get_nodeBalance():
     print("URL:",href)  
     if re.search('https:\/\/iotblock.io\/cat$',href):
         print("Root Node")
-        data  =  getNodeBalance(root)
+        data  =  getNode (root) #getNodeBalance(root)
     else:
         node  =  getContract('GraphNode', network, root.call({'from':address}).getItem(href))
-        data  =  getNodeBalance(node)
+        data  =  getNode(node) #getNodeBalance(node)
     
     try:
         data=metaSearch(request, data)       
